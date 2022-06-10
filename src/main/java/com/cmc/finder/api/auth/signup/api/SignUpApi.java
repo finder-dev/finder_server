@@ -1,6 +1,7 @@
 package com.cmc.finder.api.auth.signup.api;
 
-import com.cmc.finder.api.auth.signup.dto.EmailCheckDto;
+import com.cmc.finder.api.auth.signup.dto.EmailSendDto;
+import com.cmc.finder.api.auth.signup.dto.EmailValidationDto;
 import com.cmc.finder.api.auth.signup.dto.NicknameCheckDto;
 import com.cmc.finder.api.auth.signup.dto.SignUpDto;
 import com.cmc.finder.api.auth.signup.service.SignUpService;
@@ -22,28 +23,36 @@ public class SignUpApi {
     public ResponseEntity<SignUpDto.Response> signup(
             @Valid SignUpDto.Request signUpDto,
             @RequestPart(value = "profileImg", required = false) MultipartFile profileImg
-            ){
+    ){
 
         SignUpDto.Response response = signUpService.signUpUser(signUpDto, profileImg);
         return ResponseEntity.ok(response);
 
     }
 
-    @GetMapping("/duplicated/email/{email}")
-    public ResponseEntity<EmailCheckDto> checkEmail(
-            @PathVariable String email
-    ){
+    @PostMapping("/mail/send")
+    public ResponseEntity<EmailSendDto> sendEmail(@RequestPart("email") String email) {
 
-        return ResponseEntity.ok(signUpService.emailCheck(email));
-
+        EmailSendDto emailSendDto = signUpService.sendEmail(email);
+        return ResponseEntity.ok(emailSendDto);
     }
+
+    @PostMapping("/mail/auth")
+    public ResponseEntity<EmailValidationDto> checkCode(
+            @RequestPart("email") String email,
+            @RequestPart("code") String code) {
+
+        EmailValidationDto emailValidationDto = signUpService.checkCode(email, code);
+        return ResponseEntity.ok(emailValidationDto);
+    }
+
 
     @GetMapping("/duplicated/nickname/{nickname}")
     public ResponseEntity<NicknameCheckDto> checkNickname(
             @PathVariable String nickname
     ){
 
-        return ResponseEntity.ok(signUpService.nicknameCheck(nickname));
+        return ResponseEntity.ok(signUpService.checkNickname(nickname));
 
     }
 }

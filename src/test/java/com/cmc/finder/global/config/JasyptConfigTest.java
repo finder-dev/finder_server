@@ -16,7 +16,7 @@ class JasyptConfigTest {
 
     @Test
     public void jasyt_test() {
-        String plainText = "JfGNK9gtkH1P0bAOUWtxh1TCwfKVDNnIj4rmAFRt";
+        String plainText = "fhaqyuxcqqrupkad";
 
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();

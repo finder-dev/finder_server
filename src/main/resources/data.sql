@@ -1,0 +1,2 @@
+INSERT INTO user (MEMBER_ID, CREATE_TIME, UPDATE_TIME, EMAIL, INTRODUCTION, IS_DELETED, MBTI, MEMBER_TYPE, NICKNAME, PASSWORD, PROFILE_URL)
+ values (1, current_timestamp, current_timestamp, 'dudwls143@gmail.com','test introduction', false, 'INTP', 'GENERAL', 'test nickname', '$2a$10$JeSMxBnZxBgeGbInzS6C2.yj2Z.IAtMLhucENFZxy1.1ZaI.33hbO', 'https://yoooooooooon-bucket.s3.ap-northeast-2.amazonaws.com/default.png');

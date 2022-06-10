@@ -1,0 +1,1 @@
+package com.cmc.finder.api.auth.signup.dto;import lombok.*;@Builder@NoArgsConstructor@AllArgsConstructor@Getter @Setterpublic class EmailCheckDto {    private String message;    public static EmailCheckDto of() {        return EmailCheckDto.builder()                .message("사용 가능한 이메일입니다.")                .build();    }}

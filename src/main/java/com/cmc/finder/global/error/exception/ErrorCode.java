@@ -2,6 +2,8 @@ package com.cmc.finder.global.error.exception;
 
 import lombok.Getter;
 
+import lombok.Getter;
+
 @Getter
 public enum ErrorCode {
 
@@ -30,7 +32,14 @@ public enum ErrorCode {
     DOES_NOT_GET_USER_INFO(400, "회원 정보를 불러오지 못했습니다."),
 
     // 상품 이미지
-    ITEM_IMAGE_NOT_EXISTS(400, "해당 아이템의 이미지를 찾을 수 없습니다.");
+    ITEM_IMAGE_NOT_EXISTS(400, "해당 아이템의 이미지를 찾을 수 없습니다."),
+
+    // 메일
+    FAILED_TO_SEND_MAIL(401, "메일 전송에 실패했습니다."),
+
+    // 인증 코드
+    AUTH_CODE_NOT_FOUND(400, "해당 인증 코드를 찾을 수 없습니다."),
+    AUTH_CODE_NOT_EQUAL(400, "인증 코드가 일치하지 않습니다. ");
 
 
     ErrorCode(int status, String message) {
@@ -42,3 +51,4 @@ public enum ErrorCode {
     private String message;
 
 }
+

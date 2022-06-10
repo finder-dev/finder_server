@@ -42,10 +42,7 @@ public class SignUpDto {
         @NotBlank(message = "닉네임은 필수값 입니다.")
         private String nickname;
 
-        // TODO 입력 안해도 되는거 맞나?
         private String introduction;
-
-//        private MultipartFile profileUrl;
 
         @Size(max = 5, message = "최대 5개까지 입력하실 수 있습니다.")
         //TODO 변경 생각

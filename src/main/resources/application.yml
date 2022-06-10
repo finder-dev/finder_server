@@ -4,15 +4,33 @@ server:
     context-path: /
 
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(17+925ueQRcYNwllPFp/h0M3pJMT5wtgQxj34rk9KUo=)
+    password: ENC(lf/LJBsc0lPkUX0Y9YbfQTjifUxi+NdNw3BOIbMmgtc=)
+    properties:
+      mail:
+        smtp:
+          port: 465
+          auth: true
+          starttls:
+            required: true
+            enable: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+            port: 465
+
   datasource:
     url: jdbc:h2:tcp://localhost/~/jpashop
-#    url: ENC(/BtZqQvoCF1ULgVI5u8fij1nZqTvE4lKIt/LZ0nU/umwl9PJe3TI8pBAPnM2eDE0)
+    #    url: ENC(/BtZqQvoCF1ULgVI5u8fij1nZqTvE4lKIt/LZ0nU/umwl9PJe3TI8pBAPnM2eDE0)
     username: sa
     password:
     driver-class-name: org.h2.Driver
-#    schema: classpath*:/schema.sql
-#    data: classpath*:/data.sql
-#    initialization-mode: always
+  #    schema: classpath*:/schema.sql
+  #    data: classpath*:/data.sql
+  #    initialization-mode: always
 
   jpa:
     show-sql: true  # sql 출력
@@ -78,3 +96,4 @@ s3:
     default: default.png
   qna:
     path: /qna
+

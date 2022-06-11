@@ -3,9 +3,9 @@ package com.cmc.finder.infra.email.exception;
 import com.cmc.finder.global.error.exception.BusinessException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 
-public class SendFailEmailException extends BusinessException {
+public class FailedToSendEmailException extends BusinessException {
 
-    public SendFailEmailException() {
+    public FailedToSendEmailException() {
         super(ErrorCode.FAILED_TO_SEND_MAIL);
     }
 }

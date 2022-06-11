@@ -1,6 +1,6 @@
 package com.cmc.finder.infra.email;
 
-import com.cmc.finder.infra.email.exception.SendFailEmailException;
+import com.cmc.finder.infra.email.exception.FailedToSendEmailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -74,7 +74,7 @@ public class EmailServiceImpl implements EmailService {
             MimeMessage message = createMessage(to);
             mailSender.send(message);
         }catch (Exception e) {
-            throw new SendFailEmailException();
+            throw new FailedToSendEmailException();
         }
         return epw;
     }

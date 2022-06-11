@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8081
   servlet:
     context-path: /
 
@@ -21,13 +21,16 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
             port: 465
-
   datasource:
-    url: jdbc:h2:tcp://localhost/~/jpashop
+#    url: jdbc:mysql://springboot-db2.cvqrxyomkoch.ap-northeast-2.rds.amazonaws.com:3306/mydb
+    url: ENC(NFjs2fL+kacpK4NiY8OJo1VO9pEA+LjJYbPtdTIcrbKAjfTAMjmorNByeOkPYZB9ygAksX5Uuava17WneHsYncMyVNmKyZ2J96m3y3f5NvbkwxxbCcHztq1QwXa4qLPv)
+    username: ENC(x9JT7KRP87tq9DxLC1Yf7g==)
+    password: ENC(97S/vqWIMLuAyJL4PutGI8GmTsInGsBl)
+#    url: jdbc:h2:tcp://localhost/~/jpashop
     #    url: ENC(/BtZqQvoCF1ULgVI5u8fij1nZqTvE4lKIt/LZ0nU/umwl9PJe3TI8pBAPnM2eDE0)
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
   #    schema: classpath*:/schema.sql
   #    data: classpath*:/data.sql
   #    initialization-mode: always
@@ -35,8 +38,8 @@ spring:
   jpa:
     show-sql: true  # sql 출력
     open-in-view: false
-    defer-datasource-initialization: true
-    database-platform: org.hibernate.dialect.H2Dialect
+#    defer-datasource-initialization: true
+#    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
       properties:

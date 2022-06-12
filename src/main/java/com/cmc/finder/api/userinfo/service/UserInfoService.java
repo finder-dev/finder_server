@@ -38,10 +38,10 @@ public class UserInfoService {
         }
 
         // 새로운 이미지 등록
-        String url = s3Uploader.uploadFile(profile, PATH);
-        user.updateProfileUrl(url);
+        String imageName = s3Uploader.uploadFile(profile, PATH);
+        user.updateProfileUrl(imageName);
 
-        String path = s3Uploader.getUrl(url, PATH);
+        String path = s3Uploader.getUrl(PATH, imageName);
         return UpdateProfileDto.of(path);
 
     }

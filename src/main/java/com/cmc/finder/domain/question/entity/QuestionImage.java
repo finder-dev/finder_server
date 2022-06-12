@@ -1,7 +1,5 @@
 package com.cmc.finder.domain.question.entity;
 
-import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,18 +23,27 @@ public class QuestionImage {
     private Question question;
 
     @Column(name = "question_image_filename", nullable = false)
-    private String filename;
+    private String imageName;
+
+    @Column(name = "question_image_url", nullable = false)
+    private String imageUrl;
+
+    private Boolean isRep;
 
     @Builder
-    public QuestionImage(Question question, String filename) {
+    public QuestionImage(Question question, String imageName, String imageUrl, Boolean isRep) {
         this.question = question;
-        this.filename = filename;
+        this.imageName = imageName;
+        this.imageUrl = imageUrl;
+        this.isRep = isRep;
     }
 
-    public static QuestionImage createQuestionImage(Question question, String filename) {
+    public static QuestionImage createQuestionImage(Question question, String imageName, String imageUrl, Boolean isRep) {
         return QuestionImage.builder()
                 .question(question)
-                .filename(filename)
+                .imageName(imageName)
+                .imageUrl(imageUrl)
+                .isRep(isRep)
                 .build();
     }
 

@@ -75,7 +75,7 @@ public class S3Uploader {
         }
     }
 
-    public String getUrl(String path, String folderPath) {
-        return amazonS3Client.getUrl(bucket + folderPath, path).toString();
+    public String getUrl(String folderPath, String filename) {
+        return amazonS3Client.getUrl(bucket + folderPath, filename).toString();
     }
 }

@@ -21,11 +21,10 @@ public class SignUpApi {
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpDto.Response> signup(
-            @Valid SignUpDto.Request signUpDto,
-            @RequestPart(value = "profileImg", required = false) MultipartFile profileImg
+            @Valid SignUpDto.Request signUpDto
     ){
 
-        SignUpDto.Response response = signUpService.signUpUser(signUpDto, profileImg);
+        SignUpDto.Response response = signUpService.signUpUser(signUpDto);
         return ResponseEntity.ok(response);
 
     }

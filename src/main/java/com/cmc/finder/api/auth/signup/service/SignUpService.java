@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional(readOnly = true)
@@ -31,6 +30,8 @@ public class SignUpService {
 
     @Value("${s3.users.path}")
     private String PATH;
+
+    //TODO Validator 위치 고민
 
     private final TokenManager tokenManager;
     private final UserService userService;
@@ -42,7 +43,7 @@ public class SignUpService {
 
 
     @Transactional
-    public SignUpDto.Response signUpUser(SignUpDto.Request signUpDto, MultipartFile profileImg) {
+    public SignUpDto.Response signUpUser(SignUpDto.Request signUpDto) {
 
         // 키워드 중복값 검사
         if (signUpDto.getKeywords() != null) {
@@ -50,8 +51,8 @@ public class SignUpService {
         }
 
         String fileName = "";
-        if (profileImg != null) {
-            fileName = s3Uploader.uploadFile(profileImg, PATH);
+        if (signUpDto.getProfileImg() != null) {
+            fileName = s3Uploader.uploadFile(signUpDto.getProfileImg(), PATH);
         }
 
         // Member 생성

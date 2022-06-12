@@ -4,7 +4,7 @@ import com.cmc.finder.api.auth.login.dto.LoginRequestDto;
 import com.cmc.finder.api.auth.login.dto.OAuthAttributes;
 import com.cmc.finder.api.auth.login.dto.OauthLoginDto;
 import com.cmc.finder.api.auth.login.exception.LoginFailedException;
-import com.cmc.finder.domain.jwt.domain.RefreshToken;
+import com.cmc.finder.domain.jwt.entity.RefreshToken;
 import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.domain.jwt.service.RefreshTokenRedisService;
 import com.cmc.finder.domain.jwt.service.TokenManager;

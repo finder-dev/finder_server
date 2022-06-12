@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -47,6 +48,8 @@ public class SignUpDto {
         @Size(max = 5, message = "최대 5개까지 입력하실 수 있습니다.")
         //TODO 변경 생각
         private List<@Length(max = 7,message = "8글자를 초과할 수 없습니다.") String> keywords;
+
+        private MultipartFile profileImg;
 
         public User toEntity(String fileName) {
 

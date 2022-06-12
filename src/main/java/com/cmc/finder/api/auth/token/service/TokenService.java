@@ -2,7 +2,7 @@ package com.cmc.finder.api.auth.token.service;
 
 import com.cmc.finder.api.auth.token.dto.AccessTokenResponseDto;
 import com.cmc.finder.domain.jwt.service.RefreshTokenRedisService;
-import com.cmc.finder.domain.jwt.domain.RefreshToken;
+import com.cmc.finder.domain.jwt.entity.RefreshToken;
 import com.cmc.finder.domain.jwt.service.TokenManager;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;

@@ -1,6 +1,6 @@
 package com.cmc.finder.domain.jwt.service;
 
-import com.cmc.finder.domain.jwt.domain.RefreshToken;
+import com.cmc.finder.domain.jwt.entity.RefreshToken;
 import com.cmc.finder.domain.jwt.exception.RefreshTokenNotFountException;
 import com.cmc.finder.domain.jwt.repository.RefreshTokenRedisRepository;
 import lombok.RequiredArgsConstructor;

@@ -34,6 +34,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         List<QuestionSimpleDto> results = queryFactory
                 .select(
                         new QQuestionSimpleDto(
+                                question.questionId,
                                 question.title,
                                 question.content,
                                 questionImage.imageUrl,

@@ -20,5 +20,8 @@ public class QuestionImageService {
         questionImageRepository.saveAll(questionImages);
     }
 
-
+//    public List<QuestionImage> getQuestionImageByQuestionId(Long questionId) {
+//        return questionImageRepository.findAllByQuestionQuestionId(questionId);
+//
+//    }
 }

@@ -47,4 +47,7 @@ public class QuestionImage {
                 .build();
     }
 
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
 }

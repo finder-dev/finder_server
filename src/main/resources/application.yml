@@ -37,16 +37,17 @@ spring:
   #    initialization-mode: always
 
   jpa:
-    show-sql: true  # sql 출력
     open-in-view: false
 #    defer-datasource-initialization: true
 #    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create
-      properties:
-        hibernate:
-          format_sql : true # sql 예쁘게 출력
-          default_batch_fetch_size: 1000
+    properties:
+      hibernate:
+        format_sql: true # sql 예쁘게 출력
+        default_batch_fetch_size: 1000
+
+    show-sql: true  # sql 출력
 
   servlet:
     multipart:
@@ -98,6 +99,8 @@ s3:
   users:
     path: /users
     default: default.png
-  qna:
-    path: /qna
+  question:
+    path: /questions
+  answer:
+    path: /answers
 

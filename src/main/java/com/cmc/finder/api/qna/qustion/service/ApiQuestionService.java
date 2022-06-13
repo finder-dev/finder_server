@@ -1,8 +1,12 @@
 package com.cmc.finder.api.qna.qustion.service;
 
 import com.cmc.finder.api.qna.qustion.dto.QuestionCreateDto;
+import com.cmc.finder.api.qna.qustion.dto.QuestionDetailDto;
 import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
 import com.cmc.finder.api.qna.qustion.repository.QuestionRepositoryCustom;
+import com.cmc.finder.domain.answer.entity.Answer;
+import com.cmc.finder.domain.answer.entity.AnswerImage;
+import com.cmc.finder.domain.answer.service.AnswerService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.question.entity.Question;
 import com.cmc.finder.domain.question.entity.QuestionImage;
@@ -29,14 +33,14 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class ApiQuestionService {
 
-    @Value("${s3.qna.path}")
+    @Value("${s3.question.path}")
     private String PATH;
 
     private final UserService userService;
     private final QuestionService questionService;
-    private final QuestionImageService questionImageService;
     private final QuestionRepositoryCustom questionRepositoryCustom;
 
+    private final AnswerService answerService;
     private final S3Uploader s3Uploader;
 
     public QuestionCreateDto.Response createQuestion(QuestionCreateDto.Request request, String email) {
@@ -47,16 +51,10 @@ public class ApiQuestionService {
         // 질문 생성
         Question question = Question.createQuestion(request.getTitle(), request.getContent(), request.getMbti(), user);
 
-        // 질문 저장
-        questionService.create(question);
-
         // 질문 이미지 생성 및 저장
-
-        List<QuestionImage> questionImages = new ArrayList<>();
+//        List<QuestionImage> questionImages = new ArrayList<>();
         for (int i = 0; i < request.getQuestionImgs().size(); i++) {
-
             MultipartFile multipartFile = request.getQuestionImgs().get(i);
-
             String imageName = s3Uploader.uploadFile(multipartFile, PATH);
             String url = s3Uploader.getUrl(PATH, imageName);
             QuestionImage questionImage;
@@ -65,10 +63,12 @@ public class ApiQuestionService {
             }else {
                 questionImage = QuestionImage.createQuestionImage(question, imageName, url, true);
             }
-            questionImages.add(questionImage);
+            question.addQuestionImage(questionImage);
+//            questionImages.add(questionImage);
         }
 
-
+        // 질문 저장
+        questionService.create(question);
 
 //        List<QuestionImage> questionImages = request.getQuestionImgs().stream().map(multipartFile -> {
 //            String imageName = s3Uploader.uploadFile(multipartFile, PATH);
@@ -76,7 +76,7 @@ public class ApiQuestionService {
 //            return QuestionImage.createQuestionImage(question, imageName, url);
 //        }).collect(Collectors.toList());
 
-        questionImageService.save(questionImages);
+//        questionImageService.save(questionImages);
 
         return QuestionCreateDto.Response.of(question);
 
@@ -86,5 +86,21 @@ public class ApiQuestionService {
 
         Page<QuestionSimpleDto> questionSimpleDto = questionRepositoryCustom.findQuestionSimpleDto(pageable);
         return questionSimpleDto;
+    }
+
+    public QuestionDetailDto getQuestionDetail(Long questionId) {
+
+        // 질문 조회
+        Question question= questionService.getQuestionFetchQuestionImage(questionId);
+
+        // 답변 조회
+        List<Answer> answers = answerService.getAnswersByQuestionId(question.getQuestionId());
+
+        System.out.println(answers.size());
+
+        QuestionDetailDto questionDetailDto = QuestionDetailDto.of(question, answers);
+        return questionDetailDto;
+
+
     }
 }

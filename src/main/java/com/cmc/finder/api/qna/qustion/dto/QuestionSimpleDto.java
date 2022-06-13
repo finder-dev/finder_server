@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 @Setter
 public class QuestionSimpleDto {
 
+    private Long questionId;
+
     private String title;
 
     private String content;
@@ -30,8 +32,10 @@ public class QuestionSimpleDto {
     private LocalDateTime createTime;
 
     @QueryProjection
-    public QuestionSimpleDto(String title, String content, String userNickname, String imageUrl,
+    public QuestionSimpleDto(Long questionId, String title, String content, String userNickname, String imageUrl,
                              MBTI userMBTI, LocalDateTime createTime) {
+
+        this.questionId = questionId;
         this.title = title;
         this.content = content;
         this.imageUrl = imageUrl;

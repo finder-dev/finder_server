@@ -1,7 +1,6 @@
 package com.cmc.finder.domain.question.entity;
 
 import com.cmc.finder.domain.base.BaseTimeEntity;
-import com.cmc.finder.domain.keyword.entity.Keyword;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.viewcount.entity.ViewCount;
@@ -44,6 +43,18 @@ public class Question extends BaseTimeEntity {
     )
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(
+            mappedBy = "question",
+            cascade = CascadeType.ALL
+    )
+    private List<QuestionImage> questionImages = new ArrayList<>();
+
+
+    public void addQuestionImage(QuestionImage questionImage) {
+        questionImages.add(questionImage);
+        questionImage.setQuestion(this);
+    }
 
     @Builder
     public Question(String title,String content, MBTI mbti, User user) {

@@ -1,6 +1,7 @@
 package com.cmc.finder.api.qna.qustion.api;
 
 import com.cmc.finder.api.qna.qustion.dto.QuestionCreateDto;
+import com.cmc.finder.api.qna.qustion.dto.QuestionDetailDto;
 import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
 import com.cmc.finder.api.qna.qustion.service.ApiQuestionService;
 import com.cmc.finder.global.resolver.UserEmail;
@@ -9,13 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -49,6 +46,18 @@ public class QuestionApi {
         return ResponseEntity.ok(questionSimpleDtos);
 
     }
+
+    @GetMapping("/{questionId}")
+    public ResponseEntity<QuestionDetailDto> getQuestionDetail(
+            @PathVariable Long questionId
+    ) {
+
+        QuestionDetailDto questionDetailDto =apiQuestionService.getQuestionDetail(questionId);
+        return ResponseEntity.ok(questionDetailDto);
+
+    }
+
+
 
 
 

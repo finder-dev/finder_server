@@ -39,8 +39,11 @@ public enum ErrorCode {
 
     // 인증 코드
     AUTH_CODE_NOT_FOUND(400, "해당 인증 코드를 찾을 수 없습니다."),
-    AUTH_CODE_NOT_EQUAL(400, "인증 코드가 일치하지 않습니다. ");
+    AUTH_CODE_NOT_EQUAL(400, "인증 코드가 일치하지 않습니다. "),
 
+    // 질문
+    QUESTION_NOT_EXISTS(400, "해당 질문을 찾을 수 없습니다."),
+    QUESTION_IMAGE_NOT_EXISTS(400, "해당 질문 이미지를 찾을 수 없습니다.");
 
     ErrorCode(int status, String message) {
         this.status = status;

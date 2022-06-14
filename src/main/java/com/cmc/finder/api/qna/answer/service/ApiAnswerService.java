@@ -49,9 +49,9 @@ public class ApiAnswerService {
 
         // 질문 조회
         Question question = questionService.getQuestion(questionId);
-
         // 답변 생성
         Answer answer = Answer.createAnswer(request.getTitle(), request.getContent(), user, question);
+        question.addAnswer(answer);
 
         // 답변 이미지 생성
         request.getAnswerImgs().stream().forEach(multipartFile -> {

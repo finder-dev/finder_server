@@ -1,7 +1,5 @@
 package com.cmc.finder.api.qna.answer.dto;
 
-import com.cmc.finder.api.qna.qustion.dto.QuestionCreateDto;
-import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.question.entity.Question;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;

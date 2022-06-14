@@ -1,5 +1,6 @@
 package com.cmc.finder.domain.question.entity;
 
+import com.cmc.finder.domain.answer.entity.Answer;
 import com.cmc.finder.domain.base.BaseTimeEntity;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.entity.User;
@@ -50,10 +51,21 @@ public class Question extends BaseTimeEntity {
     )
     private List<QuestionImage> questionImages = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "question",
+            cascade = CascadeType.ALL
+    )
+    private List<Answer> answers = new ArrayList<>();
+
 
     public void addQuestionImage(QuestionImage questionImage) {
         questionImages.add(questionImage);
         questionImage.setQuestion(this);
+    }
+
+    public void addAnswer(Answer answer) {
+        answers.add(answer);
+        answer.setQuestion(this);
     }
 
     @Builder

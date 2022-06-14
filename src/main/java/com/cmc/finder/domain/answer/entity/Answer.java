@@ -72,5 +72,7 @@ public class Answer extends BaseTimeEntity {
                 .build();
     }
 
-
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
 }

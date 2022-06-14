@@ -95,6 +95,7 @@ cloud:
     stack:
       auto: false
 
+
 s3:
   users:
     path: /users

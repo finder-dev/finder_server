@@ -23,11 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -60,7 +56,7 @@ public class ApiQuestionService {
             QuestionImage questionImage;
             if (i != 0) {
                 questionImage = QuestionImage.createQuestionImage(question, imageName, url, false);
-            }else {
+            } else {
                 questionImage = QuestionImage.createQuestionImage(question, imageName, url, true);
             }
             question.addQuestionImage(questionImage);
@@ -84,14 +80,15 @@ public class ApiQuestionService {
 
     public Page<QuestionSimpleDto> getQuestionList(Pageable pageable) {
 
-        Page<QuestionSimpleDto> questionSimpleDto = questionRepositoryCustom.findQuestionSimpleDto(pageable);
-        return questionSimpleDto;
+        Page<QuestionSimpleDto> questionPage = questionRepositoryCustom.findQuestionSimpleDto(pageable);
+        return questionPage;
+
     }
 
     public QuestionDetailDto getQuestionDetail(Long questionId) {
 
         // 질문 조회
-        Question question= questionService.getQuestionFetchQuestionImage(questionId);
+        Question question = questionService.getQuestionFetchQuestionImage(questionId);
 
         // 답변 조회
         List<Answer> answers = answerService.getAnswersByQuestionId(question.getQuestionId());

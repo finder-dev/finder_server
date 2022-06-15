@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
+import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class Question extends BaseTimeEntity {
             mappedBy = "question",
             cascade = CascadeType.ALL
     )
-    private List<ViewCount> viewCount = new ArrayList<>();
+    private List<ViewCount> viewCounts = new ArrayList<>();
 
     @ManyToOne(
             fetch = FetchType.LAZY
@@ -57,6 +58,10 @@ public class Question extends BaseTimeEntity {
     )
     private List<Answer> answers = new ArrayList<>();
 
+    public void addViewCount(ViewCount viewCount) {
+        viewCounts.add(viewCount);
+        viewCount.setQuestion(this);
+    }
 
     public void addQuestionImage(QuestionImage questionImage) {
         questionImages.add(questionImage);

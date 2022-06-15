@@ -4,11 +4,14 @@ import com.cmc.finder.api.qna.qustion.dto.QuestionCreateDto;
 import com.cmc.finder.api.qna.qustion.dto.QuestionDetailDto;
 import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
 import com.cmc.finder.api.qna.qustion.service.ApiQuestionService;
+import com.cmc.finder.domain.model.MBTI;
+import com.cmc.finder.domain.question.constant.OrderBy;
 import com.cmc.finder.global.resolver.UserEmail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,30 +39,40 @@ public class QuestionApi {
 
     @GetMapping
     public ResponseEntity<Page<QuestionSimpleDto>> getQuestion(
-//            FilteringDto filteringDto,
+            @Valid QuestionSimpleDto.Request request,
             Optional<Integer> page
     ) {
 
-        Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, SET_PAGE_ITEM_MAX_COUNT);
-        Page<QuestionSimpleDto> questionSimpleDtos = apiQuestionService.getQuestionList(pageable);
+        //TODO 검증 위치 변경
+        MBTI.isMBTI(request.getMbti());
+        MBTI mbti = MBTI.from(request.getMbti());
 
+        OrderBy.isOrderBy(request.getOrderBy());
+        OrderBy orderBy = OrderBy.from(request.getOrderBy());
+
+        Pageable pageable = PageRequest.of(
+                page.isPresent() ? page.get() : 0,
+                SET_PAGE_ITEM_MAX_COUNT,
+                request.getOrderBy() == null ?
+                        Sort.by(Sort.Direction.DESC, OrderBy.CREATETIME.name()) :
+                        Sort.by(Sort.Direction.DESC, orderBy.name())
+        );
+
+        Page<QuestionSimpleDto> questionSimpleDtos = apiQuestionService.getQuestionList(pageable, mbti);
         return ResponseEntity.ok(questionSimpleDtos);
 
     }
 
     @GetMapping("/{questionId}")
     public ResponseEntity<QuestionDetailDto> getQuestionDetail(
-            @PathVariable Long questionId
+            @PathVariable Long questionId,
+            @UserEmail String email
     ) {
 
-        QuestionDetailDto questionDetailDto =apiQuestionService.getQuestionDetail(questionId);
+        QuestionDetailDto questionDetailDto = apiQuestionService.getQuestionDetail(questionId, email);
         return ResponseEntity.ok(questionDetailDto);
 
     }
-
-
-
-
 
 
 }

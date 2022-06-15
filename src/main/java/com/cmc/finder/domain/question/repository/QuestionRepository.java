@@ -8,7 +8,11 @@ import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    @Query("select q from Question q join fetch q.questionImages qi join fetch q.user qu where q.questionId=:questionId")
+    @Query("select q from Question q "+
+            "join fetch q.questionImages qi "+
+            "join fetch q.user qu " +
+//            "join fetch q.answers qa " +
+            "where q.questionId=:questionId ")
     Optional<Question> findByQuestionIdFetchQuestionImageAndUser(Long questionId);
 
 }

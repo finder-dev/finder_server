@@ -1,7 +1,9 @@
 package com.cmc.finder.domain.viewcount.entity;
 
+import com.cmc.finder.domain.answer.entity.Answer;
 import com.cmc.finder.domain.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +31,20 @@ public class ViewCount {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Builder
+    public ViewCount(Question question, User user) {
+        this.question = question;
+        this.user = user;
+    }
+
+    public static ViewCount createViewCount(Question question, User user) {
+        return ViewCount.builder()
+                .question(question)
+                .user(user)
+                .build();
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
 }

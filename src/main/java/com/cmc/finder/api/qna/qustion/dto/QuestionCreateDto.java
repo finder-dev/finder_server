@@ -1,6 +1,5 @@
 package com.cmc.finder.api.qna.qustion.dto;
 
-import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.question.entity.Question;
 import lombok.*;

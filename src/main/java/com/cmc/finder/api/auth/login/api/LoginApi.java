@@ -40,6 +40,8 @@ public class LoginApi {
         tokenValidator.validateAuthorization(authorization);
         tokenValidator.validateMemberType(requestDto.getUserType());
 
+
+
         String accessToken = authorization.split(" ")[1];
 
         OauthLoginDto.Response jwtTokenResponseDto = loginService.loginOauth(accessToken, requestDto);

@@ -31,8 +31,7 @@ public class QuestionDetailDto {
 
     private String userNickname;
 
-    //TODO viewCount 추가
-//    private Long viewCount;
+    private Long viewCount;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
@@ -42,7 +41,7 @@ public class QuestionDetailDto {
     @Builder
     public QuestionDetailDto(Long questionId, String questionTitle, String questionContent, MBTI questionMBTI,
                              List<String> questionImgUrls, MBTI userMBTI, String userNickname, LocalDateTime createTime,
-                             List<AnswerHistDto> answerHistDtos) {
+                             Long viewCount, List<AnswerHistDto> answerHistDtos) {
 
         this.questionId = questionId;
         this.questionTitle = questionTitle;
@@ -51,20 +50,20 @@ public class QuestionDetailDto {
         this.questionImgUrls = questionImgUrls;
         this.userMBTI = userMBTI;
         this.userNickname = userNickname;
-//        this.viewCount = viewCount;
+        this.viewCount = viewCount;
         this.createTime = createTime;
         this.answerHistDtos = answerHistDtos;
     }
 
-    public static QuestionDetailDto of(Question question, List<Answer> answers) {
+    public static QuestionDetailDto of(Question question, List<Answer> answers, Long viewCount) {
 
-        List<String> questionImgUrls = question.getQuestionImages().stream().map(questionImage -> {
-            return questionImage.getImageUrl();
-        }).collect(Collectors.toList());
+        List<String> questionImgUrls = question.getQuestionImages().stream().map(questionImage ->
+                questionImage.getImageUrl()
+        ).collect(Collectors.toList());
 
-        List<QuestionDetailDto.AnswerHistDto> answerHistDtos = answers.stream().map(answer -> {
-            return AnswerHistDto.of(answer);
-        }).collect(Collectors.toList());
+        List<QuestionDetailDto.AnswerHistDto> answerHistDtos = answers.stream().map(answer ->
+                AnswerHistDto.of(answer)
+        ).collect(Collectors.toList());
 
         return QuestionDetailDto.builder()
                 .questionId(question.getQuestionId())
@@ -74,7 +73,7 @@ public class QuestionDetailDto {
                 .questionImgUrls(questionImgUrls)
                 .userMBTI(question.getUser().getMbti())
                 .userNickname(question.getUser().getNickname())
-//                .viewCount(question.getViewCount())
+                .viewCount(viewCount)
                 .createTime(question.getCreateTime())
                 .answerHistDtos(answerHistDtos)
                 .build();

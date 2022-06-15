@@ -1,24 +1,28 @@
 package com.cmc.finder.api.qna.qustion.repository;
 
 import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
-import com.cmc.finder.domain.answer.entity.Answer;
-import com.cmc.finder.domain.answer.entity.QAnswer;
+import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.question.entity.QQuestion;
 import com.cmc.finder.domain.question.entity.QQuestionImage;
 import com.cmc.finder.domain.question.entity.Question;
 import com.cmc.finder.domain.user.entity.QUser;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.cmc.finder.domain.question.entity.QQuestion.question;
+import static com.cmc.finder.domain.question.entity.QQuestionImage.questionImage;
+import static com.cmc.finder.domain.user.entity.QUser.user;
 
 @Repository
 public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
@@ -30,22 +34,17 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
     }
 
     @Override
-    public Page<QuestionSimpleDto> findQuestionSimpleDto(Pageable pageable) {
-        QQuestion question = QQuestion.question;
-        QUser user = QUser.user;
-        QQuestionImage questionImage = QQuestionImage.questionImage;
-
+    public Page<QuestionSimpleDto> findQuestionSimpleDto(Pageable pageable, MBTI mbti) {
         List<Question> results = queryFactory
                 .select(question)
                 .from(question)
                 .join(question.questionImages, questionImage)
                 .join(question.user, user).fetchJoin()
-//                .where(
-////                        questionImage.question.questionId.eq(question.questionId),
-//                        questionImage.isRep.eq(Boolean.TRUE)
-//                )
+                .where(
+                        searchByMBTI(mbti)
+                )
                 .groupBy(question.questionId)
-                .orderBy(question.createTime.desc())
+                .orderBy(listSort(pageable))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -55,11 +54,35 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .where()
                 .fetch().size();
 
-        List<QuestionSimpleDto> questionSimpleDtos = results.stream().map(question1 -> {
-            return QuestionSimpleDto.of(question1);
-        }).collect(Collectors.toList());
+        List<QuestionSimpleDto> questionSimpleDtos = results.stream().map(question1 ->
+                        QuestionSimpleDto.of(question1)
+                ).collect(Collectors.toList());
 
         return new PageImpl<>(questionSimpleDtos, pageable, totalSize);
+    }
+
+    private BooleanExpression searchByMBTI(MBTI mbti) {
+
+        return question.mbti.eq(mbti);
+
+    }
+
+    private OrderSpecifier<?> listSort(Pageable pageable) {
+
+        if (!pageable.getSort().isEmpty()) {
+
+            for (Sort.Order order : pageable.getSort()) {
+                Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
+                switch (order.getProperty()) {
+                    case "VIEWCOUNT":
+                        return new OrderSpecifier<>(direction, question.viewCounts.size());
+                    case "CREATETIME":
+                        return new OrderSpecifier<>(direction, question.createTime);
+                }
+            }
+        }
+        return null;
+
     }
 
 }

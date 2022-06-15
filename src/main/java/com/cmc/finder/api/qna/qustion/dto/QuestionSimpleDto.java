@@ -1,16 +1,29 @@
 package com.cmc.finder.api.qna.qustion.dto;
 
 import com.cmc.finder.domain.model.MBTI;
+import com.cmc.finder.domain.question.constant.OrderBy;
 import com.cmc.finder.domain.question.entity.Question;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 public class QuestionSimpleDto {
+
+    @Getter @Setter
+    public static class Request {
+
+        @NotNull(message = "MBTI는 필수값 입니다.")
+        private String mbti;
+
+        private String orderBy;
+
+    }
 
     private Long questionId;
 
@@ -26,12 +39,14 @@ public class QuestionSimpleDto {
 
     private Integer answerCount;
 
+    private Integer viewCount;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     @Builder
     public QuestionSimpleDto(Long questionId, String title, String content, String imageUrl,
-                             String userNickname, MBTI userMBTI,Integer answerCount, LocalDateTime createTime) {
+                             String userNickname, MBTI userMBTI,Integer answerCount, Integer viewCount, LocalDateTime createTime) {
         this.questionId = questionId;
         this.title = title;
         this.content = content;
@@ -39,6 +54,7 @@ public class QuestionSimpleDto {
         this.userNickname = userNickname;
         this.userMBTI = userMBTI;
         this.answerCount = answerCount;
+        this.viewCount = viewCount;
         this.createTime = createTime;
     }
 
@@ -52,6 +68,7 @@ public class QuestionSimpleDto {
                 .userNickname(question.getUser().getNickname())
                 .userMBTI(question.getUser().getMbti())
                 .answerCount(question.getAnswers().size())
+                .viewCount(question.getViewCounts().size())
                 .createTime(question.getCreateTime())
                 .build();
 

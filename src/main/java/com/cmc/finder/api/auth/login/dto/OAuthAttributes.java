@@ -23,7 +23,6 @@ public class OAuthAttributes {
                 .userType(userType)
                 .nickname(request.getNickname())
                 .mbti(request.getMbti())
-                .introduction(request.getIntroduction())
                 .profileImg("default.png")
                 .build();
 

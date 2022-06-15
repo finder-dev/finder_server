@@ -43,7 +43,6 @@ public class SignUpDto {
         @NotBlank(message = "닉네임은 필수값 입니다.")
         private String nickname;
 
-        private String introduction;
 
         @Size(max = 5, message = "최대 5개까지 입력하실 수 있습니다.")
         //TODO 변경 생각
@@ -61,7 +60,6 @@ public class SignUpDto {
                     .mbti(this.mbti)
                     .userType(UserType.GENERAL)
                     .nickname(this.nickname)
-                    .introduction(this.introduction)
                     .profileImg("default.png")
                     .build();
 

@@ -25,8 +25,6 @@ public class OauthLoginDto {
         @NotBlank(message = "닉네임은 필수값 입니다.")
         private String nickname;
 
-        private String introduction;
-
         private String profileUrl;
 
         @Size(max = 5, message = "최대 5개까지 입력하실 수 있습니다.")

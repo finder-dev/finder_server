@@ -22,8 +22,6 @@ public class UserDto {
 
     private String nickname;
 
-    private String introduction;
-
     private String profileUrl;
 
     private List<String> keywords;
@@ -36,7 +34,6 @@ public class UserDto {
                 .email(user.getEmail().getValue())
                 .mbti(user.getMbti())
                 .nickname(user.getNickname())
-                .introduction(user.getIntroduction())
                 .profileUrl(user.getProfileImg())
                 .keywords(keywords)
                 .build();

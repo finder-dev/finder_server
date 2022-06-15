@@ -42,31 +42,20 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, length = 10)
     private MBTI mbti;
 
-    @Column(length = 500)
-    private String introduction;
-
     @Column(length = 200, nullable = false)
     private String profileImg;
-
-    //TODO orphanRemoval 고민해보기
-//    @OneToMany(
-//            mappedBy = "member",
-//            cascade = CascadeType.ALL
-//    )
-//    private List<Keyword> keywords = new ArrayList<>();
 
     private boolean isDeleted;
 
     @Builder
     public User(UserType userType, Email email, Password password,
-                String nickname, MBTI mbti, String introduction, String profileImg) {
+                String nickname, MBTI mbti, String profileImg) {
 
         this.userType = userType;
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.mbti = mbti;
-        this.introduction = introduction;
         this.profileImg = profileImg;
         this.isDeleted = false;
 
@@ -80,7 +69,6 @@ public class User extends BaseTimeEntity {
                 .password(user.getPassword())
                 .nickname(user.getNickname())
                 .mbti(user.mbti)
-                .introduction(user.introduction)
                 .profileImg(user.profileImg)
                 .build();
     }

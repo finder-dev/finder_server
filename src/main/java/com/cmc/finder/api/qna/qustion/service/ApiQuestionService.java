@@ -6,6 +6,7 @@ import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
 import com.cmc.finder.api.qna.qustion.repository.QuestionRepositoryCustom;
 import com.cmc.finder.domain.answer.entity.Answer;
 import com.cmc.finder.domain.answer.service.AnswerService;
+import com.cmc.finder.domain.answer.service.HelpfulService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.question.entity.Question;
@@ -37,10 +38,12 @@ public class ApiQuestionService {
     private final QuestionService questionService;
     private final QuestionRepositoryCustom questionRepositoryCustom;
     private final ViewCountService viewCountService;
+    private final HelpfulService helpfulService;
 
     private final AnswerService answerService;
     private final S3Uploader s3Uploader;
 
+    @Transactional
     public QuestionCreateDto.Response createQuestion(QuestionCreateDto.Request request, String email) {
 
         // 유저 조회

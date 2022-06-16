@@ -16,6 +16,7 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
 
+    @Transactional
     public void create(Question question) {
         questionRepository.save(question);
     }

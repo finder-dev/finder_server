@@ -95,26 +95,29 @@ public class QuestionDetailDto {
 
         private String userNickname;
 
+        private Integer helpfulCount;
+
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime createTime;
 
         @Builder
         public AnswerHistDto(Long answerId, String answerTitle, String answerContent, List<String> answerImgUrls,
-                             MBTI userMBTI, String userNickname, LocalDateTime createTime) {
+                             MBTI userMBTI, String userNickname, Integer helpfulCount, LocalDateTime createTime) {
             this.answerId = answerId;
             this.answerTitle = answerTitle;
             this.answerContent = answerContent;
             this.answerImgUrls = answerImgUrls;
             this.userMBTI = userMBTI;
             this.userNickname = userNickname;
+            this.helpfulCount = helpfulCount;
             this.createTime = createTime;
         }
 
         public static QuestionDetailDto.AnswerHistDto of(Answer answer) {
 
-            List<String> answerImgUrls = answer.getAnswerImages().stream().map(answerImage -> {
-                return answerImage.getImageUrl();
-            }).collect(Collectors.toList());
+            List<String> answerImgUrls = answer.getAnswerImages().stream().map(answerImage ->
+                    answerImage.getImageUrl()
+            ).collect(Collectors.toList());
 
             return AnswerHistDto.builder()
                     .answerId(answer.getAnswerId())
@@ -123,6 +126,7 @@ public class QuestionDetailDto {
                     .answerImgUrls(answerImgUrls)
                     .userMBTI(answer.getUser().getMbti())
                     .userNickname(answer.getUser().getNickname())
+                    .helpfulCount(answer.getHelpfuls().size())
                     .createTime(answer.getCreateTime())
                     .build();
         }

@@ -42,12 +42,24 @@ public class Answer extends BaseTimeEntity {
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
+
     @OneToMany(
             mappedBy = "answer",
             cascade = CascadeType.ALL
     )
     private List<AnswerImage> answerImages = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "answer",
+            cascade = CascadeType.ALL
+    )
+    private List<Helpful> helpfuls = new ArrayList<>();
+
+
+    public void addHelpful(Helpful helpful) {
+        helpfuls.add(helpful);
+        helpful.setAnswer(this);
+    }
 
     public void addAnswerImage(AnswerImage answerImage) {
         answerImages.add(answerImage);

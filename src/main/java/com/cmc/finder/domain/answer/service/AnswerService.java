@@ -1,6 +1,7 @@
 package com.cmc.finder.domain.answer.service;
 
 import com.cmc.finder.domain.answer.entity.Answer;
+import com.cmc.finder.domain.answer.exception.AnswerNotFoundException;
 import com.cmc.finder.domain.answer.repostiory.AnswerRepository;
 import com.cmc.finder.domain.question.entity.Question;
 import com.cmc.finder.domain.question.exception.QuestionNotFountException;
@@ -18,13 +19,19 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
+    @Transactional
     public void create(Answer answer) {
         answerRepository.save(answer);
     }
 
     public List<Answer> getAnswersByQuestionId(Long questionId) {
-        return answerRepository.findAllByQuestionId(questionId);
 
+        return answerRepository.findAllByQuestionId(questionId);
+    }
+
+    public Answer getAnswer(Long answerId) {
+        return answerRepository.findById(answerId)
+                .orElseThrow(AnswerNotFoundException::new);
     }
 
 //    public Question getAnswer(Long questionId) {

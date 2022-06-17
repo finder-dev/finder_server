@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Table(name = "helpful")
 @Getter
 @NoArgsConstructor
-@ToString
 public class Helpful {
 
     @Id

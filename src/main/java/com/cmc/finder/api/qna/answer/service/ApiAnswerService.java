@@ -1,6 +1,8 @@
 package com.cmc.finder.api.qna.answer.service;
 
 import com.cmc.finder.api.qna.answer.dto.AnswerCreateDto;
+import com.cmc.finder.api.qna.answer.dto.HelpfulAddOrDeleteDto;
+import com.cmc.finder.api.qna.qustion.dto.QuestionFavoriteAddOrDeleteDto;
 import com.cmc.finder.domain.answer.entity.Answer;
 import com.cmc.finder.domain.answer.entity.AnswerImage;
 import com.cmc.finder.domain.answer.entity.Helpful;
@@ -65,25 +67,25 @@ public class ApiAnswerService {
 
     }
 
-    public void addHelpful(Long answerId, String email) {
+    public HelpfulAddOrDeleteDto addOrDeleteHelpful(Long answerId, String email) {
 
         Answer answer = answerService.getAnswer(answerId);
         User user = userService.getUserByEmail(Email.of(email));
+
+        if (helpfulService.existsUser(answer, user)) {
+            helpfulService.delete(answer, user);
+            return HelpfulAddOrDeleteDto.of(false);
+        }
+
 
         Helpful helpful = Helpful.createHelpful(answer, user);
         answer.addHelpful(helpful);
 
         helpfulService.create(helpful);
 
-    }
-
-    @Transactional
-    public void deleteHelpful(Long answerId, String email) {
-
-        Answer answer = answerService.getAnswer(answerId);
-        User user = userService.getUserByEmail(Email.of(email));
-
-        helpfulService.delete(answer, user);
+        return HelpfulAddOrDeleteDto.of(true);
 
     }
+
+
 }

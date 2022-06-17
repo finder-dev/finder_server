@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 @Setter
 public class QuestionDetailDto {
 
+    //TODO 이미 즐겨찾기 돼있는 글인 경우
+
     private Long questionId;
 
     private String questionTitle;
@@ -27,11 +29,15 @@ public class QuestionDetailDto {
 
     private List<String> questionImgUrls = new ArrayList<>();
 
+    private Integer curiousCount;
+
     private MBTI userMBTI;
 
     private String userNickname;
 
     private Long viewCount;
+
+    private Boolean favoriteUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
@@ -40,22 +46,24 @@ public class QuestionDetailDto {
 
     @Builder
     public QuestionDetailDto(Long questionId, String questionTitle, String questionContent, MBTI questionMBTI,
-                             List<String> questionImgUrls, MBTI userMBTI, String userNickname, LocalDateTime createTime,
-                             Long viewCount, List<AnswerHistDto> answerHistDtos) {
+                             List<String> questionImgUrls, Integer curiousCount, MBTI userMBTI, String userNickname, LocalDateTime createTime,
+                             Long viewCount, Boolean favoriteUser, List<AnswerHistDto> answerHistDtos) {
 
         this.questionId = questionId;
         this.questionTitle = questionTitle;
         this.questionContent = questionContent;
         this.questionMBTI = questionMBTI;
         this.questionImgUrls = questionImgUrls;
+        this.curiousCount = curiousCount;
         this.userMBTI = userMBTI;
         this.userNickname = userNickname;
         this.viewCount = viewCount;
+        this.favoriteUser = favoriteUser;
         this.createTime = createTime;
         this.answerHistDtos = answerHistDtos;
     }
 
-    public static QuestionDetailDto of(Question question, List<Answer> answers, Long viewCount) {
+    public static QuestionDetailDto of(Question question, List<Answer> answers, Long viewCount, Boolean favoriteUser) {
 
         List<String> questionImgUrls = question.getQuestionImages().stream().map(questionImage ->
                 questionImage.getImageUrl()
@@ -71,9 +79,11 @@ public class QuestionDetailDto {
                 .questionContent(question.getContent())
                 .questionMBTI(question.getMbti())
                 .questionImgUrls(questionImgUrls)
+                .curiousCount(question.getCuriousList().size())
                 .userMBTI(question.getUser().getMbti())
                 .userNickname(question.getUser().getNickname())
                 .viewCount(viewCount)
+                .favoriteUser(favoriteUser)
                 .createTime(question.getCreateTime())
                 .answerHistDtos(answerHistDtos)
                 .build();

@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
-import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +57,14 @@ public class Question extends BaseTimeEntity {
     )
     private List<Answer> answers = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "question",
+            cascade = CascadeType.ALL
+    )
+    private List<Curious> curiousList = new ArrayList<>();
+
+
+
     public void addViewCount(ViewCount viewCount) {
         viewCounts.add(viewCount);
         viewCount.setQuestion(this);
@@ -71,6 +78,11 @@ public class Question extends BaseTimeEntity {
     public void addAnswer(Answer answer) {
         answers.add(answer);
         answer.setQuestion(this);
+    }
+
+    public void addCurious(Curious curious) {
+        curiousList.add(curious);
+        curious.setQuestion(this);
     }
 
     @Builder

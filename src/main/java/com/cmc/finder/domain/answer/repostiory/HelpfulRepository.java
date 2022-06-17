@@ -21,4 +21,7 @@ public interface HelpfulRepository extends JpaRepository<Helpful, Long> {
     Optional<Helpful> findByAnswerAndUser(Answer answer, User user);
 
     void deleteByAnswerAndUser(Answer answer, User user);
+
+    Boolean existsByAnswerAndUser(Answer answer, User user);
+
 }

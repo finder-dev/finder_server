@@ -8,5 +8,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface QuestionRepositoryCustom {
 
-    Page<QuestionSimpleDto> findQuestionSimpleDto(Pageable pageable, MBTI mbti);
+    Page<QuestionSimpleDto.Response> findQuestionSimpleDto(Pageable pageable, MBTI mbti);
 }

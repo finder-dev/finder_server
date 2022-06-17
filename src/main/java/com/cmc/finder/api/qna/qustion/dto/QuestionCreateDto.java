@@ -2,6 +2,7 @@ package com.cmc.finder.api.qna.qustion.dto;
 
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.question.entity.Question;
+import com.cmc.finder.global.validator.Enum;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,8 +23,8 @@ public class QuestionCreateDto {
         @NotBlank(message = "글 내용은 필수값 입니다.")
         private String content;
 
-        @NotNull(message = "MBTI는 필수값 입니다.")
-        private MBTI mbti;
+        @Enum(enumClass = MBTI.class, message ="잘못된 Enum 값 입니다.")
+        private String mbti;
 
         private List<MultipartFile> questionImgs = new ArrayList<>();
 

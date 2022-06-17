@@ -34,7 +34,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
     }
 
     @Override
-    public Page<QuestionSimpleDto> findQuestionSimpleDto(Pageable pageable, MBTI mbti) {
+    public Page<QuestionSimpleDto.Response> findQuestionSimpleDto(Pageable pageable, MBTI mbti) {
         List<Question> results = queryFactory
                 .select(question)
                 .from(question)
@@ -54,8 +54,8 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
                 .where()
                 .fetch().size();
 
-        List<QuestionSimpleDto> questionSimpleDtos = results.stream().map(question1 ->
-                        QuestionSimpleDto.of(question1)
+        List<QuestionSimpleDto.Response> questionSimpleDtos = results.stream().map(question1 ->
+                        QuestionSimpleDto.Response.of(question1)
                 ).collect(Collectors.toList());
 
         return new PageImpl<>(questionSimpleDtos, pageable, totalSize);

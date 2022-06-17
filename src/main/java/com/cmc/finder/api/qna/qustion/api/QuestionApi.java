@@ -1,8 +1,6 @@
 package com.cmc.finder.api.qna.qustion.api;
 
-import com.cmc.finder.api.qna.qustion.dto.QuestionCreateDto;
-import com.cmc.finder.api.qna.qustion.dto.QuestionDetailDto;
-import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
+import com.cmc.finder.api.qna.qustion.dto.*;
 import com.cmc.finder.api.qna.qustion.service.ApiQuestionService;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.question.constant.OrderBy;
@@ -73,6 +71,26 @@ public class QuestionApi {
         return ResponseEntity.ok(questionDetailDto);
 
     }
+
+    @PostMapping("/{questionId}/curious")
+    public ResponseEntity<CuriousAddOrDeleteDto> addOrDeleteCurious(
+            @PathVariable Long questionId,
+            @UserEmail String email
+    ){
+        CuriousAddOrDeleteDto response = apiQuestionService.addOrDeleteCurious(questionId, email);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{questionId}/favorite")
+    public ResponseEntity<QuestionFavoriteAddOrDeleteDto> addOrDeleteFavorite(
+            @PathVariable Long questionId,
+            @UserEmail String email
+    ){
+
+        QuestionFavoriteAddOrDeleteDto response = apiQuestionService.addOrDeleteFavorite(questionId, email);
+        return ResponseEntity.ok(response);
+    }
+
 
 
 }

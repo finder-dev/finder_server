@@ -1,16 +1,17 @@
 package com.cmc.finder.api.qna.qustion.service;
 
-import com.cmc.finder.api.qna.qustion.dto.QuestionCreateDto;
-import com.cmc.finder.api.qna.qustion.dto.QuestionDetailDto;
-import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
+import com.cmc.finder.api.qna.qustion.dto.*;
 import com.cmc.finder.api.qna.qustion.repository.QuestionRepositoryCustom;
 import com.cmc.finder.domain.answer.entity.Answer;
 import com.cmc.finder.domain.answer.service.AnswerService;
-import com.cmc.finder.domain.answer.service.HelpfulService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
+import com.cmc.finder.domain.question.entity.Curious;
 import com.cmc.finder.domain.question.entity.Question;
+import com.cmc.finder.domain.question.entity.QuestionFavorite;
 import com.cmc.finder.domain.question.entity.QuestionImage;
+import com.cmc.finder.domain.question.service.CuriousService;
+import com.cmc.finder.domain.question.service.QuestionFavoriteService;
 import com.cmc.finder.domain.question.service.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
@@ -38,7 +39,8 @@ public class ApiQuestionService {
     private final QuestionService questionService;
     private final QuestionRepositoryCustom questionRepositoryCustom;
     private final ViewCountService viewCountService;
-    private final HelpfulService helpfulService;
+    private final CuriousService curiousService;
+    private final QuestionFavoriteService questionFavoriteService;
 
     private final AnswerService answerService;
     private final S3Uploader s3Uploader;
@@ -111,8 +113,58 @@ public class ApiQuestionService {
         // 답변 조회
         List<Answer> answers = answerService.getAnswersByQuestionId(question.getQuestionId());
 
-        QuestionDetailDto questionDetailDto = QuestionDetailDto.of(question, answers, viewCount);
+        // 이미 즐겨찾기?
+        Boolean favoriteUser = questionFavoriteService.existsUser(question, user);
+
+        QuestionDetailDto questionDetailDto = QuestionDetailDto.of(question, answers, viewCount, favoriteUser);
         return questionDetailDto;
 
+    }
+
+    @Transactional
+    public CuriousAddOrDeleteDto addOrDeleteCurious(Long questionId, String email) {
+
+        Question question = questionService.getQuestion(questionId);
+        User user = userService.getUserByEmail(Email.of(email));
+
+        if (curiousService.existsUser(question, user)) {
+            curiousService.delete(question, user);
+            return CuriousAddOrDeleteDto.of(false);
+        }
+
+        Curious curious = Curious.createCurious(question, user);
+        question.addCurious(curious);
+
+        curiousService.create(curious);
+
+        return CuriousAddOrDeleteDto.of(true);
+
+    }
+
+
+    @Transactional
+    public QuestionFavoriteAddOrDeleteDto addOrDeleteFavorite(Long questionId, String email) {
+
+        Question question = questionService.getQuestion(questionId);
+        User user = userService.getUserByEmail(Email.of(email));
+
+        if (questionFavoriteService.existsUser(question, user)) {
+            questionFavoriteService.delete(question, user);
+            return QuestionFavoriteAddOrDeleteDto.of(false);
+        }
+
+        QuestionFavorite questionFavorite = QuestionFavorite.createQuestionFavorite(question, user);
+        questionFavoriteService.create(questionFavorite);
+
+        return QuestionFavoriteAddOrDeleteDto.of(true);
+
+    }
+
+    public void deleteFavorite(Long questionId, String email) {
+
+        Question question = questionService.getQuestion(questionId);
+        User user = userService.getUserByEmail(Email.of(email));
+
+        questionFavoriteService.delete(question, user);
     }
 }

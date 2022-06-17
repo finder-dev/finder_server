@@ -1,6 +1,7 @@
 package com.cmc.finder.api.qna.answer.api;
 
 import com.cmc.finder.api.qna.answer.dto.AnswerCreateDto;
+import com.cmc.finder.api.qna.answer.dto.HelpfulAddOrDeleteDto;
 import com.cmc.finder.api.qna.answer.service.ApiAnswerService;
 import com.cmc.finder.global.resolver.UserEmail;
 import lombok.RequiredArgsConstructor;
@@ -29,24 +30,16 @@ public class AnswerApi {
     }
 
     @PostMapping("/{answerId}/helpful")
-    public ResponseEntity<String> addHelpful(
+    public ResponseEntity<HelpfulAddOrDeleteDto> addOrDeleteHelpful(
             @PathVariable Long answerId,
             @UserEmail String email
     ){
 
-        apiAnswerService.addHelpful(answerId, email);
-        return ResponseEntity.ok("add success");
+        HelpfulAddOrDeleteDto response = apiAnswerService.addOrDeleteHelpful(answerId, email);
+        return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{answerId}/helpful")
-    public ResponseEntity<String> deleteHelpful(
-            @PathVariable Long answerId,
-            @UserEmail String email
-    ){
 
-        apiAnswerService.deleteHelpful(answerId, email);
-        return ResponseEntity.ok("delete success");
-    }
 
 
 

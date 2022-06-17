@@ -39,4 +39,9 @@ public class HelpfulService {
         helpfulRepository.delete(helpful);
 
     }
+
+    public boolean existsUser(Answer answer, User user) {
+
+        return helpfulRepository.existsByAnswerAndUser(answer, user);
+    }
 }

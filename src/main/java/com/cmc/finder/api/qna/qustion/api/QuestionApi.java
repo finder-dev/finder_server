@@ -36,27 +36,21 @@ public class QuestionApi {
     }
 
     @GetMapping
-    public ResponseEntity<Page<QuestionSimpleDto>> getQuestion(
+    public ResponseEntity<Page<QuestionSimpleDto.Response>> getQuestion(
             @Valid QuestionSimpleDto.Request request,
             Optional<Integer> page
     ) {
 
-        //TODO 검증 위치 변경
-        MBTI.isMBTI(request.getMbti());
-        MBTI mbti = MBTI.from(request.getMbti());
-
-        OrderBy.isOrderBy(request.getOrderBy());
-        OrderBy orderBy = OrderBy.from(request.getOrderBy());
 
         Pageable pageable = PageRequest.of(
                 page.isPresent() ? page.get() : 0,
                 SET_PAGE_ITEM_MAX_COUNT,
                 request.getOrderBy() == null ?
-                        Sort.by(Sort.Direction.DESC, OrderBy.CREATETIME.name()) :
-                        Sort.by(Sort.Direction.DESC, orderBy.name())
+                        Sort.by(Sort.Direction.DESC, OrderBy.CREATE_TIME.name()) :
+                        Sort.by(Sort.Direction.DESC, request.getOrderBy())
         );
 
-        Page<QuestionSimpleDto> questionSimpleDtos = apiQuestionService.getQuestionList(pageable, mbti);
+        Page<QuestionSimpleDto.Response> questionSimpleDtos = apiQuestionService.getQuestionList(pageable, MBTI.from(request.getMbti()));
         return ResponseEntity.ok(questionSimpleDtos);
 
     }

@@ -1,7 +1,5 @@
 package com.cmc.finder.domain.question.constant;
 
-import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.global.config.InvalidValueException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 
@@ -11,7 +9,7 @@ import java.util.stream.Collectors;
 
 public enum OrderBy {
 
-    VIEWCOUNT, CREATETIME;
+    VIEW_COUNT, CREATE_TIME;
 
     public static void isOrderBy(String order) {
 

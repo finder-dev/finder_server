@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 @Setter
 public class QuestionDetailDto {
 
-    //TODO 이미 즐겨찾기 돼있는 글인 경우
-
     private Long questionId;
 
     private String questionTitle;

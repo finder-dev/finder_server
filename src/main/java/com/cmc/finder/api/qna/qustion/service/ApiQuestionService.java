@@ -52,7 +52,7 @@ public class ApiQuestionService {
         User user = userService.getUserByEmail(Email.of(email));
 
         // 질문 생성
-        Question question = Question.createQuestion(request.getTitle(), request.getContent(), request.getMbti(), user);
+        Question question = Question.createQuestion(request.getTitle(), request.getContent(), MBTI.valueOf(request.getMbti()), user);
 
         // 질문 이미지 생성 및 저장
 //        List<QuestionImage> questionImages = new ArrayList<>();
@@ -85,9 +85,9 @@ public class ApiQuestionService {
 
     }
 
-    public Page<QuestionSimpleDto> getQuestionList(Pageable pageable, MBTI mbti) {
+    public Page<QuestionSimpleDto.Response> getQuestionList(Pageable pageable, MBTI mbti) {
 
-        Page<QuestionSimpleDto> questionPage = questionRepositoryCustom.findQuestionSimpleDto(pageable, mbti);
+        Page<QuestionSimpleDto.Response> questionPage = questionRepositoryCustom.findQuestionSimpleDto(pageable, mbti);
         return questionPage;
 
     }

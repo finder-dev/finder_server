@@ -74,9 +74,9 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
             for (Sort.Order order : pageable.getSort()) {
                 Order direction = order.getDirection().isAscending() ? Order.ASC : Order.DESC;
                 switch (order.getProperty()) {
-                    case "VIEWCOUNT":
+                    case "VIEW_COUNT":
                         return new OrderSpecifier<>(direction, question.viewCounts.size());
-                    case "CREATETIME":
+                    case "CREATE_TIME":
                         return new OrderSpecifier<>(direction, question.createTime);
                 }
             }

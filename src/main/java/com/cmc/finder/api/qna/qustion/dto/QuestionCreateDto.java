@@ -23,6 +23,7 @@ public class QuestionCreateDto {
         @NotBlank(message = "글 내용은 필수값 입니다.")
         private String content;
 
+        @NotBlank(message = "MBTI는 필수값 입니다.")
         @Enum(enumClass = MBTI.class, message ="잘못된 Enum 값 입니다.")
         private String mbti;
 

@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 
@@ -17,10 +18,11 @@ public class QuestionSimpleDto {
     @Getter @Setter
     public static class Request {
 
-        @Enum(enumClass = MBTI.class, message ="잘못된 Enum 값 입니다.")
+        @NotBlank(message = "MBTI는 필수값 입니다.")
+        @Enum(enumClass = MBTI.class, message = "잘못된 Enum 값 입니다.")
         private String mbti;
 
-        @Enum(enumClass = OrderBy.class, message ="잘못된 Enum 값 입니다.")
+        @Enum(enumClass = OrderBy.class, message ="잘못된 Enum 값 입니다.", ignoreCase = true)
         private String orderBy;
 
     }

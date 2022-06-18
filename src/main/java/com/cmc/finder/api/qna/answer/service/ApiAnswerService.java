@@ -67,6 +67,7 @@ public class ApiAnswerService {
 
     }
 
+    @Transactional
     public HelpfulAddOrDeleteDto addOrDeleteHelpful(Long answerId, String email) {
 
         Answer answer = answerService.getAnswer(answerId);

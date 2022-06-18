@@ -12,16 +12,6 @@ public enum MBTI {
 
     INFJ, INFP, INTJ, INTP, ISFJ, ISFP, ISTJ, ISTP, ENFJ, ENFP, ENTJ, ENTP, ESFJ, ESFP, ESTJ, ESTP;
 
-    public static void isMBTI(String mbti) {
-
-        List<MBTI> collect = Arrays.stream(MBTI.values())
-                .filter(mbti1 -> mbti1.name().equals(mbti))
-                .collect(Collectors.toList());
-        if (collect.size() == 0) {
-            throw new InvalidValueException(ErrorCode.INVALID_MBTI_TYPE);
-        }
-    }
-
     public static MBTI from(String mbti) {
 
         return MBTI.valueOf(mbti.toUpperCase());

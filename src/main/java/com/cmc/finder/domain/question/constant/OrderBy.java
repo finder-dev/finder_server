@@ -11,15 +11,6 @@ public enum OrderBy {
 
     VIEW_COUNT, CREATE_TIME;
 
-    public static void isOrderBy(String order) {
-
-        List<OrderBy> collect = Arrays.stream(OrderBy.values())
-                .filter(orderBy -> orderBy.name().equals(order))
-                .collect(Collectors.toList());
-        if (collect.size() == 0) {
-            throw new InvalidValueException(ErrorCode.INVALID_FILTER_TYPE);
-        }
-    }
 
     public static OrderBy from(String orderBy) {
 

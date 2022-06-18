@@ -7,6 +7,7 @@ import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.model.Password;
+import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -37,8 +38,9 @@ public class SignUpDto {
         @NotBlank(message = "비밀번호는 필수값 입니다.")
         private String password;
 
-        @NotNull(message = "MBTI는 필수값 입니다.")
-        private MBTI mbti;
+        @NotBlank(message = "MBTI는 필수값 입니다.")
+        @Enum(enumClass = MBTI.class, message ="잘못된 Enum 값 입니다.")
+        private String mbti;
 
         @NotBlank(message = "닉네임은 필수값 입니다.")
         private String nickname;
@@ -57,7 +59,7 @@ public class SignUpDto {
                     .password(Password.builder()
                             .value(this.password)
                             .build())
-                    .mbti(this.mbti)
+                    .mbti(MBTI.from(this.mbti))
                     .userType(UserType.GENERAL)
                     .nickname(this.nickname)
                     .profileImg("default.png")
@@ -103,21 +105,6 @@ public class SignUpDto {
                     .build();
         }
 
-//        private String email;
-//
-//        private MBTI mbti;
-//
-//        private String nickname;
-//
-//        public static Response of(User user) {
-//
-//            return Response.builder()
-//                    .email(user.getEmail().getValue())
-//                    .mbti(user.getMbti())
-//                    .nickname(user.getNickname())
-//                    .build();
-//
-//        }
 
     }
 

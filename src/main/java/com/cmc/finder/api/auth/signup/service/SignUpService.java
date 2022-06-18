@@ -74,13 +74,13 @@ public class SignUpService {
     }
 
 
-    public NicknameCheckDto checkNickname(String nickname) {
+    public NicknameCheckDto.Response checkNickname(NicknameCheckDto.Request request) {
 
-        if (userValidator.validateDuplicateNickname(nickname)) {
+        if (userValidator.validateDuplicateNickname(request.getNickname())) {
             throw new NicknameDuplicateException();
         }
 
-        return NicknameCheckDto.of();
+        return NicknameCheckDto.Response.of();
 
     }
 

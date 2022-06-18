@@ -42,13 +42,14 @@ public class SignUpDto {
         @Enum(enumClass = MBTI.class, message ="잘못된 Enum 값 입니다.")
         private String mbti;
 
+        @Length(max = 6, message = "닉네임은 6자 이내로 적어주세요.")
         @NotBlank(message = "닉네임은 필수값 입니다.")
         private String nickname;
 
 
-        @Size(max = 5, message = "최대 5개까지 입력하실 수 있습니다.")
+        @Size(max = 4, message = "최대 4개까지 입력하실 수 있습니다.")
         //TODO 변경 생각
-        private List<@Length(max = 7,message = "8글자를 초과할 수 없습니다.") String> keywords;
+        private List<@Length(min=1, max = 6,message = "1자 이상 6자 이하의 태그만 가능합니다.") String> keywords;
 
         private MultipartFile profileImg;
 

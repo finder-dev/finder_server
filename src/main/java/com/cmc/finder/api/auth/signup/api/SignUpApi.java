@@ -5,12 +5,17 @@ import com.cmc.finder.api.auth.signup.dto.EmailValidationDto;
 import com.cmc.finder.api.auth.signup.dto.NicknameCheckDto;
 import com.cmc.finder.api.auth.signup.dto.SignUpDto;
 import com.cmc.finder.api.auth.signup.service.SignUpService;
+import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,12 +51,11 @@ public class SignUpApi {
     }
 
 
-    @GetMapping("/duplicated/nickname/{nickname}")
-    public ResponseEntity<NicknameCheckDto> checkNickname(
-            @PathVariable String nickname
+    @GetMapping("/duplicated/nickname")
+    public ResponseEntity<NicknameCheckDto.Response> checkNickname(
+            @Valid NicknameCheckDto.Request request
     ){
-
-        return ResponseEntity.ok(signUpService.checkNickname(nickname));
+        return ResponseEntity.ok(signUpService.checkNickname(request));
 
     }
 }

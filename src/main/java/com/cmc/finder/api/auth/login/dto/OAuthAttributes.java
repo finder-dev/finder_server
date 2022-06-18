@@ -1,5 +1,6 @@
 package com.cmc.finder.api.auth.login.dto;
 
+import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.model.Email;
@@ -22,7 +23,7 @@ public class OAuthAttributes {
                 .email(Email.of(email))
                 .userType(userType)
                 .nickname(request.getNickname())
-                .mbti(request.getMbti())
+                .mbti(MBTI.from(request.getMbti()))
                 .profileImg("default.png")
                 .build();
 

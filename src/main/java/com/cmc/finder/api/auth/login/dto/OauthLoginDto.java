@@ -3,6 +3,7 @@ package com.cmc.finder.api.auth.login.dto;
 import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.constant.UserType;
+import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
@@ -20,9 +21,9 @@ public class OauthLoginDto {
 
         private String userType;
 
-        //TODO String으로 변경
-        @NotNull(message = "MBTI는 필수값 입니다.")
-        private MBTI mbti;
+        @NotBlank(message = "MBTI는 필수값 입니다.")
+        @Enum(enumClass = MBTI.class, message ="잘못된 Enum 값 입니다.")
+        private String mbti;
 
         @NotBlank(message = "닉네임은 필수값 입니다.")
         private String nickname;

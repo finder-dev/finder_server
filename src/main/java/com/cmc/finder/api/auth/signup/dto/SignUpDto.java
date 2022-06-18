@@ -1,6 +1,5 @@
 package com.cmc.finder.api.auth.signup.dto;
 
-import com.cmc.finder.api.auth.login.dto.OauthLoginDto;
 import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.domain.user.entity.User;
@@ -14,10 +13,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +32,7 @@ public class SignUpDto {
         private String email;
 
         @NotBlank(message = "비밀번호는 필수값 입니다.")
+        @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$", message = "비밀번호는 영문, 숫자를 포함하여 8 ~ 16자입니다.")
         private String password;
 
         @NotBlank(message = "MBTI는 필수값 입니다.")

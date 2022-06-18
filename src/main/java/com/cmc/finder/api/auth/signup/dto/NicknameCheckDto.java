@@ -5,10 +5,7 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter @Setter
+
 public class NicknameCheckDto {
 
     @Getter @Setter

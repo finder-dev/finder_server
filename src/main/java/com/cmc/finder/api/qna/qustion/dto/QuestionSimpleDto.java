@@ -15,19 +15,21 @@ import java.time.LocalDateTime;
 
 public class QuestionSimpleDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class Request {
 
         @NotBlank(message = "MBTI는 필수값 입니다.")
         @Enum(enumClass = MBTI.class, message = "잘못된 Enum 값 입니다.")
         private String mbti;
 
-        @Enum(enumClass = OrderBy.class, message ="잘못된 Enum 값 입니다.", ignoreCase = true)
+        @Enum(enumClass = OrderBy.class, message = "잘못된 Enum 값 입니다.", ignoreCase = true)
         private String orderBy;
 
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class Response {
         private Long questionId;
 
@@ -41,6 +43,8 @@ public class QuestionSimpleDto {
 
         private MBTI userMBTI;
 
+        private Integer curiousCount;
+
         private Integer answerCount;
 
         private Integer viewCount;
@@ -50,13 +54,15 @@ public class QuestionSimpleDto {
 
         @Builder
         public Response(Long questionId, String title, String content, String imageUrl,
-                                 String userNickname, MBTI userMBTI,Integer answerCount, Integer viewCount, LocalDateTime createTime) {
+                        String userNickname, MBTI userMBTI, Integer curiousCount,
+                        Integer answerCount, Integer viewCount, LocalDateTime createTime) {
             this.questionId = questionId;
             this.title = title;
             this.content = content;
             this.imageUrl = imageUrl;
             this.userNickname = userNickname;
             this.userMBTI = userMBTI;
+            this.curiousCount = curiousCount;
             this.answerCount = answerCount;
             this.viewCount = viewCount;
             this.createTime = createTime;
@@ -71,6 +77,7 @@ public class QuestionSimpleDto {
                     .imageUrl(question.getQuestionImages().get(0).getImageUrl())
                     .userNickname(question.getUser().getNickname())
                     .userMBTI(question.getUser().getMbti())
+                    .curiousCount(question.getCuriousList().size())
                     .answerCount(question.getAnswers().size())
                     .viewCount(question.getViewCounts().size())
                     .createTime(question.getCreateTime())
@@ -78,9 +85,6 @@ public class QuestionSimpleDto {
 
         }
     }
-
-
-
 
 
 }

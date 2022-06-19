@@ -21,6 +21,7 @@ public class KeywordService {
 //                .orElseThrow(MemberNotFoundException::new);
     }
 
+    @Transactional
     public void save(Keyword keyword) {
 
         keywordRepository.save(keyword);

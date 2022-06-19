@@ -1,1 +1,0 @@
-package com.cmc.finder.api.auth.signup.dto;import lombok.*;@Builder@NoArgsConstructor@AllArgsConstructor@Getter @Setterpublic class EmailValidationDto {    private String message;    public static EmailValidationDto of() {        return EmailValidationDto.builder()                .message("인증 완료되었습니다.")                .build();    }}

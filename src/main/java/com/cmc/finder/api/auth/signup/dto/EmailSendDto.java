@@ -2,19 +2,34 @@ package com.cmc.finder.api.auth.signup.dto;
 
 import lombok.*;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter @Setter
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class EmailSendDto {
 
-    private String message;
+    @Getter @Setter
+    public static class Request {
 
-    public static EmailSendDto of() {
-
-        return EmailSendDto.builder()
-                .message("메일을 전송하였습니다.")
-                .build();
+        @NotBlank(message = "이메일은 필수값 입니다.")
+        @Email
+        private String email;
 
     }
+
+    @Builder
+    @Getter @Setter
+    public static class Response {
+
+        private String message;
+
+        public static Response of() {
+
+            return Response.builder()
+                    .message("메일을 전송하였습니다.")
+                    .build();
+
+        }
+    }
+
+
 }

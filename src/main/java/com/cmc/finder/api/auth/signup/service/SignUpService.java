@@ -1,6 +1,6 @@
 package com.cmc.finder.api.auth.signup.service;
 
-import com.cmc.finder.api.auth.signup.dto.EmailValidationDto;
+import com.cmc.finder.api.auth.signup.dto.EmailAuthDto;
 import com.cmc.finder.api.auth.signup.dto.EmailSendDto;
 import com.cmc.finder.api.auth.signup.dto.NicknameCheckDto;
 import com.cmc.finder.api.auth.signup.dto.SignUpDto;
@@ -84,7 +84,7 @@ public class SignUpService {
 
     }
 
-    public EmailSendDto sendEmail(String email) {
+    public EmailSendDto.Response sendEmail(String email) {
 
         if (userValidator.validateDuplicateEmail(Email.of(email))) {
             throw new EmailDuplicateException();
@@ -93,14 +93,14 @@ public class SignUpService {
         String code = emailService.sendSimpleMessage(email);
         authCodeService.saveAuthCode(AuthCode.of(email, code));
 
-        return EmailSendDto.of();
+        return EmailSendDto.Response.of();
 
     }
 
-    public EmailValidationDto checkCode(String email, String code) {
+    public EmailAuthDto.Response checkCode(String email, String code) {
         //TODO 코드 만료시간 설정
         authCodeService.authenticateCode(email, code);
 
-        return EmailValidationDto.of();
+        return EmailAuthDto.Response.of();
     }
 }

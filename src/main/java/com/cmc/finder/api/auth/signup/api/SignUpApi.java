@@ -54,5 +54,7 @@ public class SignUpApi {
     ) {
         return ResponseEntity.ok(signUpService.checkNickname(request));
 
+
+
     }
 }

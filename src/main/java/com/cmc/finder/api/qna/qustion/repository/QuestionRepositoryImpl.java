@@ -51,7 +51,9 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
 
         int totalSize = queryFactory
                 .selectFrom(question)
-                .where()
+                .where(
+                        searchByMBTI(mbti)
+                )
                 .fetch().size();
 
         List<QuestionSimpleDto.Response> questionSimpleDtos = results.stream().map(question1 ->

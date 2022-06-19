@@ -30,6 +30,7 @@ public class SignUpApi {
     ){
 
         SignUpDto.Response response = signUpService.signUpUser(signUpDto);
+
         return ResponseEntity.ok(response);
 
     }

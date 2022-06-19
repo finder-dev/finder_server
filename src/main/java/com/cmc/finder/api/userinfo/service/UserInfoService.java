@@ -1,9 +1,15 @@
 package com.cmc.finder.api.userinfo.service;
 
-import com.cmc.finder.api.userinfo.dto.UpdateProfileDto;
+import com.cmc.finder.api.auth.signup.dto.NicknameCheckDto;
+import com.cmc.finder.api.userinfo.dto.UpdateMBTIDto;
+import com.cmc.finder.api.userinfo.dto.UpdateNicknameDto;
+import com.cmc.finder.api.userinfo.dto.UpdateProfileImgDto;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.entity.User;
+import com.cmc.finder.domain.user.exception.NicknameDuplicateException;
 import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.domain.user.validator.UserValidator;
 import com.cmc.finder.infra.file.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,10 +29,11 @@ public class UserInfoService {
     private String DEFAULT_IMG;
 
     private final UserService userService;
+    private final UserValidator userValidator;
     private final S3Uploader s3Uploader;
 
     @Transactional
-    public UpdateProfileDto updateProfileImg(MultipartFile profile, String email) {
+    public UpdateProfileImgDto.Response updateProfileImg(UpdateProfileImgDto.Request request, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
 
@@ -38,11 +45,39 @@ public class UserInfoService {
         }
 
         // 새로운 이미지 등록
-        String imageName = s3Uploader.uploadFile(profile, PATH);
+        String imageName = s3Uploader.uploadFile(request.getProfileImg(), PATH);
         user.updateProfileUrl(imageName);
 
         String path = s3Uploader.getUrl(PATH, imageName);
-        return UpdateProfileDto.of(path);
+        return UpdateProfileImgDto.Response.of(path);
+
+    }
+
+    @Transactional
+    public UpdateNicknameDto.Response updateNickname(UpdateNicknameDto.Request request, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        String nickname = request.getNickname();
+
+        // nickname 중복 확인
+        if (userValidator.validateDuplicateNickname(nickname)) {
+            throw new NicknameDuplicateException();
+        }
+
+        user.updateNickname(nickname);
+
+        return UpdateNicknameDto.Response.of(nickname);
+
+    }
+
+    @Transactional
+    public UpdateMBTIDto.Response updateMBTI(UpdateMBTIDto.Request request, String email) {
+        User user = userService.getUserByEmail(Email.of(email));
+
+        MBTI mbti = MBTI.from(request.getMbti());
+        user.updateMBTI(mbti);
+
+        return UpdateMBTIDto.Response.of(mbti);
 
     }
 }

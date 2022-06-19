@@ -1,12 +1,15 @@
 package com.cmc.finder.api.userinfo.api;
 
+import com.cmc.finder.api.userinfo.dto.UpdateMBTIDto;
+import com.cmc.finder.api.userinfo.dto.UpdateNicknameDto;
 import com.cmc.finder.api.userinfo.service.UserInfoService;
-import com.cmc.finder.api.userinfo.dto.UpdateProfileDto;
+import com.cmc.finder.api.userinfo.dto.UpdateProfileImgDto;
 import com.cmc.finder.global.resolver.UserEmail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,13 +19,36 @@ public class UserInfoApi {
     private final UserInfoService userInfoService;
 
     @PatchMapping("/profileImg")
-    public ResponseEntity<UpdateProfileDto> updateProfile(
-            @RequestPart("profileImg") MultipartFile profile,
+    public ResponseEntity<UpdateProfileImgDto.Response> updateProfile(
+            @Valid UpdateProfileImgDto.Request request,
             @UserEmail String email
     ){
 
-        UpdateProfileDto updateProfileDto = userInfoService.updateProfileImg(profile, email);
-        return ResponseEntity.ok(updateProfileDto);
+        UpdateProfileImgDto.Response response = userInfoService.updateProfileImg(request, email);
+        return ResponseEntity.ok(response);
+
+    }
+
+    @PatchMapping("/nickname")
+    public ResponseEntity<UpdateNicknameDto.Response> updateNickname(
+            @Valid UpdateNicknameDto.Request request,
+            @UserEmail String email
+    ){
+
+        UpdateNicknameDto.Response response = userInfoService.updateNickname(request, email);
+        return ResponseEntity.ok(response);
+
+    }
+
+
+    @PatchMapping("/mbti")
+    public ResponseEntity<UpdateMBTIDto.Response> updateMBTI(
+            @Valid UpdateMBTIDto.Request request,
+            @UserEmail String email
+    ){
+
+        UpdateMBTIDto.Response response = userInfoService.updateMBTI(request, email);
+        return ResponseEntity.ok(response);
 
     }
 

@@ -116,7 +116,10 @@ public class ApiQuestionService {
         // 이미 즐겨찾기?
         Boolean favoriteUser = questionFavoriteService.existsUser(question, user);
 
-        QuestionDetailDto questionDetailDto = QuestionDetailDto.of(question, answers, viewCount, favoriteUser);
+        // 이미 궁금해요 누른경우?
+        Boolean alreadyCuriousUser = curiousService.existsUser(question, user);
+
+        QuestionDetailDto questionDetailDto = QuestionDetailDto.of(question, answers, viewCount, favoriteUser, alreadyCuriousUser);
         return questionDetailDto;
 
     }

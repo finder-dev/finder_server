@@ -35,6 +35,8 @@ public class QuestionDetailDto {
 
     private Long viewCount;
 
+    private Boolean curiousUser;
+
     private Boolean favoriteUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -45,7 +47,7 @@ public class QuestionDetailDto {
     @Builder
     public QuestionDetailDto(Long questionId, String questionTitle, String questionContent, MBTI questionMBTI,
                              List<String> questionImgUrls, Integer curiousCount, MBTI userMBTI, String userNickname, LocalDateTime createTime,
-                             Long viewCount, Boolean favoriteUser, List<AnswerHistDto> answerHistDtos) {
+                             Long viewCount, Boolean favoriteUser, Boolean curiousUser, List<AnswerHistDto> answerHistDtos) {
 
         this.questionId = questionId;
         this.questionTitle = questionTitle;
@@ -57,11 +59,12 @@ public class QuestionDetailDto {
         this.userNickname = userNickname;
         this.viewCount = viewCount;
         this.favoriteUser = favoriteUser;
+        this.curiousUser = curiousUser;
         this.createTime = createTime;
         this.answerHistDtos = answerHistDtos;
     }
 
-    public static QuestionDetailDto of(Question question, List<Answer> answers, Long viewCount, Boolean favoriteUser) {
+    public static QuestionDetailDto of(Question question, List<Answer> answers, Long viewCount, Boolean favoriteUser, Boolean curiousUser) {
 
         List<String> questionImgUrls = question.getQuestionImages().stream().map(questionImage ->
                 questionImage.getImageUrl()
@@ -82,6 +85,7 @@ public class QuestionDetailDto {
                 .userNickname(question.getUser().getNickname())
                 .viewCount(viewCount)
                 .favoriteUser(favoriteUser)
+                .curiousUser(curiousUser)
                 .createTime(question.getCreateTime())
                 .answerHistDtos(answerHistDtos)
                 .build();

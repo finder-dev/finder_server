@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -116,7 +117,10 @@ public class ApiQuestionService {
         // 이미 즐겨찾기?
         Boolean favoriteUser = questionFavoriteService.existsUser(question, user);
 
-        QuestionDetailDto questionDetailDto = QuestionDetailDto.of(question, answers, viewCount, favoriteUser);
+        // 이미 궁금해요 누른경우?
+        Boolean alreadyCuriousUser = curiousService.existsUser(question, user);
+
+        QuestionDetailDto questionDetailDto = QuestionDetailDto.of(question, answers, viewCount, favoriteUser, alreadyCuriousUser);
         return questionDetailDto;
 
     }
@@ -162,9 +166,54 @@ public class ApiQuestionService {
 
     public void deleteFavorite(Long questionId, String email) {
 
+        //TODO 유저 검증
         Question question = questionService.getQuestion(questionId);
         User user = userService.getUserByEmail(Email.of(email));
 
         questionFavoriteService.delete(question, user);
     }
+
+    public void updateQuestion(Long questionId, QuestionUpdateDto.Request request, String email) {
+
+        // 유저 검증
+        User user = userService.getUserByEmail(Email.of(email));
+
+        // TODO 검증 추가
+
+        // 질문 정보 변경
+        Question question = updateQuestionInfo(questionId, request);
+
+        // 질문 이미지 변경
+        updateQuestionImages(question, request);
+
+
+    }
+
+    private void updateQuestionImages(Question question, QuestionUpdateDto.Request request) {
+        // 질문 이미지
+        List<QuestionImage> questionImages = question.getQuestionImages();
+
+        for (QuestionImage questionImage : questionImages) {
+
+
+        }
+
+        if (request.getQuestionUpdateImgs() != null) {
+
+
+        }
+
+
+    }
+
+    private Question updateQuestionInfo(Long questionId, QuestionUpdateDto.Request request) {
+
+        Question updatequestion = request.toEntity();
+        Question updatedQuestion = questionService.updateQuestion(questionId, updatequestion);
+
+        return updatedQuestion;
+
+    }
+
+
 }

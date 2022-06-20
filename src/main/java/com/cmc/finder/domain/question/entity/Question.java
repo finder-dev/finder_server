@@ -102,4 +102,11 @@ public class Question extends BaseTimeEntity {
                 .build();
     }
 
+    public void updateQuestion(Question updatequestion) {
+
+        this.title = updatequestion.getTitle();
+        this.content = updatequestion.getContent();
+        this.mbti = updatequestion.getMbti();
+
+    }
 }

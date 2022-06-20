@@ -66,6 +66,20 @@ public class QuestionApi {
 
     }
 
+    @PutMapping("/{questionId}")
+    public ResponseEntity<QuestionUpdateDto.Response> updateQuestion(
+            @PathVariable Long questionId,
+            QuestionUpdateDto.Request request,
+            @UserEmail String email
+    ) {
+
+        apiQuestionService.updateQuestion(questionId, request, email);
+
+
+
+    }
+
+
     @PostMapping("/{questionId}/curious")
     public ResponseEntity<CuriousAddOrDeleteDto> addOrDeleteCurious(
             @PathVariable Long questionId,

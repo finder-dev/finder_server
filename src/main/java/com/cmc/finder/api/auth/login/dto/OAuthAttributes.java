@@ -17,7 +17,7 @@ public class OAuthAttributes {
     private String email;
     private UserType userType;
 
-    public User toUserEntity(OauthLoginDto.Request request) {
+    public User toUserEntity(OauthLoginDto.Request request, String fileName) {
 
         User user = User.builder()
                 .email(Email.of(email))
@@ -27,9 +27,10 @@ public class OAuthAttributes {
                 .profileImg("default.png")
                 .build();
 
-        if (StringUtils.hasText(request.getProfileUrl())) {
-            user.updateProfileUrl(request.getProfileUrl());
+        if (StringUtils.hasText(fileName)) {
+            user.updateProfileImage(fileName);
         }
+        
         return user;
     }
 

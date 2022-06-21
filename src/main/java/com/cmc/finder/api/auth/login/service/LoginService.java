@@ -13,7 +13,9 @@ import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.global.error.exception.ErrorCode;
+import com.cmc.finder.infra.file.S3Uploader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class LoginService {
 
+    @Value("${s3.users.path}")
+    private String PATH;
+
     private final TokenManager tokenManager;
     private final UserService userService;
+    private final S3Uploader s3Uploader;
     private final RefreshTokenRedisService refreshTokenRedisService;
 
     @Transactional
@@ -35,7 +41,12 @@ public class LoginService {
 
         if (!userService.existsUser(Email.of(oAuthAttributes.getEmail()))) {
 
-            oauthUser = oAuthAttributes.toUserEntity(request);
+            String fileName = "";
+            if (request.getProfileImg() != null) {
+                fileName = s3Uploader.uploadFile(request.getProfileImg(), PATH);
+            }
+
+            oauthUser = oAuthAttributes.toUserEntity(request, fileName);
             userService.register(oauthUser);
 
         } else {

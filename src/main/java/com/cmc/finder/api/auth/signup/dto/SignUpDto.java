@@ -64,7 +64,7 @@ public class SignUpDto {
                     .build();
 
             if (StringUtils.hasText(fileName)) {
-                user.updateProfileUrl(fileName);
+                user.updateProfileImage(fileName);
             }
 
             return user;

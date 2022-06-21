@@ -47,7 +47,8 @@ public class Question extends BaseTimeEntity {
 
     @OneToMany(
             mappedBy = "question",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     private List<QuestionImage> questionImages = new ArrayList<>();
 
@@ -108,5 +109,9 @@ public class Question extends BaseTimeEntity {
         this.content = updatequestion.getContent();
         this.mbti = updatequestion.getMbti();
 
+    }
+
+    public void deleteQuestionImage(QuestionImage questionImage) {
+        this.questionImages.remove(questionImage);
     }
 }

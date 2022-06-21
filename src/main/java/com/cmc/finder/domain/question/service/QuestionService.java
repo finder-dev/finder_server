@@ -39,11 +39,10 @@ public class QuestionService {
 
     }
 
-    public Question updateQuestion(Long questionId, Question updatequestion) {
+    public Question updateQuestion(Question question, Question updatequestion) {
 
-        Question savedQuestion = getQuestion(questionId);
-        savedQuestion.updateQuestion(updatequestion);
-        return savedQuestion;
+        question.updateQuestion(updatequestion);
+        return question;
 
 
     }

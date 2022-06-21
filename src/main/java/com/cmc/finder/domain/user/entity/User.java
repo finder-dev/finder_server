@@ -73,8 +73,8 @@ public class User extends BaseTimeEntity {
                 .build();
     }
 
-    public void updateProfileUrl(String profileUrl) {
-        this.profileImg = profileUrl;
+    public void updateProfileImage(String profileImage) {
+        this.profileImg = profileImage;
     }
 
 

@@ -2,8 +2,6 @@ package com.cmc.finder.global.error.exception;
 
 import lombok.Getter;
 
-import lombok.Getter;
-
 @Getter
 public enum ErrorCode {
 
@@ -48,6 +46,7 @@ public enum ErrorCode {
     QUESTION_IMAGE_NOT_EXISTS(400, "해당 질문 이미지를 찾을 수 없습니다."),
     CURIOUS_NOT_EXISTS(401,"해당 궁금해요를 찾을 수 없습니다." ),
     QUESETION_FAVORITE_NOT_EXISTS(401, "해당 질문에 대한 즐겨찾기를 찾을 수 없습니다."),
+    QUESTION_USER_BE_NOT_WRITER(401, "해당 질문에 대한 작성자가 아닙니다."),
 
     // 답변
     ANSWER_NOT_EXISTS(400, "해당 답변을 찾을 수 없습니다."),

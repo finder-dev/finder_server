@@ -28,22 +28,18 @@ public class QuestionImage {
     @Column(name = "question_image_url", nullable = false)
     private String imageUrl;
 
-    private Boolean isRep;
-
     @Builder
-    public QuestionImage(Question question, String imageName, String imageUrl, Boolean isRep) {
+    public QuestionImage(Question question, String imageName, String imageUrl) {
         this.question = question;
         this.imageName = imageName;
         this.imageUrl = imageUrl;
-        this.isRep = isRep;
     }
 
-    public static QuestionImage createQuestionImage(Question question, String imageName, String imageUrl, Boolean isRep) {
+    public static QuestionImage createQuestionImage(Question question, String imageName, String imageUrl) {
         return QuestionImage.builder()
                 .question(question)
                 .imageName(imageName)
                 .imageUrl(imageUrl)
-                .isRep(isRep)
                 .build();
     }
 

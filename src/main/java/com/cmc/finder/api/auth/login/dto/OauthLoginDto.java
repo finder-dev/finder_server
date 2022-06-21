@@ -6,6 +6,8 @@ import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -28,10 +30,10 @@ public class OauthLoginDto {
         @NotBlank(message = "닉네임은 필수값 입니다.")
         private String nickname;
 
-        private String profileUrl;
+        private MultipartFile profileImg;
 
-        @Size(max = 5, message = "최대 5개까지 입력하실 수 있습니다.")
-        private List<String> keywords;
+        @Size(max = 4, message = "최대 4개까지 입력하실 수 있습니다.")
+        private List<@Length(min=1, max = 6,message = "1자 이상 6자 이하의 태그만 가능합니다.") String> keywords;
 
     }
 

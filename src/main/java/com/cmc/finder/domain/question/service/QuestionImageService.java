@@ -2,6 +2,7 @@ package com.cmc.finder.domain.question.service;
 
 import com.cmc.finder.domain.question.entity.Question;
 import com.cmc.finder.domain.question.entity.QuestionImage;
+import com.cmc.finder.domain.question.exception.QuestionImageNotFountException;
 import com.cmc.finder.domain.question.repository.QuestionImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,15 @@ public class QuestionImageService {
 
 //    public List<QuestionImage> getQuestionImageByQuestionId(Long questionId) {
 //        return questionImageRepository.findAllByQuestionQuestionId(questionId);
-//
 //    }
+
+    public QuestionImage getQuestionImage(Long questionImageId){
+        return questionImageRepository.findById(questionImageId)
+                .orElseThrow(QuestionImageNotFountException::new);
+    }
+
+    @Transactional
+    public void delete(QuestionImage questionImage) {
+        questionImageRepository.delete(questionImage);
+    }
 }

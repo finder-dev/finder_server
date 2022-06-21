@@ -1,6 +1,5 @@
 package com.cmc.finder.api.userinfo.service;
 
-import com.cmc.finder.api.auth.signup.dto.NicknameCheckDto;
 import com.cmc.finder.api.userinfo.dto.UpdateMBTIDto;
 import com.cmc.finder.api.userinfo.dto.UpdateNicknameDto;
 import com.cmc.finder.api.userinfo.dto.UpdateProfileImgDto;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional(readOnly = true)
@@ -46,7 +44,7 @@ public class UserInfoService {
 
         // 새로운 이미지 등록
         String imageName = s3Uploader.uploadFile(request.getProfileImg(), PATH);
-        user.updateProfileUrl(imageName);
+        user.updateProfileImage(imageName);
 
         String path = s3Uploader.getUrl(PATH, imageName);
         return UpdateProfileImgDto.Response.of(path);

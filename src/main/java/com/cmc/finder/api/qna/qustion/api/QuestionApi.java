@@ -73,10 +73,9 @@ public class QuestionApi {
             @UserEmail String email
     ) {
 
-        apiQuestionService.updateQuestion(questionId, request, email);
+        QuestionUpdateDto.Response response = apiQuestionService.updateQuestion(questionId, request, email);
 
-
-
+        return ResponseEntity.ok(response);
     }
 
 

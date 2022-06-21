@@ -2,7 +2,6 @@ package com.cmc.finder.api.qna.qustion.dto;
 
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.question.entity.Question;
-import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.global.validator.Enum;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,20 +28,17 @@ public class QuestionUpdateDto {
         @Enum(enumClass = MBTI.class, message = "잘못된 Enum 값 입니다.")
         private String mbti;
 
-        private List<String> originImgNames = new ArrayList<>();
+        private List<Long> deleteImgIds = new ArrayList<>();
 
-        private List<MultipartFile> questionUpdateImgs = new ArrayList<>();
+        private List<MultipartFile> addImgs = new ArrayList<>();
 
         public Question toEntity() {
             return Question.builder()
-
                     .title(title)
                     .content(content)
                     .mbti(MBTI.from(mbti))
                     .build();
         }
-
-
 
     }
 
@@ -52,8 +48,6 @@ public class QuestionUpdateDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response {
-
-        //TODO 응답값 고민
 
         private String title;
 

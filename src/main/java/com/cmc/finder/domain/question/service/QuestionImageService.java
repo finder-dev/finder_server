@@ -25,8 +25,9 @@ public class QuestionImageService {
 //        return questionImageRepository.findAllByQuestionQuestionId(questionId);
 //    }
 
-    public QuestionImage getQuestionImage(Long questionImageId){
-        return questionImageRepository.findById(questionImageId)
+    public QuestionImage getQuestionImage(Long questionId, Long questionImageId){
+
+        return questionImageRepository.findByQuestionQuestionIdAndQuestionImgId(questionId, questionImageId)
                 .orElseThrow(QuestionImageNotFountException::new);
     }
 

@@ -30,7 +30,7 @@ public class OAuthAttributes {
         if (StringUtils.hasText(fileName)) {
             user.updateProfileImage(fileName);
         }
-        
+
         return user;
     }
 

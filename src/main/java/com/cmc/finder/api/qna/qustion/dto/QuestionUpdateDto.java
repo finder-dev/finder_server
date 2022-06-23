@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class QuestionUpdateDto {
 
         private List<Long> deleteImgIds = new ArrayList<>();
 
+        @Size(max = 10, message = "최대 10개까지 사진을 추가하실 수 있습니다.")
         private List<MultipartFile> addImgs = new ArrayList<>();
 
         public Question toEntity() {

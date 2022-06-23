@@ -10,6 +10,7 @@ import com.cmc.finder.domain.question.entity.Curious;
 import com.cmc.finder.domain.question.entity.Question;
 import com.cmc.finder.domain.question.entity.QuestionFavorite;
 import com.cmc.finder.domain.question.entity.QuestionImage;
+import com.cmc.finder.domain.question.exception.QuestionImageMaxException;
 import com.cmc.finder.domain.question.service.CuriousService;
 import com.cmc.finder.domain.question.service.QuestionFavoriteService;
 import com.cmc.finder.domain.question.service.QuestionImageService;
@@ -28,6 +29,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ValidationException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -175,10 +177,10 @@ public class ApiQuestionService {
     @Transactional
     public QuestionUpdateDto.Response updateQuestion(Long questionId, QuestionUpdateDto.Request request, String email) {
 
-        // 유저 검증
         User user = userService.getUserByEmail(Email.of(email));
         Question question = questionService.getQuestion(questionId);
 
+        // 유저 검증
         if (question.getUser() != user) {
            throw new AuthenticationException(ErrorCode.QUESTION_USER_BE_NOT_WRITER);
         }
@@ -186,6 +188,11 @@ public class ApiQuestionService {
         // 질문 정보 변경
         Question updatedQuestion = updateQuestionInfo(question, request);
         updateQuestionImages(updatedQuestion, request);
+
+        // 이미지 10개 초과 검증
+        if (updatedQuestion.getQuestionImages().size() > 10) {
+            throw new QuestionImageMaxException(ErrorCode.QUESTION_IMAGE_MAX);
+        }
 
         return QuestionUpdateDto.Response.of(updatedQuestion);
 
@@ -195,7 +202,7 @@ public class ApiQuestionService {
 
         // 질문 이미지 삭제
         request.getDeleteImgIds().stream().forEach(deleteImgId -> {
-            QuestionImage questionImage = questionImageService.getQuestionImage(deleteImgId);
+            QuestionImage questionImage = questionImageService.getQuestionImage(question.getQuestionId(), deleteImgId);
             s3Uploader.deleteFile(questionImage.getImageName(), PATH);
             question.deleteQuestionImage(questionImage);
 //            questionImageService.delete(questionImage);

@@ -1,6 +1,7 @@
 package com.cmc.finder.api.qna.answer.api;
 
 import com.cmc.finder.api.qna.answer.dto.AnswerCreateDto;
+import com.cmc.finder.api.qna.answer.dto.AnswerDeleteDto;
 import com.cmc.finder.api.qna.answer.dto.HelpfulAddOrDeleteDto;
 import com.cmc.finder.api.qna.answer.service.ApiAnswerService;
 import com.cmc.finder.global.resolver.UserEmail;
@@ -33,15 +34,23 @@ public class AnswerApi {
     public ResponseEntity<HelpfulAddOrDeleteDto> addOrDeleteHelpful(
             @PathVariable Long answerId,
             @UserEmail String email
-    ){
+    ) {
 
         HelpfulAddOrDeleteDto response = apiAnswerService.addOrDeleteHelpful(answerId, email);
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/{answerId}")
+    public ResponseEntity<AnswerDeleteDto> deleteAnswer(
+            @PathVariable Long answerId,
+            @UserEmail String email
 
+    ) {
 
+        AnswerDeleteDto response = apiAnswerService.deleteAnswer(answerId, email);
+        return ResponseEntity.ok(response);
 
+    }
 
 
 }

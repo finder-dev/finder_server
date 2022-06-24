@@ -29,7 +29,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.ValidationException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -231,5 +230,19 @@ public class ApiQuestionService {
 
     }
 
+    @Transactional
+    public QuestionDeleteDto deleteQuestion(Long questionId, String email) {
 
+        User user = userService.getUserByEmail(Email.of(email));
+        Question question = questionService.getQuestion(questionId);
+
+        // 유저 검증
+        if (question.getUser() != user) {
+            throw new AuthenticationException(ErrorCode.QUESTION_USER_BE_NOT_WRITER);
+        }
+
+        questionService.deleteQuestion(question);
+
+        return QuestionDeleteDto.of();
+    }
 }

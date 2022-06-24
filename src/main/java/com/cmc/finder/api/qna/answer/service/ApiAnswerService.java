@@ -1,7 +1,9 @@
 package com.cmc.finder.api.qna.answer.service;
 
 import com.cmc.finder.api.qna.answer.dto.AnswerCreateDto;
+import com.cmc.finder.api.qna.answer.dto.AnswerDeleteDto;
 import com.cmc.finder.api.qna.answer.dto.HelpfulAddOrDeleteDto;
+import com.cmc.finder.api.qna.qustion.dto.QuestionDeleteDto;
 import com.cmc.finder.api.qna.qustion.dto.QuestionFavoriteAddOrDeleteDto;
 import com.cmc.finder.domain.answer.entity.Answer;
 import com.cmc.finder.domain.answer.entity.AnswerImage;
@@ -13,6 +15,8 @@ import com.cmc.finder.domain.question.entity.Question;
 import com.cmc.finder.domain.question.service.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.global.error.exception.AuthenticationException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -88,5 +92,18 @@ public class ApiAnswerService {
 
     }
 
+    @Transactional
+    public AnswerDeleteDto deleteAnswer(Long answerId, String email) {
 
+        User user = userService.getUserByEmail(Email.of(email));
+        Answer answer = answerService.getAnswer(answerId);
+
+        if (answer.getUser() != user) {
+            throw new AuthenticationException(ErrorCode.ANSWER_USER_BE_NOT_WRITER);
+        }
+
+        answerService.deleteAnswer(answer);
+
+        return AnswerDeleteDto.of();
+    }
 }

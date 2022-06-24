@@ -1,0 +1,53 @@
+package com.cmc.finder.domain.debate.entity;
+
+
+import com.cmc.finder.domain.debate.constant.Option;
+import com.cmc.finder.domain.user.entity.User;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "debate_user")
+@Getter
+@NoArgsConstructor
+public class Debater {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long debaterId;
+
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "debate_id", nullable = false)
+    private Debate debate;
+
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Option option;
+
+    @Builder
+    public Debater(Debate debate, User user, Option option) {
+        this.debate = debate;
+        this.user = user;
+        this.option = option;
+    }
+
+    public static Debater createDebater(Debate debate, User user, Option option) {
+        return Debater.builder()
+                .debate(debate)
+                .user(user)
+                .option(option)
+                .build();
+    }
+
+}

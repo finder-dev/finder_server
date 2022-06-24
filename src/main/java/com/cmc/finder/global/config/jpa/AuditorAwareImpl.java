@@ -13,16 +13,21 @@ public class AuditorAwareImpl implements AuditorAware<String> {
     @Autowired
     private HttpServletRequest httpServletRequest;
 
-    @NonNull
     @Override
     public Optional<String> getCurrentAuditor() {
-
-        String modifiedBy = httpServletRequest.getRequestURI();
-        if(!StringUtils.hasText(modifiedBy)){
-            modifiedBy = "unknown";
-        }
-
-        return Optional.of(modifiedBy);
+        return Optional.empty();
     }
+
+//    @NonNull
+//    @Override
+//    public Optional<String> getCurrentAuditor() {
+//
+//        String modifiedBy = httpServletRequest.getRequestURI();
+//        if(!StringUtils.hasText(modifiedBy)){
+//            modifiedBy = "unknown";
+//        }
+//
+//        return Optional.of(modifiedBy);
+//    }
 
 }

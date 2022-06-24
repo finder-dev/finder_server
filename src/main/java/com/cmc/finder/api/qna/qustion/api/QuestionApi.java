@@ -6,6 +6,7 @@ import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.question.constant.OrderBy;
 import com.cmc.finder.global.resolver.UserEmail;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,9 @@ import java.util.Optional;
 @RequestMapping("/api/questions")
 public class QuestionApi {
 
-    private final Integer SET_PAGE_ITEM_MAX_COUNT = 10;
+    @Value("${page.count}")
+    private final Integer SET_PAGE_ITEM_MAX_COUNT;
+
     private final ApiQuestionService apiQuestionService;
 
     @PostMapping
@@ -36,11 +39,10 @@ public class QuestionApi {
     }
 
     @GetMapping
-    public ResponseEntity<Page<QuestionSimpleDto.Response>> getQuestion(
+    public ResponseEntity<Page<QuestionSimpleDto.Response>> getQuestions(
             @Valid QuestionSimpleDto.Request request,
             Optional<Integer> page
     ) {
-
 
         Pageable pageable = PageRequest.of(
                 page.isPresent() ? page.get() : 0,
@@ -79,7 +81,7 @@ public class QuestionApi {
     }
 
     @DeleteMapping("/{questionId}")
-    public ResponseEntity<QuestionDeleteDto> updateQuestion(
+    public ResponseEntity<QuestionDeleteDto> deleteQuestion(
             @PathVariable Long questionId,
             @UserEmail String email
     ) {

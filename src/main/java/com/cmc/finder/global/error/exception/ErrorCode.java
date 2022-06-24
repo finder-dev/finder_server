@@ -53,7 +53,11 @@ public enum ErrorCode {
     ANSWER_IMAGE_MAX(400, "최대 10개까지 사진을 추가하실 수 있습니다."),
     ANSWER_NOT_EXISTS(400, "해당 답변을 찾을 수 없습니다."),
     HELPFUL_NOT_EXISTS(401, "해당 도움이 됐어요를 찾을 수 없습니다."),
-    ANSWER_USER_BE_NOT_WRITER(401, "해당 답변에 대한 작성자가 아닙니다.");
+    ANSWER_USER_BE_NOT_WRITER(401, "해당 답변에 대한 작성자가 아닙니다."),
+
+    // 토론
+    DEBATE_NOT_EXISTS(401, "해당 토론을 찾을 수 없습니다."),
+    DEBATER_NOT_EXISTS(401, "해당 토론자를 찾을 수 없습니다.");
 
 
     ErrorCode(int status, String message) {

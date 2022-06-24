@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "debate_user")
+@Table(name = "debater")
 @Getter
 @NoArgsConstructor
 public class Debater {
@@ -50,4 +50,8 @@ public class Debater {
                 .build();
     }
 
+    public void updateOption(Option option) {
+
+        this.option = option;
+    }
 }

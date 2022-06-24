@@ -24,6 +24,7 @@ public class Debate extends BaseTimeEntity {
     @Column(nullable = false)
     private String title;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DebateState state;
 
@@ -34,10 +35,10 @@ public class Debate extends BaseTimeEntity {
     private User writer;
 
     //TODO 글자수 제한
-    @Column(nullable = false)
+    @Column(name = "OPTION_A", nullable = false)
     private String optionA;
 
-    @Column(nullable = false)
+    @Column(name = "OPTION_B", nullable = false)
     private String optionB;
 
     @Builder
@@ -49,13 +50,16 @@ public class Debate extends BaseTimeEntity {
         this.optionB = optionB;
     }
 
-    public static Debate createDebate(String title,User writer, String optionA, String optionB) {
+    public static Debate createDebate(Debate debate,User writer) {
         return Debate.builder()
-                .title(title)
+                .title(debate.getTitle())
                 .writer(writer)
-                .optionA(optionA)
-                .optionB(optionB)
+                .optionA(debate.getOptionA())
+                .optionB(debate.getOptionB())
                 .build();
     }
 
+    public void updateDebateState(DebateState state) {
+        this.state = state;
+    }
 }

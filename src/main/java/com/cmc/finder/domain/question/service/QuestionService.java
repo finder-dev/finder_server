@@ -46,4 +46,9 @@ public class QuestionService {
 
 
     }
+
+    @Transactional
+    public void deleteQuestion(Question question) {
+        questionRepository.delete(question);
+    }
 }

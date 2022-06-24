@@ -34,6 +34,12 @@ public class AnswerService {
                 .orElseThrow(AnswerNotFoundException::new);
     }
 
+    @Transactional
+    public void deleteAnswer(Answer answer) {
+
+        answerRepository.delete(answer);
+    }
+
 //    public Question getAnswer(Long questionId) {
 //
 //        return answerRepository.findByQuestionIdFetchQuestionImage(questionId)

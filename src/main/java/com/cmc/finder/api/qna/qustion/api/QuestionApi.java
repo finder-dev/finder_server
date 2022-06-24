@@ -78,6 +78,18 @@ public class QuestionApi {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/{questionId}")
+    public ResponseEntity<QuestionDeleteDto> updateQuestion(
+            @PathVariable Long questionId,
+            @UserEmail String email
+    ) {
+
+        QuestionDeleteDto response = apiQuestionService.deleteQuestion(questionId, email);
+        return ResponseEntity.ok(response);
+    }
+
+
+
 
     @PostMapping("/{questionId}/curious")
     public ResponseEntity<CuriousAddOrDeleteDto> addOrDeleteCurious(

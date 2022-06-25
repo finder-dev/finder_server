@@ -1,7 +1,6 @@
 package com.cmc.finder.domain.viewcount.entity;
 
-import com.cmc.finder.domain.answer.entity.Answer;
-import com.cmc.finder.domain.question.entity.Question;
+import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,16 +1,13 @@
 package com.cmc.finder.domain.viewcount.service;
 
 
-import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.question.entity.Question;
+import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.viewcount.entity.ViewCount;
 import com.cmc.finder.domain.viewcount.repository.ViewCountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

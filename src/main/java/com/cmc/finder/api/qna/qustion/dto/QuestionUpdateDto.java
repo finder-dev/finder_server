@@ -1,7 +1,7 @@
 package com.cmc.finder.api.qna.qustion.dto;
 
 import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.question.entity.Question;
+import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.global.validator.Enum;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;

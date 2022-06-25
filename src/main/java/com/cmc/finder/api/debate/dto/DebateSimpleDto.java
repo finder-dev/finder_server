@@ -1,9 +1,7 @@
 package com.cmc.finder.api.debate.dto;
 
 import com.cmc.finder.domain.debate.entity.Debate;
-import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.question.constant.OrderBy;
-import com.cmc.finder.domain.question.entity.Question;
+import com.cmc.finder.domain.qna.question.constant.OrderBy;
 import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -48,7 +46,7 @@ public class DebateSimpleDto {
             return Response.builder()
                     .debateId(debate.getDebateId())
                     .title(debate.getTitle())
-//                    .joinCount(question.getContent())
+                    .joinCount(debate.getDebaters().size())
                     .createTime(debate.getCreateTime())
                     .build();
 

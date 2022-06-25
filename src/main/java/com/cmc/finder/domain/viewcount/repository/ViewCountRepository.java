@@ -1,6 +1,6 @@
 package com.cmc.finder.domain.viewcount.repository;
 
-import com.cmc.finder.domain.question.entity.Question;
+import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.viewcount.entity.ViewCount;
 import org.springframework.data.jpa.repository.JpaRepository;

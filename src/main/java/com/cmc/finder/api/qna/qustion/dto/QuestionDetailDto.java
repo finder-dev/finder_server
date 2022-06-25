@@ -1,9 +1,9 @@
 package com.cmc.finder.api.qna.qustion.dto;
 
-import com.cmc.finder.domain.answer.entity.Answer;
+import com.cmc.finder.domain.qna.answer.entity.Answer;
 import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.question.entity.Question;
-import com.cmc.finder.domain.question.entity.QuestionImage;
+import com.cmc.finder.domain.qna.question.entity.Question;
+import com.cmc.finder.domain.qna.question.entity.QuestionImage;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;

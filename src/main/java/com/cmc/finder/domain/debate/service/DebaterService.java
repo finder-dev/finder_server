@@ -1,5 +1,6 @@
 package com.cmc.finder.domain.debate.service;
 
+import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.Debater;
 import com.cmc.finder.domain.debate.exception.DebaterNotFoundException;
@@ -33,8 +34,13 @@ public class DebaterService {
                 .orElseThrow(DebaterNotFoundException::new);
     }
 
+
     public void deleteDebater(Debater debater) {
 
         debaterRepository.delete(debater);
+    }
+
+    public Long getDebaterCountByOption(Debate debate, Option option) {
+        return debaterRepository.countDebaterByDebateAndOption(debate, option);
     }
 }

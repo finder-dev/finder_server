@@ -1,15 +1,11 @@
 package com.cmc.finder.api.debate.api;
 
-import com.cmc.finder.api.debate.dto.DebateCreateDto;
-import com.cmc.finder.api.debate.dto.DebateSimpleDto;
-import com.cmc.finder.api.debate.dto.JoinDebateDto;
+import com.cmc.finder.api.debate.dto.*;
 import com.cmc.finder.api.debate.service.ApiDebateService;
-import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -50,20 +46,42 @@ public class DebateApi {
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
-//    @GetMapping
-//    public ResponseEntity<Page<DebateSimpleDto.Response>> getDebates(
+    @GetMapping
+    public ResponseEntity<ApiResult<Page<DebateSimpleDto.Response>>> getDebates(
 //            @Valid DebateSimpleDto.Request request,
-//            Optional<Integer> page
-//    ) {
-//
-//        Pageable pageable = PageRequest.of(
-//                page.isPresent() ? page.get() : 0,
-//                SET_PAGE_ITEM_MAX_COUNT);
-//
-//        Page<DebateSimpleDto.Response> questionSimpleDtos = apiDebateService.getDebateList(pageable);
-//        return ResponseEntity.ok(questionSimpleDtos);
-//
-//    }
+            Optional<Integer> page
+    ) {
+
+        Pageable pageable = PageRequest.of(
+                page.isPresent() ? page.get() : 0,
+                SET_PAGE_ITEM_MAX_COUNT);
+
+        Page<DebateSimpleDto.Response> questionSimpleDtos = apiDebateService.getDebateList(pageable);
+        return ResponseEntity.ok(ApiUtils.success(questionSimpleDtos));
+
+    }
+
+    @GetMapping("/{debateId}")
+    public ResponseEntity<ApiResult<DebateDetailDto>> getDebateDetail(
+            @PathVariable Long debateId
+    ) {
+
+        DebateDetailDto debateDetailDto = apiDebateService.getDebateDetail(debateId);
+        return ResponseEntity.ok(ApiUtils.success(debateDetailDto));
+
+    }
+
+    @PostMapping("/{debateId}/answers")
+    public ResponseEntity<ApiResult<DebateAnswerCreateDto.Response>> createDebateAnswer(
+            @PathVariable Long debateId,
+            @Valid DebateAnswerCreateDto.Request request,
+            @UserEmail String email
+    ){
+
+        DebateAnswerCreateDto.Response response = apiDebateService.createDebateAnswer(debateId, request, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
 
 
 }

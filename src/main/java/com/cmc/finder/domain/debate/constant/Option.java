@@ -1,7 +1,5 @@
 package com.cmc.finder.domain.debate.constant;
 
-import com.cmc.finder.domain.question.constant.OrderBy;
-
 public enum Option {
     A, B;
 

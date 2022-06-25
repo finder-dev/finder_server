@@ -54,4 +54,8 @@ public class Debater {
 
         this.option = option;
     }
+
+    public void setDebate(Debate debate) {
+        this.debate = debate;
+    }
 }

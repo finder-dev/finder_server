@@ -1,5 +1,6 @@
 package com.cmc.finder.domain.debate.repository;
 
+import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.Debater;
 import com.cmc.finder.domain.user.entity.User;
@@ -12,4 +13,14 @@ public interface DebaterRepository extends JpaRepository<Debater, Long> {
     Boolean existsByDebateAndUser(Debate debate, User user);
 
     Optional<Debater> findByDebateAndUser(Debate debate, User user);
+
+//    @Query(
+//            value = "select count(d) " +
+//                    "from Debater d " +
+//                    "where d.option=:option "
+//    )
+
+    Long countDebaterByDebateAndOption(Debate debate, Option option);
+
+
 }

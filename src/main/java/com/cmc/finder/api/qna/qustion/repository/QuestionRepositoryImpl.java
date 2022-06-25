@@ -2,10 +2,7 @@ package com.cmc.finder.api.qna.qustion.repository;
 
 import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
 import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.question.entity.QQuestion;
-import com.cmc.finder.domain.question.entity.QQuestionImage;
-import com.cmc.finder.domain.question.entity.Question;
-import com.cmc.finder.domain.user.entity.QUser;
+import com.cmc.finder.domain.qna.question.entity.Question;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -20,8 +17,8 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.cmc.finder.domain.question.entity.QQuestion.question;
-import static com.cmc.finder.domain.question.entity.QQuestionImage.questionImage;
+import static com.cmc.finder.domain.qna.question.entity.QQuestion.question;
+import static com.cmc.finder.domain.qna.question.entity.QQuestionImage.questionImage;
 import static com.cmc.finder.domain.user.entity.QUser.user;
 
 @Repository

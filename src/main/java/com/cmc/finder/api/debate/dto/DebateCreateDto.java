@@ -1,17 +1,9 @@
 package com.cmc.finder.api.debate.dto;
 
 import com.cmc.finder.domain.debate.entity.Debate;
-import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.question.entity.Question;
-import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.global.validator.Enum;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class DebateCreateDto {

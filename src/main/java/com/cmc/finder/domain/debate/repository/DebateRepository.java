@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface DebateRepository extends JpaRepository<Debate, Long> {
 
+
     List<Debate> findByState(DebateState state);
 
 }

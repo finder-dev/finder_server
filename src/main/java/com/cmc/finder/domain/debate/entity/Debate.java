@@ -2,14 +2,14 @@ package com.cmc.finder.domain.debate.entity;
 
 import com.cmc.finder.domain.base.BaseTimeEntity;
 import com.cmc.finder.domain.debate.constant.DebateState;
-import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "debate")
@@ -40,6 +40,17 @@ public class Debate extends BaseTimeEntity {
 
     @Column(name = "OPTION_B", nullable = false)
     private String optionB;
+
+    @OneToMany(
+            mappedBy = "debate",
+            cascade = CascadeType.ALL
+    )
+    private List<Debater> debaters = new ArrayList<>();
+
+    public void addDebater(Debater debater) {
+        debaters.add(debater);
+        debater.setDebate(this);
+    }
 
     @Builder
     public Debate(String title,User writer, String optionA, String optionB) {

@@ -51,4 +51,7 @@ public class DebateAnswer extends BaseTimeEntity {
                 .build();
     }
 
+    public void setDebate(Debate debate) {
+        this.debate = debate;
+    }
 }

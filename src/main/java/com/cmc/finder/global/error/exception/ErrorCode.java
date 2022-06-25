@@ -57,7 +57,10 @@ public enum ErrorCode {
 
     // 토론
     DEBATE_NOT_EXISTS(401, "해당 토론을 찾을 수 없습니다."),
-    DEBATER_NOT_EXISTS(401, "해당 토론자를 찾을 수 없습니다.");
+    DEBATER_NOT_EXISTS(401, "해당 토론자를 찾을 수 없습니다."),
+    DEBATE_USER_BE_NOT_WRITER(401, "해당 토론에 대한 작성자가 아닙니다."),
+    DEBATE_ANSWER_NOT_EXISTS(401, "해당 토론 답변을 찾을 수 없습니다."),
+    DEBATE_ANSWER_USER_BE_NOT_WRITER(401, "해당 토론 답변에 대한 작성자가 아닙니다.");
 
 
     ErrorCode(int status, String message) {

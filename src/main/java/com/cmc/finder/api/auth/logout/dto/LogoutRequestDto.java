@@ -13,7 +13,7 @@ public class LogoutRequestDto {
     public static LogoutRequestDto of() {
 
         return LogoutRequestDto.builder()
-                .message("로그아웃 완료")
+                .message("logout success")
                 .build();
 
     }

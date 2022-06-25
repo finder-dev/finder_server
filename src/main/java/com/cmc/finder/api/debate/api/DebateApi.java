@@ -6,6 +6,8 @@ import com.cmc.finder.api.debate.dto.JoinDebateDto;
 import com.cmc.finder.api.debate.service.ApiDebateService;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.global.resolver.UserEmail;
+import com.cmc.finder.global.response.ApiResult;
+import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -22,46 +24,46 @@ import java.util.Optional;
 @RequestMapping("/api/debates")
 public class DebateApi {
 
-    @Value("${page.count}")
-    private final Integer SET_PAGE_ITEM_MAX_COUNT;
+//    @Value("${page.count}")
+    private final Integer SET_PAGE_ITEM_MAX_COUNT = 10;
 
     private final ApiDebateService apiDebateService;
 
     @PostMapping
-    public ResponseEntity<DebateCreateDto.Response> createDebate(
+    public ResponseEntity<ApiResult<DebateCreateDto.Response>> createDebate(
             @Valid DebateCreateDto.Request request,
             @UserEmail String email
     ) {
 
         DebateCreateDto.Response response = apiDebateService.createDebate(request, email);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiUtils.success(response));
     }
 
     @PostMapping("/{debateId}")
-    public ResponseEntity<JoinDebateDto.Response> joinOrDetachDebate(
+    public ResponseEntity<ApiResult<JoinDebateDto.Response>> joinOrDetachDebate(
             @PathVariable Long debateId,
             @Valid JoinDebateDto.Request request,
             @UserEmail String email
     ) {
 
         JoinDebateDto.Response response = apiDebateService.joinOrDetachDebate(request,debateId, email);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiUtils.success(response));
     }
 
-    @GetMapping
-    public ResponseEntity<Page<DebateSimpleDto.Response>> getDebates(
-            @Valid DebateSimpleDto.Request request,
-            Optional<Integer> page
-    ) {
-
-        Pageable pageable = PageRequest.of(
-                page.isPresent() ? page.get() : 0,
-                SET_PAGE_ITEM_MAX_COUNT);
-
-        Page<DebateSimpleDto.Response> questionSimpleDtos = apiDebateService.getDebateList(pageable);
-        return ResponseEntity.ok(questionSimpleDtos);
-
-    }
+//    @GetMapping
+//    public ResponseEntity<Page<DebateSimpleDto.Response>> getDebates(
+//            @Valid DebateSimpleDto.Request request,
+//            Optional<Integer> page
+//    ) {
+//
+//        Pageable pageable = PageRequest.of(
+//                page.isPresent() ? page.get() : 0,
+//                SET_PAGE_ITEM_MAX_COUNT);
+//
+//        Page<DebateSimpleDto.Response> questionSimpleDtos = apiDebateService.getDebateList(pageable);
+//        return ResponseEntity.ok(questionSimpleDtos);
+//
+//    }
 
 
 }

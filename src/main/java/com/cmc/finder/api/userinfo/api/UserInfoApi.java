@@ -5,6 +5,8 @@ import com.cmc.finder.api.userinfo.dto.UpdateNicknameDto;
 import com.cmc.finder.api.userinfo.service.UserInfoService;
 import com.cmc.finder.api.userinfo.dto.UpdateProfileImgDto;
 import com.cmc.finder.global.resolver.UserEmail;
+import com.cmc.finder.global.response.ApiResult;
+import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,36 +21,36 @@ public class UserInfoApi {
     private final UserInfoService userInfoService;
 
     @PatchMapping("/profileImg")
-    public ResponseEntity<UpdateProfileImgDto.Response> updateProfile(
+    public ResponseEntity<ApiResult<UpdateProfileImgDto.Response>> updateProfile(
             @Valid UpdateProfileImgDto.Request request,
             @UserEmail String email
     ){
 
         UpdateProfileImgDto.Response response = userInfoService.updateProfileImg(request, email);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
     @PatchMapping("/nickname")
-    public ResponseEntity<UpdateNicknameDto.Response> updateNickname(
+    public ResponseEntity<ApiResult<UpdateNicknameDto.Response>> updateNickname(
             @Valid UpdateNicknameDto.Request request,
             @UserEmail String email
     ){
 
         UpdateNicknameDto.Response response = userInfoService.updateNickname(request, email);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
 
     @PatchMapping("/mbti")
-    public ResponseEntity<UpdateMBTIDto.Response> updateMBTI(
+    public ResponseEntity<ApiResult<UpdateMBTIDto.Response>> updateMBTI(
             @Valid UpdateMBTIDto.Request request,
             @UserEmail String email
     ){
 
         UpdateMBTIDto.Response response = userInfoService.updateMBTI(request, email);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 

@@ -5,6 +5,8 @@ import com.cmc.finder.api.qna.qustion.service.ApiQuestionService;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.question.constant.OrderBy;
 import com.cmc.finder.global.resolver.UserEmail;
+import com.cmc.finder.global.response.ApiResult;
+import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -22,24 +24,26 @@ import java.util.Optional;
 @RequestMapping("/api/questions")
 public class QuestionApi {
 
-    @Value("${page.count}")
-    private final Integer SET_PAGE_ITEM_MAX_COUNT;
+//    @Value("${page.count}")
+//    private final Integer SET_PAGE_ITEM_MAX_COUNT;
+
+    private final Integer SET_PAGE_ITEM_MAX_COUNT = 10;
 
     private final ApiQuestionService apiQuestionService;
 
     @PostMapping
-    public ResponseEntity<QuestionCreateDto.Response> createQuestion(
+    public ResponseEntity<ApiResult<QuestionCreateDto.Response>> createQuestion(
             @Valid QuestionCreateDto.Request request,
             @UserEmail String email
     ) {
 
         QuestionCreateDto.Response response = apiQuestionService.createQuestion(request, email);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
     @GetMapping
-    public ResponseEntity<Page<QuestionSimpleDto.Response>> getQuestions(
+    public ResponseEntity<ApiResult<Page<QuestionSimpleDto.Response>>> getQuestions(
             @Valid QuestionSimpleDto.Request request,
             Optional<Integer> page
     ) {
@@ -53,23 +57,23 @@ public class QuestionApi {
         );
 
         Page<QuestionSimpleDto.Response> questionSimpleDtos = apiQuestionService.getQuestionList(pageable, MBTI.from(request.getMbti()));
-        return ResponseEntity.ok(questionSimpleDtos);
+        return ResponseEntity.ok(ApiUtils.success(questionSimpleDtos));
 
     }
 
     @GetMapping("/{questionId}")
-    public ResponseEntity<QuestionDetailDto> getQuestionDetail(
+    public ResponseEntity<ApiResult<QuestionDetailDto>> getQuestionDetail(
             @PathVariable Long questionId,
             @UserEmail String email
     ) {
 
         QuestionDetailDto questionDetailDto = apiQuestionService.getQuestionDetail(questionId, email);
-        return ResponseEntity.ok(questionDetailDto);
+        return ResponseEntity.ok(ApiUtils.success(questionDetailDto));
 
     }
 
     @PutMapping("/{questionId}")
-    public ResponseEntity<QuestionUpdateDto.Response> updateQuestion(
+    public ResponseEntity<ApiResult<QuestionUpdateDto.Response>> updateQuestion(
             @PathVariable Long questionId,
             QuestionUpdateDto.Request request,
             @UserEmail String email
@@ -77,39 +81,39 @@ public class QuestionApi {
 
         QuestionUpdateDto.Response response = apiQuestionService.updateQuestion(questionId, request, email);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiUtils.success(response));
     }
 
     @DeleteMapping("/{questionId}")
-    public ResponseEntity<QuestionDeleteDto> deleteQuestion(
+    public ResponseEntity<ApiResult<QuestionDeleteDto>> deleteQuestion(
             @PathVariable Long questionId,
             @UserEmail String email
     ) {
 
         QuestionDeleteDto response = apiQuestionService.deleteQuestion(questionId, email);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiUtils.success(response));
     }
 
 
 
 
     @PostMapping("/{questionId}/curious")
-    public ResponseEntity<CuriousAddOrDeleteDto> addOrDeleteCurious(
+    public ResponseEntity<ApiResult<CuriousAddOrDeleteDto>> addOrDeleteCurious(
             @PathVariable Long questionId,
             @UserEmail String email
     ){
         CuriousAddOrDeleteDto response = apiQuestionService.addOrDeleteCurious(questionId, email);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiUtils.success(response));
     }
 
     @PostMapping("/{questionId}/favorite")
-    public ResponseEntity<QuestionFavoriteAddOrDeleteDto> addOrDeleteFavorite(
+    public ResponseEntity<ApiResult<QuestionFavoriteAddOrDeleteDto>> addOrDeleteFavorite(
             @PathVariable Long questionId,
             @UserEmail String email
     ){
 
         QuestionFavoriteAddOrDeleteDto response = apiQuestionService.addOrDeleteFavorite(questionId, email);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiUtils.success(response));
     }
 
 

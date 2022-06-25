@@ -3,6 +3,8 @@ package com.cmc.finder.api.auth.logout.api;
 import com.cmc.finder.api.auth.logout.dto.LogoutRequestDto;
 import com.cmc.finder.api.auth.logout.service.LogoutService;
 import com.cmc.finder.global.resolver.UserEmail;
+import com.cmc.finder.global.response.ApiResult;
+import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +19,11 @@ public class LogoutApi {
     private final LogoutService logoutService;
 
     @PostMapping("/logout")
-    public ResponseEntity<LogoutRequestDto> logout(
+    public ResponseEntity<ApiResult<LogoutRequestDto>> logout(
             @UserEmail String email) {
 
         LogoutRequestDto logout = logoutService.logout(email);
-        return ResponseEntity.ok(logout);
+        return ResponseEntity.ok(ApiUtils.success(logout));
 
     }
 

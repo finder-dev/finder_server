@@ -2,6 +2,8 @@ package com.cmc.finder.api.auth.token.api;
 
 import com.cmc.finder.api.auth.token.dto.AccessTokenResponseDto;
 import com.cmc.finder.api.auth.token.service.TokenService;
+import com.cmc.finder.global.response.ApiResult;
+import com.cmc.finder.global.util.ApiUtils;
 import com.cmc.finder.global.validator.TokenValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +22,7 @@ public class TokenApi {
     private final TokenValidator tokenValidator;
 
     @PostMapping("/reissue")
-    public ResponseEntity<AccessTokenResponseDto> updateAccessToken(
+    public ResponseEntity<ApiResult<AccessTokenResponseDto>> updateAccessToken(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization
     ) {
 
@@ -29,7 +31,7 @@ public class TokenApi {
         String refreshToken = authorization.split(" ")[1];
         AccessTokenResponseDto accessTokenResponseDto = tokenService.updateAccessToken(refreshToken);
 
-        return ResponseEntity.ok(accessTokenResponseDto);
+        return ResponseEntity.ok(ApiUtils.success(accessTokenResponseDto));
     }
 
 }

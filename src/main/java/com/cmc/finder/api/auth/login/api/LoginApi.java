@@ -4,6 +4,8 @@ import com.cmc.finder.api.auth.login.dto.LoginRequestDto;
 import com.cmc.finder.api.auth.login.dto.OauthLoginDto;
 import com.cmc.finder.api.auth.login.service.LoginService;
 import com.cmc.finder.domain.jwt.dto.TokenDto;
+import com.cmc.finder.global.response.ApiResult;
+import com.cmc.finder.global.util.ApiUtils;
 import com.cmc.finder.global.validator.TokenValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -21,17 +23,17 @@ public class LoginApi {
     private final TokenValidator tokenValidator;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(
+    public ResponseEntity<ApiResult<TokenDto>> login(
             @RequestBody LoginRequestDto loginRequestDto
     ) {
 
         TokenDto tokenDto = loginService.login(loginRequestDto);
-        return ResponseEntity.ok(tokenDto);
+        return ResponseEntity.ok(ApiUtils.success(tokenDto));
 
     }
 
     @PostMapping("/oauth/login")
-    public ResponseEntity<OauthLoginDto.Response> socialLogin(
+    public ResponseEntity<ApiResult<OauthLoginDto.Response>> socialLogin(
             @RequestBody OauthLoginDto.Request requestDto,
             HttpServletRequest request) {
 
@@ -46,7 +48,7 @@ public class LoginApi {
 
         OauthLoginDto.Response jwtTokenResponseDto = loginService.loginOauth(accessToken, requestDto);
 
-        return ResponseEntity.ok(jwtTokenResponseDto);
+        return ResponseEntity.ok(ApiUtils.success(jwtTokenResponseDto));
 
     }
 

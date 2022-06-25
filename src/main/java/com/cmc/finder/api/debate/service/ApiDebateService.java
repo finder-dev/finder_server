@@ -80,6 +80,6 @@ public class ApiDebateService {
 
     }
 
-    public Page<DebateSimpleDto.Response> getDebateList(Pageable pageable) {
-    }
+//    public Page<DebateSimpleDto.Response> getDebateList(Pageable pageable) {
+//    }
 }

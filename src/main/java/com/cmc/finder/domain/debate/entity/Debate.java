@@ -47,9 +47,20 @@ public class Debate extends BaseTimeEntity {
     )
     private List<Debater> debaters = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "debate",
+            cascade = CascadeType.ALL
+    )
+    private List<DebateAnswer> debateAnswers = new ArrayList<>();
+
     public void addDebater(Debater debater) {
         debaters.add(debater);
         debater.setDebate(this);
+    }
+
+    public void addDebateAnswer(DebateAnswer debateAnswer) {
+        debateAnswers.add(debateAnswer);
+        debateAnswer.setDebate(this);
     }
 
     @Builder

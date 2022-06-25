@@ -12,6 +12,8 @@ import com.cmc.finder.domain.debate.service.DebaterService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.global.error.exception.AuthenticationException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -117,6 +119,40 @@ public class ApiDebateService {
         saveDebateAnswer = debateAnswerService.saveDebateAnswer(saveDebateAnswer);
 
         return DebateAnswerCreateDto.Response.of(saveDebateAnswer);
+
+    }
+
+    @Transactional
+    public DebateDeleteDto deleteDebate(Long debateId, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        Debate debate = debateService.getDebate(debateId);
+
+        // 유저 검증
+        if (debate.getWriter() != user) {
+            throw new AuthenticationException(ErrorCode.DEBATE_USER_BE_NOT_WRITER);
+        }
+
+        debateService.deleteDebate(debate);
+
+        return DebateDeleteDto.of();
+
+    }
+
+    @Transactional
+    public DebateAnswerDeleteDto deleteDebateAnswer(Long debateAnswerId, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswer(debateAnswerId);
+
+        // 유저 검증
+        if (debateAnswer.getUser() != user) {
+            throw new AuthenticationException(ErrorCode.DEBATE_ANSWER_USER_BE_NOT_WRITER);
+        }
+
+        debateAnswerService.deleteDebateAnswer(debateAnswer);
+
+        return DebateAnswerDeleteDto.of();
 
     }
 }

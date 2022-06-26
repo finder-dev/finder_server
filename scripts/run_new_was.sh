@@ -20,6 +20,6 @@ if [ ! -z ${TARGET_PID} ]; then
   sudo kill ${TARGET_PID}
 fi
 
-nohup java -jar -Djasypt.encryptor.password=dudwls143 -Dserver.port=${TARGET_PORT} /home/ec2-user/playground-logging/build/libs/finder-0.0.1-SNAPSHOT.jar &
+nohup java -jar -Djasypt.encryptor.password=dudwls143 -Dserver.port=${TARGET_PORT} /home/ec2-user/playground-logging/build/libs/finder-0.0.1-SNAPSHOT.jar > /home/ec2-user/nohup.out 2>&1 &
 echo "> Now new WAS runs at ${TARGET_PORT}."
 exit 0

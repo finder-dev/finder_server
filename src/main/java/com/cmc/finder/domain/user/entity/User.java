@@ -45,11 +45,16 @@ public class User extends BaseTimeEntity {
     @Column(length = 200, nullable = false)
     private String profileImg;
 
-    private boolean isDeleted;
+    @Column(nullable = false)
+    private String fcmToken;
+
+    private Boolean isActive;
+
+    private Boolean isDeleted;
 
     @Builder
     public User(UserType userType, Email email, Password password,
-                String nickname, MBTI mbti, String profileImg) {
+                String nickname, MBTI mbti,String fcmToken, String profileImg) {
 
         this.userType = userType;
         this.email = email;
@@ -57,26 +62,29 @@ public class User extends BaseTimeEntity {
         this.nickname = nickname;
         this.mbti = mbti;
         this.profileImg = profileImg;
+        this.fcmToken = fcmToken;
+        this.isActive = true;
         this.isDeleted = false;
 
     }
 
-    public static User createMember(User user) {
+    public static User createUser(User user) {
+
 
         return User.builder()
                 .userType(user.getUserType())
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .nickname(user.getNickname())
-                .mbti(user.mbti)
-                .profileImg(user.profileImg)
+                .mbti(user.getMbti())
+                .fcmToken(user.getFcmToken())
+                .profileImg(user.getProfileImg())
                 .build();
     }
 
     public void updateProfileImage(String profileImage) {
         this.profileImg = profileImage;
     }
-
 
     public void updateNickname(String nickname) {
         this.nickname = nickname;
@@ -85,4 +93,9 @@ public class User extends BaseTimeEntity {
     public void updateMBTI(MBTI mbti) {
         this.mbti = mbti;
     }
+
+    public void updateFcmToken(String fcmToken) {
+        this.fcmToken = fcmToken;
+    }
+
 }

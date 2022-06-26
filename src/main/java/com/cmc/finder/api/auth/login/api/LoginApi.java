@@ -23,6 +23,7 @@ public class LoginApi {
     private final LoginService loginService;
     private final TokenValidator tokenValidator;
 
+
     @PostMapping("/login")
     public ResponseEntity<ApiResult<TokenDto>> login(
             @Valid LoginRequestDto loginRequestDto
@@ -42,8 +43,6 @@ public class LoginApi {
 
         tokenValidator.validateAuthorization(authorization);
         tokenValidator.validateMemberType(requestDto.getUserType());
-
-
 
         String accessToken = authorization.split(" ")[1];
 

@@ -2,6 +2,7 @@ package com.cmc.finder.api.debate.service;
 
 import com.cmc.finder.api.debate.dto.*;
 import com.cmc.finder.api.debate.repository.DebateRepositoryCustom;
+import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.cmc.finder.domain.debate.entity.QDebate.debate;
 
 
 @RequiredArgsConstructor
@@ -86,9 +89,11 @@ public class ApiDebateService {
 
     }
 
-    public Page<DebateSimpleDto.Response> getDebateList(Pageable pageable) {
+    public Page<DebateSimpleDto.Response> getDebateList(DebateSimpleDto.Request request, Pageable pageable) {
 
-        Page<DebateSimpleDto.Response> debateSimpleDto = debateRepositoryCustom.findDebateSimpleDto(pageable);
+        DebateState debateState = request.getState() != null ? DebateState.from(request.getState()) : DebateState.PROCEEDING;
+
+        Page<DebateSimpleDto.Response> debateSimpleDto = debateRepositoryCustom.findDebateSimpleDto(debateState, pageable);
         return debateSimpleDto;
 
     }

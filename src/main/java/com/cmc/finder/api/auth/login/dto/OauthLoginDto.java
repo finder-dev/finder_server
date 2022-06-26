@@ -21,19 +21,19 @@ public class OauthLoginDto {
     @Setter
     public static class Request {
 
+        @NotBlank(message = "소셜 타입은 필수값 입니다.")
         private String userType;
 
-        @NotBlank(message = "MBTI는 필수값 입니다.")
-        @Enum(enumClass = MBTI.class, message ="잘못된 Enum 값 입니다.")
+//        @Enum(enumClass = MBTI.class, message ="잘못된 Enum 값 입니다.")
         private String mbti;
 
-        @NotBlank(message = "닉네임은 필수값 입니다.")
+//        @NotBlank(message = "닉네임은 필수값 입니다.")
         private String nickname;
 
         private MultipartFile profileImg;
 
-        @Size(max = 4, message = "최대 4개까지 입력하실 수 있습니다.")
-        private List<@Length(min=1, max = 6,message = "1자 이상 6자 이하의 태그만 가능합니다.") String> keywords;
+        @NotBlank(message = "FCM Token은 필수값 입니다.")
+        private String fcmToken;
 
     }
 

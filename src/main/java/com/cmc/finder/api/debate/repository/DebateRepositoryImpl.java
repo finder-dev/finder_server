@@ -3,6 +3,8 @@ package com.cmc.finder.api.debate.repository;
 import com.cmc.finder.api.debate.dto.DebateSimpleDto;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
+import com.cmc.finder.domain.model.MBTI;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static com.cmc.finder.domain.debate.entity.QDebate.debate;
 import static com.cmc.finder.domain.debate.entity.QDebater.debater;
+import static com.cmc.finder.domain.qna.question.entity.QQuestion.question;
 
 
 @Repository
@@ -27,14 +30,14 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
     }
 
     @Override
-    public Page<DebateSimpleDto.Response> findDebateSimpleDto(Pageable pageable) {
+    public Page<DebateSimpleDto.Response> findDebateSimpleDto(DebateState state, Pageable pageable) {
 
         List<Debate> results = queryFactory
                 .select(debate)
                 .from(debate)
 //                .join(debate.debaters, debater).fetchJoin()
                 .where(
-                        debate.state.eq(DebateState.PROCEEDING)
+                        searchByState(state)
                 )
                 .orderBy(debate.createTime.desc())
                 .offset(pageable.getOffset())
@@ -44,7 +47,7 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
         int totalSize = queryFactory
                 .selectFrom(debater)
                 .where(
-                        debate.state.eq(DebateState.PROCEEDING)
+                        searchByState(state)
                 )
                 .fetch().size();
 
@@ -53,6 +56,13 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
                 ).collect(Collectors.toList());
 
         return new PageImpl<>(debateSimpleDtos, pageable, totalSize);
+    }
+
+    private BooleanExpression searchByState(DebateState state) {
+
+        return debate.state.eq(state);
+//        return state != null ? debate.state.eq(state) : debate.state.eq(DebateState.PROCEEDING);
+
     }
 
 

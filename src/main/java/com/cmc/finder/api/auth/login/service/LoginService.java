@@ -8,6 +8,7 @@ import com.cmc.finder.domain.jwt.entity.RefreshToken;
 import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.domain.jwt.service.RefreshTokenRedisService;
 import com.cmc.finder.domain.jwt.service.TokenManager;
+import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
@@ -18,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.validation.ValidationException;
 
 @RequiredArgsConstructor
 @Service
@@ -41,6 +44,18 @@ public class LoginService {
 
         if (!userService.existsUser(Email.of(oAuthAttributes.getEmail()))) {
 
+            //TODO 다시정리
+            if (request.getMbti() == null) {
+                throw new ValidationException("");
+            }
+            if (request.getNickname() == null) {
+                throw new ValidationException("");
+            }
+
+            if (MBTI.isMBTI(request.getMbti())) {
+                throw new ValidationException("");
+            }
+
             String fileName = "";
             if (request.getProfileImg() != null) {
                 fileName = s3Uploader.uploadFile(request.getProfileImg(), PATH);
@@ -51,6 +66,7 @@ public class LoginService {
 
         } else {
             oauthUser = userService.getUserByEmail(Email.of(oAuthAttributes.getEmail()));
+            oauthUser.updateFcmToken(request.getFcmToken());
         }
 
         TokenDto tokenDto = tokenManager.createTokenDto(oAuthAttributes.getEmail());
@@ -68,6 +84,7 @@ public class LoginService {
     }
 
 
+    @Transactional
     public TokenDto login(LoginRequestDto loginRequestDto) {
 
         User user = userService.getUserByEmail(Email.of(loginRequestDto.getEmail()));
@@ -76,11 +93,15 @@ public class LoginService {
             throw new LoginFailedException(ErrorCode.LOGIN_ERROR);
         }
 
+        // fcm token update
+        user.updateFcmToken(loginRequestDto.getFcmToken());
+
         TokenDto tokenDto = tokenManager.createTokenDto(loginRequestDto.getEmail());
         saveRefreshToken(user, tokenDto);
 
         return tokenDto;
     }
+
 
     private void saveRefreshToken(User user, TokenDto tokenDto) {
 

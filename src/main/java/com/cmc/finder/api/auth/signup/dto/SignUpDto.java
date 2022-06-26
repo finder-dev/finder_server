@@ -43,12 +43,13 @@ public class SignUpDto {
         @NotBlank(message = "닉네임은 필수값 입니다.")
         private String nickname;
 
-
         @Size(max = 4, message = "최대 4개까지 입력하실 수 있습니다.")
         //TODO 변경 생각
         private List<@Length(min=1, max = 6,message = "1자 이상 6자 이하의 태그만 가능합니다.") String> keywords;
 
         private MultipartFile profileImg;
+
+        private String fcmToken;
 
         public User toEntity(String fileName) {
 
@@ -62,10 +63,6 @@ public class SignUpDto {
                     .nickname(this.nickname)
                     .profileImg("default.png")
                     .build();
-
-            if (StringUtils.hasText(fileName)) {
-                user.updateProfileImage(fileName);
-            }
 
             return user;
 

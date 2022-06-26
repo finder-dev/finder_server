@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class LoginApi {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResult<TokenDto>> login(
-            @RequestBody LoginRequestDto loginRequestDto
+            @Valid LoginRequestDto loginRequestDto
     ) {
 
         TokenDto tokenDto = loginService.login(loginRequestDto);
@@ -34,7 +35,7 @@ public class LoginApi {
 
     @PostMapping("/oauth/login")
     public ResponseEntity<ApiResult<OauthLoginDto.Response>> socialLogin(
-            @RequestBody OauthLoginDto.Request requestDto,
+            @Valid OauthLoginDto.Request requestDto,
             HttpServletRequest request) {
 
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);

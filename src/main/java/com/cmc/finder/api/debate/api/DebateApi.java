@@ -49,7 +49,7 @@ public class DebateApi {
 
     @GetMapping
     public ResponseEntity<ApiResult<Page<DebateSimpleDto.Response>>> getDebates(
-//            @Valid DebateSimpleDto.Request request,
+            @Valid DebateSimpleDto.Request request,
             Optional<Integer> page
     ) {
 
@@ -57,7 +57,7 @@ public class DebateApi {
                 page.isPresent() ? page.get() : 0,
                 SET_PAGE_ITEM_MAX_COUNT);
 
-        Page<DebateSimpleDto.Response> questionSimpleDtos = apiDebateService.getDebateList(pageable);
+        Page<DebateSimpleDto.Response> questionSimpleDtos = apiDebateService.getDebateList(request, pageable);
         return ResponseEntity.ok(ApiUtils.success(questionSimpleDtos));
 
     }

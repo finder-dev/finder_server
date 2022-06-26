@@ -10,6 +10,8 @@ import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.domain.jwt.service.TokenManager;
 import com.cmc.finder.domain.keyword.entity.Keyword;
 import com.cmc.finder.domain.keyword.service.KeywordService;
+import com.cmc.finder.domain.notification.entity.Notification;
+import com.cmc.finder.domain.notification.service.NotificationService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.exception.EmailDuplicateException;
 import com.cmc.finder.domain.user.exception.NicknameDuplicateException;
@@ -42,6 +44,7 @@ public class SignUpService {
     private final AuthCodeService authCodeService;
 
 
+
     @Transactional
     public SignUpDto.Response signUpUser(SignUpDto.Request signUpDto) {
 
@@ -55,7 +58,7 @@ public class SignUpService {
             fileName = s3Uploader.uploadFile(signUpDto.getProfileImg(), PATH);
         }
 
-        // Member 생성
+        // User 생성
         User user = signUpDto.toEntity(fileName);
         userService.register(user);
 

@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FCMService {
+    //TODO interface 생성
     private final FCMClient fcmClient;
 
     private final String CONTENT_TYPE = "application/json; UTF-8";

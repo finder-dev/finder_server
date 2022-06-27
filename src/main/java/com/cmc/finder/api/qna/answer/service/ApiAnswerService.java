@@ -69,12 +69,12 @@ public class ApiAnswerService {
             AnswerImage answerImage = AnswerImage.createAnswerImage(answer, imageName, url);
             saveAnswer.addAnswerImage(answerImage);
         });
-        
+
         Answer savedAnswer = answerService.create(saveAnswer);
 
         try {
-            fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(),QUESTION_ANSWER);
-        }catch (IOException e) {
+            fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(), QUESTION_ANSWER);
+        } catch (IOException e) {
             throw new NotificationFailedException();
         }
 

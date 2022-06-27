@@ -46,16 +46,15 @@ public class QuestionCreateDto {
     @AllArgsConstructor
     public static class Response {
 
-        private String title;
-
-        private String nickname;
+        private Long questionId;
 
         public static Response of(Question question) {
-            return QuestionCreateDto.Response.builder()
-                    .title(question.getTitle())
-                    .nickname(question.getUser().getNickname())
+
+            return Response.builder()
+                    .questionId(question.getQuestionId())
                     .build();
 
         }
+
     }
 }

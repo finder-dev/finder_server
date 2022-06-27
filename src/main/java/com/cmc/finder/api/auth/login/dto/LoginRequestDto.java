@@ -19,7 +19,7 @@ public class LoginRequestDto {
     private String password;
 
     //TODO fcm 토큰
-    @NotBlank(message = "fcm 토큰은 필수 입력 값입니다.")
+//    @NotBlank(message = "fcm 토큰은 필수 입력 값입니다.")
     private String fcmToken;
 
 }

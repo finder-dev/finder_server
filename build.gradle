@@ -30,6 +30,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    //FCM
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.google.firebase:firebase-admin:6.8.1'
+
     // Email
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 

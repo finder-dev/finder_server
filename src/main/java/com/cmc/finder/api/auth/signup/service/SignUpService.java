@@ -10,8 +10,6 @@ import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.domain.jwt.service.TokenManager;
 import com.cmc.finder.domain.keyword.entity.Keyword;
 import com.cmc.finder.domain.keyword.service.KeywordService;
-import com.cmc.finder.domain.notification.entity.Notification;
-import com.cmc.finder.domain.notification.service.NotificationService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.exception.EmailDuplicateException;
 import com.cmc.finder.domain.user.exception.NicknameDuplicateException;

@@ -4,11 +4,11 @@ import com.cmc.finder.api.auth.login.dto.LoginRequestDto;
 import com.cmc.finder.api.auth.login.dto.OAuthAttributes;
 import com.cmc.finder.api.auth.login.dto.OauthLoginDto;
 import com.cmc.finder.api.auth.login.exception.LoginFailedException;
+import com.cmc.finder.api.auth.login.validator.LoginValidator;
 import com.cmc.finder.domain.jwt.entity.RefreshToken;
 import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.domain.jwt.service.RefreshTokenRedisService;
 import com.cmc.finder.domain.jwt.service.TokenManager;
-import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
@@ -19,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.validation.ValidationException;
 
 @RequiredArgsConstructor
 @Service
@@ -33,28 +31,18 @@ public class LoginService {
     private final TokenManager tokenManager;
     private final UserService userService;
     private final S3Uploader s3Uploader;
+    private final LoginValidator loginValidator;
     private final RefreshTokenRedisService refreshTokenRedisService;
 
     @Transactional
     public OauthLoginDto.Response loginOauth(String accessToken, OauthLoginDto.Request request) {
 
         OAuthAttributes oAuthAttributes = getSocialUserInfo(accessToken, UserType.from(request.getUserType()));
-
         User oauthUser;
 
         if (!userService.existsUser(Email.of(oAuthAttributes.getEmail()))) {
 
-            //TODO 다시정리
-            if (request.getMbti() == null) {
-                throw new ValidationException("");
-            }
-            if (request.getNickname() == null) {
-                throw new ValidationException("");
-            }
-
-            if (MBTI.isMBTI(request.getMbti())) {
-                throw new ValidationException("");
-            }
+            loginValidator.validateOauthSignUpRequest(request);
 
             String fileName = "";
             if (request.getProfileImg() != null) {
@@ -66,6 +54,8 @@ public class LoginService {
 
         } else {
             oauthUser = userService.getUserByEmail(Email.of(oAuthAttributes.getEmail()));
+            loginValidator.validateUserType(oauthUser, UserType.from(request.getUserType()));
+
             oauthUser.updateFcmToken(request.getFcmToken());
         }
 
@@ -89,9 +79,8 @@ public class LoginService {
 
         User user = userService.getUserByEmail(Email.of(loginRequestDto.getEmail()));
 
-        if (!user.getPassword().isMatches(loginRequestDto.getPassword())) {
-            throw new LoginFailedException(ErrorCode.LOGIN_ERROR);
-        }
+        loginValidator.validateUserType(user, UserType.GENERAL);
+        loginValidator.validatePassword(user, loginRequestDto.getPassword());
 
         // fcm token update
         user.updateFcmToken(loginRequestDto.getFcmToken());

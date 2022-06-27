@@ -8,6 +8,7 @@ import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +24,8 @@ import java.util.Optional;
 @RequestMapping("/api/questions")
 public class QuestionApi {
 
-//    @Value("${page.count}")
-//    private final Integer SET_PAGE_ITEM_MAX_COUNT;
-
-    private final Integer SET_PAGE_ITEM_MAX_COUNT = 10;
+    @Value("${page.count}")
+    private Integer SET_PAGE_ITEM_MAX_COUNT;
 
     private final ApiQuestionService apiQuestionService;
 

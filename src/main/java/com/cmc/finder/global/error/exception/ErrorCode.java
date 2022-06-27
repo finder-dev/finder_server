@@ -63,7 +63,11 @@ public enum ErrorCode {
     DEBATE_ANSWER_USER_BE_NOT_WRITER(401, "해당 토론 답변에 대한 작성자가 아닙니다."),
 
     // 알림
-    NOTIFICATION_NOT_EXISTS(401,"해당 알림을 찾을 수 없습니다." );
+    NOTIFICATION_NOT_EXISTS(401,"해당 알림을 찾을 수 없습니다." ),
+
+    NOT_MATCH_USER_TYPE(400, "소셜 타입이 일치하지 않습니다."),
+
+    NOTIFICATION_FAILED(400, "알림 전송에 실패하였습니다.");
 
 
     ErrorCode(int status, String message) {

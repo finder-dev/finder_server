@@ -54,12 +54,4 @@ public class UserValidator {
         return true;
     }
 
-//    public void validateRefreshTokenExpirationTime(LocalDateTime refreshTokenExpirationTime, LocalDateTime now) {
-//
-//        if(refreshTokenExpirationTime.isBefore(now)) {
-//
-//            throw new AuthenticationException(ErrorCode.REFRESH_TOKEN_EXPIRED);
-//        }
-//
-//    }
 }

@@ -90,7 +90,7 @@ public class ApiQuestionService {
         User user = userService.getUserByEmail(Email.of(email));
 
         // 질문 조회
-        Question question = questionService.getQuestionFetchQuestionImage(questionId);
+        Question question = questionService.getQuestionFetchUser(questionId);
 
         // 조회수 증가
         if (!viewCountService.alreadyReadUser(question, user)) {

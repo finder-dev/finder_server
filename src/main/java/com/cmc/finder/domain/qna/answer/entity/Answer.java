@@ -73,10 +73,10 @@ public class Answer extends BaseTimeEntity {
         this.question = question;
     }
 
-    public static Answer createAnswer(String title,String content, User user, Question question) {
+    public static Answer createAnswer(Answer answer, User user, Question question) {
         return Answer.builder()
-                .title(title)
-                .content(content)
+                .title(answer.title)
+                .content(answer.content)
                 .user(user)
                 .question(question)
                 .build();

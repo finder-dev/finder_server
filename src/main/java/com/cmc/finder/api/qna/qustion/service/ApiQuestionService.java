@@ -57,7 +57,8 @@ public class ApiQuestionService {
         User user = userService.getUserByEmail(Email.of(email));
 
         // 질문 생성
-        Question question = Question.createQuestion(request.getTitle(), request.getContent(), MBTI.valueOf(request.getMbti()), user);
+        Question question = request.toEntity();
+        Question saveQuestion = Question.createQuestion(question, user);
 
         // 질문 이미지 생성 및 저장
         request.getQuestionImgs().stream().forEach(multipartFile -> {
@@ -65,32 +66,14 @@ public class ApiQuestionService {
             String url = s3Uploader.getUrl(PATH, imageName);
 
             QuestionImage questionImage = QuestionImage.createQuestionImage(question, imageName, url);
-            question.addQuestionImage(questionImage);
+            saveQuestion.addQuestionImage(questionImage);
 
         });
 
-//        for (int i = 0; i < request.getQuestionImgs().size(); i++) {
-//            MultipartFile multipartFile = request.getQuestionImgs().get(i);
-//            String imageName = s3Uploader.uploadFile(multipartFile, PATH);
-//            String url = s3Uploader.getUrl(PATH, imageName);
-//            QuestionImage questionImage;
-//            if (i != 0) {
-//                questionImage = QuestionImage.createQuestionImage(question, imageName, url, false);
-//            } else {
-//                questionImage = QuestionImage.createQuestionImage(question, imageName, url, true);
-//            }
-//            question.addQuestionImage(questionImage);
-////            questionImages.add(questionImage);
-//        }
-
         // 질문 저장
-        questionService.create(question);
+        Question savedQuestion = questionService.create(saveQuestion);
 
-
-
-//        questionImageService.save(questionImages);
-
-        return QuestionCreateDto.Response.of(question);
+        return QuestionCreateDto.Response.of(savedQuestion);
 
     }
 

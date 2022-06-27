@@ -15,8 +15,8 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
 
     @Transactional
-    public void create(Question question) {
-        questionRepository.save(question);
+    public Question create(Question question) {
+        return questionRepository.save(question);
     }
 
     public Question getQuestionFetchUser(Long questionId) {

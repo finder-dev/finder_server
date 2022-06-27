@@ -1,5 +1,6 @@
 package com.cmc.finder.domain.qna.question.service;
 
+import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.qna.question.exception.QuestionImageNotFountException;
 import com.cmc.finder.domain.qna.question.entity.QuestionImage;
 import com.cmc.finder.domain.qna.question.repository.QuestionImageRepository;
@@ -16,8 +17,8 @@ public class QuestionImageService {
 
     private final QuestionImageRepository questionImageRepository;
 
-    public void save(List<QuestionImage> questionImages) {
-        questionImageRepository.saveAll(questionImages);
+    public QuestionImage save(QuestionImage saveQuestionImage) {
+        return questionImageRepository.save(saveQuestionImage);
     }
 
 //    public List<QuestionImage> getQuestionImageByQuestionId(Long questionId) {
@@ -25,7 +26,6 @@ public class QuestionImageService {
 //    }
 
     public QuestionImage getQuestionImage(Long questionId, Long questionImageId){
-
         return questionImageRepository.findByQuestionQuestionIdAndQuestionImgId(questionId, questionImageId)
                 .orElseThrow(QuestionImageNotFountException::new);
     }

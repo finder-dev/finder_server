@@ -31,18 +31,10 @@ public class QuestionService {
 
     }
 
-    public Question getQuestionFetchQuestionImage(Long questionId) {
-
-        return questionRepository.findByQuestionIdFetchQuestionImageAndUser(questionId)
-                .orElseThrow(QuestionNotFountException::new);
-
-    }
-
-    public Question updateQuestion(Question question, Question updatequestion) {
-
-        question.updateQuestion(updatequestion);
-        return question;
-
+    public Question updateQuestion(Long questionId, Question updateQuestion) {
+        Question savedQuestion = getQuestion(questionId);
+        savedQuestion.updateQuestion(updateQuestion);
+        return savedQuestion;
 
     }
 

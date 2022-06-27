@@ -168,7 +168,7 @@ public class ApiQuestionService {
         }
 
         // 질문 정보 변경
-        Question updatedQuestion = updateQuestionInfo(question, request);
+        Question updatedQuestion = updateQuestionInfo(questionId, request);
         updateQuestionImages(updatedQuestion, request);
 
         // 이미지 10개 초과 검증
@@ -184,10 +184,10 @@ public class ApiQuestionService {
 
         // 질문 이미지 삭제
         request.getDeleteImgIds().stream().forEach(deleteImgId -> {
+
             QuestionImage questionImage = questionImageService.getQuestionImage(question.getQuestionId(), deleteImgId);
             s3Uploader.deleteFile(questionImage.getImageName(), PATH);
             question.deleteQuestionImage(questionImage);
-//            questionImageService.delete(questionImage);
 
         });
 
@@ -198,16 +198,17 @@ public class ApiQuestionService {
             String url = s3Uploader.getUrl(PATH, imageName);
 
             QuestionImage questionImage = QuestionImage.createQuestionImage(question, imageName, url);
-            question.addQuestionImage(questionImage);
+            QuestionImage savedQuestionImage = questionImageService.save(questionImage);
+            question.addQuestionImage(savedQuestionImage);
 
         });
 
     }
 
-    private Question updateQuestionInfo(Question question, QuestionUpdateDto.Request request) {
+    private Question updateQuestionInfo(Long questionId, QuestionUpdateDto.Request request) {
 
         Question updateQuestion = request.toEntity();
-        Question updatedQuestion = questionService.updateQuestion(question, updateQuestion);
+        Question updatedQuestion = questionService.updateQuestion(questionId, updateQuestion);
 
         return updatedQuestion;
 

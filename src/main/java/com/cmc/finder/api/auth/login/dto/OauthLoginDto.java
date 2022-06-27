@@ -24,15 +24,13 @@ public class OauthLoginDto {
         @NotBlank(message = "소셜 타입은 필수값 입니다.")
         private String userType;
 
-//        @Enum(enumClass = MBTI.class, message ="잘못된 Enum 값 입니다.")
         private String mbti;
 
-//        @NotBlank(message = "닉네임은 필수값 입니다.")
         private String nickname;
 
         private MultipartFile profileImg;
 
-        @NotBlank(message = "FCM Token은 필수값 입니다.")
+//        @NotBlank(message = "FCM Token은 필수값 입니다.")
         private String fcmToken;
 
     }

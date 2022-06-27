@@ -14,15 +14,21 @@ import com.cmc.finder.domain.qna.question.service.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
+import com.cmc.finder.global.error.exception.BusinessException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
+import com.cmc.finder.infra.notification.FCMService;
+import com.cmc.finder.infra.notification.exception.NotificationFailedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.cmc.finder.global.util.Constants.QUESTION_ANSWER;
 
 
 @RequiredArgsConstructor
@@ -37,6 +43,7 @@ public class ApiAnswerService {
     private final QuestionService questionService;
     private final AnswerService answerService;
     private final HelpfulService helpfulService;
+    private final FCMService fcmService;
 
     private final S3Uploader s3Uploader;
 
@@ -47,14 +54,13 @@ public class ApiAnswerService {
         User user = userService.getUserByEmail(Email.of(email));
 
         // 질문 조회
-        Question question = questionService.getQuestion(questionId);
+        Question question = questionService.getQuestionFetchUser(questionId);
 
         // 답변 생성
         Answer answer = Answer.createAnswer(request.getTitle(), request.getContent(), user, question);
         question.addAnswer(answer);
 
         // 답변 이미지 생성
-        List<AnswerImage> answerImages = new ArrayList<>();
         request.getAnswerImgs().stream().forEach(multipartFile -> {
             String imageName = s3Uploader.uploadFile(multipartFile, PATH);
             String url = s3Uploader.getUrl(PATH, imageName);
@@ -64,6 +70,12 @@ public class ApiAnswerService {
         });
 
         answerService.create(answer);
+
+        try {
+            fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(),QUESTION_ANSWER);
+        }catch (IOException e) {
+            throw new NotificationFailedException();
+        }
 
         return AnswerCreateDto.Response.of(question);
 

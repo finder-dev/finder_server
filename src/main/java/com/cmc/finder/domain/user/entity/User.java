@@ -45,7 +45,7 @@ public class User extends BaseTimeEntity {
     @Column(length = 200, nullable = false)
     private String profileImg;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String fcmToken;
 
     private Boolean isActive;

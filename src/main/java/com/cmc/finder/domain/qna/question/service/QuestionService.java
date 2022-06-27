@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -21,8 +19,9 @@ public class QuestionService {
         questionRepository.save(question);
     }
 
-    public List<Question> getQuestions() {
-        return questionRepository.findAll();
+    public Question getQuestionFetchUser(Long questionId) {
+        return questionRepository.findByQuestionIdFetchUser(questionId)
+                .orElseThrow(QuestionNotFountException::new);
     }
 
     public Question getQuestion(Long questionId) {

@@ -73,7 +73,7 @@ public class QuestionApi {
     @PutMapping("/{questionId}")
     public ResponseEntity<ApiResult<QuestionUpdateDto.Response>> updateQuestion(
             @PathVariable Long questionId,
-            QuestionUpdateDto.Request request,
+            @Valid QuestionUpdateDto.Request request,
             @UserEmail String email
     ) {
 

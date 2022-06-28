@@ -17,8 +17,8 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
 
     @Transactional
-    public void create(Answer answer) {
-        answerRepository.save(answer);
+    public Answer create(Answer answer) {
+        return answerRepository.save(answer);
     }
 
     public List<Answer> getAnswersByQuestionId(Long questionId) {

@@ -30,6 +30,14 @@ public class QuestionCreateDto {
         @Size(max = 10, message = "최대 10개까지 사진을 추가하실 수 있습니다.")
         private List<MultipartFile> questionImgs = new ArrayList<>();
 
+        public Question toEntity() {
+
+            return Question.builder()
+                    .title(title)
+                    .content(content)
+                    .mbti(MBTI.from(mbti))
+                    .build();
+        }
     }
 
     @Getter @Setter
@@ -38,16 +46,15 @@ public class QuestionCreateDto {
     @AllArgsConstructor
     public static class Response {
 
-        private String title;
-
-        private String nickname;
+        private Long questionId;
 
         public static Response of(Question question) {
-            return QuestionCreateDto.Response.builder()
-                    .title(question.getTitle())
-                    .nickname(question.getUser().getNickname())
+
+            return Response.builder()
+                    .questionId(question.getQuestionId())
                     .build();
 
         }
+
     }
 }

@@ -57,7 +57,8 @@ public class ApiQuestionService {
         User user = userService.getUserByEmail(Email.of(email));
 
         // 질문 생성
-        Question question = Question.createQuestion(request.getTitle(), request.getContent(), MBTI.valueOf(request.getMbti()), user);
+        Question question = request.toEntity();
+        Question saveQuestion = Question.createQuestion(question, user);
 
         // 질문 이미지 생성 및 저장
         request.getQuestionImgs().stream().forEach(multipartFile -> {
@@ -65,32 +66,14 @@ public class ApiQuestionService {
             String url = s3Uploader.getUrl(PATH, imageName);
 
             QuestionImage questionImage = QuestionImage.createQuestionImage(question, imageName, url);
-            question.addQuestionImage(questionImage);
+            saveQuestion.addQuestionImage(questionImage);
 
         });
 
-//        for (int i = 0; i < request.getQuestionImgs().size(); i++) {
-//            MultipartFile multipartFile = request.getQuestionImgs().get(i);
-//            String imageName = s3Uploader.uploadFile(multipartFile, PATH);
-//            String url = s3Uploader.getUrl(PATH, imageName);
-//            QuestionImage questionImage;
-//            if (i != 0) {
-//                questionImage = QuestionImage.createQuestionImage(question, imageName, url, false);
-//            } else {
-//                questionImage = QuestionImage.createQuestionImage(question, imageName, url, true);
-//            }
-//            question.addQuestionImage(questionImage);
-////            questionImages.add(questionImage);
-//        }
-
         // 질문 저장
-        questionService.create(question);
+        Question savedQuestion = questionService.create(saveQuestion);
 
-
-
-//        questionImageService.save(questionImages);
-
-        return QuestionCreateDto.Response.of(question);
+        return QuestionCreateDto.Response.of(savedQuestion);
 
     }
 
@@ -107,7 +90,7 @@ public class ApiQuestionService {
         User user = userService.getUserByEmail(Email.of(email));
 
         // 질문 조회
-        Question question = questionService.getQuestionFetchQuestionImage(questionId);
+        Question question = questionService.getQuestionFetchUser(questionId);
 
         // 조회수 증가
         if (!viewCountService.alreadyReadUser(question, user)) {
@@ -185,7 +168,7 @@ public class ApiQuestionService {
         }
 
         // 질문 정보 변경
-        Question updatedQuestion = updateQuestionInfo(question, request);
+        Question updatedQuestion = updateQuestionInfo(questionId, request);
         updateQuestionImages(updatedQuestion, request);
 
         // 이미지 10개 초과 검증
@@ -201,10 +184,10 @@ public class ApiQuestionService {
 
         // 질문 이미지 삭제
         request.getDeleteImgIds().stream().forEach(deleteImgId -> {
+
             QuestionImage questionImage = questionImageService.getQuestionImage(question.getQuestionId(), deleteImgId);
             s3Uploader.deleteFile(questionImage.getImageName(), PATH);
             question.deleteQuestionImage(questionImage);
-//            questionImageService.delete(questionImage);
 
         });
 
@@ -215,16 +198,17 @@ public class ApiQuestionService {
             String url = s3Uploader.getUrl(PATH, imageName);
 
             QuestionImage questionImage = QuestionImage.createQuestionImage(question, imageName, url);
-            question.addQuestionImage(questionImage);
+            QuestionImage savedQuestionImage = questionImageService.save(questionImage);
+            question.addQuestionImage(savedQuestionImage);
 
         });
 
     }
 
-    private Question updateQuestionInfo(Question question, QuestionUpdateDto.Request request) {
+    private Question updateQuestionInfo(Long questionId, QuestionUpdateDto.Request request) {
 
         Question updateQuestion = request.toEntity();
-        Question updatedQuestion = questionService.updateQuestion(question, updateQuestion);
+        Question updatedQuestion = questionService.updateQuestion(questionId, updateQuestion);
 
         return updatedQuestion;
 

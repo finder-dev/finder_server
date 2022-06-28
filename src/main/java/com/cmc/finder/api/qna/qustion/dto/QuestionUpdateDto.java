@@ -2,8 +2,10 @@ package com.cmc.finder.api.qna.qustion.dto;
 
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.qna.question.entity.Question;
+import com.cmc.finder.domain.qna.question.entity.QuestionImage;
 import com.cmc.finder.global.validator.Enum;
 import lombok.*;
+import org.hibernate.sql.Update;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
@@ -57,21 +59,44 @@ public class QuestionUpdateDto {
 
         private MBTI mbti;
 
-        private List<String> imgUrls = new ArrayList<>();
+        private List<UpdateImageDto> updateImgDtos = new ArrayList<>();
 
         public static Response of(Question question) {
 
-            List<String> imgUrls = question.getQuestionImages().stream().map(questionImage ->
-                    questionImage.getImageUrl()
+            List<UpdateImageDto> updateImageDtos = question.getQuestionImages().stream().map(questionImage ->
+                    UpdateImageDto.of(questionImage)
             ).collect(Collectors.toList());
 
             return Response.builder()
                     .title(question.getTitle())
                     .content(question.getContent())
                     .mbti(question.getMbti())
-                    .imgUrls(imgUrls)
+                    .updateImgDtos(updateImageDtos)
                     .build();
 
+        }
+
+        @Getter
+        @Setter
+        public static class UpdateImageDto {
+
+            private Long questionImgId;
+
+            private String questionImgUrl;
+
+            @Builder
+            public UpdateImageDto(Long questionImgId, String questionImgUrl) {
+                this.questionImgId = questionImgId;
+                this.questionImgUrl = questionImgUrl;
+            }
+
+            public static UpdateImageDto of(QuestionImage questionImage) {
+
+                return UpdateImageDto.builder()
+                        .questionImgId(questionImage.getQuestionImgId())
+                        .questionImgUrl(questionImage.getImageUrl())
+                        .build();
+            }
         }
     }
 }

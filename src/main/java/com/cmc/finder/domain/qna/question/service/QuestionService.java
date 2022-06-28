@@ -15,8 +15,8 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
 
     @Transactional
-    public void create(Question question) {
-        questionRepository.save(question);
+    public Question create(Question question) {
+        return questionRepository.save(question);
     }
 
     public Question getQuestionFetchUser(Long questionId) {
@@ -31,18 +31,10 @@ public class QuestionService {
 
     }
 
-    public Question getQuestionFetchQuestionImage(Long questionId) {
-
-        return questionRepository.findByQuestionIdFetchQuestionImageAndUser(questionId)
-                .orElseThrow(QuestionNotFountException::new);
-
-    }
-
-    public Question updateQuestion(Question question, Question updatequestion) {
-
-        question.updateQuestion(updatequestion);
-        return question;
-
+    public Question updateQuestion(Long questionId, Question updateQuestion) {
+        Question savedQuestion = getQuestion(questionId);
+        savedQuestion.updateQuestion(updateQuestion);
+        return savedQuestion;
 
     }
 

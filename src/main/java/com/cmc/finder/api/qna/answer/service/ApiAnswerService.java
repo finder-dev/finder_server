@@ -57,8 +57,9 @@ public class ApiAnswerService {
         Question question = questionService.getQuestionFetchUser(questionId);
 
         // 답변 생성
-        Answer answer = Answer.createAnswer(request.getTitle(), request.getContent(), user, question);
-        question.addAnswer(answer);
+        Answer answer = request.toEntity();
+        Answer saveAnswer = Answer.createAnswer(answer, user, question);
+        question.addAnswer(saveAnswer);
 
         // 답변 이미지 생성
         request.getAnswerImgs().stream().forEach(multipartFile -> {
@@ -66,18 +67,18 @@ public class ApiAnswerService {
             String url = s3Uploader.getUrl(PATH, imageName);
 
             AnswerImage answerImage = AnswerImage.createAnswerImage(answer, imageName, url);
-            answer.addAnswerImage(answerImage);
+            saveAnswer.addAnswerImage(answerImage);
         });
 
-        answerService.create(answer);
+        Answer savedAnswer = answerService.create(saveAnswer);
 
         try {
-            fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(),QUESTION_ANSWER);
-        }catch (IOException e) {
+            fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(), QUESTION_ANSWER);
+        } catch (IOException e) {
             throw new NotificationFailedException();
         }
 
-        return AnswerCreateDto.Response.of(question);
+        return AnswerCreateDto.Response.of(savedAnswer);
 
     }
 

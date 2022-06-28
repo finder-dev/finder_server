@@ -70,11 +70,10 @@ public class QuestionSimpleDto {
 
         public static Response of(Question question) {
 
-            return Response.builder()
+            Response response = Response.builder()
                     .questionId(question.getQuestionId())
                     .title(question.getTitle())
                     .content(question.getContent())
-                    .imageUrl(question.getQuestionImages().get(0).getImageUrl())
                     .userNickname(question.getUser().getNickname())
                     .userMBTI(question.getUser().getMbti())
                     .curiousCount(question.getCuriousList().size())
@@ -82,6 +81,12 @@ public class QuestionSimpleDto {
                     .viewCount(question.getViewCounts().size())
                     .createTime(question.getCreateTime())
                     .build();
+
+            if (question.getQuestionImages().size() != 0) {
+                response.imageUrl = question.getQuestionImages().get(0).getImageUrl();
+            }
+
+            return response;
 
         }
     }

@@ -94,11 +94,11 @@ public class Question extends BaseTimeEntity {
         this.user = user;
     }
 
-    public static Question createQuestion(String title,String content, MBTI mbti, User user) {
+    public static Question createQuestion(Question question, User user) {
         return Question.builder()
-                .title(title)
-                .content(content)
-                .mbti(mbti)
+                .title(question.title)
+                .content(question.content)
+                .mbti(question.mbti)
                 .user(user)
                 .build();
     }

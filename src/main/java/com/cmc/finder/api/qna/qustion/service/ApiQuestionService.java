@@ -6,10 +6,7 @@ import com.cmc.finder.domain.qna.answer.entity.Answer;
 import com.cmc.finder.domain.qna.answer.service.AnswerService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.qna.question.entity.Curious;
-import com.cmc.finder.domain.qna.question.entity.FavoriteQuestion;
-import com.cmc.finder.domain.qna.question.entity.Question;
-import com.cmc.finder.domain.qna.question.entity.QuestionImage;
+import com.cmc.finder.domain.qna.question.entity.*;
 import com.cmc.finder.domain.qna.question.exception.QuestionImageMaxException;
 import com.cmc.finder.domain.qna.question.service.CuriousService;
 import com.cmc.finder.domain.qna.question.service.FavoriteQuestionService;
@@ -94,7 +91,7 @@ public class ApiQuestionService {
 
         // 조회수 증가
         if (!viewCountService.alreadyReadUser(question, user)) {
-            Curious.ViewCount viewCount = Curious.ViewCount.createViewCount(question, user);
+            ViewCount viewCount = ViewCount.createViewCount(question, user);
             question.addViewCount(viewCount);
             viewCountService.addViewCount(viewCount);
         }

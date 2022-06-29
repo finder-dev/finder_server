@@ -72,11 +72,7 @@ public class ApiAnswerService {
 
         Answer savedAnswer = answerService.create(saveAnswer);
 
-        try {
-            fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(), QUESTION_ANSWER);
-        } catch (IOException e) {
-            throw new NotificationFailedException();
-        }
+        fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(), QUESTION_ANSWER);
 
         return AnswerCreateDto.Response.of(savedAnswer);
 

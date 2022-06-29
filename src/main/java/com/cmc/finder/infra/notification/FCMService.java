@@ -1,5 +1,6 @@
 package com.cmc.finder.infra.notification;
 
+import com.cmc.finder.infra.notification.exception.NotificationFailedException;
 import com.google.auth.oauth2.GoogleCredentials;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
@@ -16,9 +17,16 @@ public class FCMService {
 
     private final String CONTENT_TYPE = "application/json; UTF-8";
 
-    public void sendMessageTo(String targetToken, String title, String body) throws IOException {
-        FCMMessage message = makeMessage(targetToken, title, body);
-        fcmClient.requestNotification(CONTENT_TYPE, "Bearer " + getAccessToken(), message);
+    public void sendMessageTo(String targetToken, String title, String body) {
+
+        try {
+            FCMMessage message = makeMessage(targetToken, title, body);
+            fcmClient.requestNotification(CONTENT_TYPE, "Bearer " + getAccessToken(), message);
+        } catch (IOException e) {
+            throw new NotificationFailedException();
+
+        }
+
 
     }
 

@@ -15,13 +15,19 @@ import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
+import com.cmc.finder.infra.notification.FCMService;
+import com.cmc.finder.infra.notification.exception.NotificationFailedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
+
+import static com.cmc.finder.global.util.Constants.DEBATE_ANSWER;
+import static com.cmc.finder.global.util.Constants.QUESTION_ANSWER;
 
 
 @RequiredArgsConstructor
@@ -34,6 +40,8 @@ public class ApiDebateService {
     private final DebateAnswerService debateAnswerService;
     private final UserService userService;
     private final DebateRepositoryCustom debateRepositoryCustom;
+    private final FCMService fcmService;
+
 
     public DebateCreateDto.Response createDebate(DebateCreateDto.Request request, String email) {
         User user = userService.getUserByEmail(Email.of(email));
@@ -57,7 +65,7 @@ public class ApiDebateService {
         Option option = Option.from(request.getOption());
 
         // 기존에 토론 참여한 인원 확인
-        if (debaterService.existsDebater(user, debate)){
+        if (debaterService.existsDebater(user, debate)) {
 
             Debater debater = debaterService.getDebater(user, debate);
 
@@ -75,8 +83,8 @@ public class ApiDebateService {
 
             return DebateJoinDto.Response.of(debater, true);
 
-        // 토론 참여
-        }else {
+            // 토론 참여
+        } else {
             // 토론자 생성
             Debater saveDebater = Debater.createDebater(debate, user, option);
             saveDebater = debaterService.saveDebater(saveDebater);
@@ -120,6 +128,8 @@ public class ApiDebateService {
         DebateAnswer saveDebateAnswer = DebateAnswer.createDebateAnswer(user, debate, debateAnswer);
 
         saveDebateAnswer = debateAnswerService.saveDebateAnswer(saveDebateAnswer);
+
+        fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER);
 
         return DebateAnswerCreateDto.Response.of(saveDebateAnswer);
 

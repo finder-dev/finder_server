@@ -3,6 +3,7 @@ package com.cmc.finder.domain.qna.question.service;
 
 import com.cmc.finder.domain.qna.question.entity.Curious;
 import com.cmc.finder.domain.qna.question.entity.Question;
+import com.cmc.finder.domain.qna.question.entity.ViewCount;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.qna.question.repository.ViewCountRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class ViewCountService {
     private final ViewCountRepository viewCountRepository;
 
 
-    public void addViewCount(Curious.ViewCount viewCount) {
+    public void addViewCount(ViewCount viewCount) {
 
         viewCountRepository.save(viewCount);
     }

@@ -17,8 +17,7 @@ import com.cmc.finder.domain.qna.question.service.QuestionImageService;
 import com.cmc.finder.domain.qna.question.service.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
-import com.cmc.finder.domain.viewcount.entity.ViewCount;
-import com.cmc.finder.domain.viewcount.service.ViewCountService;
+import com.cmc.finder.domain.qna.question.service.ViewCountService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
@@ -95,7 +94,7 @@ public class ApiQuestionService {
 
         // 조회수 증가
         if (!viewCountService.alreadyReadUser(question, user)) {
-            ViewCount viewCount = ViewCount.createViewCount(question, user);
+            Curious.ViewCount viewCount = Curious.ViewCount.createViewCount(question, user);
             question.addViewCount(viewCount);
             viewCountService.addViewCount(viewCount);
         }

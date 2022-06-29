@@ -23,8 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.cmc.finder.domain.debate.entity.QDebate.debate;
-
 
 @RequiredArgsConstructor
 @Service
@@ -51,7 +49,7 @@ public class ApiDebateService {
     }
 
     @Transactional
-    public JoinDebateDto.Response joinOrDetachDebate(JoinDebateDto.Request request, Long debateId, String email) {
+    public DebateJoinDto.Response joinOrDetachDebate(DebateJoinDto.Request request, Long debateId, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
         Debate debate = debateService.getDebate(debateId);
@@ -67,7 +65,7 @@ public class ApiDebateService {
             if (Option.equal(debater.getOption(), option)) {
 
                 debaterService.deleteDebater(debater);
-                return JoinDebateDto.Response.of(debater, false);
+                return DebateJoinDto.Response.of(debater, false);
 
             }
             // 토론 선택지 취소
@@ -75,7 +73,7 @@ public class ApiDebateService {
                 debater.updateOption(option);
             }
 
-            return JoinDebateDto.Response.of(debater, true);
+            return DebateJoinDto.Response.of(debater, true);
 
         // 토론 참여
         }else {
@@ -83,7 +81,7 @@ public class ApiDebateService {
             Debater saveDebater = Debater.createDebater(debate, user, option);
             saveDebater = debaterService.saveDebater(saveDebater);
 
-            return JoinDebateDto.Response.of(saveDebater, true);
+            return DebateJoinDto.Response.of(saveDebater, true);
         }
 
 

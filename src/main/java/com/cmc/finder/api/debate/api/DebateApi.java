@@ -37,13 +37,13 @@ public class DebateApi {
     }
 
     @PostMapping("/{debateId}")
-    public ResponseEntity<ApiResult<JoinDebateDto.Response>> joinOrDetachDebate(
+    public ResponseEntity<ApiResult<DebateJoinDto.Response>> joinOrDetachDebate(
             @PathVariable Long debateId,
-            @Valid JoinDebateDto.Request request,
+            @Valid DebateJoinDto.Request request,
             @UserEmail String email
     ) {
 
-        JoinDebateDto.Response response = apiDebateService.joinOrDetachDebate(request,debateId, email);
+        DebateJoinDto.Response response = apiDebateService.joinOrDetachDebate(request,debateId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

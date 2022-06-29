@@ -1,16 +1,14 @@
 package com.cmc.finder.api.debate.dto;
 
 import com.cmc.finder.domain.debate.constant.Option;
-import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.Debater;
-import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.global.validator.Enum;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
 
-public class JoinDebateDto {
+public class DebateJoinDto {
 
     @Getter @Setter
     public static class Request {

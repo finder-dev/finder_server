@@ -139,20 +139,20 @@ public class ApiQuestionService {
 
 
     @Transactional
-    public QuestionFavoriteAddOrDeleteDto addOrDeleteFavorite(Long questionId, String email) {
+    public FavoriteQuestionAddOrDeleteDto addOrDeleteFavorite(Long questionId, String email) {
 
         Question question = questionService.getQuestion(questionId);
         User user = userService.getUserByEmail(Email.of(email));
 
         if (favoriteQuestionService.existsUser(question, user)) {
             favoriteQuestionService.delete(question, user);
-            return QuestionFavoriteAddOrDeleteDto.of(false);
+            return FavoriteQuestionAddOrDeleteDto.of(false);
         }
 
         FavoriteQuestion favoriteQuestion = FavoriteQuestion.createFavoriteQuestion(question, user);
         favoriteQuestionService.create(favoriteQuestion);
 
-        return QuestionFavoriteAddOrDeleteDto.of(true);
+        return FavoriteQuestionAddOrDeleteDto.of(true);
 
     }
 

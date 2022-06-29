@@ -13,9 +13,9 @@ public enum ErrorCode {
     DUPLICATE_NICKNAME(400, "이미 사용 중인 닉네임입니다."),
     DUPLICATE_KEYWORD(400, "중복된 키워드가 포함되어 있습니다."),
 
-    INVALID_FILTER_TYPE(401, "잘못된 필터 타입 입니다.(orderBy : VIEWCOUNT)"),
-    INVALID_USER_TYPE(401, "잘못된 회원 타입 입니다.(userType : KAKAO)"),
-    INVALID_MBTI_TYPE(401, "잘못된 MBTI 타입 입니다.(mbti : INFP)"),
+    INVALID_FILTER_TYPE(401, "잘못된 필터 타입 입니다.(ex. orderBy : VIEW_COUNT)"),
+    INVALID_USER_TYPE(401, "잘못된 회원 타입 입니다.(ex. userType : KAKAO)"),
+    INVALID_MBTI_TYPE(401, "잘못된 MBTI 타입 입니다.(ex. mbti : INFP)"),
     NOT_EXISTS_AUTHORIZATION(401, "Authorization Header가 빈값입니다."),
     NOT_VALID_BEARER_GRANT_TYPE(401, "인증 타입이 Bearer 타입이 아닙니다."),
     NOT_VALID_TOKEN(401, "유효하지 않은 토큰 입니다."),

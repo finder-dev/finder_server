@@ -116,12 +116,12 @@ public class QuestionApi {
     }
 
     @PostMapping("/{questionId}/favorite")
-    public ResponseEntity<ApiResult<QuestionFavoriteAddOrDeleteDto>> addOrDeleteFavorite(
+    public ResponseEntity<ApiResult<FavoriteQuestionAddOrDeleteDto>> addOrDeleteFavorite(
             @PathVariable Long questionId,
             @UserEmail String email
     ){
 
-        QuestionFavoriteAddOrDeleteDto response = apiQuestionService.addOrDeleteFavorite(questionId, email);
+        FavoriteQuestionAddOrDeleteDto response = apiQuestionService.addOrDeleteFavorite(questionId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

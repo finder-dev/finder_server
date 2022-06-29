@@ -1,10 +1,10 @@
 package com.cmc.finder.api.user.api;
 
-import com.cmc.finder.api.user.dto.UpdateMBTIDto;
-import com.cmc.finder.api.user.dto.UpdateNicknameDto;
+import com.cmc.finder.api.user.dto.MBTIUpdateDto;
+import com.cmc.finder.api.user.dto.NicknameUpdateDto;
 import com.cmc.finder.api.user.application.UserActivityService;
 import com.cmc.finder.api.user.application.UserInfoService;
-import com.cmc.finder.api.user.dto.UpdateProfileImgDto;
+import com.cmc.finder.api.user.dto.ProfileImgUpdateDto;
 import com.cmc.finder.api.user.dto.UserActivityResponse;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
@@ -25,35 +25,35 @@ public class UserApi {
     private final UserActivityService userActivityService;
 
     @PatchMapping("/profileImg")
-    public ResponseEntity<ApiResult<UpdateProfileImgDto.Response>> updateProfile(
-            @Valid UpdateProfileImgDto.Request request,
+    public ResponseEntity<ApiResult<ProfileImgUpdateDto.Response>> updateProfile(
+            @Valid ProfileImgUpdateDto.Request request,
             @UserEmail String email
     ){
 
-        UpdateProfileImgDto.Response response = userInfoService.updateProfileImg(request, email);
+        ProfileImgUpdateDto.Response response = userInfoService.updateProfileImg(request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
     @PatchMapping("/nickname")
-    public ResponseEntity<ApiResult<UpdateNicknameDto.Response>> updateNickname(
-            @Valid UpdateNicknameDto.Request request,
+    public ResponseEntity<ApiResult<NicknameUpdateDto.Response>> updateNickname(
+            @Valid NicknameUpdateDto.Request request,
             @UserEmail String email
     ){
 
-        UpdateNicknameDto.Response response = userInfoService.updateNickname(request, email);
+        NicknameUpdateDto.Response response = userInfoService.updateNickname(request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
 
     @PatchMapping("/mbti")
-    public ResponseEntity<ApiResult<UpdateMBTIDto.Response>> updateMBTI(
-            @Valid UpdateMBTIDto.Request request,
+    public ResponseEntity<ApiResult<MBTIUpdateDto.Response>> updateMBTI(
+            @Valid MBTIUpdateDto.Request request,
             @UserEmail String email
     ){
 
-        UpdateMBTIDto.Response response = userInfoService.updateMBTI(request, email);
+        MBTIUpdateDto.Response response = userInfoService.updateMBTI(request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

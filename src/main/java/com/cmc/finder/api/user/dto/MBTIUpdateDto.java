@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
-public class UpdateMBTIDto {
+public class MBTIUpdateDto {
 
     @Getter
     @Setter

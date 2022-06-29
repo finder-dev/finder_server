@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
-public class UpdateNicknameDto {
+public class NicknameUpdateDto {
 
     @Getter
     @Setter

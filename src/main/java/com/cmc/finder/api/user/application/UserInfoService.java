@@ -1,8 +1,8 @@
-package com.cmc.finder.api.user.service;
+package com.cmc.finder.api.user.application;
 
-import com.cmc.finder.api.user.dto.UpdateMBTIDto;
-import com.cmc.finder.api.user.dto.UpdateNicknameDto;
-import com.cmc.finder.api.user.dto.UpdateProfileImgDto;
+import com.cmc.finder.api.user.dto.MBTIUpdateDto;
+import com.cmc.finder.api.user.dto.NicknameUpdateDto;
+import com.cmc.finder.api.user.dto.ProfileImgUpdateDto;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.entity.User;
@@ -31,7 +31,7 @@ public class UserInfoService {
     private final S3Uploader s3Uploader;
 
     @Transactional
-    public UpdateProfileImgDto.Response updateProfileImg(UpdateProfileImgDto.Request request, String email) {
+    public ProfileImgUpdateDto.Response updateProfileImg(ProfileImgUpdateDto.Request request, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
 
@@ -47,12 +47,12 @@ public class UserInfoService {
         user.updateProfileImage(imageName);
 
         String path = s3Uploader.getUrl(PATH, imageName);
-        return UpdateProfileImgDto.Response.of(path);
+        return ProfileImgUpdateDto.Response.of(path);
 
     }
 
     @Transactional
-    public UpdateNicknameDto.Response updateNickname(UpdateNicknameDto.Request request, String email) {
+    public NicknameUpdateDto.Response updateNickname(NicknameUpdateDto.Request request, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
         String nickname = request.getNickname();
@@ -64,18 +64,18 @@ public class UserInfoService {
 
         user.updateNickname(nickname);
 
-        return UpdateNicknameDto.Response.of(nickname);
+        return NicknameUpdateDto.Response.of(nickname);
 
     }
 
     @Transactional
-    public UpdateMBTIDto.Response updateMBTI(UpdateMBTIDto.Request request, String email) {
+    public MBTIUpdateDto.Response updateMBTI(MBTIUpdateDto.Request request, String email) {
         User user = userService.getUserByEmail(Email.of(email));
 
         MBTI mbti = MBTI.from(request.getMbti());
         user.updateMBTI(mbti);
 
-        return UpdateMBTIDto.Response.of(mbti);
+        return MBTIUpdateDto.Response.of(mbti);
 
     }
 }

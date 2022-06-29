@@ -1,10 +1,10 @@
-package com.cmc.finder.domain.viewcount.service;
+package com.cmc.finder.domain.qna.question.service;
 
 
+import com.cmc.finder.domain.qna.question.entity.Curious;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.viewcount.entity.ViewCount;
-import com.cmc.finder.domain.viewcount.repository.ViewCountRepository;
+import com.cmc.finder.domain.qna.question.repository.ViewCountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ public class ViewCountService {
     private final ViewCountRepository viewCountRepository;
 
 
-    public void addViewCount(ViewCount viewCount) {
+    public void addViewCount(Curious.ViewCount viewCount) {
 
         viewCountRepository.save(viewCount);
     }

@@ -1,4 +1,4 @@
-package com.cmc.finder.api.userinfo.dto;
+package com.cmc.finder.api.user.dto;
 
 import lombok.Builder;
 import lombok.Getter;

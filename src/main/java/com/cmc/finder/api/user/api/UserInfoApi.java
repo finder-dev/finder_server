@@ -1,9 +1,10 @@
-package com.cmc.finder.api.userinfo.api;
+package com.cmc.finder.api.user.api;
 
-import com.cmc.finder.api.userinfo.dto.UpdateMBTIDto;
-import com.cmc.finder.api.userinfo.dto.UpdateNicknameDto;
-import com.cmc.finder.api.userinfo.service.UserInfoService;
-import com.cmc.finder.api.userinfo.dto.UpdateProfileImgDto;
+import com.cmc.finder.api.user.dto.UpdateMBTIDto;
+import com.cmc.finder.api.user.dto.UpdateNicknameDto;
+import com.cmc.finder.api.user.service.UserActivityService;
+import com.cmc.finder.api.user.service.UserInfoService;
+import com.cmc.finder.api.user.dto.UpdateProfileImgDto;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 public class UserInfoApi {
 
     private final UserInfoService userInfoService;
+    private final UserActivityService userActivityService;
 
     @PatchMapping("/profileImg")
     public ResponseEntity<ApiResult<UpdateProfileImgDto.Response>> updateProfile(

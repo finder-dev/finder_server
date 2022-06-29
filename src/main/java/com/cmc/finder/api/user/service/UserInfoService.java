@@ -1,8 +1,8 @@
-package com.cmc.finder.api.userinfo.service;
+package com.cmc.finder.api.user.service;
 
-import com.cmc.finder.api.userinfo.dto.UpdateMBTIDto;
-import com.cmc.finder.api.userinfo.dto.UpdateNicknameDto;
-import com.cmc.finder.api.userinfo.dto.UpdateProfileImgDto;
+import com.cmc.finder.api.user.dto.UpdateMBTIDto;
+import com.cmc.finder.api.user.dto.UpdateNicknameDto;
+import com.cmc.finder.api.user.dto.UpdateProfileImgDto;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.entity.User;

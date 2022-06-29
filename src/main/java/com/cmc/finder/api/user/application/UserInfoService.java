@@ -1,4 +1,4 @@
-package com.cmc.finder.api.user.service;
+package com.cmc.finder.api.user.application;
 
 import com.cmc.finder.api.user.dto.UpdateMBTIDto;
 import com.cmc.finder.api.user.dto.UpdateNicknameDto;

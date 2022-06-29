@@ -32,6 +32,7 @@ public class QuestionSimpleDto {
     @Setter
     public static class Response {
 
+
         private Long questionId;
 
         private String title;

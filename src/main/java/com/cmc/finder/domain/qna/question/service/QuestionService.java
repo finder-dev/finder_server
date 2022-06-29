@@ -3,9 +3,12 @@ package com.cmc.finder.domain.qna.question.service;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.qna.question.exception.QuestionNotFountException;
 import com.cmc.finder.domain.qna.question.repository.QuestionRepository;
+import com.cmc.finder.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +31,12 @@ public class QuestionService {
 
         return questionRepository.findById(questionId)
                 .orElseThrow(QuestionNotFountException::new);
+
+    }
+
+    public List<Question> getQuestionsByUser(User user) {
+
+        return questionRepository.findAllByUser(user);
 
     }
 

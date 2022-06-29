@@ -4,6 +4,7 @@ import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.exception.DebateNotFoundException;
 import com.cmc.finder.domain.debate.repository.DebateRepository;
+import com.cmc.finder.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -51,5 +52,10 @@ public class DebateService {
     @Transactional
     public void deleteDebate(Debate debate) {
         debateRepository.delete(debate);
+    }
+
+    public List<Debate> getDebateByUser(User user) {
+
+        return debateRepository.findAllByWriter(user);
     }
 }

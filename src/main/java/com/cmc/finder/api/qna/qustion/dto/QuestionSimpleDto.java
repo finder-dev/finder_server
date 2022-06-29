@@ -31,6 +31,7 @@ public class QuestionSimpleDto {
     @Getter
     @Setter
     public static class Response {
+
         private Long questionId;
 
         private String title;
@@ -56,6 +57,7 @@ public class QuestionSimpleDto {
         public Response(Long questionId, String title, String content, String imageUrl,
                         String userNickname, MBTI userMBTI, Integer curiousCount,
                         Integer answerCount, Integer viewCount, LocalDateTime createTime) {
+
             this.questionId = questionId;
             this.title = title;
             this.content = content;
@@ -66,6 +68,7 @@ public class QuestionSimpleDto {
             this.answerCount = answerCount;
             this.viewCount = viewCount;
             this.createTime = createTime;
+
         }
 
         public static Response of(Question question) {

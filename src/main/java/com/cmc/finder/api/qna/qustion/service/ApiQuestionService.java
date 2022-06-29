@@ -7,12 +7,12 @@ import com.cmc.finder.domain.qna.answer.service.AnswerService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.qna.question.entity.Curious;
+import com.cmc.finder.domain.qna.question.entity.FavoriteQuestion;
 import com.cmc.finder.domain.qna.question.entity.Question;
-import com.cmc.finder.domain.qna.question.entity.QuestionFavorite;
 import com.cmc.finder.domain.qna.question.entity.QuestionImage;
 import com.cmc.finder.domain.qna.question.exception.QuestionImageMaxException;
 import com.cmc.finder.domain.qna.question.service.CuriousService;
-import com.cmc.finder.domain.qna.question.service.QuestionFavoriteService;
+import com.cmc.finder.domain.qna.question.service.FavoriteQuestionService;
 import com.cmc.finder.domain.qna.question.service.QuestionImageService;
 import com.cmc.finder.domain.qna.question.service.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -45,7 +46,7 @@ public class ApiQuestionService {
     private final QuestionRepositoryCustom questionRepositoryCustom;
     private final ViewCountService viewCountService;
     private final CuriousService curiousService;
-    private final QuestionFavoriteService questionFavoriteService;
+    private final FavoriteQuestionService favoriteQuestionService;
 
     private final AnswerService answerService;
     private final S3Uploader s3Uploader;
@@ -106,7 +107,7 @@ public class ApiQuestionService {
         List<Answer> answers = answerService.getAnswersByQuestionId(question.getQuestionId());
 
         // 이미 즐겨찾기?
-        Boolean favoriteUser = questionFavoriteService.existsUser(question, user);
+        Boolean favoriteUser = favoriteQuestionService.existsUser(question, user);
 
         // 이미 궁금해요 누른경우?
         Boolean alreadyCuriousUser = curiousService.existsUser(question, user);
@@ -143,13 +144,13 @@ public class ApiQuestionService {
         Question question = questionService.getQuestion(questionId);
         User user = userService.getUserByEmail(Email.of(email));
 
-        if (questionFavoriteService.existsUser(question, user)) {
-            questionFavoriteService.delete(question, user);
+        if (favoriteQuestionService.existsUser(question, user)) {
+            favoriteQuestionService.delete(question, user);
             return QuestionFavoriteAddOrDeleteDto.of(false);
         }
 
-        QuestionFavorite questionFavorite = QuestionFavorite.createQuestionFavorite(question, user);
-        questionFavoriteService.create(questionFavorite);
+        FavoriteQuestion favoriteQuestion = FavoriteQuestion.createFavoriteQuestion(question, user);
+        favoriteQuestionService.create(favoriteQuestion);
 
         return QuestionFavoriteAddOrDeleteDto.of(true);
 
@@ -228,5 +229,17 @@ public class ApiQuestionService {
         questionService.deleteQuestion(question);
 
         return QuestionDeleteDto.of();
+    }
+
+    public List<FavoriteQuestionResponse> getFavoriteQuestion(String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+
+        List<FavoriteQuestion> favoriteQuestionFetchQuestion = favoriteQuestionService.getFavoriteQuestionFetchQuestion(user);
+
+        return favoriteQuestionFetchQuestion.stream().map(
+                favoriteQuestion -> FavoriteQuestionResponse.of(user, favoriteQuestion)
+        ).collect(Collectors.toList());
+
     }
 }

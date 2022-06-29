@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -54,10 +55,20 @@ public class QuestionApi {
                         Sort.by(Sort.Direction.DESC, request.getOrderBy())
         );
 
-        Page<QuestionSimpleDto.Response> questionSimpleDtos = apiQuestionService.getQuestionList(pageable, MBTI.from(request.getMbti()));
-        return ResponseEntity.ok(ApiUtils.success(questionSimpleDtos));
+        Page<QuestionSimpleDto.Response> response = apiQuestionService.getQuestionList(pageable, MBTI.from(request.getMbti()));
+        return ResponseEntity.ok(ApiUtils.success(response));
 
     }
+
+    @GetMapping("/favorite")
+    public ResponseEntity<ApiResult<List<FavoriteQuestionResponse>>> getFavoriteQuestion(
+            @UserEmail String email
+    ){
+
+        List<FavoriteQuestionResponse> response = apiQuestionService.getFavoriteQuestion(email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
 
     @GetMapping("/{questionId}")
     public ResponseEntity<ApiResult<QuestionDetailDto>> getQuestionDetail(
@@ -69,6 +80,7 @@ public class QuestionApi {
         return ResponseEntity.ok(ApiUtils.success(questionDetailDto));
 
     }
+
 
     @PutMapping("/{questionId}")
     public ResponseEntity<ApiResult<QuestionUpdateDto.Response>> updateQuestion(
@@ -93,13 +105,12 @@ public class QuestionApi {
     }
 
 
-
-
     @PostMapping("/{questionId}/curious")
     public ResponseEntity<ApiResult<CuriousAddOrDeleteDto>> addOrDeleteCurious(
             @PathVariable Long questionId,
             @UserEmail String email
     ){
+
         CuriousAddOrDeleteDto response = apiQuestionService.addOrDeleteCurious(questionId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
@@ -113,7 +124,6 @@ public class QuestionApi {
         QuestionFavoriteAddOrDeleteDto response = apiQuestionService.addOrDeleteFavorite(questionId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
-
 
 
 }

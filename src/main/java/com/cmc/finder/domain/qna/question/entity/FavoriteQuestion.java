@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "question_favorite")
 @Getter
 @NoArgsConstructor
-public class QuestionFavorite {
+public class FavoriteQuestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +30,13 @@ public class QuestionFavorite {
     private Question question;
 
     @Builder
-    public QuestionFavorite(Question question, User user) {
+    public FavoriteQuestion(Question question, User user) {
         this.question = question;
         this.user = user;
     }
 
-    public static QuestionFavorite createQuestionFavorite(Question question, User user) {
-        return QuestionFavorite.builder()
+    public static FavoriteQuestion createFavoriteQuestion(Question question, User user) {
+        return FavoriteQuestion.builder()
                 .question(question)
                 .user(user)
                 .build();

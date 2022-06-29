@@ -1,4 +1,4 @@
-package com.cmc.finder.api.userinfo.dto;
+package com.cmc.finder.api.user.dto;
 
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.global.validator.Enum;

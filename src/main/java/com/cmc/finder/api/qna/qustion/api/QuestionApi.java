@@ -60,6 +60,13 @@ public class QuestionApi {
 
     }
 
+    @GetMapping("/hot")
+    public ResponseEntity<ApiResult<List<QuestionHotDto>>> getHotQuestion() {
+
+        List<QuestionHotDto> response = apiQuestionService.getHotQuestion();
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
     @GetMapping("/favorite")
     public ResponseEntity<ApiResult<List<FavoriteQuestionResponse>>> getFavoriteQuestion(
             @UserEmail String email

@@ -38,14 +38,11 @@ public class DebateCreateDto {
     @AllArgsConstructor
     public static class Response {
 
-        private String title;
-
-        private String nickname;
+        private Long debateId;
 
         public static Response of(Debate debate) {
             return DebateCreateDto.Response.builder()
-                    .title(debate.getTitle())
-                    .nickname(debate.getWriter().getNickname())
+                    .debateId(debate.getDebateId())
                     .build();
 
         }

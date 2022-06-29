@@ -36,7 +36,7 @@ public class Question extends BaseTimeEntity {
             mappedBy = "question",
             cascade = CascadeType.ALL
     )
-    private List<Curious.ViewCount> viewCounts = new ArrayList<>();
+    private List<ViewCount> viewCounts = new ArrayList<>();
 
     @ManyToOne(
             fetch = FetchType.LAZY
@@ -65,7 +65,7 @@ public class Question extends BaseTimeEntity {
 
 
 
-    public void addViewCount(Curious.ViewCount viewCount) {
+    public void addViewCount(ViewCount viewCount) {
         viewCounts.add(viewCount);
         viewCount.setQuestion(this);
     }

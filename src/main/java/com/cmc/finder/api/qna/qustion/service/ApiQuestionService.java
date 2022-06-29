@@ -238,4 +238,11 @@ public class ApiQuestionService {
         ).collect(Collectors.toList());
 
     }
+
+    public List<QuestionHotDto> getHotQuestion() {
+        List<Question> hotQuestions = questionService.getHotQuestion();
+        return hotQuestions.stream().map(question ->
+                QuestionHotDto.of(question)).collect(Collectors.toList());
+
+    }
 }

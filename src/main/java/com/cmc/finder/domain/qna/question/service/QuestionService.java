@@ -5,6 +5,7 @@ import com.cmc.finder.domain.qna.question.exception.QuestionNotFountException;
 import com.cmc.finder.domain.qna.question.repository.QuestionRepository;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,5 +51,11 @@ public class QuestionService {
     @Transactional
     public void deleteQuestion(Question question) {
         questionRepository.delete(question);
+    }
+
+    public List<Question> getHotQuestion() {
+
+        return questionRepository.findHotQuestions(PageRequest.of(0, 5));
+
     }
 }

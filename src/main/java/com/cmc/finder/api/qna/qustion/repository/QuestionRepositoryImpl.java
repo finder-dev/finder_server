@@ -35,7 +35,6 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
         List<Question> results = queryFactory
                 .select(question)
                 .from(question)
-//                .join(question.questionImages, questionImage)
                 .join(question.user, user).fetchJoin()
                 .where(
                         searchByMBTI(mbti)
@@ -81,7 +80,6 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
             }
         }
         return null;
-
     }
 
 }

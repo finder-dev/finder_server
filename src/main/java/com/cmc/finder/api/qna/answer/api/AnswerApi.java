@@ -1,18 +1,16 @@
 package com.cmc.finder.api.qna.answer.api;
 
-import com.cmc.finder.api.qna.answer.dto.AnswerCreateDto;
-import com.cmc.finder.api.qna.answer.dto.AnswerDeleteDto;
-import com.cmc.finder.api.qna.answer.dto.HelpfulAddOrDeleteDto;
+import com.cmc.finder.api.qna.answer.dto.*;
 import com.cmc.finder.api.qna.answer.service.ApiAnswerService;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
-import com.cmc.finder.infra.notification.FCMService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,6 +50,28 @@ public class AnswerApi {
     ) {
 
         AnswerDeleteDto response = apiAnswerService.deleteAnswer(answerId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+    @PostMapping("/{answerId}/reply")
+    public ResponseEntity<ApiResult<ReplyCreateDto.Response>> createReply(
+            @Valid ReplyCreateDto.Request request,
+            @PathVariable Long answerId,
+            @UserEmail String email
+    ) {
+
+        ReplyCreateDto.Response response = apiAnswerService.createReply(answerId, request, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+    @GetMapping("/{answerId}/reply")
+    public ResponseEntity<ApiResult<List<GetReplyRes>>> getReply(
+            @PathVariable Long answerId
+    ) {
+
+        List<GetReplyRes> response = apiAnswerService.getReply(answerId);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

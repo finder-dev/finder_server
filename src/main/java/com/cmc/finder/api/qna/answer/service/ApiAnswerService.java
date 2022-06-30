@@ -1,32 +1,29 @@
 package com.cmc.finder.api.qna.answer.service;
 
-import com.cmc.finder.api.qna.answer.dto.AnswerCreateDto;
-import com.cmc.finder.api.qna.answer.dto.AnswerDeleteDto;
-import com.cmc.finder.api.qna.answer.dto.HelpfulAddOrDeleteDto;
+import com.cmc.finder.api.qna.answer.dto.*;
 import com.cmc.finder.domain.qna.answer.entity.Answer;
 import com.cmc.finder.domain.qna.answer.entity.AnswerImage;
 import com.cmc.finder.domain.qna.answer.entity.Helpful;
+import com.cmc.finder.domain.qna.answer.entity.Reply;
 import com.cmc.finder.domain.qna.answer.service.AnswerService;
 import com.cmc.finder.domain.qna.answer.service.HelpfulService;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.domain.qna.answer.service.ReplyService;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.qna.question.service.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
-import com.cmc.finder.global.error.exception.BusinessException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
 import com.cmc.finder.infra.notification.FCMService;
-import com.cmc.finder.infra.notification.exception.NotificationFailedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.cmc.finder.global.util.Constants.QUESTION_ANSWER;
 
@@ -44,6 +41,7 @@ public class ApiAnswerService {
     private final AnswerService answerService;
     private final HelpfulService helpfulService;
     private final FCMService fcmService;
+    private final ReplyService replyService;
 
     private final S3Uploader s3Uploader;
 
@@ -112,5 +110,31 @@ public class ApiAnswerService {
         answerService.deleteAnswer(answer);
 
         return AnswerDeleteDto.of();
+    }
+
+    public ReplyCreateDto.Response createReply(Long answerId, ReplyCreateDto.Request request, String email) {
+
+        Answer answer = answerService.getAnswer(answerId);
+        User user = userService.getUserByEmail(Email.of(email));
+
+        Reply reply = request.toEntity();
+        Reply saveReply = Reply.createReply(reply, user, answer);
+
+        saveReply = replyService.create(saveReply);
+
+        return ReplyCreateDto.Response.of(saveReply);
+
+    }
+
+    public List<GetReplyRes> getReply(Long answerId) {
+
+        List<Reply> replyList = replyService.getReplyByAnswerFetchUser(answerId);
+
+        List<GetReplyRes> getReplyRes = replyList.stream().map(reply ->
+                GetReplyRes.of(reply)
+        ).collect(Collectors.toList());
+        return getReplyRes;
+
+
     }
 }

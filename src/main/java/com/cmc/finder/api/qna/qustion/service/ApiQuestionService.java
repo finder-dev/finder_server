@@ -227,14 +227,14 @@ public class ApiQuestionService {
         return QuestionDeleteDto.of();
     }
 
-    public List<FavoriteQuestionResponse> getFavoriteQuestion(String email) {
+    public List<FavoriteQuestionRes> getFavoriteQuestion(String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
 
         List<FavoriteQuestion> favoriteQuestionFetchQuestion = favoriteQuestionService.getFavoriteQuestionFetchQuestion(user);
 
         return favoriteQuestionFetchQuestion.stream().map(
-                favoriteQuestion -> FavoriteQuestionResponse.of(user, favoriteQuestion)
+                favoriteQuestion -> FavoriteQuestionRes.of(user, favoriteQuestion)
         ).collect(Collectors.toList());
 
     }

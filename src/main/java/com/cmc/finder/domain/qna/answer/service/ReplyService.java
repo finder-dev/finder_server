@@ -2,6 +2,7 @@ package com.cmc.finder.domain.qna.answer.service;
 
 import com.cmc.finder.domain.qna.answer.entity.Answer;
 import com.cmc.finder.domain.qna.answer.entity.Reply;
+import com.cmc.finder.domain.qna.answer.exception.ReplyNotFoundException;
 import com.cmc.finder.domain.qna.answer.repostiory.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,18 @@ public class ReplyService {
         return replyRepository.save(reply);
     }
 
-    public List<Reply> getReplyByAnswerFetchUser(Long answerId) {
-        return replyRepository.findAllByAnswerFetchUser(answerId);
-
+    public Reply getReplyFetchUser(Long replyId) {
+        return replyRepository.findByIdFetchUser(replyId)
+                .orElseThrow(ReplyNotFoundException::new);
     }
 
+    public List<Reply> getReplyByAnswerFetchUser(Long answerId) {
+        return replyRepository.findAllByAnswerFetchUser(answerId);
+    }
+
+    @Transactional
+    public void deleteReply(Reply reply) {
+        replyRepository.delete(reply);
+
+    }
 }

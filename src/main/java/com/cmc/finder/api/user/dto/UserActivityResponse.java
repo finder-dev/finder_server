@@ -1,6 +1,5 @@
 package com.cmc.finder.api.user.dto;
 
-import com.cmc.finder.api.qna.qustion.dto.FavoriteQuestionResponse;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import com.fasterxml.jackson.annotation.JsonFormat;

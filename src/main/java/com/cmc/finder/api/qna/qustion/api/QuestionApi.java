@@ -68,11 +68,11 @@ public class QuestionApi {
     }
 
     @GetMapping("/favorite")
-    public ResponseEntity<ApiResult<List<FavoriteQuestionResponse>>> getFavoriteQuestion(
+    public ResponseEntity<ApiResult<List<FavoriteQuestionRes>>> getFavoriteQuestion(
             @UserEmail String email
     ){
 
-        List<FavoriteQuestionResponse> response = apiQuestionService.getFavoriteQuestion(email);
+        List<FavoriteQuestionRes> response = apiQuestionService.getFavoriteQuestion(email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

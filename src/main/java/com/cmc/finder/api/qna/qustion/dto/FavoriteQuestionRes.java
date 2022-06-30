@@ -2,7 +2,6 @@ package com.cmc.finder.api.qna.qustion.dto;
 
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.qna.question.entity.FavoriteQuestion;
-import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-public class FavoriteQuestionResponse {
+public class FavoriteQuestionRes {
 
     private Long questionId;
 
@@ -29,9 +28,9 @@ public class FavoriteQuestionResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    public static FavoriteQuestionResponse of(User user, FavoriteQuestion favoriteQuestion) {
+    public static FavoriteQuestionRes of(User user, FavoriteQuestion favoriteQuestion) {
 
-        FavoriteQuestionResponse response = FavoriteQuestionResponse.builder()
+        FavoriteQuestionRes response = FavoriteQuestionRes.builder()
                 .questionId(favoriteQuestion.getQuestion().getQuestionId())
                 .title(favoriteQuestion.getQuestion().getTitle())
                 .content(favoriteQuestion.getQuestion().getContent())

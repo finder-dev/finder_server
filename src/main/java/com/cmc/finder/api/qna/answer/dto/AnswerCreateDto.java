@@ -13,7 +13,6 @@ import java.util.List;
 
 public class AnswerCreateDto {
 
-
     @Getter @Setter
     public static class Request {
 

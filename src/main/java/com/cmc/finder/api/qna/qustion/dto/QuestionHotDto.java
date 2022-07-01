@@ -1,6 +1,5 @@
 package com.cmc.finder.api.qna.qustion.dto;
 
-import com.cmc.finder.api.community.dto.CommunityHotDto;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import lombok.Builder;
 import lombok.Getter;

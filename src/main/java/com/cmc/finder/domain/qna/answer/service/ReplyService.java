@@ -27,8 +27,8 @@ public class ReplyService {
                 .orElseThrow(ReplyNotFoundException::new);
     }
 
-    public List<Reply> getReplyByAnswerFetchUser(Long answerId) {
-        return replyRepository.findAllByAnswerFetchUser(answerId);
+    public List<Reply> getReplyByAnswerFetchUser(Answer answer) {
+        return replyRepository.findAllByAnswerFetchUser(answer);
     }
 
     @Transactional

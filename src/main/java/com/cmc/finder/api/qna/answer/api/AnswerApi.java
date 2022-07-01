@@ -77,10 +77,10 @@ public class AnswerApi {
 
     }
 
-    @DeleteMapping("/{replyId}")
-    public ResponseEntity<ApiResult<DeleteReplyRes> deleteReply(
+    @DeleteMapping("/reply/{replyId}")
+    public ResponseEntity<ApiResult<DeleteReplyRes>> deleteReply(
             @PathVariable Long replyId,
-            @Email String email
+            @UserEmail String email
     ) {
 
         DeleteReplyRes response = apiAnswerService.deleteReply(replyId, email);

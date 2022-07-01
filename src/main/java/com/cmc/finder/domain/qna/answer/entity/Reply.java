@@ -1,5 +1,6 @@
 package com.cmc.finder.domain.qna.answer.entity;
 
+import com.cmc.finder.domain.base.BaseTimeEntity;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "reply")
 @Getter
 @NoArgsConstructor
-public class Reply {
+public class Reply extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

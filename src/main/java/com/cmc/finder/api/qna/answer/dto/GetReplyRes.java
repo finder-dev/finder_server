@@ -35,6 +35,7 @@ public class GetReplyRes {
                 .content(reply.getContent())
                 .userNickname(reply.getUser().getNickname())
                 .userMBTI(reply.getUser().getMbti())
+                .createTime(reply.getCreateTime())
                 .build();
 
         return response;

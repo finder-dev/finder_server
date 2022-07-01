@@ -130,7 +130,9 @@ public class ApiAnswerService {
 
     public List<GetReplyRes> getReply(Long answerId) {
 
-        List<Reply> replyList = replyService.getReplyByAnswerFetchUser(answerId);
+
+        Answer answer = answerService.getAnswer(answerId);
+        List<Reply> replyList = replyService.getReplyByAnswerFetchUser(answer);
 
         List<GetReplyRes> getReplyRes = replyList.stream().map(reply ->
                 GetReplyRes.of(reply)

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import java.util.List;
 
 @RestController
@@ -72,6 +73,17 @@ public class AnswerApi {
     ) {
 
         List<GetReplyRes> response = apiAnswerService.getReply(answerId);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+    @DeleteMapping("/{replyId}")
+    public ResponseEntity<ApiResult<DeleteReplyRes> deleteReply(
+            @PathVariable Long replyId,
+            @Email String email
+    ) {
+
+        DeleteReplyRes response = apiAnswerService.deleteReply(replyId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

@@ -112,6 +112,7 @@ public class ApiAnswerService {
         return AnswerDeleteDto.of();
     }
 
+    @Transactional
     public ReplyCreateDto.Response createReply(Long answerId, ReplyCreateDto.Request request, String email) {
 
         Answer answer = answerService.getAnswer(answerId);
@@ -121,6 +122,7 @@ public class ApiAnswerService {
         Reply saveReply = Reply.createReply(reply, user, answer);
 
         saveReply = replyService.create(saveReply);
+        answer.addReply(saveReply);
 
         return ReplyCreateDto.Response.of(saveReply);
 
@@ -135,6 +137,21 @@ public class ApiAnswerService {
         ).collect(Collectors.toList());
         return getReplyRes;
 
+    }
+
+    @Transactional
+    public DeleteReplyRes deleteReply(Long replyId, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        Reply reply = replyService.getReplyFetchUser(replyId);
+
+        if (user != reply.getUser()) {
+            throw new AuthenticationException(ErrorCode.REPLY_USER_BE_NOT_WRITER);
+        }
+
+        replyService.deleteReply(reply);
+
+        return DeleteReplyRes.of();
 
     }
 }

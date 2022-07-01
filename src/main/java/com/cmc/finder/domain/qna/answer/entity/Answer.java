@@ -53,6 +53,17 @@ public class Answer extends BaseTimeEntity {
     )
     private List<Helpful> helpfuls = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "answer",
+            cascade = CascadeType.ALL
+    )
+    private List<Reply> replies = new ArrayList<>();
+
+    public void addReply(Reply reply) {
+        replies.add(reply);
+        reply.setAnswer(this);
+    }
+
 
     public void addHelpful(Helpful helpful) {
         helpfuls.add(helpful);

@@ -156,4 +156,21 @@ public class ApiAnswerService {
         return DeleteReplyRes.of();
 
     }
+
+    @Transactional
+    public ReplyUpdateDto.Response updateReply(ReplyUpdateDto.Request request, Long replyId, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        Reply reply = replyService.getReplyFetchUser(replyId);
+
+        if (user != reply.getUser()) {
+            throw new AuthenticationException(ErrorCode.REPLY_USER_BE_NOT_WRITER);
+        }
+
+        Reply updateReply = request.toEntity();
+        Reply updatedReply = replyService.updateReply(reply, updateReply);
+
+        return ReplyUpdateDto.Response.of(updatedReply);
+
+    }
 }

@@ -22,6 +22,12 @@ public class ReplyService {
         return replyRepository.save(reply);
     }
 
+    public Reply getReply(Long replyId) {
+        return replyRepository.findById(replyId)
+                .orElseThrow(ReplyNotFoundException::new);
+    }
+
+
     public Reply getReplyFetchUser(Long replyId) {
         return replyRepository.findByIdFetchUser(replyId)
                 .orElseThrow(ReplyNotFoundException::new);
@@ -34,6 +40,11 @@ public class ReplyService {
     @Transactional
     public void deleteReply(Reply reply) {
         replyRepository.delete(reply);
+    }
 
+    @Transactional
+    public Reply updateReply(Reply reply, Reply updateReply) {
+        reply.updateReply(updateReply);
+        return reply;
     }
 }

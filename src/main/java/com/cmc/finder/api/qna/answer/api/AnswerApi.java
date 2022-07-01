@@ -77,6 +77,18 @@ public class AnswerApi {
 
     }
 
+    @PatchMapping("/reply/{replyId}")
+    public ResponseEntity<ApiResult<ReplyUpdateDto.Response>> updateReply(
+            @Valid ReplyUpdateDto.Request request,
+            @PathVariable Long replyId,
+            @UserEmail String email
+    ) {
+
+        ReplyUpdateDto.Response response = apiAnswerService.updateReply(request, replyId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
     @DeleteMapping("/reply/{replyId}")
     public ResponseEntity<ApiResult<DeleteReplyRes>> deleteReply(
             @PathVariable Long replyId,

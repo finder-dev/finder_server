@@ -56,4 +56,7 @@ public class Reply extends BaseTimeEntity {
     }
 
 
+    public void updateReply(Reply savedReply) {
+        this.content = savedReply.getContent();
+    }
 }

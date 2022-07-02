@@ -13,6 +13,8 @@ import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.global.error.exception.AuthenticationException;
+import com.cmc.finder.global.error.exception.BusinessException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -40,19 +42,31 @@ public class LoginService {
         OAuthAttributes oAuthAttributes = getSocialUserInfo(accessToken, UserType.from(request.getUserType()));
         User oauthUser;
 
+        // 회원가입
         if (!userService.existsUser(Email.of(oAuthAttributes.getEmail()))) {
 
-            loginValidator.validateOauthSignUpRequest(request);
-
-            String fileName = "";
-            if (request.getProfileImg() != null) {
-                fileName = s3Uploader.uploadFile(request.getProfileImg(), PATH);
+            if (request.getNickname() == null && request.getMbti() == null) {
+                throw new BusinessException(ErrorCode.PROCEED_WITH_SIGNUP);
             }
 
-            oauthUser = oAuthAttributes.toUserEntity(request, fileName);
-            userService.register(oauthUser);
+            // 회원가입
+            else {
+
+                //TODO 프로필 이미지 삭제
+                String fileName = "";
+                if (request.getProfileImg() != null) {
+                    fileName = s3Uploader.uploadFile(request.getProfileImg(), PATH);
+                }
+
+                loginValidator.validateOauthSignUpRequest(request);
+                oauthUser = oAuthAttributes.toUserEntity(request, fileName);
+                userService.register(oauthUser);
+
+            }
+
 
         } else {
+
             oauthUser = userService.getUserByEmail(Email.of(oAuthAttributes.getEmail()));
             loginValidator.validateUserType(oauthUser, UserType.from(request.getUserType()));
 

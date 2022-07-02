@@ -47,28 +47,30 @@ public enum ErrorCode {
     CURIOUS_NOT_EXISTS(401,"해당 궁금해요를 찾을 수 없습니다." ),
     QUESTION_IMAGE_MAX(400, "최대 10개까지 사진을 추가하실 수 있습니다."),
     QUESETION_FAVORITE_NOT_EXISTS(401, "해당 질문에 대한 즐겨찾기를 찾을 수 없습니다."),
-    QUESTION_USER_BE_NOT_WRITER(401, "해당 질문에 대한 작성자가 아닙니다."),
+    QUESTION_USER_BE_NOT_WRITER(403, "해당 질문에 대한 작성자가 아닙니다."),
 
     // 답변
     ANSWER_IMAGE_MAX(400, "최대 10개까지 사진을 추가하실 수 있습니다."),
     ANSWER_NOT_EXISTS(400, "해당 답변을 찾을 수 없습니다."),
     HELPFUL_NOT_EXISTS(401, "해당 도움이 됐어요를 찾을 수 없습니다."),
-    ANSWER_USER_BE_NOT_WRITER(401, "해당 답변에 대한 작성자가 아닙니다."),
+    ANSWER_USER_BE_NOT_WRITER(403, "해당 답변에 대한 작성자가 아닙니다."),
     REPLY_NOT_EXISTS(401,"해당 댓글을 찾을 수 없습니다." ),
-    REPLY_USER_BE_NOT_WRITER(401, "해당 답변의 댓글에 대한 작성자가 아닙니다." ),
+    REPLY_USER_BE_NOT_WRITER(403, "해당 답변의 댓글에 대한 작성자가 아닙니다." ),
     // 토론
     DEBATE_NOT_EXISTS(401, "해당 토론을 찾을 수 없습니다."),
     DEBATER_NOT_EXISTS(401, "해당 토론자를 찾을 수 없습니다."),
-    DEBATE_USER_BE_NOT_WRITER(401, "해당 토론에 대한 작성자가 아닙니다."),
+    DEBATE_USER_BE_NOT_WRITER(403, "해당 토론에 대한 작성자가 아닙니다."),
     DEBATE_ANSWER_NOT_EXISTS(401, "해당 토론 답변을 찾을 수 없습니다."),
     DEBATE_ANSWER_USER_BE_NOT_WRITER(401, "해당 토론 답변에 대한 작성자가 아닙니다."),
 
     // 알림
     NOTIFICATION_NOT_EXISTS(401,"해당 알림을 찾을 수 없습니다." ),
-
     NOT_MATCH_USER_TYPE(400, "소셜 타입이 일치하지 않습니다."),
+    NOTIFICATION_FAILED(400, "알림 전송에 실패하였습니다."),
 
-    NOTIFICATION_FAILED(400, "알림 전송에 실패하였습니다.");
+    //TODO 위치 고민
+    // 소셜 로그인 -> 회원가입 진행
+    PROCEED_WITH_SIGNUP(300, "회원가입을 진행해주세요.");
 
 
 

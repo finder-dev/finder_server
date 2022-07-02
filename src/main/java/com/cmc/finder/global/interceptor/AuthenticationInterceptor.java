@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private final TokenValidator tokenValidator;
-
     private final TokenManager tokenManager;
 
     @Override

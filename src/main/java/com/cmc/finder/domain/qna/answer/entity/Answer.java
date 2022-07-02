@@ -57,11 +57,11 @@ public class Answer extends BaseTimeEntity {
             mappedBy = "answer",
             cascade = CascadeType.ALL
     )
-    private List<Reply> replies = new ArrayList<>();
+    private List<AnswerReply> replies = new ArrayList<>();
 
-    public void addReply(Reply reply) {
-        replies.add(reply);
-        reply.setAnswer(this);
+    public void addReply(AnswerReply answerReply) {
+        replies.add(answerReply);
+        answerReply.setAnswer(this);
     }
 
 

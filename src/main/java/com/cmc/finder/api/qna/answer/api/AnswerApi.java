@@ -77,16 +77,30 @@ public class AnswerApi {
 
     }
 
-    @DeleteMapping("/{replyId}")
-    public ResponseEntity<ApiResult<DeleteReplyRes> deleteReply(
+    @PatchMapping("/reply/{replyId}")
+    public ResponseEntity<ApiResult<ReplyUpdateDto.Response>> updateReply(
+            @Valid ReplyUpdateDto.Request request,
             @PathVariable Long replyId,
-            @Email String email
+            @UserEmail String email
+    ) {
+
+        ReplyUpdateDto.Response response = apiAnswerService.updateReply(request, replyId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+    @DeleteMapping("/reply/{replyId}")
+    public ResponseEntity<ApiResult<DeleteReplyRes>> deleteReply(
+            @PathVariable Long replyId,
+            @UserEmail String email
     ) {
 
         DeleteReplyRes response = apiAnswerService.deleteReply(replyId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
+
+
 
 
 }

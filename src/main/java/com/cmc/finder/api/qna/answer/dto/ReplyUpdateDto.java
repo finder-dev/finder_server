@@ -5,7 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
-public class ReplyCreateDto {
+public class ReplyUpdateDto {
 
     @Getter
     @Setter
@@ -31,10 +31,13 @@ public class ReplyCreateDto {
 
         private Long replyId;
 
+        private String content;
+
         public static Response of(AnswerReply answerReply) {
 
             return Response.builder()
                     .replyId(answerReply.getReplyId())
+                    .content(answerReply.getContent())
                     .build();
 
         }

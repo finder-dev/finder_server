@@ -32,11 +32,11 @@ public class DebateAnswerService {
 
     }
 
-
     public DebateAnswer getDebateAnswer(Long debateAnswerId) {
         return debateAnswerRepository.findById(debateAnswerId)
                 .orElseThrow(DebateAnswerNotFoundException::new);
     }
+
 
     @Transactional
     public void deleteDebateAnswer(DebateAnswer debateAnswer) {

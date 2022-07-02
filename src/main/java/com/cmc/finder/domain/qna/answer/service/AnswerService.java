@@ -31,6 +31,11 @@ public class AnswerService {
                 .orElseThrow(AnswerNotFoundException::new);
     }
 
+    public Answer getAnswerFetchQuestion(Long answerId) {
+        return answerRepository.findById(answerId)
+                .orElseThrow(AnswerNotFoundException::new);
+    }
+
     @Transactional
     public void deleteAnswer(Answer answer) {
 

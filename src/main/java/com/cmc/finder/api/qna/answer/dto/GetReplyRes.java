@@ -1,10 +1,7 @@
 package com.cmc.finder.api.qna.answer.dto;
 
-import com.cmc.finder.api.qna.qustion.dto.FavoriteQuestionRes;
 import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.qna.answer.entity.Reply;
-import com.cmc.finder.domain.qna.question.entity.FavoriteQuestion;
-import com.cmc.finder.domain.user.entity.User;
+import com.cmc.finder.domain.qna.answer.entity.AnswerReply;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,13 +25,14 @@ public class GetReplyRes {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    public static GetReplyRes of(Reply reply) {
+    public static GetReplyRes of(AnswerReply answerReply) {
 
         GetReplyRes response = GetReplyRes.builder()
-                .replyId(reply.getReplyId())
-                .content(reply.getContent())
-                .userNickname(reply.getUser().getNickname())
-                .userMBTI(reply.getUser().getMbti())
+                .replyId(answerReply.getReplyId())
+                .content(answerReply.getContent())
+                .userNickname(answerReply.getUser().getNickname())
+                .userMBTI(answerReply.getUser().getMbti())
+                .createTime(answerReply.getCreateTime())
                 .build();
 
         return response;

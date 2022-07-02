@@ -1,11 +1,12 @@
-package com.cmc.finder.api.qna.answer.dto;
+package com.cmc.finder.api.debate.dto;
 
+import com.cmc.finder.domain.debate.entity.DebateAnswerReply;
 import com.cmc.finder.domain.qna.answer.entity.AnswerReply;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
-public class ReplyCreateDto {
+public class DebateReplyCreateDto {
 
     @Getter
     @Setter
@@ -14,8 +15,8 @@ public class ReplyCreateDto {
         @NotBlank(message = "글 내용은 필수값 입니다.")
         private String content;
 
-        public AnswerReply toEntity() {
-            return AnswerReply.builder()
+        public DebateAnswerReply toEntity() {
+            return DebateAnswerReply.builder()
                     .content(content)
                     .build();
         }
@@ -29,12 +30,12 @@ public class ReplyCreateDto {
     @AllArgsConstructor
     public static class Response {
 
-        private Long replyId;
+        private Long debateReplyId;
 
-        public static Response of(AnswerReply answerReply) {
+        public static Response of(DebateAnswerReply debateAnswerReply) {
 
             return Response.builder()
-                    .replyId(answerReply.getReplyId())
+                    .debateReplyId(debateAnswerReply.getDebateReplyId())
                     .build();
 
         }

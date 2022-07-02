@@ -38,10 +38,5 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-//    public Member findMemberByRefreshToken(String refreshToken) {
-//
-//        return memberRepository.findByRefreshToken(refreshToken)
-//                .orElseThrow(() -> new TokenNotFoundException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
-//
-//    }
+
 }

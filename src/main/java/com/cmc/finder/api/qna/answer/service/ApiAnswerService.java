@@ -1,6 +1,9 @@
 package com.cmc.finder.api.qna.answer.service;
 
 import com.cmc.finder.api.qna.answer.dto.*;
+import com.cmc.finder.domain.notification.constant.NotificationType;
+import com.cmc.finder.domain.notification.entity.Notification;
+import com.cmc.finder.domain.notification.service.NotificationService;
 import com.cmc.finder.domain.qna.answer.entity.Answer;
 import com.cmc.finder.domain.qna.answer.entity.AnswerImage;
 import com.cmc.finder.domain.qna.answer.entity.Helpful;
@@ -26,6 +29,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.cmc.finder.global.util.Constants.QUESTION_ANSWER;
+import static com.cmc.finder.global.util.Constants.QUESTION_ANSWER_REPLY;
 
 
 @RequiredArgsConstructor
@@ -42,6 +46,7 @@ public class ApiAnswerService {
     private final HelpfulService helpfulService;
     private final FCMService fcmService;
     private final ReplyService replyService;
+    private final NotificationService notificationService;
 
     private final S3Uploader s3Uploader;
 
@@ -70,11 +75,14 @@ public class ApiAnswerService {
 
         Answer savedAnswer = answerService.create(saveAnswer);
 
+        // 알림 생성
+        createNotification(question, QUESTION_ANSWER);
         fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(), QUESTION_ANSWER);
 
         return AnswerCreateDto.Response.of(savedAnswer);
 
     }
+
 
     @Transactional
     public HelpfulAddOrDeleteDto addOrDeleteHelpful(Long answerId, String email) {
@@ -115,7 +123,7 @@ public class ApiAnswerService {
     @Transactional
     public ReplyCreateDto.Response createReply(Long answerId, ReplyCreateDto.Request request, String email) {
 
-        Answer answer = answerService.getAnswer(answerId);
+        Answer answer = answerService.getAnswerFetchQuestion(answerId);
         User user = userService.getUserByEmail(Email.of(email));
 
         Reply reply = request.toEntity();
@@ -123,6 +131,9 @@ public class ApiAnswerService {
 
         saveReply = replyService.create(saveReply);
         answer.addReply(saveReply);
+
+        createNotification(answer.getQuestion(), QUESTION_ANSWER_REPLY);
+        fcmService.sendMessageTo(answer.getUser().getFcmToken(), answer.getQuestion().getTitle(), QUESTION_ANSWER_REPLY);
 
         return ReplyCreateDto.Response.of(saveReply);
 
@@ -172,5 +183,11 @@ public class ApiAnswerService {
 
         return ReplyUpdateDto.Response.of(updatedReply);
 
+    }
+
+
+    private void createNotification(Question question, String content) {
+        Notification notification = Notification.createNotification(question.getTitle(), content, NotificationType.QUESTION, question.getUser(), question, null);
+        notificationService.create(notification);
     }
 }

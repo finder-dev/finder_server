@@ -24,9 +24,7 @@ public class FCMService {
             fcmClient.requestNotification(CONTENT_TYPE, "Bearer " + getAccessToken(), message);
         } catch (IOException e) {
             throw new NotificationFailedException();
-
         }
-
 
     }
 

@@ -5,15 +5,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
-    //TODO answerImg fetch join시 중복 문제
 
     @Query("select a from Answer a " +
-//            "join fetch a.answerImages ai " +
             "join fetch a.user u " +
             "where a.question.questionId=:questionId ")
     List<Answer> findAllByQuestionId(Long questionId);
 
+    @Query("select a from Answer a " +
+            "join fetch a.question q " +
+            "where a.answerId=:answerId ")
+    Optional<Answer> findAnswerByAnswerIdFetchQuestion(Long answerId);
 }

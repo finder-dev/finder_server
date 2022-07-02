@@ -247,7 +247,7 @@ public class ApiDebateService {
     }
 
     private void createNotification(Debate debate, String content) {
-        Notification notification = Notification.createNotification(debate.getTitle(), content, NotificationType.DEBATE, debate.getWriter(), null, debate);
+        Notification notification = Notification.createNotification(debate.getTitle(), content, NotificationType.DEBATE, debate.getWriter(), debate.getDebateId());
         notificationService.create(notification);
     }
 

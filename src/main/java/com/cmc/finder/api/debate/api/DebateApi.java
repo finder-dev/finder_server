@@ -89,16 +89,16 @@ public class DebateApi {
 
     }
 
-    //TODO 토론 삭제는 없나?
-    @DeleteMapping("/{debateId}")
-    public ResponseEntity<ApiResult<DebateDeleteDto>> deleteDebate(
-            @PathVariable Long debateId,
-            @UserEmail String email
-    ) {
-
-        DebateDeleteDto response = apiDebateService.deleteDebate(debateId, email);
-        return ResponseEntity.ok(ApiUtils.success(response));
-    }
+//    //TODO 토론 삭제는 없나?
+//    @DeleteMapping("/{debateId}")
+//    public ResponseEntity<ApiResult<DebateDeleteDto>> deleteDebate(
+//            @PathVariable Long debateId,
+//            @UserEmail String email
+//    ) {
+//
+//        DebateDeleteDto response = apiDebateService.deleteDebate(debateId, email);
+//        return ResponseEntity.ok(ApiUtils.success(response));
+//    }
 
     @DeleteMapping("/debate-answer/{debateAnswerId}")
     public ResponseEntity<ApiResult<DebateAnswerDeleteDto>> deleteDebateAnswer(

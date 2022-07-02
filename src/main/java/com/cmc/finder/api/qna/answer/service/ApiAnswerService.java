@@ -187,7 +187,7 @@ public class ApiAnswerService {
 
 
     private void createNotification(Question question, String content) {
-        Notification notification = Notification.createNotification(question.getTitle(), content, NotificationType.QUESTION, question.getUser(), question, null);
+        Notification notification = Notification.createNotification(question.getTitle(), content, NotificationType.QUESTION, question.getUser(), question.getQuestionId());
         notificationService.create(notification);
     }
 }

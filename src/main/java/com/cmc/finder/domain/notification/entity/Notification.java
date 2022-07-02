@@ -40,39 +40,40 @@ public class Notification {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(name = "question_id")
-    private Question question;
+    @Column(nullable = false)
+    private Long serviceId;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(name = "debate_id")
-    private Debate debate;
+//    @ManyToOne(
+//            fetch = FetchType.LAZY
+//    )
+//    @JoinColumn(name = "question_id")
+//    private Question question;
+//
+//    @ManyToOne(
+//            fetch = FetchType.LAZY
+//    )
+//    @JoinColumn(name = "debate_id")
+//    private Debate debate;
 
 
     @Builder
-    public Notification(Long notificationId, NotificationType notificationType, String title, String content, User user, Question question, Debate debate) {
+    public Notification(Long notificationId, NotificationType notificationType, String title, String content, User user, Long serviceId) {
         this.notificationId = notificationId;
         this.notificationType = notificationType;
         this.title = title;
         this.content = content;
         this.user = user;
-        this.question = question;
-        this.debate = debate;
+        this.serviceId = serviceId;
     }
 
-    public static Notification createNotification(String title, String content, NotificationType notificationType, User user, Question question, Debate debate) {
+    public static Notification createNotification(String title, String content, NotificationType notificationType, User user, Long serviceId) {
 
         return Notification.builder()
                 .title(title)
                 .content(content)
                 .notificationType(notificationType)
                 .user(user)
-                .question(question)
-                .debate(debate)
+                .serviceId(serviceId)
                 .build();
     }
 

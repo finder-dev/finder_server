@@ -1,7 +1,6 @@
 package com.cmc.finder.domain.qna.answer.entity;
 
 import com.cmc.finder.domain.base.BaseTimeEntity;
-import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,10 +9,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "reply")
+@Table(name = "answer_reply")
 @Getter
 @NoArgsConstructor
-public class Reply extends BaseTimeEntity {
+public class AnswerReply extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,15 +36,15 @@ public class Reply extends BaseTimeEntity {
     private Answer answer;
 
     @Builder
-    public Reply(String content, User user, Answer answer) {
+    public AnswerReply(String content, User user, Answer answer) {
         this.content = content;
         this.user = user;
         this.answer = answer;
     }
 
-    public static Reply createReply(Reply reply, User user, Answer answer) {
-        return Reply.builder()
-                .content(reply.content)
+    public static AnswerReply createReply(AnswerReply answerReply, User user, Answer answer) {
+        return AnswerReply.builder()
+                .content(answerReply.content)
                 .user(user)
                 .answer(answer)
                 .build();
@@ -56,7 +55,7 @@ public class Reply extends BaseTimeEntity {
     }
 
 
-    public void updateReply(Reply savedReply) {
-        this.content = savedReply.getContent();
+    public void updateReply(AnswerReply savedAnswerReply) {
+        this.content = savedAnswerReply.getContent();
     }
 }

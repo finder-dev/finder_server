@@ -2,6 +2,10 @@ package com.cmc.finder.api.debate.api;
 
 import com.cmc.finder.api.debate.dto.*;
 import com.cmc.finder.api.debate.service.ApiDebateService;
+import com.cmc.finder.api.qna.answer.dto.DeleteReplyRes;
+import com.cmc.finder.api.qna.answer.dto.GetReplyRes;
+import com.cmc.finder.api.qna.answer.dto.ReplyCreateDto;
+import com.cmc.finder.api.qna.answer.dto.ReplyUpdateDto;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
@@ -14,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -103,6 +108,53 @@ public class DebateApi {
 
         DebateAnswerDeleteDto response = apiDebateService.deleteDebateAnswer(debateAnswerId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
+
+
+    @PostMapping("/debate-answer/{debateAnswerId}/debate-reply")
+    public ResponseEntity<ApiResult<DebateReplyCreateDto.Response>> createDebateReply(
+            @Valid DebateReplyCreateDto.Request request,
+            @PathVariable Long debateAnswerId,
+            @UserEmail String email
+    ) {
+
+        DebateReplyCreateDto.Response response = apiDebateService.createDebateReply(debateAnswerId, request, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+    @GetMapping("/debate-answer/{debateAnswerId}/debate-reply")
+    public ResponseEntity<ApiResult<List<GetDebateReplyRes>>> getDebateReply(
+            @PathVariable Long debateAnswerId
+    ) {
+
+        List<GetDebateReplyRes> response = apiDebateService.getDebateReply(debateAnswerId);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+    @PatchMapping("/debate-answer/debate-reply/{debateReplyId}")
+    public ResponseEntity<ApiResult<DebateReplyUpdateDto.Response>> updateDebateReply(
+            @Valid DebateReplyUpdateDto.Request request,
+            @PathVariable Long debateReplyId,
+            @UserEmail String email
+    ) {
+
+        DebateReplyUpdateDto.Response response = apiDebateService.updateDebateReply(request, debateReplyId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+    @DeleteMapping("/debate-answer/debate-reply/{debateReplyId}")
+    public ResponseEntity<ApiResult<DeleteDebateReplyRes>> deleteDebateReply(
+            @PathVariable Long debateReplyId,
+            @UserEmail String email
+    ) {
+
+        DeleteDebateReplyRes response = apiDebateService.deleteDebateReply(debateReplyId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
     }
 
 

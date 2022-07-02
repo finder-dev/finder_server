@@ -2,32 +2,41 @@ package com.cmc.finder.api.debate.service;
 
 import com.cmc.finder.api.debate.dto.*;
 import com.cmc.finder.api.debate.repository.DebateRepositoryCustom;
+import com.cmc.finder.api.qna.answer.dto.DeleteReplyRes;
+import com.cmc.finder.api.qna.answer.dto.GetReplyRes;
+import com.cmc.finder.api.qna.answer.dto.ReplyCreateDto;
+import com.cmc.finder.api.qna.answer.dto.ReplyUpdateDto;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
+import com.cmc.finder.domain.debate.entity.DebateAnswerReply;
 import com.cmc.finder.domain.debate.entity.Debater;
+import com.cmc.finder.domain.debate.service.DebateAnswerReplyService;
 import com.cmc.finder.domain.debate.service.DebateAnswerService;
 import com.cmc.finder.domain.debate.service.DebateService;
 import com.cmc.finder.domain.debate.service.DebaterService;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.domain.notification.constant.NotificationType;
+import com.cmc.finder.domain.notification.entity.Notification;
+import com.cmc.finder.domain.notification.service.NotificationService;
+import com.cmc.finder.domain.qna.answer.entity.Answer;
+import com.cmc.finder.domain.qna.answer.entity.AnswerReply;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.notification.FCMService;
-import com.cmc.finder.infra.notification.exception.NotificationFailedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static com.cmc.finder.global.util.Constants.DEBATE_ANSWER;
-import static com.cmc.finder.global.util.Constants.QUESTION_ANSWER;
+import static com.cmc.finder.global.util.Constants.*;
 
 
 @RequiredArgsConstructor
@@ -41,6 +50,8 @@ public class ApiDebateService {
     private final UserService userService;
     private final DebateRepositoryCustom debateRepositoryCustom;
     private final FCMService fcmService;
+    private final NotificationService notificationService;
+    private final DebateAnswerReplyService debateAnswerReplyService;
 
 
     public DebateCreateDto.Response createDebate(DebateCreateDto.Request request, String email) {
@@ -130,6 +141,7 @@ public class ApiDebateService {
         saveDebateAnswer = debateAnswerService.saveDebateAnswer(saveDebateAnswer);
 
         fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER);
+        createNotification(debate, DEBATE_ANSWER);
 
         return DebateAnswerCreateDto.Response.of(saveDebateAnswer);
 
@@ -168,4 +180,76 @@ public class ApiDebateService {
         return DebateAnswerDeleteDto.of();
 
     }
+
+    @Transactional
+    public DebateReplyCreateDto.Response createDebateReply(Long debateAnswerId, DebateReplyCreateDto.Request request, String email) {
+
+        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswer(debateAnswerId);
+        User user = userService.getUserByEmail(Email.of(email));
+
+        DebateAnswerReply debateAnswerReply = request.toEntity();
+        DebateAnswerReply saveDebateAnswerReply = DebateAnswerReply.createDebateReply(debateAnswerReply, user, debateAnswer);
+
+        saveDebateAnswerReply = debateAnswerReplyService.create(saveDebateAnswerReply);
+        debateAnswer.addDebateReply(saveDebateAnswerReply);
+
+        createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY);
+        fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY);
+
+        return DebateReplyCreateDto.Response.of(saveDebateAnswerReply);
+
+    }
+
+    public List<GetDebateReplyRes> getDebateReply(Long debateAnswerId) {
+
+
+        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswer(debateAnswerId);
+        List<DebateAnswerReply> answerReplyList = debateAnswerReplyService.getDebateReplyByAnswerFetchUser(debateAnswer);
+
+        List<GetDebateReplyRes> getReplyRes = answerReplyList.stream().map(reply ->
+                GetDebateReplyRes.of(reply)
+        ).collect(Collectors.toList());
+        return getReplyRes;
+
+    }
+
+    @Transactional
+    public DeleteDebateReplyRes deleteDebateReply(Long debateReplyId, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        DebateAnswerReply debateAnswerReply = debateAnswerReplyService.getDebateReplyFetchUser(debateReplyId);
+
+        if (user != debateAnswerReply.getUser()) {
+            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_BE_NOT_WRITER);
+        }
+
+        debateAnswerReplyService.deleteDebateReply(debateAnswerReply);
+
+        return DeleteDebateReplyRes.of();
+
+    }
+
+    @Transactional
+    public DebateReplyUpdateDto.Response updateDebateReply(DebateReplyUpdateDto.Request request, Long debateReplyId, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        DebateAnswerReply debateAnswerReply = debateAnswerReplyService.getDebateReplyFetchUser(debateReplyId);
+
+        if (user != debateAnswerReply.getUser()) {
+            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_BE_NOT_WRITER);
+        }
+
+        DebateAnswerReply updateDebateAnswerReply = request.toEntity();
+        DebateAnswerReply updatedDebateAnswerReply = debateAnswerReplyService.updateDebateReply(debateAnswerReply, updateDebateAnswerReply);
+
+        return DebateReplyUpdateDto.Response.of(updatedDebateAnswerReply);
+
+    }
+
+    private void createNotification(Debate debate, String content) {
+        Notification notification = Notification.createNotification(debate.getTitle(), content, NotificationType.DEBATE, debate.getWriter(), null, debate);
+        notificationService.create(notification);
+    }
+
+
 }

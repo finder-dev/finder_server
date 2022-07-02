@@ -6,12 +6,12 @@ import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.service.NotificationService;
 import com.cmc.finder.domain.qna.answer.entity.Answer;
 import com.cmc.finder.domain.qna.answer.entity.AnswerImage;
+import com.cmc.finder.domain.qna.answer.entity.AnswerReply;
 import com.cmc.finder.domain.qna.answer.entity.Helpful;
-import com.cmc.finder.domain.qna.answer.entity.Reply;
 import com.cmc.finder.domain.qna.answer.service.AnswerService;
 import com.cmc.finder.domain.qna.answer.service.HelpfulService;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.qna.answer.service.ReplyService;
+import com.cmc.finder.domain.qna.answer.service.AnswerReplyService;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.qna.question.service.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
@@ -45,7 +45,7 @@ public class ApiAnswerService {
     private final AnswerService answerService;
     private final HelpfulService helpfulService;
     private final FCMService fcmService;
-    private final ReplyService replyService;
+    private final AnswerReplyService answerReplyService;
     private final NotificationService notificationService;
 
     private final S3Uploader s3Uploader;
@@ -126,16 +126,16 @@ public class ApiAnswerService {
         Answer answer = answerService.getAnswerFetchQuestion(answerId);
         User user = userService.getUserByEmail(Email.of(email));
 
-        Reply reply = request.toEntity();
-        Reply saveReply = Reply.createReply(reply, user, answer);
+        AnswerReply answerReply = request.toEntity();
+        AnswerReply saveAnswerReply = AnswerReply.createReply(answerReply, user, answer);
 
-        saveReply = replyService.create(saveReply);
-        answer.addReply(saveReply);
+        saveAnswerReply = answerReplyService.create(saveAnswerReply);
+        answer.addReply(saveAnswerReply);
 
         createNotification(answer.getQuestion(), QUESTION_ANSWER_REPLY);
         fcmService.sendMessageTo(answer.getUser().getFcmToken(), answer.getQuestion().getTitle(), QUESTION_ANSWER_REPLY);
 
-        return ReplyCreateDto.Response.of(saveReply);
+        return ReplyCreateDto.Response.of(saveAnswerReply);
 
     }
 
@@ -143,9 +143,9 @@ public class ApiAnswerService {
 
 
         Answer answer = answerService.getAnswer(answerId);
-        List<Reply> replyList = replyService.getReplyByAnswerFetchUser(answer);
+        List<AnswerReply> answerReplyList = answerReplyService.getReplyByAnswerFetchUser(answer);
 
-        List<GetReplyRes> getReplyRes = replyList.stream().map(reply ->
+        List<GetReplyRes> getReplyRes = answerReplyList.stream().map(reply ->
                 GetReplyRes.of(reply)
         ).collect(Collectors.toList());
         return getReplyRes;
@@ -156,13 +156,13 @@ public class ApiAnswerService {
     public DeleteReplyRes deleteReply(Long replyId, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
-        Reply reply = replyService.getReplyFetchUser(replyId);
+        AnswerReply answerReply = answerReplyService.getReplyFetchUser(replyId);
 
-        if (user != reply.getUser()) {
+        if (user != answerReply.getUser()) {
             throw new AuthenticationException(ErrorCode.REPLY_USER_BE_NOT_WRITER);
         }
 
-        replyService.deleteReply(reply);
+        answerReplyService.deleteReply(answerReply);
 
         return DeleteReplyRes.of();
 
@@ -172,16 +172,16 @@ public class ApiAnswerService {
     public ReplyUpdateDto.Response updateReply(ReplyUpdateDto.Request request, Long replyId, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
-        Reply reply = replyService.getReplyFetchUser(replyId);
+        AnswerReply answerReply = answerReplyService.getReplyFetchUser(replyId);
 
-        if (user != reply.getUser()) {
+        if (user != answerReply.getUser()) {
             throw new AuthenticationException(ErrorCode.REPLY_USER_BE_NOT_WRITER);
         }
 
-        Reply updateReply = request.toEntity();
-        Reply updatedReply = replyService.updateReply(reply, updateReply);
+        AnswerReply updateAnswerReply = request.toEntity();
+        AnswerReply updatedAnswerReply = answerReplyService.updateReply(answerReply, updateAnswerReply);
 
-        return ReplyUpdateDto.Response.of(updatedReply);
+        return ReplyUpdateDto.Response.of(updatedAnswerReply);
 
     }
 

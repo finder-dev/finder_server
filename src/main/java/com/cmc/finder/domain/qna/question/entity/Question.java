@@ -46,8 +46,7 @@ public class Question extends BaseTimeEntity {
 
     @OneToMany(
             mappedBy = "question",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
     private List<QuestionImage> questionImages = new ArrayList<>();
 
@@ -62,8 +61,6 @@ public class Question extends BaseTimeEntity {
             cascade = CascadeType.ALL
     )
     private List<Curious> curiousList = new ArrayList<>();
-
-
 
     public void addViewCount(ViewCount viewCount) {
         viewCounts.add(viewCount);

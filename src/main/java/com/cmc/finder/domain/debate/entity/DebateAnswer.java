@@ -40,7 +40,7 @@ public class DebateAnswer extends BaseTimeEntity {
 
     @OneToMany(
             mappedBy = "debateAnswer",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.PERSIST
     )
     private List<DebateAnswerReply> replies = new ArrayList<>();
 
@@ -50,7 +50,6 @@ public class DebateAnswer extends BaseTimeEntity {
         replies.add(saveDebateAnswerReply);
         saveDebateAnswerReply.setDebateAnswer(this);
     }
-
 
     @Builder
     public DebateAnswer(String content, User user, Debate debate) {

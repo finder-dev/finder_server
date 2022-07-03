@@ -51,13 +51,15 @@ public class QuestionSimpleDto {
 
         private Integer viewCount;
 
+        private Boolean isQuestion;
+
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime createTime;
 
         @Builder
         public Response(Long questionId, String title, String content, String imageUrl,
                         String userNickname, MBTI userMBTI, Integer curiousCount,
-                        Integer answerCount, Integer viewCount, LocalDateTime createTime) {
+                        Integer answerCount, Integer viewCount, Boolean isQuestion, LocalDateTime createTime) {
 
             this.questionId = questionId;
             this.title = title;
@@ -68,6 +70,7 @@ public class QuestionSimpleDto {
             this.curiousCount = curiousCount;
             this.answerCount = answerCount;
             this.viewCount = viewCount;
+            this.isQuestion = isQuestion;
             this.createTime = createTime;
 
         }
@@ -83,6 +86,7 @@ public class QuestionSimpleDto {
                     .curiousCount(question.getCuriousList().size())
                     .answerCount(question.getAnswers().size())
                     .viewCount(question.getViewCounts().size())
+                    .isQuestion(question.getIsQuestion())
                     .createTime(question.getCreateTime())
                     .build();
 

@@ -7,6 +7,7 @@ import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,9 @@ public class Question extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private MBTI mbti;
+
+    @Column(nullable = false)
+    private Boolean isQuestion;
 
     @OneToMany(
             mappedBy = "question",
@@ -83,10 +87,11 @@ public class Question extends BaseTimeEntity {
     }
 
     @Builder
-    public Question(String title,String content, MBTI mbti, User user) {
+    public Question(String title, String content, Boolean isQuestion, MBTI mbti, User user) {
         this.title = title;
         this.content = content;
         this.mbti = mbti;
+        this.isQuestion = isQuestion;
         this.user = user;
     }
 
@@ -95,6 +100,7 @@ public class Question extends BaseTimeEntity {
                 .title(question.title)
                 .content(question.content)
                 .mbti(question.mbti)
+                .isQuestion(question.isQuestion)
                 .user(user)
                 .build();
     }

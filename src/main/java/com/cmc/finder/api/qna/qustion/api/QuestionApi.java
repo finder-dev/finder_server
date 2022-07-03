@@ -1,7 +1,7 @@
 package com.cmc.finder.api.qna.qustion.api;
 
 import com.cmc.finder.api.qna.qustion.dto.*;
-import com.cmc.finder.api.qna.qustion.service.ApiQuestionService;
+import com.cmc.finder.api.qna.qustion.application.ApiQuestionService;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.qna.question.constant.OrderBy;
 import com.cmc.finder.global.resolver.UserEmail;

@@ -23,7 +23,6 @@ public class LoginApi {
     private final LoginService loginService;
     private final TokenValidator tokenValidator;
 
-
     @PostMapping("/login")
     public ResponseEntity<ApiResult<TokenDto>> login(
             @Valid LoginRequestDto loginRequestDto

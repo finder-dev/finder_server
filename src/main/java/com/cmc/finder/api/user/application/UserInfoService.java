@@ -1,5 +1,6 @@
 package com.cmc.finder.api.user.application;
 
+import com.cmc.finder.api.user.dto.GetUserInfoRes;
 import com.cmc.finder.api.user.dto.MBTIUpdateDto;
 import com.cmc.finder.api.user.dto.NicknameUpdateDto;
 import com.cmc.finder.api.user.dto.ProfileImgUpdateDto;
@@ -76,6 +77,13 @@ public class UserInfoService {
         user.updateMBTI(mbti);
 
         return MBTIUpdateDto.Response.of(mbti);
+
+    }
+
+    public GetUserInfoRes getUserInfo(String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        return GetUserInfoRes.of(user);
 
     }
 }

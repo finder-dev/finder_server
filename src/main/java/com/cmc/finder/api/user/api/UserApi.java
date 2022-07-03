@@ -1,11 +1,8 @@
 package com.cmc.finder.api.user.api;
 
-import com.cmc.finder.api.user.dto.MBTIUpdateDto;
-import com.cmc.finder.api.user.dto.NicknameUpdateDto;
+import com.cmc.finder.api.user.dto.*;
 import com.cmc.finder.api.user.application.UserActivityService;
 import com.cmc.finder.api.user.application.UserInfoService;
-import com.cmc.finder.api.user.dto.ProfileImgUpdateDto;
-import com.cmc.finder.api.user.dto.UserActivityResponse;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
@@ -23,6 +20,16 @@ public class UserApi {
 
     private final UserInfoService userInfoService;
     private final UserActivityService userActivityService;
+
+    @GetMapping
+    public ResponseEntity<ApiResult<GetUserInfoRes>> getUserInfo(
+            @UserEmail String email
+    ) {
+
+        GetUserInfoRes response = userInfoService.getUserInfo(email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
 
     @PatchMapping("/profileImg")
     public ResponseEntity<ApiResult<ProfileImgUpdateDto.Response>> updateProfile(
@@ -68,17 +75,5 @@ public class UserApi {
 
     }
 
-
-//    @GetMapping
-//    public ResponseEntity<UserDto> getUser(
-//            @RequestParam("email") String email
-//    ) {
-//
-//        User user = userService.getUserByEmail(Email.of(email));
-//        List<Keyword> keywordByMember = keywordService.getKeywordByMember(user);
-//
-//        return ResponseEntity.ok(UserDto.of(user, keywordByMember));
-//
-//    }
 
 }

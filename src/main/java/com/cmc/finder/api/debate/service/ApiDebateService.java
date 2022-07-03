@@ -252,4 +252,22 @@ public class ApiDebateService {
     }
 
 
+    public GetHotDebateRes getHotDebate(String email) {
+
+        Debate debate = debateService.getHotDebate();
+        User user = userService.getUserByEmail(Email.of(email));
+
+        Debater debater = debaterService.getDebater(user, debate);
+
+        // Option A count
+        Long countA = debaterService.getDebaterCountByOption(debate, Option.A);
+
+        // Option B count
+        Long countB = debaterService.getDebaterCountByOption(debate, Option.B);
+
+        return GetHotDebateRes.of(debate, countA, countB, debater);
+
+
+
+    }
 }

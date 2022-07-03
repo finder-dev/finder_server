@@ -13,8 +13,7 @@ import java.util.stream.Collectors;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class UserDto {
+public class GetUserInfoRes {
 
     private String email;
 
@@ -22,20 +21,12 @@ public class UserDto {
 
     private String nickname;
 
-    private String profileUrl;
+    public static GetUserInfoRes of(User user) {
 
-    private List<String> keywords;
-
-    public static UserDto of(User user, List<Keyword> keywordByMember) {
-
-        List<String> keywords = keywordByMember.stream().map(keyword -> keyword.getKeyword()).collect(Collectors.toList());
-
-        return UserDto.builder()
+        return GetUserInfoRes.builder()
                 .email(user.getEmail().getValue())
                 .mbti(user.getMbti())
                 .nickname(user.getNickname())
-                .profileUrl(user.getProfileImg())
-                .keywords(keywords)
                 .build();
 
     }

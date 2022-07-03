@@ -62,9 +62,18 @@ public class DebateApi {
                 page.isPresent() ? page.get() : 0,
                 SET_PAGE_ITEM_MAX_COUNT);
 
-        Page<DebateSimpleDto.Response> questionSimpleDtos = apiDebateService.getDebateList(request, pageable);
-        return ResponseEntity.ok(ApiUtils.success(questionSimpleDtos));
+        Page<DebateSimpleDto.Response> response = apiDebateService.getDebateList(request, pageable);
+        return ResponseEntity.ok(ApiUtils.success(response));
 
+    }
+
+    @GetMapping("/hot")
+    public ResponseEntity<ApiResult<GetHotDebateRes>> getHotDebate(
+            @UserEmail String email
+    ) {
+
+        GetHotDebateRes response = apiDebateService.getHotDebate(email);
+        return ResponseEntity.ok(ApiUtils.success(response));
     }
 
     @GetMapping("/{debateId}")

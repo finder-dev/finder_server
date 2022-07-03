@@ -1,8 +1,8 @@
-package com.cmc.finder.api.qna.qustion.dto;
+package com.cmc.finder.api.community.dto;
 
+import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.model.OrderBy;
-import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 
-public class QuestionSimpleDto {
+public class CommunitySimpleDto {
 
     @Getter
     @Setter
@@ -33,7 +33,7 @@ public class QuestionSimpleDto {
     public static class Response {
 
 
-        private Long questionId;
+        private Long communityId;
 
         private String title;
 
@@ -45,11 +45,9 @@ public class QuestionSimpleDto {
 
         private MBTI userMBTI;
 
-        private Integer curiousCount;
+        private Integer likeCount;
 
         private Integer answerCount;
-
-        private Integer viewCount;
 
         private Boolean isQuestion;
 
@@ -57,41 +55,39 @@ public class QuestionSimpleDto {
         private LocalDateTime createTime;
 
         @Builder
-        public Response(Long questionId, String title, String content, String imageUrl,
-                        String userNickname, MBTI userMBTI, Integer curiousCount,
-                        Integer answerCount, Integer viewCount, Boolean isQuestion, LocalDateTime createTime) {
+        public Response(Long communityId, String title, String content, String imageUrl,
+                        String userNickname, MBTI userMBTI, Integer likeCount,
+                        Integer answerCount,  Boolean isQuestion, LocalDateTime createTime) {
 
-            this.questionId = questionId;
+            this.communityId = communityId;
             this.title = title;
             this.content = content;
             this.imageUrl = imageUrl;
             this.userNickname = userNickname;
             this.userMBTI = userMBTI;
-            this.curiousCount = curiousCount;
+            this.likeCount = likeCount;
             this.answerCount = answerCount;
-            this.viewCount = viewCount;
             this.isQuestion = isQuestion;
             this.createTime = createTime;
 
         }
 
-        public static Response of(Question question) {
+        public static Response of(Community community) {
 
             Response response = Response.builder()
-                    .questionId(question.getQuestionId())
-                    .title(question.getTitle())
-                    .content(question.getContent())
-                    .userNickname(question.getUser().getNickname())
-                    .userMBTI(question.getUser().getMbti())
-                    .curiousCount(question.getCuriousList().size())
-                    .answerCount(question.getAnswers().size())
-                    .viewCount(question.getViewCounts().size())
-                    .isQuestion(question.getIsQuestion())
-                    .createTime(question.getCreateTime())
+                    .communityId(community.getCommunityId())
+                    .title(community.getTitle())
+                    .content(community.getContent())
+                    .userNickname(community.getUser().getNickname())
+                    .userMBTI(community.getUser().getMbti())
+                    .likeCount(community.getLikeList().size())
+                    .answerCount(community.getCommunityAnswers().size())
+                    .isQuestion(community.getIsQuestion())
+                    .createTime(community.getCreateTime())
                     .build();
 
-            if (question.getQuestionImages().size() != 0) {
-                response.imageUrl = question.getQuestionImages().get(0).getImageUrl();
+            if (community.getCommunityImages().size() != 0) {
+                response.imageUrl = community.getCommunityImages().get(0).getImageUrl();
             }
 
             return response;

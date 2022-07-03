@@ -6,13 +6,13 @@ import lombok.Setter;
 
 @Getter @Setter
 @Builder
-public class LogoutRequestDto {
+public class LogoutResponse {
 
     private String message;
 
-    public static LogoutRequestDto of() {
+    public static LogoutResponse of() {
 
-        return LogoutRequestDto.builder()
+        return LogoutResponse.builder()
                 .message("logout success")
                 .build();
 

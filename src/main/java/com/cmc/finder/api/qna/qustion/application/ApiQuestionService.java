@@ -39,7 +39,6 @@ public class ApiQuestionService {
     private final UserService userService;
     private final QuestionService questionService;
     private final QuestionImageService questionImageService;
-    private final QuestionRepositoryCustom questionRepositoryCustom;
     private final ViewCountService viewCountService;
     private final CuriousService curiousService;
     private final FavoriteQuestionService favoriteQuestionService;

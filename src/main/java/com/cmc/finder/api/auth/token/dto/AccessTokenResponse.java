@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-public class AccessTokenResponseDto {
+public class AccessTokenResponse {
 
     private String grantType;
 
@@ -20,8 +20,8 @@ public class AccessTokenResponseDto {
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
     private Date accessTokenExpireTime;
 
-    public static AccessTokenResponseDto of(String accessToken, Date accessTokenExpireTime) {
-        return AccessTokenResponseDto.builder()
+    public static AccessTokenResponse of(String accessToken, Date accessTokenExpireTime) {
+        return AccessTokenResponse.builder()
                 .grantType(GrantType.BEARRER.getType())
                 .accessToken(accessToken)
                 .accessTokenExpireTime(accessTokenExpireTime)

@@ -1,6 +1,5 @@
 package com.cmc.finder.api.qna.qustion.dto;
 
-import com.cmc.finder.api.auth.logout.dto.LogoutRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

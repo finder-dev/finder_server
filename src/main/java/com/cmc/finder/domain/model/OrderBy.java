@@ -1,8 +1,8 @@
-package com.cmc.finder.domain.qna.question.constant;
+package com.cmc.finder.domain.model;
 
 public enum OrderBy {
 
-    VIEW_COUNT, CREATE_TIME;
+    ANSWER_COUNT, VIEW_COUNT, CREATE_TIME;
 
 
     public static OrderBy from(String orderBy) {

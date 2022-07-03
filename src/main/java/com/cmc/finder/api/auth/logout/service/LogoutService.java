@@ -1,6 +1,6 @@
 package com.cmc.finder.api.auth.logout.service;
 
-import com.cmc.finder.api.auth.logout.dto.LogoutRequestDto;
+import com.cmc.finder.api.auth.logout.dto.LogoutResponse;
 import com.cmc.finder.domain.jwt.service.RefreshTokenRedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ public class LogoutService {
     private final RefreshTokenRedisService refreshTokenRedisService;
 
     @Transactional
-    public LogoutRequestDto logout(String email) {
+    public LogoutResponse logout(String email) {
 
         refreshTokenRedisService.deleteRefreshToken(email);
-        return LogoutRequestDto.of();
+        return LogoutResponse.of();
 
     }
 }

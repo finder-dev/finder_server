@@ -1,6 +1,6 @@
 package com.cmc.finder.api.auth.token.service;
 
-import com.cmc.finder.api.auth.token.dto.AccessTokenResponseDto;
+import com.cmc.finder.api.auth.token.dto.AccessTokenResponse;
 import com.cmc.finder.domain.jwt.service.RefreshTokenRedisService;
 import com.cmc.finder.domain.jwt.entity.RefreshToken;
 import com.cmc.finder.domain.jwt.service.TokenManager;
@@ -20,7 +20,7 @@ public class TokenService {
     private final TokenManager tokenManager;
     private final RefreshTokenRedisService refreshTokenRedisService;
 
-    public AccessTokenResponseDto updateAccessToken(String token) {
+    public AccessTokenResponse reIssueAccessToken(String token) {
 
         String email = tokenManager.getUserEmail(token);
         RefreshToken refreshToken = refreshTokenRedisService.getRefreshTokenByEmail(email);
@@ -32,7 +32,7 @@ public class TokenService {
         Date accessTokenExpireTime = tokenManager.createAccessTokenExpireTime();
         String accessToken = tokenManager.createAccessToken(email, accessTokenExpireTime);
 
-        return AccessTokenResponseDto.of(accessToken, accessTokenExpireTime);
+        return AccessTokenResponse.of(accessToken, accessTokenExpireTime);
 
     }
 

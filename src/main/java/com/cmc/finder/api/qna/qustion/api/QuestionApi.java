@@ -3,7 +3,7 @@ package com.cmc.finder.api.qna.qustion.api;
 import com.cmc.finder.api.qna.qustion.dto.*;
 import com.cmc.finder.api.qna.qustion.application.ApiQuestionService;
 import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.qna.question.constant.OrderBy;
+import com.cmc.finder.domain.model.OrderBy;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
@@ -29,6 +29,7 @@ public class QuestionApi {
     private Integer SET_PAGE_ITEM_MAX_COUNT;
 
     private final ApiQuestionService apiQuestionService;
+
 
     @PostMapping
     public ResponseEntity<ApiResult<QuestionCreateDto.Response>> createQuestion(

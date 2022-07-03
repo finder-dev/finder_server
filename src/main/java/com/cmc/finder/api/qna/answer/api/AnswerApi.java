@@ -1,7 +1,7 @@
 package com.cmc.finder.api.qna.answer.api;
 
 import com.cmc.finder.api.qna.answer.dto.*;
-import com.cmc.finder.api.qna.answer.service.ApiAnswerService;
+import com.cmc.finder.api.qna.answer.application.ApiAnswerService;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import java.util.List;
 
 @RestController

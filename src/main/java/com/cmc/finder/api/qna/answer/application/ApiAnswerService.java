@@ -1,4 +1,4 @@
-package com.cmc.finder.api.qna.answer.service;
+package com.cmc.finder.api.qna.answer.application;
 
 import com.cmc.finder.api.qna.answer.dto.*;
 import com.cmc.finder.domain.notification.constant.NotificationType;

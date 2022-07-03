@@ -1,4 +1,4 @@
-package com.cmc.finder.api.qna.qustion.repository;
+package com.cmc.finder.domain.qna.question.repository;
 
 import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
 import com.cmc.finder.domain.model.MBTI;
@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.cmc.finder.domain.qna.question.entity.QQuestion.question;
-import static com.cmc.finder.domain.qna.question.entity.QQuestionImage.questionImage;
 import static com.cmc.finder.domain.user.entity.QUser.user;
 
 @Repository
@@ -31,7 +30,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom {
     }
 
     @Override
-    public Page<QuestionSimpleDto.Response> findQuestionSimpleDto(Pageable pageable, MBTI mbti) {
+    public Page<QuestionSimpleDto.Response> findPageQuestionByMBTI(Pageable pageable, MBTI mbti) {
         List<Question> results = queryFactory
                 .select(question)
                 .from(question)

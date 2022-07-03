@@ -1,11 +1,15 @@
 package com.cmc.finder.domain.qna.question.service;
 
+import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
+import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.qna.question.exception.QuestionNotFountException;
 import com.cmc.finder.domain.qna.question.repository.QuestionRepository;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +60,12 @@ public class QuestionService {
     public List<Question> getHotQuestion() {
 
         return questionRepository.findHotQuestions(PageRequest.of(0, 5));
+
+    }
+
+    public Page<QuestionSimpleDto.Response> getQuestionList(Pageable pageable, MBTI mbti) {
+
+        return questionRepository.findPageQuestionByMBTI(pageable, mbti);
 
     }
 }

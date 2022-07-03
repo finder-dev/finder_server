@@ -1,7 +1,7 @@
-package com.cmc.finder.api.qna.qustion.service;
+package com.cmc.finder.api.qna.qustion.application;
 
 import com.cmc.finder.api.qna.qustion.dto.*;
-import com.cmc.finder.api.qna.qustion.repository.QuestionRepositoryCustom;
+import com.cmc.finder.domain.qna.question.repository.QuestionRepositoryCustom;
 import com.cmc.finder.domain.qna.answer.entity.Answer;
 import com.cmc.finder.domain.qna.answer.service.AnswerService;
 import com.cmc.finder.domain.model.Email;
@@ -76,7 +76,7 @@ public class ApiQuestionService {
 
     public Page<QuestionSimpleDto.Response> getQuestionList(Pageable pageable, MBTI mbti) {
 
-        Page<QuestionSimpleDto.Response> questionPage = questionRepositoryCustom.findQuestionSimpleDto(pageable, mbti);
+        Page<QuestionSimpleDto.Response> questionPage = questionService.getQuestionList(pageable, mbti);
         return questionPage;
 
     }

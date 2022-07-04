@@ -12,7 +12,8 @@ public interface CommunityAnswerRepository extends JpaRepository<CommunityAnswer
 
     @Query("select ca from CommunityAnswer ca " +
             "join fetch ca.user u " +
-            "where ca.community.communityId=:communityId ")
+            "where ca.community.communityId=:communityId "+
+            "order by ca.communityAnswerId desc ")
     List<CommunityAnswer> findAllByCommunityIdFetchUser(Long communityId);
 
     @Query("select ca from CommunityAnswer ca " +

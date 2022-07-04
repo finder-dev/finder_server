@@ -23,7 +23,6 @@ public class CommunityAnswerService {
     private final CommunityAnswerRepository communityAnswerRepository;
 
     public List<CommunityAnswer> getAnswersByCommunityId(Long communityId) {
-
         return communityAnswerRepository.findAllByCommunityIdFetchUser(communityId);
 
     }

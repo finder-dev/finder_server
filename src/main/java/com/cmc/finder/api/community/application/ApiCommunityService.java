@@ -93,10 +93,10 @@ public class ApiCommunityService {
         // 커뮤니티 조회
         Community community = communityService.getCommunityFetchUser(communityId);
 
-        // 답변 조회
+        // 답변 조회 -> id 역순
         List<CommunityAnswer> answers = communityAnswerService.getAnswersByCommunityId(community.getCommunityId());
 
-        // 이미 즐겨찾기?
+        // 이미 좋아요?
         Boolean likeUser = likeService.existsUser(community, user);
 
         return CommunityDetailDto.of(community, answers, likeUser);

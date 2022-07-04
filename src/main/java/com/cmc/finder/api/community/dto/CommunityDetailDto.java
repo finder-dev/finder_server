@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -130,25 +131,75 @@ public class CommunityDetailDto {
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime createTime;
 
+        private List<ReplyHistDto> replyHistDtos = new ArrayList<>();
+
         @Builder
-        public AnswerHistDto(Long answerId, String answerContent, MBTI userMBTI, String userNickname, LocalDateTime createTime) {
+        public AnswerHistDto(Long answerId, String answerContent, MBTI userMBTI, String userNickname,List<ReplyHistDto> replyHistDtos, LocalDateTime createTime) {
             this.answerId = answerId;
             this.answerContent = answerContent;
             this.userMBTI = userMBTI;
             this.userNickname = userNickname;
+            this.replyHistDtos = replyHistDtos;
             this.createTime = createTime;
         }
 
         public static AnswerHistDto of(CommunityAnswer answer) {
+
+            Collections.reverse(answer.getReplies());
+            List<ReplyHistDto> replies = answer.getReplies().stream().map(reply ->
+                    ReplyHistDto.of(reply)
+            ).collect(Collectors.toList());
 
             return AnswerHistDto.builder()
                     .answerId(answer.getCommunityAnswerId())
                     .answerContent(answer.getContent())
                     .userMBTI(answer.getUser().getMbti())
                     .userNickname(answer.getUser().getNickname())
+                    .replyHistDtos(replies)
                     .createTime(answer.getCreateTime())
                     .build();
         }
+
+        @Getter
+        @Setter
+        private static class ReplyHistDto {
+
+            private Long replyId;
+
+            private String replyContent;
+
+            private MBTI userMBTI;
+
+            private String userNickname;
+
+            @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+            private LocalDateTime createTime;
+
+            @Builder
+            public ReplyHistDto(Long replyId, String replyContent, MBTI userMBTI, String userNickname, LocalDateTime createTime) {
+                this.replyId = replyId;
+                this.replyContent = replyContent;
+                this.userMBTI = userMBTI;
+                this.userNickname = userNickname;
+                this.createTime = createTime;
+            }
+
+            public static ReplyHistDto of(CommunityAnswer answer) {
+
+                return ReplyHistDto.builder()
+                        .replyId(answer.getCommunityAnswerId())
+                        .replyContent(answer.getContent())
+                        .userMBTI(answer.getUser().getMbti())
+                        .userNickname(answer.getUser().getNickname())
+                        .createTime(answer.getCreateTime())
+                        .build();
+            }
+
+        }
+
+
     }
+
+
 
 }

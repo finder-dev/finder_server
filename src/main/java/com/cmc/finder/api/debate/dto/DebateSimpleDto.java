@@ -2,15 +2,12 @@ package com.cmc.finder.api.debate.dto;
 
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
-import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.qna.question.constant.OrderBy;
 import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 

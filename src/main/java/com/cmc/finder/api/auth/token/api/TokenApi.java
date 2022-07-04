@@ -1,6 +1,6 @@
 package com.cmc.finder.api.auth.token.api;
 
-import com.cmc.finder.api.auth.token.dto.AccessTokenResponseDto;
+import com.cmc.finder.api.auth.token.dto.AccessTokenResponse;
 import com.cmc.finder.api.auth.token.service.TokenService;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
@@ -22,16 +22,16 @@ public class TokenApi {
     private final TokenValidator tokenValidator;
 
     @PostMapping("/reissue")
-    public ResponseEntity<ApiResult<AccessTokenResponseDto>> updateAccessToken(
+    public ResponseEntity<ApiResult<AccessTokenResponse>> updateAccessToken(
             @RequestHeader(HttpHeaders.AUTHORIZATION) String authorization
     ) {
 
         tokenValidator.validateAuthorization(authorization);
 
         String refreshToken = authorization.split(" ")[1];
-        AccessTokenResponseDto accessTokenResponseDto = tokenService.updateAccessToken(refreshToken);
+        AccessTokenResponse accessTokenResponse = tokenService.reIssueAccessToken(refreshToken);
 
-        return ResponseEntity.ok(ApiUtils.success(accessTokenResponseDto));
+        return ResponseEntity.ok(ApiUtils.success(accessTokenResponse));
     }
 
 }

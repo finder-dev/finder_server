@@ -33,12 +33,12 @@ public class AnswerApi {
     }
 
     @PostMapping("/{answerId}/helpful")
-    public ResponseEntity<ApiResult<HelpfulAddOrDeleteDto>> addOrDeleteHelpful(
+    public ResponseEntity<ApiResult<AddOrDeleteHelpfulRes>> addOrDeleteHelpful(
             @PathVariable Long answerId,
             @UserEmail String email
     ) {
 
-        HelpfulAddOrDeleteDto response = apiAnswerService.addOrDeleteHelpful(answerId, email);
+        AddOrDeleteHelpfulRes response = apiAnswerService.addOrDeleteHelpful(answerId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
@@ -55,13 +55,13 @@ public class AnswerApi {
 //    }
 
     @DeleteMapping("/{answerId}")
-    public ResponseEntity<ApiResult<AnswerDeleteDto>> deleteAnswer(
+    public ResponseEntity<ApiResult<DeleteAnswerRes>> deleteAnswer(
             @PathVariable Long answerId,
             @UserEmail String email
 
     ) {
 
-        AnswerDeleteDto response = apiAnswerService.deleteAnswer(answerId, email);
+        DeleteAnswerRes response = apiAnswerService.deleteAnswer(answerId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

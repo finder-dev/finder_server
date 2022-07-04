@@ -1,9 +1,8 @@
 package com.cmc.finder.api.auth.login.api;
 
-import com.cmc.finder.api.auth.login.dto.LoginRequestDto;
+import com.cmc.finder.api.auth.login.dto.LoginDto;
 import com.cmc.finder.api.auth.login.dto.OauthLoginDto;
 import com.cmc.finder.api.auth.login.service.LoginService;
-import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
 import com.cmc.finder.global.validator.TokenValidator;
@@ -24,12 +23,12 @@ public class LoginApi {
     private final TokenValidator tokenValidator;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResult<TokenDto>> login(
-            @Valid LoginRequestDto loginRequestDto
+    public ResponseEntity<ApiResult<LoginDto.Response>> login(
+            @Valid LoginDto.Request request
     ) {
 
-        TokenDto tokenDto = loginService.login(loginRequestDto);
-        return ResponseEntity.ok(ApiUtils.success(tokenDto));
+        LoginDto.Response response = loginService.login(request);
+        return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 

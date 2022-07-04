@@ -13,7 +13,7 @@ import com.cmc.finder.domain.qna.answer.service.HelpfulService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.qna.answer.service.AnswerReplyService;
 import com.cmc.finder.domain.qna.question.entity.Question;
-import com.cmc.finder.domain.qna.question.service.QuestionService;
+import com.cmc.finder.domain.qna.question.application.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
@@ -85,14 +85,14 @@ public class ApiAnswerService {
 
 
     @Transactional
-    public HelpfulAddOrDeleteDto addOrDeleteHelpful(Long answerId, String email) {
+    public AddOrDeleteHelpfulRes addOrDeleteHelpful(Long answerId, String email) {
 
         Answer answer = answerService.getAnswer(answerId);
         User user = userService.getUserByEmail(Email.of(email));
 
         if (helpfulService.existsUser(answer, user)) {
             helpfulService.delete(answer, user);
-            return HelpfulAddOrDeleteDto.of(false);
+            return AddOrDeleteHelpfulRes.of(false);
         }
 
 
@@ -101,12 +101,12 @@ public class ApiAnswerService {
 
         helpfulService.create(helpful);
 
-        return HelpfulAddOrDeleteDto.of(true);
+        return AddOrDeleteHelpfulRes.of(true);
 
     }
 
     @Transactional
-    public AnswerDeleteDto deleteAnswer(Long answerId, String email) {
+    public DeleteAnswerRes deleteAnswer(Long answerId, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
         Answer answer = answerService.getAnswer(answerId);
@@ -117,7 +117,7 @@ public class ApiAnswerService {
 
         answerService.deleteAnswer(answer);
 
-        return AnswerDeleteDto.of();
+        return DeleteAnswerRes.of();
     }
 
     @Transactional

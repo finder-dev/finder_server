@@ -1,7 +1,7 @@
 package com.cmc.finder.api.qna.qustion.dto;
 
 import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.qna.question.constant.OrderBy;
+import com.cmc.finder.domain.model.OrderBy;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;

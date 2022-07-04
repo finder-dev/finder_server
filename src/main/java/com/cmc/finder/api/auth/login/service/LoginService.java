@@ -1,9 +1,8 @@
 package com.cmc.finder.api.auth.login.service;
 
-import com.cmc.finder.api.auth.login.dto.LoginRequestDto;
+import com.cmc.finder.api.auth.login.dto.LoginDto;
 import com.cmc.finder.api.auth.login.dto.OAuthAttributes;
 import com.cmc.finder.api.auth.login.dto.OauthLoginDto;
-import com.cmc.finder.api.auth.login.exception.LoginFailedException;
 import com.cmc.finder.api.auth.login.validator.LoginValidator;
 import com.cmc.finder.domain.jwt.entity.RefreshToken;
 import com.cmc.finder.domain.jwt.dto.TokenDto;
@@ -13,7 +12,6 @@ import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.BusinessException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
@@ -89,20 +87,20 @@ public class LoginService {
 
 
     @Transactional
-    public TokenDto login(LoginRequestDto loginRequestDto) {
+    public LoginDto.Response login(LoginDto.Request request) {
 
-        User user = userService.getUserByEmail(Email.of(loginRequestDto.getEmail()));
+        User user = userService.getUserByEmail(Email.of(request.getEmail()));
 
         loginValidator.validateUserType(user, UserType.GENERAL);
-        loginValidator.validatePassword(user, loginRequestDto.getPassword());
+        loginValidator.validatePassword(user, request.getPassword());
 
         // fcm token update
-        user.updateFcmToken(loginRequestDto.getFcmToken());
+        user.updateFcmToken(request.getFcmToken());
 
-        TokenDto tokenDto = tokenManager.createTokenDto(loginRequestDto.getEmail());
+        TokenDto tokenDto = tokenManager.createTokenDto(request.getEmail());
         saveRefreshToken(user, tokenDto);
 
-        return tokenDto;
+        return LoginDto.Response.of(tokenDto);
     }
 
 

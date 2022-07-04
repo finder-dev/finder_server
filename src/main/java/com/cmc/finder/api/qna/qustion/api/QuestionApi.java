@@ -3,7 +3,7 @@ package com.cmc.finder.api.qna.qustion.api;
 import com.cmc.finder.api.qna.qustion.dto.*;
 import com.cmc.finder.api.qna.qustion.application.ApiQuestionService;
 import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.qna.question.constant.OrderBy;
+import com.cmc.finder.domain.model.OrderBy;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
@@ -29,6 +29,7 @@ public class QuestionApi {
     private Integer SET_PAGE_ITEM_MAX_COUNT;
 
     private final ApiQuestionService apiQuestionService;
+
 
     @PostMapping
     public ResponseEntity<ApiResult<QuestionCreateDto.Response>> createQuestion(
@@ -61,9 +62,9 @@ public class QuestionApi {
     }
 
     @GetMapping("/hot")
-    public ResponseEntity<ApiResult<List<QuestionHotDto>>> getHotQuestion() {
+    public ResponseEntity<ApiResult<List<GetHotQuestionRes>>> getHotQuestion() {
 
-        List<QuestionHotDto> response = apiQuestionService.getHotQuestion();
+        List<GetHotQuestionRes> response = apiQuestionService.getHotQuestion();
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
@@ -102,23 +103,23 @@ public class QuestionApi {
     }
 
     @DeleteMapping("/{questionId}")
-    public ResponseEntity<ApiResult<QuestionDeleteDto>> deleteQuestion(
+    public ResponseEntity<ApiResult<DeleteQuestionRes>> deleteQuestion(
             @PathVariable Long questionId,
             @UserEmail String email
     ) {
 
-        QuestionDeleteDto response = apiQuestionService.deleteQuestion(questionId, email);
+        DeleteQuestionRes response = apiQuestionService.deleteQuestion(questionId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
 
     @PostMapping("/{questionId}/curious")
-    public ResponseEntity<ApiResult<CuriousAddOrDeleteDto>> addOrDeleteCurious(
+    public ResponseEntity<ApiResult<AddOrDeleteCuriousRes>> addOrDeleteCurious(
             @PathVariable Long questionId,
             @UserEmail String email
     ){
 
-        CuriousAddOrDeleteDto response = apiQuestionService.addOrDeleteCurious(questionId, email);
+        AddOrDeleteCuriousRes response = apiQuestionService.addOrDeleteCurious(questionId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

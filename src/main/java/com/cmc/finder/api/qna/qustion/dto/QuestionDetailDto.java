@@ -40,8 +40,6 @@ public class QuestionDetailDto {
 
     private Boolean favoriteUser;
 
-    private Boolean isQuestion;
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
@@ -50,7 +48,7 @@ public class QuestionDetailDto {
     @Builder
     public QuestionDetailDto(Long questionId, String questionTitle, String questionContent, MBTI questionMBTI,
                              List<QuestionImageDto> questionImgDtos, Integer curiousCount, MBTI userMBTI, String userNickname, LocalDateTime createTime,
-                             Long viewCount, Boolean favoriteUser, Boolean curiousUser, Boolean isQuestion, List<AnswerHistDto> answerHistDtos) {
+                             Long viewCount, Boolean favoriteUser, Boolean curiousUser, List<AnswerHistDto> answerHistDtos) {
 
         this.questionId = questionId;
         this.questionTitle = questionTitle;
@@ -63,7 +61,6 @@ public class QuestionDetailDto {
         this.viewCount = viewCount;
         this.favoriteUser = favoriteUser;
         this.curiousUser = curiousUser;
-        this.isQuestion = isQuestion;
         this.createTime = createTime;
         this.answerHistDtos = answerHistDtos;
     }
@@ -90,7 +87,6 @@ public class QuestionDetailDto {
                 .viewCount(viewCount)
                 .favoriteUser(favoriteUser)
                 .curiousUser(curiousUser)
-                .isQuestion(question.getIsQuestion())
                 .createTime(question.getCreateTime())
                 .answerHistDtos(answerHistDtos)
                 .build();

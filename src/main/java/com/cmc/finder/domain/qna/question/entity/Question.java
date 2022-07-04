@@ -33,9 +33,6 @@ public class Question extends BaseTimeEntity {
     @Column(nullable = false, length = 10)
     private MBTI mbti;
 
-    @Column(nullable = false)
-    private Boolean isQuestion;
-
     @OneToMany(
             mappedBy = "question",
             cascade = CascadeType.ALL
@@ -91,7 +88,6 @@ public class Question extends BaseTimeEntity {
         this.title = title;
         this.content = content;
         this.mbti = mbti;
-        this.isQuestion = isQuestion;
         this.user = user;
     }
 
@@ -100,7 +96,6 @@ public class Question extends BaseTimeEntity {
                 .title(question.title)
                 .content(question.content)
                 .mbti(question.mbti)
-                .isQuestion(question.isQuestion)
                 .user(user)
                 .build();
     }

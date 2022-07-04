@@ -5,7 +5,6 @@ import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.qna.question.entity.QuestionImage;
 import com.cmc.finder.global.validator.Enum;
 import lombok.*;
-import org.hibernate.sql.Update;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class QuestionUpdateDto {
+public class UpdateQuestionDto {
 
     @Getter
     @Setter

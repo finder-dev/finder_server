@@ -46,7 +46,7 @@ public class ApiQuestionService {
     private final S3Uploader s3Uploader;
 
     @Transactional
-    public QuestionCreateDto.Response createQuestion(QuestionCreateDto.Request request, String email) {
+    public CreateQuestionDto.Response createQuestion(CreateQuestionDto.Request request, String email) {
 
         // 유저 조회
         User user = userService.getUserByEmail(Email.of(email));
@@ -68,7 +68,7 @@ public class ApiQuestionService {
         // 질문 저장
         Question savedQuestion = questionService.create(saveQuestion);
 
-        return QuestionCreateDto.Response.of(savedQuestion);
+        return CreateQuestionDto.Response.of(savedQuestion);
 
     }
 
@@ -133,26 +133,26 @@ public class ApiQuestionService {
 
 
     @Transactional
-    public FavoriteQuestionAddOrDeleteDto addOrDeleteFavorite(Long questionId, String email) {
+    public AddOrDeleteFavoriteQuestionRes addOrDeleteFavorite(Long questionId, String email) {
 
         Question question = questionService.getQuestion(questionId);
         User user = userService.getUserByEmail(Email.of(email));
 
         if (favoriteQuestionService.existsUser(question, user)) {
             favoriteQuestionService.delete(question, user);
-            return FavoriteQuestionAddOrDeleteDto.of(false);
+            return AddOrDeleteFavoriteQuestionRes.of(false);
         }
 
         FavoriteQuestion favoriteQuestion = FavoriteQuestion.createFavoriteQuestion(question, user);
         favoriteQuestionService.create(favoriteQuestion);
 
-        return FavoriteQuestionAddOrDeleteDto.of(true);
+        return AddOrDeleteFavoriteQuestionRes.of(true);
 
     }
 
 
     @Transactional
-    public QuestionUpdateDto.Response updateQuestion(Long questionId, QuestionUpdateDto.Request request, String email) {
+    public UpdateQuestionDto.Response updateQuestion(Long questionId, UpdateQuestionDto.Request request, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
         Question question = questionService.getQuestion(questionId);
@@ -171,11 +171,11 @@ public class ApiQuestionService {
             throw new QuestionImageMaxException(ErrorCode.QUESTION_IMAGE_MAX);
         }
 
-        return QuestionUpdateDto.Response.of(updatedQuestion);
+        return UpdateQuestionDto.Response.of(updatedQuestion);
 
     }
 
-    private void updateQuestionImages(Question question, QuestionUpdateDto.Request request) {
+    private void updateQuestionImages(Question question, UpdateQuestionDto.Request request) {
 
         // 질문 이미지 삭제
         request.getDeleteImgIds().stream().forEach(deleteImgId -> {
@@ -200,7 +200,7 @@ public class ApiQuestionService {
 
     }
 
-    private Question updateQuestionInfo(Long questionId, QuestionUpdateDto.Request request) {
+    private Question updateQuestionInfo(Long questionId, UpdateQuestionDto.Request request) {
 
         Question updateQuestion = request.toEntity();
         Question updatedQuestion = questionService.updateQuestion(questionId, updateQuestion);

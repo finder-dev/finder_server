@@ -32,12 +32,12 @@ public class QuestionApi {
 
 
     @PostMapping
-    public ResponseEntity<ApiResult<QuestionCreateDto.Response>> createQuestion(
-            @Valid QuestionCreateDto.Request request,
+    public ResponseEntity<ApiResult<CreateQuestionDto.Response>> createQuestion(
+            @Valid CreateQuestionDto.Request request,
             @UserEmail String email
     ) {
 
-        QuestionCreateDto.Response response = apiQuestionService.createQuestion(request, email);
+        CreateQuestionDto.Response response = apiQuestionService.createQuestion(request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
@@ -91,13 +91,13 @@ public class QuestionApi {
 
 
     @PutMapping("/{questionId}")
-    public ResponseEntity<ApiResult<QuestionUpdateDto.Response>> updateQuestion(
+    public ResponseEntity<ApiResult<UpdateQuestionDto.Response>> updateQuestion(
             @PathVariable Long questionId,
-            @Valid QuestionUpdateDto.Request request,
+            @Valid UpdateQuestionDto.Request request,
             @UserEmail String email
     ) {
 
-        QuestionUpdateDto.Response response = apiQuestionService.updateQuestion(questionId, request, email);
+        UpdateQuestionDto.Response response = apiQuestionService.updateQuestion(questionId, request, email);
 
         return ResponseEntity.ok(ApiUtils.success(response));
     }
@@ -124,12 +124,12 @@ public class QuestionApi {
     }
 
     @PostMapping("/{questionId}/favorite")
-    public ResponseEntity<ApiResult<FavoriteQuestionAddOrDeleteDto>> addOrDeleteFavorite(
+    public ResponseEntity<ApiResult<AddOrDeleteFavoriteQuestionRes>> addOrDeleteFavorite(
             @PathVariable Long questionId,
             @UserEmail String email
     ){
 
-        FavoriteQuestionAddOrDeleteDto response = apiQuestionService.addOrDeleteFavorite(questionId, email);
+        AddOrDeleteFavoriteQuestionRes response = apiQuestionService.addOrDeleteFavorite(questionId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

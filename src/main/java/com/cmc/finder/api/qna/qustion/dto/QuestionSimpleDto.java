@@ -86,7 +86,6 @@ public class QuestionSimpleDto {
                     .curiousCount(question.getCuriousList().size())
                     .answerCount(question.getAnswers().size())
                     .viewCount(question.getViewCounts().size())
-                    .isQuestion(question.getIsQuestion())
                     .createTime(question.getCreateTime())
                     .build();
 

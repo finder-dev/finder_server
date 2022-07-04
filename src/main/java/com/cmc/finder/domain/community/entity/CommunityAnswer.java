@@ -23,7 +23,7 @@ public class CommunityAnswer extends BaseTimeEntity {
     private Long communityAnswerId;
 
     @Lob
-    @Column(nullable = false)
+    @Column(length = 300, nullable = false)
     private String content;
 
     @ManyToOne(

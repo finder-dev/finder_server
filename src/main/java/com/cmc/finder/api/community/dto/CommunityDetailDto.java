@@ -4,6 +4,7 @@ import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.community.entity.CommunityImage;
 import com.cmc.finder.domain.model.MBTI;
+import com.cmc.finder.global.util.DateTimeUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,14 +42,13 @@ public class CommunityDetailDto {
 
     private Boolean isQuestion;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
+    private String createTime;
 
     private List<AnswerHistDto> answerHistDtos = new ArrayList<>();
 
     @Builder
     public CommunityDetailDto(Long communityId, String communityTitle, String communityContent, MBTI communityMBTI,
-                              List<CommunityImageDto> communityImgDtos, Integer likeCount, Boolean likeUser, MBTI userMBTI, String userNickname, LocalDateTime createTime,
+                              List<CommunityImageDto> communityImgDtos, Integer likeCount, Boolean likeUser, MBTI userMBTI, String userNickname, String createTime,
                               Integer answerCount, Boolean isQuestion, List<AnswerHistDto> answerHistDtos) {
 
         this.communityId = communityId;
@@ -88,7 +88,7 @@ public class CommunityDetailDto {
                 .userNickname(community.getUser().getNickname())
                 .answerCount(answers.size())
                 .isQuestion(community.getIsQuestion())
-                .createTime(community.getCreateTime())
+                .createTime(DateTimeUtils.convertToLocalDatetimeToTime(community.getCreateTime()))
                 .answerHistDtos(answerHistDtos)
                 .build();
     }
@@ -128,13 +128,13 @@ public class CommunityDetailDto {
 
         private String userNickname;
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        private LocalDateTime createTime;
+        private String createTime;
 
         private List<ReplyHistDto> replyHistDtos = new ArrayList<>();
 
         @Builder
-        public AnswerHistDto(Long answerId, String answerContent, MBTI userMBTI, String userNickname,List<ReplyHistDto> replyHistDtos, LocalDateTime createTime) {
+        public AnswerHistDto(Long answerId, String answerContent, MBTI userMBTI, String userNickname,
+                             List<ReplyHistDto> replyHistDtos, String createTime) {
             this.answerId = answerId;
             this.answerContent = answerContent;
             this.userMBTI = userMBTI;
@@ -156,7 +156,7 @@ public class CommunityDetailDto {
                     .userMBTI(answer.getUser().getMbti())
                     .userNickname(answer.getUser().getNickname())
                     .replyHistDtos(replies)
-                    .createTime(answer.getCreateTime())
+                    .createTime(DateTimeUtils.convertToLocalDatetimeToTime(answer.getCreateTime()))
                     .build();
         }
 
@@ -172,11 +172,11 @@ public class CommunityDetailDto {
 
             private String userNickname;
 
-            @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-            private LocalDateTime createTime;
+            private String createTime;
 
             @Builder
-            public ReplyHistDto(Long replyId, String replyContent, MBTI userMBTI, String userNickname, LocalDateTime createTime) {
+            public ReplyHistDto(Long replyId, String replyContent, MBTI userMBTI,
+                                String userNickname, String createTime) {
                 this.replyId = replyId;
                 this.replyContent = replyContent;
                 this.userMBTI = userMBTI;
@@ -191,7 +191,7 @@ public class CommunityDetailDto {
                         .replyContent(answer.getContent())
                         .userMBTI(answer.getUser().getMbti())
                         .userNickname(answer.getUser().getNickname())
-                        .createTime(answer.getCreateTime())
+                        .createTime(DateTimeUtils.convertToLocalDatetimeToTime(answer.getCreateTime()))
                         .build();
             }
 
@@ -199,7 +199,6 @@ public class CommunityDetailDto {
 
 
     }
-
 
 
 }

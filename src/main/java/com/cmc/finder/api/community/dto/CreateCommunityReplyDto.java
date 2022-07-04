@@ -4,6 +4,7 @@ import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 
 public class CreateCommunityReplyDto {
@@ -11,7 +12,7 @@ public class CreateCommunityReplyDto {
     @Getter @Setter
     public static class Request {
 
-        //TODO 글자 수
+        @Size(max = 300, message = "300자 이하로 작성해주세요.")
         @NotBlank(message = "글 내용은 필수값 입니다.")
         private String content;
 

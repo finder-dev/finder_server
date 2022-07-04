@@ -24,6 +24,7 @@ public class CreateCommunityDto {
         @NotBlank(message = "글 내용은 필수값 입니다.")
         private String content;
 
+        @Size(min = 10, max = 500, message = "10자 이상 500자 이하로 작성해주세요.")
         @NotBlank(message = "MBTI는 필수값 입니다.")
         @Enum(enumClass = MBTI.class, message ="잘못된 Enum 값 입니다.")
         private String mbti;

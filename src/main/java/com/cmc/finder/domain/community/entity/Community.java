@@ -1,14 +1,7 @@
 package com.cmc.finder.domain.community.entity;
 
 import com.cmc.finder.domain.base.BaseTimeEntity;
-import com.cmc.finder.domain.debate.constant.DebateState;
-import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.qna.answer.entity.Answer;
-import com.cmc.finder.domain.qna.question.entity.Curious;
-import com.cmc.finder.domain.qna.question.entity.Question;
-import com.cmc.finder.domain.qna.question.entity.QuestionImage;
-import com.cmc.finder.domain.qna.question.entity.ViewCount;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -100,4 +93,16 @@ public class Community extends BaseTimeEntity {
                 .build();
     }
 
+    public void updateCommunity(Community updateCommunity) {
+
+        this.title = updateCommunity.getTitle();
+        this.content = updateCommunity.getContent();
+        this.mbti = updateCommunity.getMbti();
+
+    }
+
+    public void deleteCommunityImage(CommunityImage communityImage) {
+
+        this.communityImages.remove(communityImage);
+    }
 }

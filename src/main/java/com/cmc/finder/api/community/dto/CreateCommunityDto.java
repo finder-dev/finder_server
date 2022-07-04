@@ -32,7 +32,7 @@ public class CreateCommunityDto {
         private Boolean isQuestion;
 
         @Size(max = 10, message = "최대 10개까지 사진을 추가하실 수 있습니다.")
-        private List<MultipartFile> CommunityImgs = new ArrayList<>();
+        private List<MultipartFile> communityImages = new ArrayList<>();
 
         public Community toEntity() {
 

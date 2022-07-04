@@ -1,10 +1,11 @@
 package com.cmc.finder.domain.community.application;
 
-import com.cmc.finder.domain.debate.constant.Option;
-import com.cmc.finder.domain.debate.entity.Debate;
-import com.cmc.finder.domain.debate.entity.Debater;
-import com.cmc.finder.domain.debate.exception.DebaterNotFoundException;
-import com.cmc.finder.domain.debate.repository.DebaterRepository;
+import com.cmc.finder.domain.community.entity.Community;
+import com.cmc.finder.domain.community.entity.Like;
+import com.cmc.finder.domain.community.exception.LikeNotFoundException;
+import com.cmc.finder.domain.community.repository.LikeRepository;
+import com.cmc.finder.domain.qna.answer.entity.Helpful;
+import com.cmc.finder.domain.qna.answer.exception.HelpfulNotFoundException;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,32 +16,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class LikeService {
 
-    private final DebaterRepository debaterRepository;
+    private final LikeRepository likeRepository;
 
-    @Transactional
-    public Debater saveDebater(Debater saveDebater) {
+    public Boolean existsUser(Community community, User user) {
 
-        return debaterRepository.save(saveDebater);
-    }
+        return likeRepository.existsByCommunityAndUser(community, user);
 
-    public Boolean existsDebater(User user, Debate debate) {
-
-        return debaterRepository.existsByDebateAndUser(debate, user);
-    }
-
-    public Debater getDebater(User user, Debate debate) {
-
-        return debaterRepository.findByDebateAndUser(debate, user)
-                .orElseThrow(DebaterNotFoundException::new);
     }
 
 
-    public void deleteDebater(Debater debater) {
+    public void deleteLike(Community community, User user) {
+        Like like = likeRepository.findByCommunityAndUser(community, user)
+                .orElseThrow(LikeNotFoundException::new);
 
-        debaterRepository.delete(debater);
+        likeRepository.delete(like);
+
     }
 
-    public Long getDebaterCountByOption(Debate debate, Option option) {
-        return debaterRepository.countDebaterByDebateAndOption(debate, option);
+    public void addLike(Like like) {
+        likeRepository.save(like);
     }
 }

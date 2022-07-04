@@ -1,17 +1,16 @@
 package com.cmc.finder.domain.community.application;
 
 import com.cmc.finder.api.community.dto.CommunitySimpleDto;
-import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
 import com.cmc.finder.domain.community.entity.Community;
+import com.cmc.finder.domain.community.exception.CommunityNotFountException;
 import com.cmc.finder.domain.community.repository.CommunityRepository;
-import com.cmc.finder.domain.model.MBTI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,15 +22,47 @@ public class CommunityService {
 
     @Transactional
     public Community createCommunity(Community saveCommunity) {
+
         return communityRepository.save(saveCommunity);
     }
 
-    public Page<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, MBTI mbti) {
+    public Community getCommunity(Long communityId) {
+        return communityRepository.findById(communityId)
+                .orElseThrow(CommunityNotFountException::new);
+    }
+
+    public Page<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti) {
 
         return communityRepository.findPageCommunityByMBTI(pageable, mbti);
 
     }
 
+    public List<Community> getHotCommunity() {
+
+        return communityRepository.findHotCommunity(PageRequest.of(0, 5));
+
+    }
+
+    public Community getCommunityFetchUser(Long communityId) {
+
+        return communityRepository.findByCommunityIdFetchUser(communityId)
+                .orElseThrow(CommunityNotFountException::new);
+
+    }
+
+    @Transactional
+    public Community updateCommunity(Long communityId, Community updateCommunity) {
+
+        Community savedCommunity = getCommunity(communityId);
+        savedCommunity.updateCommunity(updateCommunity);
+        return savedCommunity;
 
 
+    }
+
+    @Transactional
+    public void deleteCommunity(Community community) {
+
+        communityRepository.delete(community);
+    }
 }

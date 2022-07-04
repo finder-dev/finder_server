@@ -1,19 +1,18 @@
 package com.cmc.finder.api.qna.answer.dto;
 
-import com.cmc.finder.api.qna.qustion.dto.QuestionDeleteDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 @Builder
-public class AnswerDeleteDto {
+public class DeleteAnswerRes {
 
     private String message;
 
-    public static AnswerDeleteDto of() {
+    public static DeleteAnswerRes of() {
 
-        return AnswerDeleteDto.builder()
+        return DeleteAnswerRes.builder()
                 .message("delete success")
                 .build();
     }

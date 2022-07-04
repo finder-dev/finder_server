@@ -38,14 +38,16 @@ public class CommunityAnswer extends BaseTimeEntity {
     @JoinColumn(name = "community_id", nullable = false)
     private Community community;
 
-    //TODO 대댓글 구현
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private CommunityAnswer parent;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "parent_id")
-//    private CommunityAnswer parent;
-//
-//    @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
-//    private List<CommunityAnswer> children = new ArrayList<>();
+    @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<CommunityAnswer> replies = new ArrayList<>();
+
+    public void addReply(CommunityAnswer communityAnswer) {
+        this.parent.addReply(communityAnswer);
+    }
 
 
     @Builder
@@ -68,4 +70,12 @@ public class CommunityAnswer extends BaseTimeEntity {
     }
 
 
+    public void updateCommunityAnswer(CommunityAnswer updateCommunityAnswer) {
+
+        this.content = updateCommunityAnswer.content;
+    }
+
+    public void setParent(CommunityAnswer communityAnswer) {
+        this.parent = communityAnswer;
+    }
 }

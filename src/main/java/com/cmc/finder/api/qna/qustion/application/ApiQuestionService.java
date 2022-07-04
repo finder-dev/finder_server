@@ -1,20 +1,19 @@
 package com.cmc.finder.api.qna.qustion.application;
 
 import com.cmc.finder.api.qna.qustion.dto.*;
-import com.cmc.finder.domain.qna.question.repository.QuestionRepositoryCustom;
 import com.cmc.finder.domain.qna.answer.entity.Answer;
 import com.cmc.finder.domain.qna.answer.service.AnswerService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.qna.question.entity.*;
 import com.cmc.finder.domain.qna.question.exception.QuestionImageMaxException;
-import com.cmc.finder.domain.qna.question.service.CuriousService;
-import com.cmc.finder.domain.qna.question.service.FavoriteQuestionService;
-import com.cmc.finder.domain.qna.question.service.QuestionImageService;
-import com.cmc.finder.domain.qna.question.service.QuestionService;
+import com.cmc.finder.domain.qna.question.application.CuriousService;
+import com.cmc.finder.domain.qna.question.application.FavoriteQuestionService;
+import com.cmc.finder.domain.qna.question.application.QuestionImageService;
+import com.cmc.finder.domain.qna.question.application.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
-import com.cmc.finder.domain.qna.question.service.ViewCountService;
+import com.cmc.finder.domain.qna.question.application.ViewCountService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
@@ -113,14 +112,14 @@ public class ApiQuestionService {
     }
 
     @Transactional
-    public CuriousAddOrDeleteDto addOrDeleteCurious(Long questionId, String email) {
+    public AddOrDeleteCuriousRes addOrDeleteCurious(Long questionId, String email) {
 
         Question question = questionService.getQuestion(questionId);
         User user = userService.getUserByEmail(Email.of(email));
 
         if (curiousService.existsUser(question, user)) {
             curiousService.delete(question, user);
-            return CuriousAddOrDeleteDto.of(false);
+            return AddOrDeleteCuriousRes.of(false);
         }
 
         Curious curious = Curious.createCurious(question, user);
@@ -128,7 +127,7 @@ public class ApiQuestionService {
 
         curiousService.create(curious);
 
-        return CuriousAddOrDeleteDto.of(true);
+        return AddOrDeleteCuriousRes.of(true);
 
     }
 
@@ -160,7 +159,7 @@ public class ApiQuestionService {
 
         // 유저 검증
         if (question.getUser() != user) {
-           throw new AuthenticationException(ErrorCode.QUESTION_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.QUESTION_USER_BE_NOT_WRITER);
         }
 
         // 질문 정보 변경
@@ -211,7 +210,7 @@ public class ApiQuestionService {
     }
 
     @Transactional
-    public QuestionDeleteDto deleteQuestion(Long questionId, String email) {
+    public DeleteQuestionRes deleteQuestion(Long questionId, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
         Question question = questionService.getQuestion(questionId);
@@ -223,7 +222,7 @@ public class ApiQuestionService {
 
         questionService.deleteQuestion(question);
 
-        return QuestionDeleteDto.of();
+        return DeleteQuestionRes.of();
     }
 
     public List<FavoriteQuestionRes> getFavoriteQuestion(String email) {
@@ -238,10 +237,12 @@ public class ApiQuestionService {
 
     }
 
-    public List<QuestionHotDto> getHotQuestion() {
+    public List<GetHotQuestionRes> getHotQuestion() {
         List<Question> hotQuestions = questionService.getHotQuestion();
         return hotQuestions.stream().map(question ->
-                QuestionHotDto.of(question)).collect(Collectors.toList());
+                GetHotQuestionRes.of(question)).collect(Collectors.toList());
 
     }
+
+
 }

@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 
@@ -19,8 +18,7 @@ public class CommunitySimpleDto {
     @Setter
     public static class Request {
 
-        @NotBlank(message = "MBTI는 필수값 입니다.")
-        @Enum(enumClass = MBTI.class, message = "잘못된 Enum 값 입니다.")
+        @Enum(enumClass = MBTI.class, message = "잘못된 Enum 값 입니다.", ignoreCase = true)
         private String mbti;
 
         @Enum(enumClass = OrderBy.class, message = "잘못된 Enum 값 입니다.", ignoreCase = true)
@@ -35,9 +33,11 @@ public class CommunitySimpleDto {
 
         private Long communityId;
 
-        private String title;
+        private String communityTitle;
 
-        private String content;
+        private String communityContent;
+
+        private MBTI communityMBTI;
 
         private String imageUrl;
 
@@ -55,13 +55,14 @@ public class CommunitySimpleDto {
         private LocalDateTime createTime;
 
         @Builder
-        public Response(Long communityId, String title, String content, String imageUrl,
+        public Response(Long communityId, String title, String content, MBTI mbti, String imageUrl,
                         String userNickname, MBTI userMBTI, Integer likeCount,
-                        Integer answerCount,  Boolean isQuestion, LocalDateTime createTime) {
+                        Integer answerCount, Boolean isQuestion, LocalDateTime createTime) {
 
             this.communityId = communityId;
-            this.title = title;
-            this.content = content;
+            this.communityTitle = title;
+            this.communityContent = content;
+            this.communityMBTI = mbti;
             this.imageUrl = imageUrl;
             this.userNickname = userNickname;
             this.userMBTI = userMBTI;
@@ -78,6 +79,7 @@ public class CommunitySimpleDto {
                     .communityId(community.getCommunityId())
                     .title(community.getTitle())
                     .content(community.getContent())
+                    .mbti(community.getMbti())
                     .userNickname(community.getUser().getNickname())
                     .userMBTI(community.getUser().getMbti())
                     .likeCount(community.getLikeList().size())

@@ -1,17 +1,21 @@
 package com.cmc.finder.api.community.application;
 
-import com.cmc.finder.api.community.dto.CommunitySimpleDto;
-import com.cmc.finder.api.community.dto.CreateCommunityDto;
-import com.cmc.finder.api.qna.qustion.dto.QuestionCreateDto;
+import com.cmc.finder.api.community.dto.*;
+import com.cmc.finder.domain.community.application.CommunityAnswerService;
+import com.cmc.finder.domain.community.application.CommunityImageService;
 import com.cmc.finder.domain.community.application.CommunityService;
+import com.cmc.finder.domain.community.application.LikeService;
 import com.cmc.finder.domain.community.entity.Community;
+import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.community.entity.CommunityImage;
+import com.cmc.finder.domain.community.entity.Like;
+import com.cmc.finder.domain.community.exception.CommunityImageMaxException;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.qna.question.entity.Question;
-import com.cmc.finder.domain.qna.question.entity.QuestionImage;
+import com.cmc.finder.domain.qna.answer.entity.Helpful;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.global.error.exception.AuthenticationException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +23,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -30,6 +37,10 @@ public class ApiCommunityService {
 
     private final UserService userService;
     private final CommunityService communityService;
+    private final CommunityAnswerService communityAnswerService;
+    private final CommunityImageService communityImageService;
+    private final LikeService likeService;
+
     private final S3Uploader s3Uploader;
 
     @Transactional
@@ -42,8 +53,8 @@ public class ApiCommunityService {
         Community community = request.toEntity();
         Community saveCommunity = Community.createCommunity(community, user);
 
-        // 질문 이미지 생성 및 저장
-        request.getCommunityImgs().stream().forEach(multipartFile -> {
+        // 이미지 생성 및 저장
+        request.getCommunityImages().stream().forEach(multipartFile -> {
             String imageName = s3Uploader.uploadFile(multipartFile, PATH);
             String url = s3Uploader.getUrl(PATH, imageName);
 
@@ -52,14 +63,139 @@ public class ApiCommunityService {
 
         });
 
-        // 질문 저장
+        // 커뮤니티 저장
         Community savedCommunity = communityService.createCommunity(saveCommunity);
 
         return CreateCommunityDto.Response.of(savedCommunity);
 
     }
 
-    public Page<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, MBTI mbti) {
+    public Page<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti) {
+
         return communityService.getCommunityList(pageable, mbti);
+
+    }
+
+    public List<GetHotCommunityRes> getHotCommunity() {
+        List<Community> hotCommunity = communityService.getHotCommunity();
+        return hotCommunity.stream().map(community ->
+                        GetHotCommunityRes.of(community)).
+                collect(Collectors.toList());
+
+    }
+
+
+    public CommunityDetailDto getCommunityDetail(Long communityId, String email) {
+
+        // 유저 조회 -> 조회수 증가
+        User user = userService.getUserByEmail(Email.of(email));
+
+        // 커뮤니티 조회
+        Community community = communityService.getCommunityFetchUser(communityId);
+
+        // 답변 조회
+        List<CommunityAnswer> answers = communityAnswerService.getAnswersByCommunityId(community.getCommunityId());
+
+        // 이미 즐겨찾기?
+        Boolean likeUser = likeService.existsUser(community, user);
+
+        return CommunityDetailDto.of(community, answers, likeUser);
+    }
+
+
+    @Transactional
+    public UpdateCommunityDto.Response updateCommunity(Long communityId, UpdateCommunityDto.Request request, String email) {
+
+
+        User user = userService.getUserByEmail(Email.of(email));
+        Community community = communityService.getCommunityFetchUser(communityId);
+
+        // 유저 검증
+        if (community.getUser() != user) {
+            throw new AuthenticationException(ErrorCode.COMMUNITY_USER_BE_NOT_WRITER);
+        }
+
+        // 질문 정보 변경
+        Community updatedCommunity = updateCommunityInfo(communityId, request);
+        updateCommunityImages(updatedCommunity, request);
+
+        // 이미지 10개 초과 검증
+        if (updatedCommunity.getCommunityImages().size() > 10) {
+            throw new CommunityImageMaxException(ErrorCode.COMMUNITY_IMAGE_MAX);
+        }
+
+        return UpdateCommunityDto.Response.of(updatedCommunity);
+    }
+
+    private Community updateCommunityInfo(Long communityId, UpdateCommunityDto.Request request) {
+
+        Community updateCommunity = request.toEntity();
+        Community updatedCommunity = communityService.updateCommunity(communityId, updateCommunity);
+
+        return updatedCommunity;
+
+    }
+
+    private void updateCommunityImages(Community community, UpdateCommunityDto.Request request) {
+
+        // 질문 이미지 삭제
+        request.getDeleteImageIds().stream().forEach(deleteImgId -> {
+
+            CommunityImage communityImage = communityImageService.getCommunityImage(deleteImgId);
+            s3Uploader.deleteFile(communityImage.getImageName(), PATH);
+            community.deleteCommunityImage(communityImage);
+
+        });
+
+        // 질문 이미지 추가
+        request.getAddImages().stream().forEach(multipartFile -> {
+
+            String imageName = s3Uploader.uploadFile(multipartFile, PATH);
+            String url = s3Uploader.getUrl(PATH, imageName);
+
+            CommunityImage communityImage = CommunityImage.createCommunityImage(community, imageName, url);
+            CommunityImage savedCommunityImage = communityImageService.save(communityImage);
+            community.addCommunityImage(savedCommunityImage);
+
+        });
+
+    }
+
+
+    @Transactional
+    public DeleteCommunityRes deleteCommunity(Long communityId, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        Community community = communityService.getCommunityFetchUser(communityId);
+
+        // 유저 검증
+        if (community.getUser() != user) {
+            throw new AuthenticationException(ErrorCode.COMMUNITY_USER_BE_NOT_WRITER);
+        }
+
+        communityService.deleteCommunity(community);
+
+        return DeleteCommunityRes.of();
+    }
+
+    @Transactional
+    public AddOrDeleteLikeRes addOrDeleteLike(Long communityId, String email) {
+
+        Community community = communityService.getCommunity(communityId);
+        User user = userService.getUserByEmail(Email.of(email));
+
+        if (likeService.existsUser(community, user)) {
+            likeService.deleteLike(community, user);
+            return AddOrDeleteLikeRes.of(false);
+        }
+
+
+        Like like = Like.createLike(community, user);
+        community.addLike(like);
+
+        likeService.addLike(like);
+
+        return AddOrDeleteLikeRes.of(true);
+
     }
 }

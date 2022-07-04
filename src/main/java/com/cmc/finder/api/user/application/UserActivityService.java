@@ -5,7 +5,7 @@ import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.service.DebateService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.qna.question.entity.Question;
-import com.cmc.finder.domain.qna.question.service.QuestionService;
+import com.cmc.finder.domain.qna.question.application.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;

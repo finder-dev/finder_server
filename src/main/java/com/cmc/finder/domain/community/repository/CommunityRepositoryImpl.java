@@ -35,7 +35,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     }
 
     @Override
-    public Page<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, MBTI mbti) {
+    public Page<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti) {
         List<Community> results = queryFactory
                 .select(community)
                 .from(community)
@@ -63,9 +63,9 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
         return new PageImpl<>(communitySimpleDtos, pageable, totalSize);
     }
 
-    private BooleanExpression searchByMBTI(MBTI mbti) {
+    private BooleanExpression searchByMBTI(String mbti) {
 
-        return question.mbti.eq(mbti);
+        return mbti == null ? null : community.mbti.eq(MBTI.from(mbti));
 
     }
 

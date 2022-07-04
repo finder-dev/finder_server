@@ -14,7 +14,7 @@ public class CommunityImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cmImgId;
+    private Long communityImageId;
 
     @ManyToOne(
             fetch = FetchType.LAZY

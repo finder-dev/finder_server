@@ -62,9 +62,9 @@ public class QuestionApi {
     }
 
     @GetMapping("/hot")
-    public ResponseEntity<ApiResult<List<QuestionHotDto>>> getHotQuestion() {
+    public ResponseEntity<ApiResult<List<GetHotQuestionRes>>> getHotQuestion() {
 
-        List<QuestionHotDto> response = apiQuestionService.getHotQuestion();
+        List<GetHotQuestionRes> response = apiQuestionService.getHotQuestion();
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
@@ -103,23 +103,23 @@ public class QuestionApi {
     }
 
     @DeleteMapping("/{questionId}")
-    public ResponseEntity<ApiResult<QuestionDeleteDto>> deleteQuestion(
+    public ResponseEntity<ApiResult<DeleteQuestionRes>> deleteQuestion(
             @PathVariable Long questionId,
             @UserEmail String email
     ) {
 
-        QuestionDeleteDto response = apiQuestionService.deleteQuestion(questionId, email);
+        DeleteQuestionRes response = apiQuestionService.deleteQuestion(questionId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
 
     @PostMapping("/{questionId}/curious")
-    public ResponseEntity<ApiResult<CuriousAddOrDeleteDto>> addOrDeleteCurious(
+    public ResponseEntity<ApiResult<AddOrDeleteCuriousRes>> addOrDeleteCurious(
             @PathVariable Long questionId,
             @UserEmail String email
     ){
 
-        CuriousAddOrDeleteDto response = apiQuestionService.addOrDeleteCurious(questionId, email);
+        AddOrDeleteCuriousRes response = apiQuestionService.addOrDeleteCurious(questionId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

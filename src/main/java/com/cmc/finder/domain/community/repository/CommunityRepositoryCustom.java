@@ -9,6 +9,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface CommunityRepositoryCustom {
 
-    Page<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, MBTI mbti);
+    Page<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti);
 
 }

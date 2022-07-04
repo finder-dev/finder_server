@@ -6,20 +6,20 @@ import lombok.Setter;
 
 @Getter @Setter
 @Builder
-public class HelpfulAddOrDeleteDto {
+public class AddOrDeleteHelpfulRes {
 
     private String message;
 
-    public static HelpfulAddOrDeleteDto of(Boolean addOrDelete) {
+    public static AddOrDeleteHelpfulRes of(Boolean addOrDelete) {
 
         // add
         if (addOrDelete) {
-            return HelpfulAddOrDeleteDto.builder()
+            return AddOrDeleteHelpfulRes.builder()
                     .message("add success")
                     .build();
         }
         // delete
-        return HelpfulAddOrDeleteDto.builder()
+        return AddOrDeleteHelpfulRes.builder()
                 .message("delete success")
                 .build();
 

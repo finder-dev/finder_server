@@ -1,4 +1,4 @@
-package com.cmc.finder.domain.qna.question.service;
+package com.cmc.finder.domain.qna.question.application;
 
 import com.cmc.finder.domain.qna.question.entity.Curious;
 import com.cmc.finder.domain.qna.question.entity.Question;

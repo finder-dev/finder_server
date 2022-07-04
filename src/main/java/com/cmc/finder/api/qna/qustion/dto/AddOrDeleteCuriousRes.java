@@ -6,20 +6,20 @@ import lombok.Setter;
 
 @Getter @Setter
 @Builder
-public class CuriousAddOrDeleteDto {
+public class AddOrDeleteCuriousRes {
 
     private String message;
 
-    public static CuriousAddOrDeleteDto of(Boolean addOrDelete) {
+    public static AddOrDeleteCuriousRes of(Boolean addOrDelete) {
 
         // add
         if (addOrDelete) {
-            return CuriousAddOrDeleteDto.builder()
+            return AddOrDeleteCuriousRes.builder()
                     .message("add success")
                     .build();
         }
         // delete
-        return CuriousAddOrDeleteDto.builder()
+        return AddOrDeleteCuriousRes.builder()
                 .message("delete success")
                 .build();
 

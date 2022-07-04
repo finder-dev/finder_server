@@ -1,9 +1,7 @@
 package com.cmc.finder.api.community.api;
 
 import com.cmc.finder.api.community.application.ApiCommunityService;
-import com.cmc.finder.api.community.dto.CommunitySimpleDto;
-import com.cmc.finder.api.community.dto.CreateCommunityDto;
-import com.cmc.finder.domain.model.MBTI;
+import com.cmc.finder.api.community.dto.*;
 import com.cmc.finder.domain.model.OrderBy;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
@@ -15,12 +13,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -45,7 +41,7 @@ public class CommunityApi {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResult<Page<CommunitySimpleDto.Response>>> getQuestions(
+    public ResponseEntity<ApiResult<Page<CommunitySimpleDto.Response>>> getCommunities(
             @Valid CommunitySimpleDto.Request request,
             Optional<Integer> page
     ) {
@@ -58,8 +54,63 @@ public class CommunityApi {
                         Sort.by(Sort.Direction.DESC, request.getOrderBy())
         );
 
-        Page<CommunitySimpleDto.Response> response = apiCommunityService.getCommunityList(pageable, MBTI.from(request.getMbti()));
+        Page<CommunitySimpleDto.Response> response = apiCommunityService.getCommunityList(pageable, request.getMbti());
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
+
+
+
+    @GetMapping("/hot")
+    public ResponseEntity<ApiResult<List<GetHotCommunityRes>>> getHotCommunities() {
+
+        List<GetHotCommunityRes> response = apiCommunityService.getHotCommunity();
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
+    @GetMapping("/{communityId}")
+    public ResponseEntity<ApiResult<CommunityDetailDto>> getCommunityDetail(
+            @PathVariable Long communityId,
+            @UserEmail String email
+    ) {
+
+        CommunityDetailDto response = apiCommunityService.getCommunityDetail(communityId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+    @PutMapping("/{communityId}")
+    public ResponseEntity<ApiResult<UpdateCommunityDto.Response>> updateCommunity(
+            @PathVariable Long communityId,
+            @Valid UpdateCommunityDto.Request request,
+            @UserEmail String email
+    ) {
+
+        UpdateCommunityDto.Response response = apiCommunityService.updateCommunity(communityId, request, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
+    @DeleteMapping("/{communityId}")
+    public ResponseEntity<ApiResult<DeleteCommunityRes>> deleteQuestion(
+            @PathVariable Long communityId,
+            @UserEmail String email
+    ) {
+
+        DeleteCommunityRes response = apiCommunityService.deleteCommunity(communityId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
+    @PostMapping("/{communityId}/like")
+    public ResponseEntity<ApiResult<AddOrDeleteLikeRes>> addOrDeleteCurious(
+            @PathVariable Long communityId,
+            @UserEmail String email
+    ){
+
+        AddOrDeleteLikeRes response = apiCommunityService.addOrDeleteLike(communityId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
+
+
+
 }

@@ -8,14 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class QuestionHotDto {
+public class GetHotQuestionRes {
 
     private Long questionId;
 
     private String title;
 
-    public static QuestionHotDto of(Question question) {
-        return QuestionHotDto.builder()
+    public static GetHotQuestionRes of(Question question) {
+        return GetHotQuestionRes.builder()
                 .questionId(question.getQuestionId())
                 .title(question.getTitle())
                 .build();

@@ -6,13 +6,13 @@ import lombok.Setter;
 
 @Getter @Setter
 @Builder
-public class QuestionDeleteDto {
+public class DeleteQuestionRes {
 
     private String message;
 
-    public static QuestionDeleteDto of() {
+    public static DeleteQuestionRes of() {
 
-        return QuestionDeleteDto.builder()
+        return DeleteQuestionRes.builder()
                 .message("delete success")
                 .build();
     }

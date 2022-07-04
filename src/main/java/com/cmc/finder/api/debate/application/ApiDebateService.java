@@ -1,11 +1,7 @@
-package com.cmc.finder.api.debate.service;
+package com.cmc.finder.api.debate.application;
 
 import com.cmc.finder.api.debate.dto.*;
 import com.cmc.finder.api.debate.repository.DebateRepositoryCustom;
-import com.cmc.finder.api.qna.answer.dto.DeleteReplyRes;
-import com.cmc.finder.api.qna.answer.dto.GetReplyRes;
-import com.cmc.finder.api.qna.answer.dto.ReplyCreateDto;
-import com.cmc.finder.api.qna.answer.dto.ReplyUpdateDto;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.debate.entity.Debate;
@@ -20,8 +16,6 @@ import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.service.NotificationService;
-import com.cmc.finder.domain.qna.answer.entity.Answer;
-import com.cmc.finder.domain.qna.answer.entity.AnswerReply;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;

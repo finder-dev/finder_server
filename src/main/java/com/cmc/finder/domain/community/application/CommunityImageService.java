@@ -1,10 +1,15 @@
 package com.cmc.finder.domain.community.application;
 
+import com.cmc.finder.domain.community.entity.CommunityImage;
+import com.cmc.finder.domain.community.exception.CommunityImageNotFountException;
+import com.cmc.finder.domain.community.repository.CommunityImageRepository;
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
 import com.cmc.finder.domain.debate.entity.DebateAnswerReply;
 import com.cmc.finder.domain.debate.exception.DebateAnswerReplyNotFoundException;
 import com.cmc.finder.domain.debate.repository.DebateAnswerReplyRepository;
 import com.cmc.finder.domain.qna.answer.exception.ReplyNotFoundException;
+import com.cmc.finder.domain.qna.question.entity.QuestionImage;
+import com.cmc.finder.domain.qna.question.exception.QuestionImageNotFountException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,36 +21,19 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CommunityImageService {
 
-    private final DebateAnswerReplyRepository debateAnswerReplyRepository;
+    private final CommunityImageRepository communityImageRepository;
 
-    @Transactional
-    public DebateAnswerReply create(DebateAnswerReply debateAnswerReply) {
+    public CommunityImage getCommunityImage(Long communityImgId) {
 
-        return debateAnswerReplyRepository.save(debateAnswerReply);
+        return communityImageRepository.findById(communityImgId)
+                .orElseThrow(CommunityImageNotFountException::new);
+
     }
 
-    public DebateAnswerReply getDebateReply(Long debateAnswerReplyId) {
-        return debateAnswerReplyRepository.findById(debateAnswerReplyId)
-                .orElseThrow(ReplyNotFoundException::new);
-    }
 
-    public DebateAnswerReply getDebateReplyFetchUser(Long debateReplyId) {
-        return debateAnswerReplyRepository.findByIdFetchUser(debateReplyId)
-                .orElseThrow(DebateAnswerReplyNotFoundException::new);
-    }
+    public CommunityImage save(CommunityImage communityImage) {
 
-    public List<DebateAnswerReply> getDebateReplyByAnswerFetchUser(DebateAnswer debateAnswer) {
-        return debateAnswerReplyRepository.findAllByDebateAnswerFetchUser(debateAnswer);
-    }
+        return communityImageRepository.save(communityImage);
 
-    @Transactional
-    public void deleteDebateReply(DebateAnswerReply debateAnswerReply) {
-        debateAnswerReplyRepository.delete(debateAnswerReply);
-    }
-
-    @Transactional
-    public DebateAnswerReply updateDebateReply(DebateAnswerReply debateAnswerReply, DebateAnswerReply updateDebateReply) {
-        debateAnswerReply.updateReply(updateDebateReply);
-        return debateAnswerReply;
     }
 }

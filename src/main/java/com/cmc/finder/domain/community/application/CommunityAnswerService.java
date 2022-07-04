@@ -1,9 +1,14 @@
 package com.cmc.finder.domain.community.application;
 
+import com.cmc.finder.domain.community.entity.CommunityAnswer;
+import com.cmc.finder.domain.community.exception.CommunityAnswerNotFoundException;
+import com.cmc.finder.domain.community.repository.CommunityAnswerRepository;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
 import com.cmc.finder.domain.debate.exception.DebateAnswerNotFoundException;
+import com.cmc.finder.domain.debate.exception.DebateNotFoundException;
 import com.cmc.finder.domain.debate.repository.DebateAnswerRepository;
+import com.cmc.finder.domain.qna.answer.entity.Answer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,26 +20,36 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class CommunityAnswerService {
 
-    private final DebateAnswerRepository debateAnswerRepository;
+    private final CommunityAnswerRepository communityAnswerRepository;
 
-    @Transactional
-    public DebateAnswer saveDebateAnswer(DebateAnswer saveDebateAnswer) {
-        return debateAnswerRepository.save(saveDebateAnswer);
-    }
+    public List<CommunityAnswer> getAnswersByCommunityId(Long communityId) {
 
-    public List<DebateAnswer> getDebateAnswersByDebate(Debate debate) {
-        return debateAnswerRepository.findByDebate(debate);
+        return communityAnswerRepository.findAllByCommunityIdFetchUser(communityId);
 
     }
 
-    public DebateAnswer getDebateAnswer(Long debateAnswerId) {
-        return debateAnswerRepository.findById(debateAnswerId)
-                .orElseThrow(DebateAnswerNotFoundException::new);
+    public CommunityAnswer saveCommunityAnswer(CommunityAnswer saveCommunityAnswer) {
+
+        return communityAnswerRepository.save(saveCommunityAnswer);
     }
 
 
-    @Transactional
-    public void deleteDebateAnswer(DebateAnswer debateAnswer) {
-        debateAnswerRepository.delete(debateAnswer);
+    public CommunityAnswer getCommunityAnswerFetchUser(Long answerId) {
+
+        return communityAnswerRepository.findByIdFetchUser(answerId)
+                .orElseThrow(CommunityAnswerNotFoundException::new);
+    }
+
+    public void deleteCommunityAnswer(CommunityAnswer communityAnswer) {
+        communityAnswerRepository.delete(communityAnswer);
+
+    }
+
+    public CommunityAnswer updateCommunityAnswer(CommunityAnswer communityAnswer, CommunityAnswer updateCommunityAnswer) {
+
+        communityAnswer.updateCommunityAnswer(updateCommunityAnswer);
+        return communityAnswer;
+
+
     }
 }

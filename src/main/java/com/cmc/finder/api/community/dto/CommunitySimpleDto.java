@@ -3,6 +3,7 @@ package com.cmc.finder.api.community.dto;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.model.OrderBy;
+import com.cmc.finder.global.util.DateTimeUtils;
 import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -51,13 +52,12 @@ public class CommunitySimpleDto {
 
         private Boolean isQuestion;
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        private LocalDateTime createTime;
+        private String createTime;
 
         @Builder
         public Response(Long communityId, String title, String content, MBTI mbti, String imageUrl,
                         String userNickname, MBTI userMBTI, Integer likeCount,
-                        Integer answerCount, Boolean isQuestion, LocalDateTime createTime) {
+                        Integer answerCount, Boolean isQuestion, String createTime) {
 
             this.communityId = communityId;
             this.communityTitle = title;
@@ -85,7 +85,7 @@ public class CommunitySimpleDto {
                     .likeCount(community.getLikeList().size())
                     .answerCount(community.getCommunityAnswers().size())
                     .isQuestion(community.getIsQuestion())
-                    .createTime(community.getCreateTime())
+                    .createTime(DateTimeUtils.convertToLocalDatetimeToTime(community.getCreateTime()))
                     .build();
 
             if (community.getCommunityImages().size() != 0) {

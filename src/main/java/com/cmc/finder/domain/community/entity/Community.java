@@ -25,7 +25,7 @@ public class Community extends BaseTimeEntity {
     private String title;
 
     @Lob
-    @Column(nullable = false)
+    @Column(length = 500, nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)

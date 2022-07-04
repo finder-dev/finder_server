@@ -6,21 +6,21 @@ import lombok.Setter;
 
 @Getter @Setter
 @Builder
-public class FavoriteQuestionAddOrDeleteDto {
+public class AddOrDeleteFavoriteQuestionRes {
 
     private String message;
 
-    public static FavoriteQuestionAddOrDeleteDto of(Boolean addOrDelete) {
+    public static AddOrDeleteFavoriteQuestionRes of(Boolean addOrDelete) {
 
         // add
         if (addOrDelete) {
-            return FavoriteQuestionAddOrDeleteDto.builder()
+            return AddOrDeleteFavoriteQuestionRes.builder()
                     .message("add success")
                     .build();
         }
         // delete
         else {
-            return FavoriteQuestionAddOrDeleteDto.builder()
+            return AddOrDeleteFavoriteQuestionRes.builder()
                     .message("delete success")
                     .build();
         }

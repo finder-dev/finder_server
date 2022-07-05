@@ -13,6 +13,7 @@ import com.cmc.finder.domain.debate.service.DebateAnswerService;
 import com.cmc.finder.domain.debate.service.DebateService;
 import com.cmc.finder.domain.debate.service.DebaterService;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.domain.model.Type;
 import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.service.NotificationService;
@@ -134,7 +135,7 @@ public class ApiDebateService {
 
         saveDebateAnswer = debateAnswerService.saveDebateAnswer(saveDebateAnswer);
 
-        fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER);
+        fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
         createNotification(debate, DEBATE_ANSWER);
 
         return DebateAnswerCreateDto.Response.of(saveDebateAnswer);
@@ -188,7 +189,7 @@ public class ApiDebateService {
         debateAnswer.addDebateReply(saveDebateAnswerReply);
 
         createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY);
-        fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY);
+        fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
 
         return DebateReplyCreateDto.Response.of(saveDebateAnswerReply);
 
@@ -260,7 +261,6 @@ public class ApiDebateService {
         Long countB = debaterService.getDebaterCountByOption(debate, Option.B);
 
         return GetHotDebateRes.of(debate, countA, countB, debater);
-
 
 
     }

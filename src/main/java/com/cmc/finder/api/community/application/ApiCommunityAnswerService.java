@@ -9,6 +9,7 @@ import com.cmc.finder.domain.community.application.CommunityService;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.domain.model.Type;
 import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.service.NotificationService;
@@ -46,7 +47,7 @@ public class ApiCommunityAnswerService {
 
         saveCommunityAnswer = communityAnswerService.saveCommunityAnswer(saveCommunityAnswer);
 
-        fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER);
+        fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER, Type.COMMUNITY.getValue());
         createNotification(community, COMMUNITY_ANSWER);
 
         return CreateCommunityAnswerDto.Response.of(saveCommunityAnswer);
@@ -102,7 +103,7 @@ public class ApiCommunityAnswerService {
         saveReply = communityAnswerService.saveCommunityAnswer(saveReply);
         saveReply.setParent(communityAnswer);
 
-        fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY);
+        fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY, Type.COMMUNITY.getValue());
         createNotification(communityAnswer.getCommunity(), COMMUNITY_ANSWER_REPLY);
 
         return CreateCommunityReplyDto.Response.of(saveReply);

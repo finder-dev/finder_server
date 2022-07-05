@@ -16,10 +16,10 @@ public class FcmService {
 
     private final String CONTENT_TYPE = "application/json; UTF-8";
 
-    public void sendMessageTo(String targetToken, String title, String body) {
+    public void sendMessageTo(String targetToken, String title, String body, String type) {
 
         try {
-            FcmMessage message = makeMessage(targetToken, title, body);
+            FcmMessage message = makeMessage(targetToken, title, body, type);
             fcmClient.requestNotification(CONTENT_TYPE, "Bearer " + getAccessToken(), message);
         } catch (IOException e) {
             throw new NotificationFailedException();
@@ -27,8 +27,8 @@ public class FcmService {
 
     }
 
-    private FcmMessage makeMessage(String targetToken, String title, String body) {
-        FcmMessage message = FcmMessage.of(targetToken, title, body, "");
+    private FcmMessage makeMessage(String targetToken, String title, String body, String type) {
+        FcmMessage message = FcmMessage.of(targetToken, title, body, type);
         return message;
     }
 

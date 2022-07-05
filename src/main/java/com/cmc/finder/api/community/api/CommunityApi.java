@@ -100,7 +100,7 @@ public class CommunityApi {
     }
 
     @PostMapping("/{communityId}/like")
-    public ResponseEntity<ApiResult<AddOrDeleteLikeRes>> addOrDeleteCurious(
+    public ResponseEntity<ApiResult<AddOrDeleteLikeRes>> addOrDeleteLike(
             @PathVariable Long communityId,
             @UserEmail String email
     ) {
@@ -124,6 +124,16 @@ public class CommunityApi {
         );
 
         Page<CommunitySearchDto.Response> response = apiCommunityService.searchCommunity(request.getSearchQuery(), pageable);
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
+    @PostMapping("/{communityId}/save")
+    public ResponseEntity<ApiResult<SaveOrRemoveCommunityRes>> saveOrRemoveCommunity(
+            @PathVariable Long communityId,
+            @UserEmail String email
+    ){
+
+        SaveOrRemoveCommunityRes response = apiCommunityService.saveOrRemoveCommunity(communityId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

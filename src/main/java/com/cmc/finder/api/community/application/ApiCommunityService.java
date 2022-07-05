@@ -1,17 +1,10 @@
 package com.cmc.finder.api.community.application;
 
 import com.cmc.finder.api.community.dto.*;
-import com.cmc.finder.domain.community.application.CommunityAnswerService;
-import com.cmc.finder.domain.community.application.CommunityImageService;
-import com.cmc.finder.domain.community.application.CommunityService;
-import com.cmc.finder.domain.community.application.LikeService;
-import com.cmc.finder.domain.community.entity.Community;
-import com.cmc.finder.domain.community.entity.CommunityAnswer;
-import com.cmc.finder.domain.community.entity.CommunityImage;
-import com.cmc.finder.domain.community.entity.Like;
+import com.cmc.finder.domain.community.application.*;
+import com.cmc.finder.domain.community.entity.*;
 import com.cmc.finder.domain.community.exception.CommunityImageMaxException;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.qna.answer.entity.Helpful;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
@@ -24,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +32,7 @@ public class ApiCommunityService {
     private final CommunityService communityService;
     private final CommunityAnswerService communityAnswerService;
     private final CommunityImageService communityImageService;
+    private final SaveCommunityService saveCommunityService;
     private final LikeService likeService;
 
     private final S3Uploader s3Uploader;
@@ -205,4 +198,23 @@ public class ApiCommunityService {
         return communityService.getSearchCommunityList(pageable, search);
 
     }
+
+    @Transactional
+    public SaveOrRemoveCommunityRes saveOrRemoveCommunity(Long communityId, String email) {
+
+        Community community = communityService.getCommunity(communityId);
+        User user = userService.getUserByEmail(Email.of(email));
+
+        if (saveCommunityService.existsUser(community, user)) {
+            saveCommunityService.removeCommunity(community, user);
+            return SaveOrRemoveCommunityRes.of(false);
+        }
+
+        SaveCommunity saveCommunity = SaveCommunity.createSaveCommunity(community, user);
+        community.addSaveCommunity(saveCommunity);
+
+        return SaveOrRemoveCommunityRes.of(true);
+
+    }
+
 }

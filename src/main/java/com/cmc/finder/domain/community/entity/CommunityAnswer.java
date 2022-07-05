@@ -7,6 +7,7 @@ import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 @Table(name = "community_answer")
 @Getter
 @NoArgsConstructor
+@ToString
 public class CommunityAnswer extends BaseTimeEntity {
 
     @Id

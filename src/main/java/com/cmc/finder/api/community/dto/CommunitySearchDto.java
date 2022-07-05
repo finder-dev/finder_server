@@ -39,34 +39,24 @@ public class CommunitySearchDto {
 
         private MBTI communityMBTI;
 
-        private String imageUrl;
-
         private String userNickname;
 
         private MBTI userMBTI;
-
-        private Integer likeCount;
-
-        private Integer answerCount;
 
         private Boolean isQuestion;
 
         private String createTime;
 
         @Builder
-        public Response(Long communityId, String title, String content, MBTI mbti, String imageUrl,
-                        String userNickname, MBTI userMBTI, Integer likeCount,
-                        Integer answerCount, Boolean isQuestion, String createTime) {
+        public Response(Long communityId, String title, String content, MBTI mbti,
+                        String userNickname, MBTI userMBTI, Boolean isQuestion, String createTime) {
 
             this.communityId = communityId;
             this.communityTitle = title;
             this.communityContent = content;
             this.communityMBTI = mbti;
-            this.imageUrl = imageUrl;
             this.userNickname = userNickname;
             this.userMBTI = userMBTI;
-            this.likeCount = likeCount;
-            this.answerCount = answerCount;
             this.isQuestion = isQuestion;
             this.createTime = createTime;
 
@@ -81,15 +71,9 @@ public class CommunitySearchDto {
                     .mbti(community.getMbti())
                     .userNickname(community.getUser().getNickname())
                     .userMBTI(community.getUser().getMbti())
-                    .likeCount(community.getLikeList().size())
-                    .answerCount(community.getCommunityAnswers().size())
                     .isQuestion(community.getIsQuestion())
                     .createTime(DateTimeUtils.convertToLocalDatetimeToTime(community.getCreateTime()))
                     .build();
-
-            if (community.getCommunityImages().size() != 0) {
-                response.imageUrl = community.getCommunityImages().get(0).getImageUrl();
-            }
 
             return response;
 

@@ -1,5 +1,6 @@
 package com.cmc.finder.domain.community.application;
 
+import com.cmc.finder.api.community.dto.CommunitySearchDto;
 import com.cmc.finder.api.community.dto.CommunitySimpleDto;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.exception.CommunityNotFountException;
@@ -64,5 +65,11 @@ public class CommunityService {
     public void deleteCommunity(Community community) {
 
         communityRepository.delete(community);
+    }
+
+    public Page<CommunitySearchDto.Response> getSearchCommunityList(Pageable pageable, String search) {
+
+        return communityRepository.findSearchCommunity(pageable, search);
+
     }
 }

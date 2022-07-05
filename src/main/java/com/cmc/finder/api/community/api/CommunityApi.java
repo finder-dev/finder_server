@@ -60,7 +60,6 @@ public class CommunityApi {
     }
 
 
-
     @GetMapping("/hot")
     public ResponseEntity<ApiResult<List<GetHotCommunityRes>>> getHotCommunities() {
 
@@ -104,13 +103,29 @@ public class CommunityApi {
     public ResponseEntity<ApiResult<AddOrDeleteLikeRes>> addOrDeleteCurious(
             @PathVariable Long communityId,
             @UserEmail String email
-    ){
+    ) {
 
         AddOrDeleteLikeRes response = apiCommunityService.addOrDeleteLike(communityId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<ApiResult<Page<CommunitySearchDto.Response>>> searchCommunity(
+            CommunitySearchDto.Request request,
+            Optional<Integer> page
+    ) {
 
+        Pageable pageable = PageRequest.of(
+                page.isPresent() ? page.get() : 0,
+                SET_PAGE_ITEM_MAX_COUNT,
+                request.getOrderBy() == null ?
+                        Sort.by(Sort.Direction.DESC, OrderBy.CREATE_TIME.name()) :
+                        Sort.by(Sort.Direction.DESC, request.getOrderBy())
+        );
+
+        Page<CommunitySearchDto.Response> response = apiCommunityService.searchCommunity(request.getSearch(), pageable);
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
 
 
 }

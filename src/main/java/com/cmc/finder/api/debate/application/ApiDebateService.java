@@ -13,6 +13,7 @@ import com.cmc.finder.domain.debate.service.DebateAnswerService;
 import com.cmc.finder.domain.debate.service.DebateService;
 import com.cmc.finder.domain.debate.service.DebaterService;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.domain.model.Type;
 import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.service.NotificationService;
@@ -20,7 +21,7 @@ import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
-import com.cmc.finder.infra.notification.FCMService;
+import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +44,7 @@ public class ApiDebateService {
     private final DebateAnswerService debateAnswerService;
     private final UserService userService;
     private final DebateRepositoryCustom debateRepositoryCustom;
-    private final FCMService fcmService;
+    private final FcmService fcmService;
     private final NotificationService notificationService;
     private final DebateAnswerReplyService debateAnswerReplyService;
 
@@ -134,7 +135,7 @@ public class ApiDebateService {
 
         saveDebateAnswer = debateAnswerService.saveDebateAnswer(saveDebateAnswer);
 
-        fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER);
+        fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
         createNotification(debate, DEBATE_ANSWER);
 
         return DebateAnswerCreateDto.Response.of(saveDebateAnswer);
@@ -188,7 +189,7 @@ public class ApiDebateService {
         debateAnswer.addDebateReply(saveDebateAnswerReply);
 
         createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY);
-        fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY);
+        fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
 
         return DebateReplyCreateDto.Response.of(saveDebateAnswerReply);
 
@@ -260,7 +261,6 @@ public class ApiDebateService {
         Long countB = debaterService.getDebaterCountByOption(debate, Option.B);
 
         return GetHotDebateRes.of(debate, countA, countB, debater);
-
 
 
     }

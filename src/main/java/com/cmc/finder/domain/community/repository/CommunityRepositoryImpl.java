@@ -1,13 +1,12 @@
 package com.cmc.finder.domain.community.repository;
 
+import com.cmc.finder.api.community.dto.CommunitySearchDto;
 import com.cmc.finder.api.community.dto.CommunitySimpleDto;
-import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
 import com.cmc.finder.domain.community.entity.Community;
-import com.cmc.finder.domain.community.entity.QCommunity;
 import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.qna.question.entity.Question;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.cmc.finder.domain.qna.question.entity.QQuestion.question;
 import static com.cmc.finder.domain.community.entity.QCommunity.community;
 
 import static com.cmc.finder.domain.user.entity.QUser.user;
@@ -41,7 +39,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .from(community)
                 .join(community.user, user).fetchJoin()
                 .where(
-                        searchByMBTI(mbti)
+                        findByMBTI(mbti)
                 )
                 .groupBy(community.communityId)
                 .orderBy(listSort(pageable))
@@ -52,7 +50,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
         int totalSize = queryFactory
                 .selectFrom(community)
                 .where(
-                        searchByMBTI(mbti)
+                        findByMBTI(mbti)
                 )
                 .fetch().size();
 
@@ -63,7 +61,43 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
         return new PageImpl<>(communitySimpleDtos, pageable, totalSize);
     }
 
-    private BooleanExpression searchByMBTI(String mbti) {
+    @Override
+    public Page<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search) {
+        List<Community> results = queryFactory
+                .select(community)
+                .from(community)
+                .join(community.user, user).fetchJoin()
+                .where(
+                        searchByLike(search)
+                )
+                .groupBy(community.communityId)
+                .orderBy(listSort(pageable))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        int totalSize = queryFactory
+                .selectFrom(community)
+                .where(
+                        searchByLike(search)
+                )
+                .fetch().size();
+
+        List<CommunitySearchDto.Response> communitySimpleDtos = results.stream().map(community ->
+                CommunitySearchDto.Response.of(community)
+        ).collect(Collectors.toList());
+
+        return new PageImpl<>(communitySimpleDtos, pageable, totalSize);
+
+    }
+
+    private BooleanExpression searchByLike(String searchQuery) {
+
+        return community.title.like("%" + searchQuery + "%").or(community.content.like("%" + searchQuery + "%"));
+
+    }
+
+    private BooleanExpression findByMBTI(String mbti) {
 
         return mbti == null ? null : community.mbti.eq(MBTI.from(mbti));
 

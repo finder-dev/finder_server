@@ -4,17 +4,12 @@ import com.cmc.finder.api.community.dto.CreateCommunityAnswerDto;
 import com.cmc.finder.api.community.dto.CreateCommunityReplyDto;
 import com.cmc.finder.api.community.dto.DeleteCommunityAnswerRes;
 import com.cmc.finder.api.community.dto.UpdateCommunityAnswerDto;
-import com.cmc.finder.api.debate.dto.DebateAnswerCreateDto;
-import com.cmc.finder.api.debate.dto.DebateReplyUpdateDto;
-import com.cmc.finder.api.qna.answer.dto.DeleteAnswerRes;
 import com.cmc.finder.domain.community.application.CommunityAnswerService;
 import com.cmc.finder.domain.community.application.CommunityService;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
-import com.cmc.finder.domain.debate.entity.Debate;
-import com.cmc.finder.domain.debate.entity.DebateAnswer;
-import com.cmc.finder.domain.debate.entity.DebateAnswerReply;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.domain.model.Type;
 import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.service.NotificationService;
@@ -22,7 +17,7 @@ import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
-import com.cmc.finder.infra.notification.FCMService;
+import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +33,7 @@ public class ApiCommunityAnswerService {
     private final UserService userService;
     private final CommunityService communityService;
     private final CommunityAnswerService communityAnswerService;
-    private final FCMService fcmService;
+    private final FcmService fcmService;
     private final NotificationService notificationService;
 
     @Transactional
@@ -52,7 +47,7 @@ public class ApiCommunityAnswerService {
 
         saveCommunityAnswer = communityAnswerService.saveCommunityAnswer(saveCommunityAnswer);
 
-        fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER);
+        fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER, Type.COMMUNITY.getValue());
         createNotification(community, COMMUNITY_ANSWER);
 
         return CreateCommunityAnswerDto.Response.of(saveCommunityAnswer);
@@ -108,9 +103,11 @@ public class ApiCommunityAnswerService {
         saveReply = communityAnswerService.saveCommunityAnswer(saveReply);
         saveReply.setParent(communityAnswer);
 
-        fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY);
+        fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY, Type.COMMUNITY.getValue());
         createNotification(communityAnswer.getCommunity(), COMMUNITY_ANSWER_REPLY);
 
         return CreateCommunityReplyDto.Response.of(saveReply);
     }
+
+
 }

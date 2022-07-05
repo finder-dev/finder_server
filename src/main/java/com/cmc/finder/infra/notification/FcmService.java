@@ -11,16 +11,15 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FCMService {
-    //TODO interface 생성
-    private final FCMClient fcmClient;
+public class FcmService {
+    private final FcmClient fcmClient;
 
     private final String CONTENT_TYPE = "application/json; UTF-8";
 
-    public void sendMessageTo(String targetToken, String title, String body) {
+    public void sendMessageTo(String targetToken, String title, String body, String type) {
 
         try {
-            FCMMessage message = makeMessage(targetToken, title, body);
+            FcmMessage message = makeMessage(targetToken, title, body, type);
             fcmClient.requestNotification(CONTENT_TYPE, "Bearer " + getAccessToken(), message);
         } catch (IOException e) {
             throw new NotificationFailedException();
@@ -28,19 +27,9 @@ public class FCMService {
 
     }
 
-    private FCMMessage makeMessage(String targetToken, String title, String body) {
-        //TODO 변경
-        FCMMessage fcmMessage = FCMMessage.builder()
-                .message(FCMMessage.Message.builder()
-                        .token(targetToken)
-                        .notification(FCMMessage.Notification.builder()
-                                .title(title)
-                                .body(body)
-                                .image(null)
-                                .build()
-                        ).build()).validateOnly(false).build();
-
-        return fcmMessage;
+    private FcmMessage makeMessage(String targetToken, String title, String body, String type) {
+        FcmMessage message = FcmMessage.of(targetToken, title, body, type);
+        return message;
     }
 
     private String getAccessToken() throws IOException {

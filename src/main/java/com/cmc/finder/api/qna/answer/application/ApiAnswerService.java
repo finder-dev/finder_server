@@ -1,6 +1,7 @@
 package com.cmc.finder.api.qna.answer.application;
 
 import com.cmc.finder.api.qna.answer.dto.*;
+import com.cmc.finder.domain.model.Type;
 import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.service.NotificationService;
@@ -19,7 +20,7 @@ import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
-import com.cmc.finder.infra.notification.FCMService;
+import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class ApiAnswerService {
     private final QuestionService questionService;
     private final AnswerService answerService;
     private final HelpfulService helpfulService;
-    private final FCMService fcmService;
+    private final FcmService fcmService;
     private final AnswerReplyService answerReplyService;
     private final NotificationService notificationService;
 
@@ -77,7 +78,7 @@ public class ApiAnswerService {
 
         // 알림 생성
         createNotification(question, QUESTION_ANSWER);
-        fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(), QUESTION_ANSWER);
+        fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(), QUESTION_ANSWER, Type.QUESTION.getValue());
 
         return AnswerCreateDto.Response.of(savedAnswer);
 
@@ -133,7 +134,7 @@ public class ApiAnswerService {
         answer.addReply(saveAnswerReply);
 
         createNotification(answer.getQuestion(), QUESTION_ANSWER_REPLY);
-        fcmService.sendMessageTo(answer.getUser().getFcmToken(), answer.getQuestion().getTitle(), QUESTION_ANSWER_REPLY);
+        fcmService.sendMessageTo(answer.getUser().getFcmToken(), answer.getQuestion().getTitle(), QUESTION_ANSWER_REPLY, Type.QUESTION.getValue());
 
         return ReplyCreateDto.Response.of(saveAnswerReply);
 

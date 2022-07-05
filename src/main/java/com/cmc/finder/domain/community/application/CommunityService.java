@@ -5,6 +5,7 @@ import com.cmc.finder.api.community.dto.CommunitySimpleDto;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.exception.CommunityNotFountException;
 import com.cmc.finder.domain.community.repository.CommunityRepository;
+import com.cmc.finder.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -70,6 +71,17 @@ public class CommunityService {
     public Page<CommunitySearchDto.Response> getSearchCommunityList(Pageable pageable, String search) {
 
         return communityRepository.findSearchCommunity(pageable, search);
+
+    }
+
+    public Page<Community> getCommunityByUser(User user, Pageable pageable) {
+
+        return communityRepository.findAllByUserOrderByCommunityIdDesc(user, pageable);
+    }
+
+    public Page<Community> getCommunityByCommentUser(User user, Pageable pageable) {
+
+        return communityRepository.findAllByCommentUserFetchUser(user, pageable);
 
     }
 }

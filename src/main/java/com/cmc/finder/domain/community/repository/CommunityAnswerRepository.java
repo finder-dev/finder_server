@@ -2,6 +2,7 @@ package com.cmc.finder.domain.community.repository;
 
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.qna.answer.entity.Answer;
+import com.cmc.finder.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -20,4 +21,7 @@ public interface CommunityAnswerRepository extends JpaRepository<CommunityAnswer
             "join fetch ca.user u " +
             "where ca.communityAnswerId=:communityAnswerId ")
     Optional<CommunityAnswer> findByIdFetchUser(Long communityAnswerId);
+
+
+
 }

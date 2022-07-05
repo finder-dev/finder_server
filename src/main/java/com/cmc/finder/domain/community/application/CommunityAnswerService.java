@@ -1,5 +1,6 @@
 package com.cmc.finder.domain.community.application;
 
+import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.community.exception.CommunityAnswerNotFoundException;
 import com.cmc.finder.domain.community.repository.CommunityAnswerRepository;
@@ -9,11 +10,14 @@ import com.cmc.finder.domain.debate.exception.DebateAnswerNotFoundException;
 import com.cmc.finder.domain.debate.exception.DebateNotFoundException;
 import com.cmc.finder.domain.debate.repository.DebateAnswerRepository;
 import com.cmc.finder.domain.qna.answer.entity.Answer;
+import com.cmc.finder.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,16 +43,19 @@ public class CommunityAnswerService {
                 .orElseThrow(CommunityAnswerNotFoundException::new);
     }
 
+    @Transactional
     public void deleteCommunityAnswer(CommunityAnswer communityAnswer) {
         communityAnswerRepository.delete(communityAnswer);
 
     }
 
+    @Transactional
     public CommunityAnswer updateCommunityAnswer(CommunityAnswer communityAnswer, CommunityAnswer updateCommunityAnswer) {
 
         communityAnswer.updateCommunityAnswer(updateCommunityAnswer);
         return communityAnswer;
 
-
     }
+
+
 }

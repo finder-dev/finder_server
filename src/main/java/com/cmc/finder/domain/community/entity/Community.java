@@ -59,6 +59,17 @@ public class Community extends BaseTimeEntity {
     )
     private List<Like> likeList = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "community",
+            cascade = CascadeType.ALL
+    )
+    private List<SaveCommunity> saveCommunityList = new ArrayList<>();
+
+    public void addSaveCommunity(SaveCommunity saveCommunity) {
+        saveCommunityList.add(saveCommunity);
+        saveCommunity.setCommunity(this);
+    }
+
     public void addLike(Like like) {
         likeList.add(like);
         like.setCommunity(this);

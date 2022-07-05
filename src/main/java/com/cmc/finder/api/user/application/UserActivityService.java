@@ -1,19 +1,21 @@
 package com.cmc.finder.api.user.application;
 
-import com.cmc.finder.api.user.dto.UserActivityResponse;
-import com.cmc.finder.domain.debate.entity.Debate;
-import com.cmc.finder.domain.debate.service.DebateService;
+import com.cmc.finder.api.user.dto.GetSaveCommunityRes;
+import com.cmc.finder.api.user.dto.GetUserActivityRes;
+import com.cmc.finder.domain.community.application.CommunityService;
+import com.cmc.finder.domain.community.application.SaveCommunityService;
+import com.cmc.finder.domain.community.entity.Community;
+import com.cmc.finder.domain.community.entity.SaveCommunity;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.qna.question.entity.Question;
-import com.cmc.finder.domain.qna.question.application.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,50 +25,38 @@ import java.util.stream.Collectors;
 public class UserActivityService {
 
     private final UserService userService;
-    private final QuestionService questionService;
-    private final DebateService debateService;
+    private final SaveCommunityService saveCommunityService;
+    private final CommunityService communityService;
 
-    public List<UserActivityResponse> getUserActivity(String email) {
+    public List<GetSaveCommunityRes> getSaveCommunity(String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
+        List<SaveCommunity> saveCommunityFetchCommunity = saveCommunityService.getSaveCommunityFetchCommunity(user);
 
-        //TODO 커뮤니티 추가
-
-        List<Question> questionList = questionService.getQuestionsByUser(user);
-        List<Debate> debateList = debateService.getDebateByUser(user);
-
-        List<UserActivityResponse> userActivityResponses = new ArrayList<>();
-
-        // question to userActivityResponse
-        List<UserActivityResponse> collect = questionList.stream().map(question ->
-                UserActivityResponse.of(question)
-        ).collect(Collectors.toList());
-
-        userActivityResponses.addAll(collect);
-
-        //TODO 삭제
-
-        // debate to userActivityResponse
-        List<UserActivityResponse> collect2 = debateList.stream().map(debate ->
-                UserActivityResponse.of(debate)
-        ).collect(Collectors.toList());
-
-        userActivityResponses.addAll(collect2);
-
-        // 재정렬
-        List<UserActivityResponse> sortedResponse = userActivityResponses.stream().sorted(new Comparator<UserActivityResponse>() {
-            @Override
-            public int compare(UserActivityResponse o1, UserActivityResponse o2) {
-                return o2.getCreateTime().compareTo(o1.getCreateTime());
-            }
-        }).collect(Collectors.toList());
-
-        return sortedResponse;
+        return saveCommunityFetchCommunity.stream().map(saveCommunity ->
+                GetSaveCommunityRes.of(saveCommunity.getCommunity())).collect(Collectors.toList());
 
     }
 
+    public Page<GetUserActivityRes> getCommunityByUser(String email, Pageable pageable) {
 
+        User user = userService.getUserByEmail(Email.of(email));
+        Page<Community> communityList = communityService.getCommunityByUser(user, pageable);
 
+        List<GetUserActivityRes> res = communityList.stream().map(community -> GetUserActivityRes.of(community)).collect(Collectors.toList());
+        return new PageImpl<>(res);
+
+    }
+
+    public Page<GetUserActivityRes> getCommunityByCommentUser(String email, Pageable pageable) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        Page<Community> communityList = communityService.getCommunityByCommentUser(user, pageable);
+
+        List<GetUserActivityRes> res = communityList.stream().map(community -> GetUserActivityRes.of(community)).collect(Collectors.toList());
+        return new PageImpl<>(res);
+
+    }
 
 
 }

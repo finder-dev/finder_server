@@ -198,4 +198,10 @@ public class ApiCommunityService {
         return AddOrDeleteLikeRes.of(true);
 
     }
+
+    public Page<CommunitySearchDto.Response> searchCommunity(String search, Pageable pageable) {
+
+        return communityService.getSearchCommunityList(pageable, search);
+
+    }
 }

@@ -19,7 +19,7 @@ import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
-import com.cmc.finder.infra.notification.FCMService;
+import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class ApiAnswerService {
     private final QuestionService questionService;
     private final AnswerService answerService;
     private final HelpfulService helpfulService;
-    private final FCMService fcmService;
+    private final FcmService fcmService;
     private final AnswerReplyService answerReplyService;
     private final NotificationService notificationService;
 

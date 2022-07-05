@@ -20,7 +20,7 @@ import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
-import com.cmc.finder.infra.notification.FCMService;
+import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +43,7 @@ public class ApiDebateService {
     private final DebateAnswerService debateAnswerService;
     private final UserService userService;
     private final DebateRepositoryCustom debateRepositoryCustom;
-    private final FCMService fcmService;
+    private final FcmService fcmService;
     private final NotificationService notificationService;
     private final DebateAnswerReplyService debateAnswerReplyService;
 

@@ -19,7 +19,7 @@ public class CommunitySearchDto {
     public static class Request {
 
         @NotBlank(message = "검색어는 필수값입니다.")
-        private String search;
+        private String searchQuery;
 
         @Enum(enumClass = OrderBy.class, message = "잘못된 Enum 값 입니다.", ignoreCase = true)
         private String orderBy;

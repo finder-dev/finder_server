@@ -111,7 +111,7 @@ public class CommunityApi {
 
     @GetMapping("/search")
     public ResponseEntity<ApiResult<Page<CommunitySearchDto.Response>>> searchCommunity(
-            CommunitySearchDto.Request request,
+            @Valid CommunitySearchDto.Request request,
             Optional<Integer> page
     ) {
 
@@ -123,7 +123,7 @@ public class CommunityApi {
                         Sort.by(Sort.Direction.DESC, request.getOrderBy())
         );
 
-        Page<CommunitySearchDto.Response> response = apiCommunityService.searchCommunity(request.getSearch(), pageable);
+        Page<CommunitySearchDto.Response> response = apiCommunityService.searchCommunity(request.getSearchQuery(), pageable);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

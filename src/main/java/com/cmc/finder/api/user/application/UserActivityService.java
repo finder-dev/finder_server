@@ -28,13 +28,15 @@ public class UserActivityService {
     private final SaveCommunityService saveCommunityService;
     private final CommunityService communityService;
 
-    public List<GetSaveCommunityRes> getSaveCommunity(String email) {
+    public Page<GetSaveCommunityRes> getSaveCommunity(String email, Pageable pageable) {
 
         User user = userService.getUserByEmail(Email.of(email));
-        List<SaveCommunity> saveCommunityFetchCommunity = saveCommunityService.getSaveCommunityFetchCommunity(user);
+        Page<SaveCommunity> saveCommunityFetchCommunity = saveCommunityService.getSaveCommunityFetchCommunity(user, pageable);
 
-        return saveCommunityFetchCommunity.stream().map(saveCommunity ->
+        List<GetSaveCommunityRes> res = saveCommunityFetchCommunity.stream().map(saveCommunity ->
                 GetSaveCommunityRes.of(saveCommunity.getCommunity())).collect(Collectors.toList());
+
+        return new PageImpl<>(res);
 
     }
 

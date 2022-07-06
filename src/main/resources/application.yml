@@ -2,8 +2,9 @@ server:
   port: 8081
   servlet:
     context-path: /
-
 spring:
+  profiles:
+    active: dev
   mail:
     host: smtp.gmail.com
     port: 587
@@ -21,38 +22,13 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
             port: 465
-  datasource:
-    url: jdbc:mysql://springboot-db2.cvqrxyomkoch.ap-northeast-2.rds.amazonaws.com:3306/mydb
-#    url: ENC(NFjs2fL+kacpK4NiY8OJo1VO9pEA+LjJYbPtdTIcrbKAjfTAMjmorNByeOkPYZB9ygAksX5Uuava17WneHsYncMyVNmKyZ2J96m3y3f5NvbkwxxbCcHztq1QwXa4qLPv)
-    username: ENC(x9JT7KRP87tq9DxLC1Yf7g==)
-    password: ENC(97S/vqWIMLuAyJL4PutGI8GmTsInGsBl)
-#    url: jdbc:h2:tcp://localhost/~/jpashop
-#        url: ENC(/BtZqQvoCF1ULgVI5u8fij1nZqTvE4lKIt/LZ0nU/umwl9PJe3TI8pBAPnM2eDE0)
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
-  #    schema: classpath*:/schema.sql
-  #    data: classpath*:/data.sql
-  #    initialization-mode: always
-
-  jpa:
-    open-in-view: false
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true # sql 예쁘게 출력
-        default_batch_fetch_size: 1000
-
-    show-sql: true  # sql 출력
-
   servlet:
     multipart:
       max-file-size: 10MB # 파일 업로드 요청 시 하나의 파일 크기 10MB로 제한
       max-request-size: 100MB # 파일 업로드 요청 시 모든 파일의 크기의합 100MB로 제한
 
   redis:
-    host: 127.0.0.1
+    host: ENC(JRewTIiS/WWm2QxV1htiHs1G1ncWA4mP)
     port: 6379
 
 kakao:
@@ -72,7 +48,7 @@ jasypt:
     password: ${JASYPT_PASSWORD}
 
 token:
-  secret: jwt-token-secret
+  secret: ENC(mhaQLulh9yzThpZv8PMZKtGeXkFgsqd9cW+1ZzftHAU=)
   access-token-expiration-time: 900000  # 15분
   refresh-token-expiration-time: 1210500000 # 2주
 
@@ -87,7 +63,6 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
-
 
 s3:
   users:

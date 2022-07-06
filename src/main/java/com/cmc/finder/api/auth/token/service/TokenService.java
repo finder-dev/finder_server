@@ -1,9 +1,9 @@
 package com.cmc.finder.api.auth.token.service;
 
 import com.cmc.finder.api.auth.token.dto.AccessTokenResponse;
-import com.cmc.finder.domain.jwt.service.RefreshTokenRedisService;
+import com.cmc.finder.domain.jwt.application.RefreshTokenRedisService;
 import com.cmc.finder.domain.jwt.entity.RefreshToken;
-import com.cmc.finder.domain.jwt.service.TokenManager;
+import com.cmc.finder.domain.jwt.application.TokenManager;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;

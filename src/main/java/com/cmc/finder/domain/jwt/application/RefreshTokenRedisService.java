@@ -1,8 +1,9 @@
-package com.cmc.finder.domain.jwt.service;
+package com.cmc.finder.domain.jwt.application;
 
 import com.cmc.finder.domain.jwt.entity.RefreshToken;
-import com.cmc.finder.domain.jwt.exception.RefreshTokenNotFountException;
 import com.cmc.finder.domain.jwt.repository.RefreshTokenRedisRepository;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class RefreshTokenRedisService {
 
     public RefreshToken getRefreshTokenByEmail(String email){
         RefreshToken refreshToken = refreshTokenRedisRepository.findById(email)
-                .orElseThrow(RefreshTokenNotFountException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
         return refreshToken;
     }
 

@@ -1,20 +1,12 @@
 package com.cmc.finder.domain.community.application;
 
 import com.cmc.finder.domain.community.entity.CommunityImage;
-import com.cmc.finder.domain.community.exception.CommunityImageNotFountException;
 import com.cmc.finder.domain.community.repository.CommunityImageRepository;
-import com.cmc.finder.domain.debate.entity.DebateAnswer;
-import com.cmc.finder.domain.debate.entity.DebateAnswerReply;
-import com.cmc.finder.domain.debate.exception.DebateAnswerReplyNotFoundException;
-import com.cmc.finder.domain.debate.repository.DebateAnswerReplyRepository;
-import com.cmc.finder.domain.qna.answer.exception.ReplyNotFoundException;
-import com.cmc.finder.domain.qna.question.entity.QuestionImage;
-import com.cmc.finder.domain.qna.question.exception.QuestionImageNotFountException;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +18,7 @@ public class CommunityImageService {
     public CommunityImage getCommunityImage(Long communityImgId) {
 
         return communityImageRepository.findById(communityImgId)
-                .orElseThrow(CommunityImageNotFountException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.COMMUNITY_IMAGE_NOT_EXISTS));
 
     }
 

@@ -1,6 +1,6 @@
-package com.cmc.finder.domain.keyword.repository;
+package com.cmc.finder.domain.user.repository;
 
-import com.cmc.finder.domain.keyword.entity.Keyword;
+import com.cmc.finder.domain.user.entity.Keyword;
 import com.cmc.finder.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

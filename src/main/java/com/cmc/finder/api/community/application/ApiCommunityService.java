@@ -3,7 +3,7 @@ package com.cmc.finder.api.community.application;
 import com.cmc.finder.api.community.dto.*;
 import com.cmc.finder.domain.community.application.*;
 import com.cmc.finder.domain.community.entity.*;
-import com.cmc.finder.domain.community.exception.CommunityImageMaxException;
+import com.cmc.finder.domain.community.exception.CommunityImageExceedNumberException;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
@@ -115,7 +115,7 @@ public class ApiCommunityService {
 
         // 이미지 10개 초과 검증
         if (updatedCommunity.getCommunityImages().size() > 10) {
-            throw new CommunityImageMaxException(ErrorCode.COMMUNITY_IMAGE_MAX);
+            throw new CommunityImageExceedNumberException(ErrorCode.COMMUNITY_IMAGE_EXCEED_NUMBER);
         }
 
         return UpdateCommunityDto.Response.of(updatedCommunity);

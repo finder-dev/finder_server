@@ -1,6 +1,6 @@
 package com.cmc.finder.global.resolver;
 
-import com.cmc.finder.domain.jwt.service.TokenManager;
+import com.cmc.finder.domain.jwt.application.TokenManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;

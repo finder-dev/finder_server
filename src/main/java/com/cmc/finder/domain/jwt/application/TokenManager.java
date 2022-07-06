@@ -1,4 +1,4 @@
-package com.cmc.finder.domain.jwt.service;
+package com.cmc.finder.domain.jwt.application;
 
 import com.cmc.finder.domain.jwt.constant.GrantType;
 import com.cmc.finder.domain.jwt.constant.TokenType;

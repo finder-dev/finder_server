@@ -1,12 +1,6 @@
 package com.cmc.finder.domain.notification.entity;
 
-import com.cmc.finder.domain.debate.entity.Debate;
-import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.model.Password;
 import com.cmc.finder.domain.notification.constant.NotificationType;
-import com.cmc.finder.domain.qna.question.entity.Question;
-import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;

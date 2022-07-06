@@ -56,14 +56,16 @@ public enum ErrorCode {
     ANSWER_USER_BE_NOT_WRITER(403, "해당 답변에 대한 작성자가 아닙니다."),
     REPLY_NOT_EXISTS(401, "해당 댓글을 찾을 수 없습니다."),
     REPLY_USER_BE_NOT_WRITER(403, "해당 답변의 댓글에 대한 작성자가 아닙니다."),
+
     // 토론
     DEBATE_NOT_EXISTS(401, "토론을 찾을 수 없습니다."),
-    DEBATER_NOT_EXISTS(401, "해당 토론자를 찾을 수 없습니다."),
+    DEBATER_NOT_EXISTS(401, "토론에 참여 중인 유저를 찾을 수 없습니다."),
     DEBATE_USER_BE_NOT_WRITER(403, "해당 토론에 대한 작성자가 아닙니다."),
     DEBATE_ANSWER_NOT_EXISTS(401, "해당 토론 답변을 찾을 수 없습니다."),
     DEBATE_ANSWER_USER_BE_NOT_WRITER(401, "해당 토론 답변에 대한 작성자가 아닙니다."),
     DEBATE_ANSWER_REPLY_NOT_EXISTS(401, "해당 토론 댓글을 찾을 수 없습니다."),
     DEBATE_REPLY_USER_BE_NOT_WRITER(403, "해당 답변의 댓글에 대한 작성자가 아닙니다."),
+    DEBATE_PARTICIPATE_DEBATER_NOT_EXISTS(400, "현재 유저들이 참여한 토론을 찾을 수 없습니다."),
 
     // 알림
     NOTIFICATION_NOT_EXISTS(401, "해당 알림을 찾을 수 없습니다."),
@@ -77,7 +79,7 @@ public enum ErrorCode {
     // 커뮤니티
     COMMUNITY_NOT_EXISTS(401, "해당 글을 찾을 수 없습니다."),
     COMMUNITY_USER_BE_NOT_WRITER(403, "해당 글에 대한 작성자가 아닙니다." ),
-    COMMUNITY_IMAGE_MAX(400, "최대 10개까지 사진을 추가하실 수 있습니다."),
+    COMMUNITY_IMAGE_EXCEED_NUMBER(400, "최대 10개까지 사진을 추가하실 수 있습니다."),
     COMMUNITY_IMAGE_NOT_EXISTS(401, "해당 글에 대한 이미지를 찾을 수 없습니다."),
     COMMUNITY_ANSWER_NOT_EXISTS(401, "해당 답변을 찾을 수 없습니다." ),
     LIKE_NOT_EXISTS(401, "해당 좋아요를 찾을 수 없습니다."),

@@ -1,18 +1,14 @@
-package com.cmc.finder.domain.debate.service;
+package com.cmc.finder.domain.debate.application;
 
-import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
-import com.cmc.finder.domain.debate.exception.DebateAnswerNotFoundException;
-import com.cmc.finder.domain.debate.exception.DebateNotFoundException;
 import com.cmc.finder.domain.debate.repository.DebateAnswerRepository;
-import com.cmc.finder.domain.debate.repository.DebateRepository;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,7 +30,7 @@ public class DebateAnswerService {
 
     public DebateAnswer getDebateAnswer(Long debateAnswerId) {
         return debateAnswerRepository.findById(debateAnswerId)
-                .orElseThrow(DebateAnswerNotFoundException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATE_ANSWER_NOT_EXISTS));
     }
 
 

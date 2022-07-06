@@ -1,6 +1,5 @@
-package com.cmc.finder.domain.keyword.entity;
+package com.cmc.finder.domain.user.entity;
 
-import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

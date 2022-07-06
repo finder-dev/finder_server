@@ -1,9 +1,10 @@
-package com.cmc.finder.domain.authcode.service;
+package com.cmc.finder.domain.authcode.application;
 
 import com.cmc.finder.domain.authcode.entity.AuthCode;
 import com.cmc.finder.domain.authcode.exception.AuthCodeNotEqualException;
-import com.cmc.finder.domain.authcode.exception.AuthCodeNotFoundException;
 import com.cmc.finder.domain.authcode.repository.AuthCodeRedisRepository;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class AuthCodeService {
 
     public AuthCode getAuthCodeByEmail(String email){
         AuthCode authCode = authCodeRedisRepository.findById(email)
-                .orElseThrow(AuthCodeNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.AUTH_CODE_NOT_FOUND));
         return authCode;
     }
 

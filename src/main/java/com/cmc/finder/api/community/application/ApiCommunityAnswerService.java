@@ -10,7 +10,6 @@ import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.Type;
-import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.user.entity.User;
@@ -56,7 +55,7 @@ public class ApiCommunityAnswerService {
 
 
     private void createNotification(Community community, String content) {
-        Notification notification = Notification.createNotification(community.getTitle(), content, NotificationType.DEBATE, community.getUser(), community.getCommunityId());
+        Notification notification = Notification.createNotification(community.getTitle(), content, Type.COMMUNITY, community.getUser(), community.getCommunityId());
         notificationService.create(notification);
     }
 
@@ -67,7 +66,7 @@ public class ApiCommunityAnswerService {
         CommunityAnswer communityAnswer = communityAnswerService.getCommunityAnswerFetchUser(answerId);
 
         if (communityAnswer.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.ANSWER_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.ANSWER_USER_NOT_WRITER);
         }
 
         communityAnswerService.deleteCommunityAnswer(communityAnswer);
@@ -82,7 +81,7 @@ public class ApiCommunityAnswerService {
         CommunityAnswer communityAnswer = communityAnswerService.getCommunityAnswerFetchUser(answerId);
 
         if (user != communityAnswer.getUser()) {
-            throw new AuthenticationException(ErrorCode.ANSWER_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.ANSWER_USER_NOT_WRITER);
         }
 
         CommunityAnswer updateCommunityAnswer = request.toEntity();

@@ -28,7 +28,7 @@ public class SaveCommunityService {
     public void removeCommunity(Community community, User user) {
 
         SaveCommunity saveCommunity = saveCommunityRepository.findByCommunityAndUser(community, user)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.SAVE_COMMUNITY_NOT_EXISTS));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.SAVE_COMMUNITY_NOT_FOUND));
 
         saveCommunityRepository.delete(saveCommunity);
 

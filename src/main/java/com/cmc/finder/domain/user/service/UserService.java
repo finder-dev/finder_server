@@ -1,10 +1,11 @@
 package com.cmc.finder.domain.user.service;
 
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.user.exception.UserNotFoundException;
 import com.cmc.finder.domain.user.repository.UserRepository;
 import com.cmc.finder.domain.user.validator.UserValidator;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +32,7 @@ public class UserService {
 
     public User getUserByEmail(Email email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.USER_NOT_FOUND));
     }
 
     public Boolean existsUser(Email email) {

@@ -32,7 +32,7 @@ public class DebaterService {
     public Debater getDebater(User user, Debate debate) {
 
         return debaterRepository.findByDebateAndUser(debate, user)
-                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATER_NOT_EXISTS));
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATER_NOT_FOUND));
     }
 
 

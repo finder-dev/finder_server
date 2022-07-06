@@ -4,7 +4,6 @@ import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.exception.DebaterNotExistsException;
 import com.cmc.finder.domain.debate.repository.DebateRepository;
-import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.global.error.exception.EntityNotFoundException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,7 @@ public class DebateService {
     public Debate getDebate(Long debateId) {
 
         return debateRepository.findById(debateId)
-                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATE_NOT_EXISTS));
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATE_NOT_FOUND));
 
     }
 

@@ -42,6 +42,7 @@ public class CommunityApi {
 
     @GetMapping
     public ResponseEntity<ApiResult<Page<CommunitySimpleDto.Response>>> getCommunities(
+            @UserEmail String email,
             @Valid CommunitySimpleDto.Request request,
             Optional<Integer> page
     ) {
@@ -54,7 +55,7 @@ public class CommunityApi {
                         Sort.by(Sort.Direction.DESC, request.getOrderBy())
         );
 
-        Page<CommunitySimpleDto.Response> response = apiCommunityService.getCommunityList(pageable, request.getMbti());
+        Page<CommunitySimpleDto.Response> response = apiCommunityService.getCommunityList(pageable, request.getMbti(), email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

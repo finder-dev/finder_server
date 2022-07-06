@@ -26,7 +26,7 @@ public class LikeService {
 
     public void deleteLike(Community community, User user) {
         Like like = likeRepository.findByCommunityAndUser(community, user)
-                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.LIKE_NOT_EXISTS));
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.LIKE_NOT_FOUND));
 
         likeRepository.delete(like);
 

@@ -27,7 +27,7 @@ public class DebateAnswerReplyService {
 
     public DebateAnswerReply getDebateReplyFetchUser(Long debateReplyId) {
         return debateAnswerReplyRepository.findByIdFetchUser(debateReplyId)
-                .orElseThrow(()->new EntityNotFoundException(ErrorCode.DEBATE_ANSWER_REPLY_NOT_EXISTS));
+                .orElseThrow(()->new EntityNotFoundException(ErrorCode.DEBATE_ANSWER_REPLY_NOT_FOUND));
     }
 
     public List<DebateAnswerReply> getDebateReplyByAnswerFetchUser(DebateAnswer debateAnswer) {

@@ -2,9 +2,10 @@ package com.cmc.finder.domain.qna.answer.service;
 
 import com.cmc.finder.domain.qna.answer.entity.Answer;
 import com.cmc.finder.domain.qna.answer.entity.Helpful;
-import com.cmc.finder.domain.qna.answer.exception.HelpfulNotFoundException;
 import com.cmc.finder.domain.qna.answer.repostiory.HelpfulRepository;
 import com.cmc.finder.domain.user.entity.User;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +29,9 @@ public class HelpfulService {
 
     @Transactional
     public void delete(Answer answer, User user) {
-        //TODO 연속 클릭 시 반응 가능?
 
         Helpful helpful = helpfulRepository.findByAnswerAndUser(answer, user)
-                .orElseThrow(HelpfulNotFoundException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.HELPFUL_NOT_EXISTS));
 
         helpfulRepository.delete(helpful);
 

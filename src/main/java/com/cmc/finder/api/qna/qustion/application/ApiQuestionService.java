@@ -6,7 +6,7 @@ import com.cmc.finder.domain.qna.answer.service.AnswerService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.qna.question.entity.*;
-import com.cmc.finder.domain.qna.question.exception.QuestionImageMaxException;
+import com.cmc.finder.domain.qna.question.exception.QuestionImageExceedNumberException;
 import com.cmc.finder.domain.qna.question.application.CuriousService;
 import com.cmc.finder.domain.qna.question.application.FavoriteQuestionService;
 import com.cmc.finder.domain.qna.question.application.QuestionImageService;
@@ -159,7 +159,7 @@ public class ApiQuestionService {
 
         // 유저 검증
         if (question.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.QUESTION_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.QUESTION_USER_NOT_WRITER);
         }
 
         // 질문 정보 변경
@@ -168,7 +168,7 @@ public class ApiQuestionService {
 
         // 이미지 10개 초과 검증
         if (updatedQuestion.getQuestionImages().size() > 10) {
-            throw new QuestionImageMaxException(ErrorCode.QUESTION_IMAGE_MAX);
+            throw new QuestionImageExceedNumberException(ErrorCode.QUESTION_IMAGE_EXCEED_NUMBER);
         }
 
         return UpdateQuestionDto.Response.of(updatedQuestion);
@@ -217,7 +217,7 @@ public class ApiQuestionService {
 
         // 유저 검증
         if (question.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.QUESTION_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.QUESTION_USER_NOT_WRITER);
         }
 
         questionService.deleteQuestion(question);

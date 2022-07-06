@@ -18,7 +18,7 @@ public class CommunityImageService {
     public CommunityImage getCommunityImage(Long communityImgId) {
 
         return communityImageRepository.findById(communityImgId)
-                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.COMMUNITY_IMAGE_NOT_EXISTS));
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.COMMUNITY_IMAGE_NOT_FOUND));
 
     }
 

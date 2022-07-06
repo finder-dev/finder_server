@@ -31,7 +31,7 @@ public class CommunityAnswerService {
     public CommunityAnswer getCommunityAnswerFetchUser(Long answerId) {
 
         return communityAnswerRepository.findByIdFetchUser(answerId)
-                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.COMMUNITY_ANSWER_NOT_EXISTS));
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.COMMUNITY_ANSWER_NOT_FOUND));
     }
 
     @Transactional

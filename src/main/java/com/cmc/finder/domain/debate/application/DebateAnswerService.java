@@ -30,7 +30,7 @@ public class DebateAnswerService {
 
     public DebateAnswer getDebateAnswer(Long debateAnswerId) {
         return debateAnswerRepository.findById(debateAnswerId)
-                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATE_ANSWER_NOT_EXISTS));
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATE_ANSWER_NOT_FOUND));
     }
 
 

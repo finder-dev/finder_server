@@ -11,9 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class JasyptConfigTest {
 
-    @Value("${jasypt.encryptor.password}")
-    private String encryptKey;
-
     @Test
     public void jasyt_test() {
         String plainText = "127.0.0.1";
@@ -21,7 +18,7 @@ class JasyptConfigTest {
         PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
         SimpleStringPBEConfig config = new SimpleStringPBEConfig();
 
-        config.setPassword(encryptKey); // 암호화할 때 사용하는 키
+//        config.setPassword(encryptKey); // 암호화할 때 사용하는 키
         config.setAlgorithm("PBEWithMD5AndDES"); // 암호화 알고리즘
         config.setKeyObtentionIterations("1000"); // 반복할 해싱 회수
         config.setPoolSize("1"); // 인스턴스 pool

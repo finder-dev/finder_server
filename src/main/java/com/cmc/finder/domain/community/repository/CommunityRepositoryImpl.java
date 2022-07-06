@@ -4,6 +4,7 @@ import com.cmc.finder.api.community.dto.CommunitySearchDto;
 import com.cmc.finder.api.community.dto.CommunitySimpleDto;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.model.MBTI;
+import com.cmc.finder.domain.user.entity.User;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
@@ -33,7 +34,8 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     }
 
     @Override
-    public Page<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti) {
+    public Page<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti, User curUser) {
+
         List<Community> results = queryFactory
                 .select(community)
                 .from(community)
@@ -55,7 +57,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .fetch().size();
 
         List<CommunitySimpleDto.Response> communitySimpleDtos = results.stream().map(community ->
-                        CommunitySimpleDto.Response.of(community)
+                        CommunitySimpleDto.Response.of(community, curUser)
                 ).collect(Collectors.toList());
 
         return new PageImpl<>(communitySimpleDtos, pageable, totalSize);

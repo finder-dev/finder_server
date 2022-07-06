@@ -32,7 +32,7 @@ public class AuthCodeService {
         AuthCode authCode = getAuthCodeByEmail(email);
 
         if (!code.equals(authCode.getCode())) {
-            throw new AuthCodeNotEqualException();
+            throw new AuthCodeNotEqualException(ErrorCode.AUTH_CODE_NOT_EQUAL);
         }
 
         deleteAuthCode(email);

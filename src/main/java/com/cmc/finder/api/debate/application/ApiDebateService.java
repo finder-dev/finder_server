@@ -14,7 +14,6 @@ import com.cmc.finder.domain.debate.application.DebateService;
 import com.cmc.finder.domain.debate.application.DebaterService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.Type;
-import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.user.entity.User;
@@ -150,7 +149,7 @@ public class ApiDebateService {
 
         // 유저 검증
         if (debate.getWriter() != user) {
-            throw new AuthenticationException(ErrorCode.DEBATE_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.DEBATE_USER_NOT_WRITER);
         }
 
         debateService.deleteDebate(debate);
@@ -167,7 +166,7 @@ public class ApiDebateService {
 
         // 유저 검증
         if (debateAnswer.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.DEBATE_ANSWER_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.DEBATE_ANSWER_USER_NOT_WRITER);
         }
 
         debateAnswerService.deleteDebateAnswer(debateAnswer);
@@ -215,7 +214,7 @@ public class ApiDebateService {
         DebateAnswerReply debateAnswerReply = debateAnswerReplyService.getDebateReplyFetchUser(debateReplyId);
 
         if (user != debateAnswerReply.getUser()) {
-            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_NOT_WRITER);
         }
 
         debateAnswerReplyService.deleteDebateReply(debateAnswerReply);
@@ -231,7 +230,7 @@ public class ApiDebateService {
         DebateAnswerReply debateAnswerReply = debateAnswerReplyService.getDebateReplyFetchUser(debateReplyId);
 
         if (user != debateAnswerReply.getUser()) {
-            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_NOT_WRITER);
         }
 
         DebateAnswerReply updateDebateAnswerReply = request.toEntity();
@@ -242,7 +241,7 @@ public class ApiDebateService {
     }
 
     private void createNotification(Debate debate, String content) {
-        Notification notification = Notification.createNotification(debate.getTitle(), content, NotificationType.DEBATE, debate.getWriter(), debate.getDebateId());
+        Notification notification = Notification.createNotification(debate.getTitle(), content, Type.DEBATE, debate.getWriter(), debate.getDebateId());
         notificationService.create(notification);
     }
 

@@ -3,9 +3,10 @@ package com.cmc.finder.domain.qna.question.application;
 import com.cmc.finder.api.qna.qustion.dto.QuestionSimpleDto;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.qna.question.entity.Question;
-import com.cmc.finder.domain.qna.question.exception.QuestionNotFountException;
 import com.cmc.finder.domain.qna.question.repository.QuestionRepository;
 import com.cmc.finder.domain.user.entity.User;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,13 +30,14 @@ public class QuestionService {
 
     public Question getQuestionFetchUser(Long questionId) {
         return questionRepository.findByQuestionIdFetchUser(questionId)
-                .orElseThrow(QuestionNotFountException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.QUESTION_NOT_FOUND));
+
     }
 
     public Question getQuestion(Long questionId) {
 
         return questionRepository.findById(questionId)
-                .orElseThrow(QuestionNotFountException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.QUESTION_NOT_FOUND));
 
     }
 

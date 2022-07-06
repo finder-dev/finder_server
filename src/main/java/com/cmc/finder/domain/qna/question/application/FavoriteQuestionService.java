@@ -1,10 +1,11 @@
 package com.cmc.finder.domain.qna.question.application;
 
 import com.cmc.finder.domain.qna.question.entity.FavoriteQuestion;
-import com.cmc.finder.domain.qna.question.exception.QuestionFavoriteNotFoundException;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.qna.question.repository.FavoriteQuestionRepository;
 import com.cmc.finder.domain.user.entity.User;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class FavoriteQuestionService {
     public void delete(Question question, User user) {
 
         FavoriteQuestion favoriteQuestion = favoriteQuestionRepository.findByQuestionAndUser(question, user)
-                .orElseThrow(QuestionFavoriteNotFoundException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.FAVORITE_QUESTION_NOT_FOUND));
 
         favoriteQuestionRepository.delete(favoriteQuestion);
 

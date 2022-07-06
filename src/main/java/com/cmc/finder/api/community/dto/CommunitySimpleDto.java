@@ -3,15 +3,12 @@ package com.cmc.finder.api.community.dto;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.model.OrderBy;
+import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.global.util.DateTimeUtils;
 import com.cmc.finder.global.validator.Enum;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
-
 
 public class CommunitySimpleDto {
 
@@ -46,6 +43,8 @@ public class CommunitySimpleDto {
 
         private MBTI userMBTI;
 
+        private Boolean likeUser;
+
         private Integer likeCount;
 
         private Integer answerCount;
@@ -56,7 +55,7 @@ public class CommunitySimpleDto {
 
         @Builder
         public Response(Long communityId, String title, String content, MBTI mbti, String imageUrl,
-                        String userNickname, MBTI userMBTI, Integer likeCount,
+                        String userNickname, MBTI userMBTI,Boolean likeUser, Integer likeCount,
                         Integer answerCount, Boolean isQuestion, String createTime) {
 
             this.communityId = communityId;
@@ -66,6 +65,7 @@ public class CommunitySimpleDto {
             this.imageUrl = imageUrl;
             this.userNickname = userNickname;
             this.userMBTI = userMBTI;
+            this.likeUser = likeUser;
             this.likeCount = likeCount;
             this.answerCount = answerCount;
             this.isQuestion = isQuestion;
@@ -73,7 +73,7 @@ public class CommunitySimpleDto {
 
         }
 
-        public static Response of(Community community) {
+        public static Response of(Community community, User user) {
 
             Response response = Response.builder()
                     .communityId(community.getCommunityId())
@@ -82,6 +82,8 @@ public class CommunitySimpleDto {
                     .mbti(community.getMbti())
                     .userNickname(community.getUser().getNickname())
                     .userMBTI(community.getUser().getMbti())
+                    .likeUser(community.getLikeList().stream().filter(like ->
+                            like.getUser() == user).count() != 0)
                     .likeCount(community.getLikeList().size())
                     .answerCount(community.getCommunityAnswers().size())
                     .isQuestion(community.getIsQuestion())

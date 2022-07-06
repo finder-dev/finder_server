@@ -2,7 +2,6 @@ package com.cmc.finder.api.qna.answer.application;
 
 import com.cmc.finder.api.qna.answer.dto.*;
 import com.cmc.finder.domain.model.Type;
-import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.qna.answer.entity.Answer;
@@ -77,8 +76,8 @@ public class ApiAnswerService {
         Answer savedAnswer = answerService.create(saveAnswer);
 
         // 알림 생성
-        createNotification(question, QUESTION_ANSWER);
         fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(), QUESTION_ANSWER, Type.QUESTION.getValue());
+        createNotification(question, QUESTION_ANSWER);
 
         return AnswerCreateDto.Response.of(savedAnswer);
 
@@ -113,7 +112,7 @@ public class ApiAnswerService {
         Answer answer = answerService.getAnswer(answerId);
 
         if (answer.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.ANSWER_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.ANSWER_USER_NOT_WRITER);
         }
 
         answerService.deleteAnswer(answer);
@@ -160,7 +159,7 @@ public class ApiAnswerService {
         AnswerReply answerReply = answerReplyService.getReplyFetchUser(replyId);
 
         if (user != answerReply.getUser()) {
-            throw new AuthenticationException(ErrorCode.REPLY_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.REPLY_USER_NOT_WRITER);
         }
 
         answerReplyService.deleteReply(answerReply);
@@ -176,7 +175,7 @@ public class ApiAnswerService {
         AnswerReply answerReply = answerReplyService.getReplyFetchUser(replyId);
 
         if (user != answerReply.getUser()) {
-            throw new AuthenticationException(ErrorCode.REPLY_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.REPLY_USER_NOT_WRITER);
         }
 
         AnswerReply updateAnswerReply = request.toEntity();
@@ -188,7 +187,7 @@ public class ApiAnswerService {
 
 
     private void createNotification(Question question, String content) {
-        Notification notification = Notification.createNotification(question.getTitle(), content, NotificationType.QUESTION, question.getUser(), question.getQuestionId());
+        Notification notification = Notification.createNotification(question.getTitle(), content, Type.QUESTION, question.getUser(), question.getQuestionId());
         notificationService.create(notification);
     }
 }

@@ -2,9 +2,10 @@ package com.cmc.finder.domain.qna.question.application;
 
 import com.cmc.finder.domain.qna.question.entity.Curious;
 import com.cmc.finder.domain.qna.question.entity.Question;
-import com.cmc.finder.domain.qna.question.exception.CuriousNotFoundException;
 import com.cmc.finder.domain.qna.question.repository.CuriousRepository;
 import com.cmc.finder.domain.user.entity.User;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +25,9 @@ public class CuriousService {
 
     @Transactional
     public void delete(Question question, User user) {
-        //TODO 연속 클릭 시 반응 가능?
 
         Curious curious = curiousRepository.findByQuestionAndUser(question, user)
-                .orElseThrow(CuriousNotFoundException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.CURIOUS_NOT_FOUND));
 
         curiousRepository.delete(curious);
 

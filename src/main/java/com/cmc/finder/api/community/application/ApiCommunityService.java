@@ -64,9 +64,10 @@ public class ApiCommunityService {
 
     }
 
-    public Page<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti) {
+    public Page<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti, String email) {
+        User user = userService.getUserByEmail(Email.of(email));
 
-        return communityService.getCommunityList(pageable, mbti);
+        return communityService.getCommunityList(pageable, mbti, user);
 
     }
 
@@ -106,7 +107,7 @@ public class ApiCommunityService {
 
         // 유저 검증
         if (community.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.COMMUNITY_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.COMMUNITY_USER_NOT_WRITER);
         }
 
         // 질문 정보 변경
@@ -164,7 +165,7 @@ public class ApiCommunityService {
 
         // 유저 검증
         if (community.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.COMMUNITY_USER_BE_NOT_WRITER);
+            throw new AuthenticationException(ErrorCode.COMMUNITY_USER_NOT_WRITER);
         }
 
         communityService.deleteCommunity(community);

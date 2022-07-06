@@ -31,12 +31,12 @@ public class CommunityService {
 
     public Community getCommunity(Long communityId) {
         return communityRepository.findById(communityId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.COMMUNITY_NOT_EXISTS));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.COMMUNITY_NOT_FOUND));
     }
 
-    public Page<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti) {
+    public Page<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti, User user) {
 
-        return communityRepository.findPageCommunityByMBTI(pageable, mbti);
+        return communityRepository.findPageCommunityByMBTI(pageable, mbti, user);
 
     }
 
@@ -49,7 +49,7 @@ public class CommunityService {
     public Community getCommunityFetchUser(Long communityId) {
 
         return communityRepository.findByCommunityIdFetchUser(communityId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.COMMUNITY_NOT_EXISTS));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.COMMUNITY_NOT_FOUND));
 
     }
 

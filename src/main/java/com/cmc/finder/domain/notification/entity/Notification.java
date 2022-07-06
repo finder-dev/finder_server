@@ -1,6 +1,6 @@
 package com.cmc.finder.domain.notification.entity;
 
-import com.cmc.finder.domain.notification.constant.NotificationType;
+import com.cmc.finder.domain.model.Type;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +20,7 @@ public class Notification {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private NotificationType notificationType;
+    private Type type;
 
     @Column(nullable = false)
     private String title;
@@ -37,35 +37,22 @@ public class Notification {
     @Column(nullable = false)
     private Long serviceId;
 
-//    @ManyToOne(
-//            fetch = FetchType.LAZY
-//    )
-//    @JoinColumn(name = "question_id")
-//    private Question question;
-//
-//    @ManyToOne(
-//            fetch = FetchType.LAZY
-//    )
-//    @JoinColumn(name = "debate_id")
-//    private Debate debate;
-
-
     @Builder
-    public Notification(Long notificationId, NotificationType notificationType, String title, String content, User user, Long serviceId) {
+    public Notification(Long notificationId, Type type, String title, String content, User user, Long serviceId) {
         this.notificationId = notificationId;
-        this.notificationType = notificationType;
+        this.type = type;
         this.title = title;
         this.content = content;
         this.user = user;
         this.serviceId = serviceId;
     }
 
-    public static Notification createNotification(String title, String content, NotificationType notificationType, User user, Long serviceId) {
+    public static Notification createNotification(String title, String content, Type type, User user, Long serviceId) {
 
         return Notification.builder()
                 .title(title)
                 .content(content)
-                .notificationType(notificationType)
+                .type(type)
                 .user(user)
                 .serviceId(serviceId)
                 .build();

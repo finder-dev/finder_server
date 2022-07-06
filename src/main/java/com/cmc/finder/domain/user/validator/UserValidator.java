@@ -1,17 +1,14 @@
 package com.cmc.finder.domain.user.validator;
 
-import com.cmc.finder.domain.keyword.exception.DuplicateKeywordException;
+import com.cmc.finder.domain.user.exception.DuplicateKeywordException;
 import com.cmc.finder.domain.user.exception.EmailDuplicateException;
 import com.cmc.finder.domain.user.exception.NicknameDuplicateException;
 import com.cmc.finder.domain.user.repository.UserRepository;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.global.error.exception.AuthenticationException;
-import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service

@@ -1,23 +1,14 @@
 package com.cmc.finder.domain.community.application;
 
-import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
-import com.cmc.finder.domain.community.exception.CommunityAnswerNotFoundException;
 import com.cmc.finder.domain.community.repository.CommunityAnswerRepository;
-import com.cmc.finder.domain.debate.entity.Debate;
-import com.cmc.finder.domain.debate.entity.DebateAnswer;
-import com.cmc.finder.domain.debate.exception.DebateAnswerNotFoundException;
-import com.cmc.finder.domain.debate.exception.DebateNotFoundException;
-import com.cmc.finder.domain.debate.repository.DebateAnswerRepository;
-import com.cmc.finder.domain.qna.answer.entity.Answer;
-import com.cmc.finder.domain.user.entity.User;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +31,7 @@ public class CommunityAnswerService {
     public CommunityAnswer getCommunityAnswerFetchUser(Long answerId) {
 
         return communityAnswerRepository.findByIdFetchUser(answerId)
-                .orElseThrow(CommunityAnswerNotFoundException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.COMMUNITY_ANSWER_NOT_EXISTS));
     }
 
     @Transactional

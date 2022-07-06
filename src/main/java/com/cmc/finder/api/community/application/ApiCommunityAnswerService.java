@@ -12,7 +12,7 @@ import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.Type;
 import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
-import com.cmc.finder.domain.notification.service.NotificationService;
+import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;

@@ -1,7 +1,7 @@
 package com.cmc.finder.global.interceptor;
 
 import com.cmc.finder.domain.jwt.constant.TokenType;
-import com.cmc.finder.domain.jwt.service.TokenManager;
+import com.cmc.finder.domain.jwt.application.TokenManager;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.global.validator.TokenValidator;
@@ -9,7 +9,6 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 

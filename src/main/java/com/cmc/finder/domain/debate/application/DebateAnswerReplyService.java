@@ -1,12 +1,10 @@
-package com.cmc.finder.domain.debate.service;
+package com.cmc.finder.domain.debate.application;
 
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
 import com.cmc.finder.domain.debate.entity.DebateAnswerReply;
-import com.cmc.finder.domain.debate.exception.DebateAnswerReplyNotFoundException;
 import com.cmc.finder.domain.debate.repository.DebateAnswerReplyRepository;
-import com.cmc.finder.domain.qna.answer.entity.Answer;
-import com.cmc.finder.domain.qna.answer.entity.AnswerReply;
-import com.cmc.finder.domain.qna.answer.exception.ReplyNotFoundException;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,14 +24,10 @@ public class DebateAnswerReplyService {
         return debateAnswerReplyRepository.save(debateAnswerReply);
     }
 
-    public DebateAnswerReply getDebateReply(Long debateAnswerReplyId) {
-        return debateAnswerReplyRepository.findById(debateAnswerReplyId)
-                .orElseThrow(ReplyNotFoundException::new);
-    }
 
     public DebateAnswerReply getDebateReplyFetchUser(Long debateReplyId) {
         return debateAnswerReplyRepository.findByIdFetchUser(debateReplyId)
-                .orElseThrow(DebateAnswerReplyNotFoundException::new);
+                .orElseThrow(()->new EntityNotFoundException(ErrorCode.DEBATE_ANSWER_REPLY_NOT_EXISTS));
     }
 
     public List<DebateAnswerReply> getDebateReplyByAnswerFetchUser(DebateAnswer debateAnswer) {

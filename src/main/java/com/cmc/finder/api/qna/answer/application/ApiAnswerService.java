@@ -4,7 +4,7 @@ import com.cmc.finder.api.qna.answer.dto.*;
 import com.cmc.finder.domain.model.Type;
 import com.cmc.finder.domain.notification.constant.NotificationType;
 import com.cmc.finder.domain.notification.entity.Notification;
-import com.cmc.finder.domain.notification.service.NotificationService;
+import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.qna.answer.entity.Answer;
 import com.cmc.finder.domain.qna.answer.entity.AnswerImage;
 import com.cmc.finder.domain.qna.answer.entity.AnswerReply;

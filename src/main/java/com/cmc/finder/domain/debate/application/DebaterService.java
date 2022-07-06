@@ -1,11 +1,12 @@
-package com.cmc.finder.domain.debate.service;
+package com.cmc.finder.domain.debate.application;
 
 import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.Debater;
-import com.cmc.finder.domain.debate.exception.DebaterNotFoundException;
 import com.cmc.finder.domain.debate.repository.DebaterRepository;
 import com.cmc.finder.domain.user.entity.User;
+import com.cmc.finder.global.error.exception.EntityNotFoundException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +32,7 @@ public class DebaterService {
     public Debater getDebater(User user, Debate debate) {
 
         return debaterRepository.findByDebateAndUser(debate, user)
-                .orElseThrow(DebaterNotFoundException::new);
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATER_NOT_EXISTS));
     }
 
 

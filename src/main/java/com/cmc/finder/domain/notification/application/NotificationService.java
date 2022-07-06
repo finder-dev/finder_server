@@ -1,4 +1,4 @@
-package com.cmc.finder.domain.notification.service;
+package com.cmc.finder.domain.notification.application;
 
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.repository.NotificationRepository;
@@ -15,7 +15,6 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
 
     public void create(Notification notification) {
-
         notificationRepository.save(notification);
 
     }

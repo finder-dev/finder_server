@@ -218,4 +218,14 @@ public class ApiCommunityService {
 
     }
 
+    public GetCheckWriterRes checkWriter(Long communityId, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        Boolean check = communityService.isCommunityWriter(communityId, user);
+
+        return GetCheckWriterRes.of(check);
+
+
+
+    }
 }

@@ -2,6 +2,7 @@ package com.cmc.finder.domain.community.application;
 
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.community.repository.CommunityAnswerRepository;
+import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.global.error.exception.EntityNotFoundException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -49,4 +50,13 @@ public class CommunityAnswerService {
     }
 
 
+    public Boolean isCommunityAnswerWriter(Long answerId, User user) {
+        CommunityAnswer answer = getCommunityAnswerFetchUser(answerId);
+
+        if (answer.getUser() == user) {
+            return true;
+        }
+        return false;
+
+    }
 }

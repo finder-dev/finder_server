@@ -29,6 +29,15 @@ public class CommunityApi {
 
     private final ApiCommunityService apiCommunityService;
 
+    @GetMapping("/{communityId}/check")
+    public ResponseEntity<ApiResult<GetCheckWriterRes>> checkWriter(
+            @PathVariable Long communityId,
+            @UserEmail String email
+    ){
+        GetCheckWriterRes response = apiCommunityService.checkWriter(communityId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
     @PostMapping
     public ResponseEntity<ApiResult<CreateCommunityDto.Response>> createCommunity(
             @Valid CreateCommunityDto.Request request,

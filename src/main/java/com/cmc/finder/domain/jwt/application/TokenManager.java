@@ -4,11 +4,13 @@ import com.cmc.finder.domain.jwt.constant.GrantType;
 import com.cmc.finder.domain.jwt.constant.TokenType;
 import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.domain.user.exception.NotValidTokenException;
+import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,9 @@ import java.util.Date;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class TokenManager {
+
 
     @Value("${token.access-token-expiration-time}")
     private String accessTokenExpirationTime;

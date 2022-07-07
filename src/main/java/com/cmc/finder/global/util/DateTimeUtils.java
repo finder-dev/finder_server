@@ -7,6 +7,10 @@ import java.util.Date;
 
 public class DateTimeUtils {
 
+    private DateTimeUtils() {
+        throw new AssertionError();
+    }
+
     public static final int SEC = 60;
     public static final int MIN = 60;
     public static final int HOUR = 24;

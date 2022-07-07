@@ -85,4 +85,14 @@ public class CommunityService {
         return communityRepository.findAllByCommentUserFetchUser(user, pageable);
 
     }
+
+    public Boolean isCommunityWriter(Long communityId, User user) {
+
+        Community community = getCommunityFetchUser(communityId);
+        if (community.getUser() == user) {
+            return true;
+        }
+        return false;
+
+    }
 }

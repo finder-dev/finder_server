@@ -1,10 +1,7 @@
 package com.cmc.finder.api.community.api;
 
 import com.cmc.finder.api.community.application.ApiCommunityAnswerService;
-import com.cmc.finder.api.community.dto.CreateCommunityAnswerDto;
-import com.cmc.finder.api.community.dto.CreateCommunityReplyDto;
-import com.cmc.finder.api.community.dto.DeleteCommunityAnswerRes;
-import com.cmc.finder.api.community.dto.UpdateCommunityAnswerDto;
+import com.cmc.finder.api.community.dto.*;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
@@ -20,6 +17,16 @@ import javax.validation.Valid;
 public class CommunityAnswerApi {
 
     private final ApiCommunityAnswerService apiCommunityAnswerService;
+
+    @GetMapping("/answers/{answerId}/check")
+    public ResponseEntity<ApiResult<GetCheckWriterRes>> checkWriter(
+            @PathVariable Long answerId,
+            @UserEmail String email
+    ){
+        GetCheckWriterRes response = apiCommunityAnswerService.checkWriter(answerId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
 
     @PostMapping("/{communityId}/answers")
     public ResponseEntity<ApiResult<CreateCommunityAnswerDto.Response>> createCommunityAnswer(

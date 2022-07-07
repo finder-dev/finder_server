@@ -1,9 +1,6 @@
 package com.cmc.finder.api.community.application;
 
-import com.cmc.finder.api.community.dto.CreateCommunityAnswerDto;
-import com.cmc.finder.api.community.dto.CreateCommunityReplyDto;
-import com.cmc.finder.api.community.dto.DeleteCommunityAnswerRes;
-import com.cmc.finder.api.community.dto.UpdateCommunityAnswerDto;
+import com.cmc.finder.api.community.dto.*;
 import com.cmc.finder.domain.community.application.CommunityAnswerService;
 import com.cmc.finder.domain.community.application.CommunityService;
 import com.cmc.finder.domain.community.entity.Community;
@@ -108,5 +105,14 @@ public class ApiCommunityAnswerService {
         return CreateCommunityReplyDto.Response.of(saveReply);
     }
 
+
+    public GetCheckWriterRes checkWriter(Long answerId, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        Boolean check = communityAnswerService.isCommunityAnswerWriter(answerId, user);
+
+        return GetCheckWriterRes.of(check);
+
+    }
 
 }

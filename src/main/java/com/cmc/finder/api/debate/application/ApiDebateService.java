@@ -134,7 +134,9 @@ public class ApiDebateService {
 
         saveDebateAnswer = debateAnswerService.saveDebateAnswer(saveDebateAnswer);
 
-        fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
+        //TODO fcm은 이후 작업으로..
+
+        // fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
         createNotification(debate, DEBATE_ANSWER);
 
         return DebateAnswerCreateDto.Response.of(saveDebateAnswer);
@@ -187,8 +189,10 @@ public class ApiDebateService {
         saveDebateAnswerReply = debateAnswerReplyService.create(saveDebateAnswerReply);
         debateAnswer.addDebateReply(saveDebateAnswerReply);
 
+        //TODO fcm은 이후 작업으로..
+
+        // fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
         createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY);
-        fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
 
         return DebateReplyCreateDto.Response.of(saveDebateAnswerReply);
 

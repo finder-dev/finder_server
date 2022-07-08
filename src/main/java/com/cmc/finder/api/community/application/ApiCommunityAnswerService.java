@@ -43,7 +43,9 @@ public class ApiCommunityAnswerService {
 
         saveCommunityAnswer = communityAnswerService.saveCommunityAnswer(saveCommunityAnswer);
 
-        fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER, Type.COMMUNITY.getValue());
+        //TODO fcm은 이후 작업으로..
+
+        // fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER, Type.COMMUNITY.getValue());
         createNotification(community, COMMUNITY_ANSWER);
 
         return CreateCommunityAnswerDto.Response.of(saveCommunityAnswer);
@@ -99,7 +101,9 @@ public class ApiCommunityAnswerService {
         saveReply = communityAnswerService.saveCommunityAnswer(saveReply);
         saveReply.setParent(communityAnswer);
 
-        fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY, Type.COMMUNITY.getValue());
+        //TODO fcm은 이후 작업으로..
+
+        // fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY, Type.COMMUNITY.getValue());
         createNotification(communityAnswer.getCommunity(), COMMUNITY_ANSWER_REPLY);
 
         return CreateCommunityReplyDto.Response.of(saveReply);

@@ -76,4 +76,4 @@ s3:
     path: /community
 
 page:
-  count: 10
+  count: 15

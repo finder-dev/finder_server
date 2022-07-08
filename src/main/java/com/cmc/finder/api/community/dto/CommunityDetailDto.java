@@ -34,6 +34,8 @@ public class CommunityDetailDto {
 
     private Boolean likeUser;
 
+    private Boolean saveUser;
+
     private MBTI userMBTI;
 
     private String userNickname;
@@ -48,7 +50,7 @@ public class CommunityDetailDto {
 
     @Builder
     public CommunityDetailDto(Long communityId, String communityTitle, String communityContent, MBTI communityMBTI,
-                              List<CommunityImageDto> communityImgDtos, Integer likeCount, Boolean likeUser, MBTI userMBTI, String userNickname, String createTime,
+                              List<CommunityImageDto> communityImgDtos, Integer likeCount, Boolean likeUser, Boolean saveUser, MBTI userMBTI, String userNickname, String createTime,
                               Integer answerCount, Boolean isQuestion, List<AnswerHistDto> answerHistDtos) {
 
         this.communityId = communityId;
@@ -58,6 +60,7 @@ public class CommunityDetailDto {
         this.communityImgDtos = communityImgDtos;
         this.likeCount = likeCount;
         this.likeUser = likeUser;
+        this.saveUser = saveUser;
         this.userMBTI = userMBTI;
         this.userNickname = userNickname;
         this.answerCount = answerCount;
@@ -66,7 +69,7 @@ public class CommunityDetailDto {
         this.answerHistDtos = answerHistDtos;
     }
 
-    public static CommunityDetailDto of(Community community, List<CommunityAnswer> answers, Boolean likeUser) {
+    public static CommunityDetailDto of(Community community, List<CommunityAnswer> answers, Boolean likeUser, Boolean saveUser) {
 
         List<CommunityImageDto> communityImageDtos = community.getCommunityImages().stream().map(communityImage ->
                 CommunityImageDto.of(communityImage)
@@ -84,6 +87,7 @@ public class CommunityDetailDto {
                 .communityImgDtos(communityImageDtos)
                 .likeCount(community.getLikeList().size())
                 .likeUser(likeUser)
+                .saveUser(saveUser)
                 .userMBTI(community.getUser().getMbti())
                 .userNickname(community.getUser().getNickname())
                 .answerCount(answers.size())

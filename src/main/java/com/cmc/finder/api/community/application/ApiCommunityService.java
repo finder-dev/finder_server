@@ -91,10 +91,13 @@ public class ApiCommunityService {
         // 답변 조회 -> id 역순
         List<CommunityAnswer> answers = communityAnswerService.getAnswersByCommunityId(community.getCommunityId());
 
+        // 이미 저장?
+        Boolean saveUser = saveCommunityService.existsUser(community, user);
+
         // 이미 좋아요?
         Boolean likeUser = likeService.existsUser(community, user);
 
-        return CommunityDetailDto.of(community, answers, likeUser);
+        return CommunityDetailDto.of(community, answers, likeUser, saveUser);
     }
 
 

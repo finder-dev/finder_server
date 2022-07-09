@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -43,10 +44,11 @@ public class DebateService {
         List<Debate> debateList = debateRepository.findByState(DebateState.PROCEEDING);
 
         debateList.stream().forEach(debate -> {
-            // D-0: > 7, D-1: >= 7
-            if (LocalDateTime.now().compareTo(debate.getCreateTime()) > 7) {
+            // 6, 5, 4, 3, 2, 1, 0, 마감
+            if (ChronoUnit.DAYS.between(debate.getCreateTime(), LocalDateTime.now()) > 6 ) {
                 debate.updateDebateState(DebateState.COMPLETE);
             }
+
         });
 
     }

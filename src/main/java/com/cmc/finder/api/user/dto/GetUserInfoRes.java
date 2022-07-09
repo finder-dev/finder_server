@@ -11,6 +11,8 @@ import lombok.*;
 @NoArgsConstructor
 public class GetUserInfoRes {
 
+    private Long userId;
+
     private String email;
 
     private MBTI mbti;
@@ -20,6 +22,7 @@ public class GetUserInfoRes {
     public static GetUserInfoRes of(User user) {
 
         return GetUserInfoRes.builder()
+                .userId(user.getUserId())
                 .email(user.getEmail().getValue())
                 .mbti(user.getMbti())
                 .nickname(user.getNickname())

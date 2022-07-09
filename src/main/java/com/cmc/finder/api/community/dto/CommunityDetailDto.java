@@ -5,12 +5,10 @@ import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.community.entity.CommunityImage;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.global.util.DateTimeUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,6 +34,8 @@ public class CommunityDetailDto {
 
     private Boolean saveUser;
 
+    private Long userId;
+
     private MBTI userMBTI;
 
     private String userNickname;
@@ -50,7 +50,8 @@ public class CommunityDetailDto {
 
     @Builder
     public CommunityDetailDto(Long communityId, String communityTitle, String communityContent, MBTI communityMBTI,
-                              List<CommunityImageDto> communityImgDtos, Integer likeCount, Boolean likeUser, Boolean saveUser, MBTI userMBTI, String userNickname, String createTime,
+                              List<CommunityImageDto> communityImgDtos, Integer likeCount, Boolean likeUser,
+                              Long userId, Boolean saveUser, MBTI userMBTI, String userNickname, String createTime,
                               Integer answerCount, Boolean isQuestion, List<AnswerHistDto> answerHistDtos) {
 
         this.communityId = communityId;
@@ -61,6 +62,7 @@ public class CommunityDetailDto {
         this.likeCount = likeCount;
         this.likeUser = likeUser;
         this.saveUser = saveUser;
+        this.userId = userId;
         this.userMBTI = userMBTI;
         this.userNickname = userNickname;
         this.answerCount = answerCount;
@@ -88,6 +90,7 @@ public class CommunityDetailDto {
                 .likeCount(community.getLikeList().size())
                 .likeUser(likeUser)
                 .saveUser(saveUser)
+                .userId(community.getUser().getUserId())
                 .userMBTI(community.getUser().getMbti())
                 .userNickname(community.getUser().getNickname())
                 .answerCount(answers.size())
@@ -128,6 +131,8 @@ public class CommunityDetailDto {
 
         private String answerContent;
 
+        private Long userId;
+
         private MBTI userMBTI;
 
         private String userNickname;
@@ -138,9 +143,10 @@ public class CommunityDetailDto {
 
         @Builder
         public AnswerHistDto(Long answerId, String answerContent, MBTI userMBTI, String userNickname,
-                             List<ReplyHistDto> replyHistDtos, String createTime) {
+                             Long userId, List<ReplyHistDto> replyHistDtos, String createTime) {
             this.answerId = answerId;
             this.answerContent = answerContent;
+            this.userId = userId;
             this.userMBTI = userMBTI;
             this.userNickname = userNickname;
             this.replyHistDtos = replyHistDtos;
@@ -157,6 +163,7 @@ public class CommunityDetailDto {
             return AnswerHistDto.builder()
                     .answerId(answer.getCommunityAnswerId())
                     .answerContent(answer.getContent())
+                    .userId(answer.getUser().getUserId())
                     .userMBTI(answer.getUser().getMbti())
                     .userNickname(answer.getUser().getNickname())
                     .replyHistDtos(replies)
@@ -172,6 +179,8 @@ public class CommunityDetailDto {
 
             private String replyContent;
 
+            private Long userId;
+
             private MBTI userMBTI;
 
             private String userNickname;
@@ -180,9 +189,10 @@ public class CommunityDetailDto {
 
             @Builder
             public ReplyHistDto(Long replyId, String replyContent, MBTI userMBTI,
-                                String userNickname, String createTime) {
+                                Long userId, String userNickname, String createTime) {
                 this.replyId = replyId;
                 this.replyContent = replyContent;
+                this.userId = userId;
                 this.userMBTI = userMBTI;
                 this.userNickname = userNickname;
                 this.createTime = createTime;
@@ -193,6 +203,7 @@ public class CommunityDetailDto {
                 return ReplyHistDto.builder()
                         .replyId(answer.getCommunityAnswerId())
                         .replyContent(answer.getContent())
+                        .userId(answer.getUser().getUserId())
                         .userMBTI(answer.getUser().getMbti())
                         .userNickname(answer.getUser().getNickname())
                         .createTime(DateTimeUtils.convertToLocalDatetimeToTime(answer.getCreateTime()))

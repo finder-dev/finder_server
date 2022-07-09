@@ -1,5 +1,6 @@
 package com.cmc.finder.domain.notification.entity;
 
+import com.cmc.finder.domain.base.BaseTimeEntity;
 import com.cmc.finder.domain.model.Type;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "notification")
 @Getter
 @NoArgsConstructor
-public class Notification {
+public class Notification extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

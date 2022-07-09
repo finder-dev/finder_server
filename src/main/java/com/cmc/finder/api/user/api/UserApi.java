@@ -107,6 +107,23 @@ public class UserApi {
 
     }
 
+    @GetMapping("/activity/notification")
+    public ResponseEntity<ApiResult<Page<GetNotificationRes>>> getNotification(
+            @UserEmail String email,
+            Optional<Integer> page
+
+    ) {
+
+        Pageable pageable = PageRequest.of(
+                page.isPresent() ? page.get() : 0,
+                SET_PAGE_ITEM_MAX_COUNT
+        );
+
+        Page<GetNotificationRes> response = userActivityService.getNotification(email, pageable);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
     @GetMapping("/save")
     public ResponseEntity<ApiResult<Page<GetSaveCommunityRes>>> getSaveCommunity(
             @UserEmail String email,

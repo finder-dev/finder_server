@@ -4,7 +4,6 @@ import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.global.util.DateTimeUtils;
 import com.cmc.finder.global.validator.Enum;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

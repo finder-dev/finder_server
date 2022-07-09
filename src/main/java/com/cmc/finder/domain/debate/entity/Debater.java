@@ -1,6 +1,5 @@
 package com.cmc.finder.domain.debate.entity;
 
-
 import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
@@ -32,7 +31,7 @@ public class Debater {
     private User user;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "options")
     private Option option;
 
     @Builder
@@ -51,7 +50,6 @@ public class Debater {
     }
 
     public void updateOption(Option option) {
-
         this.option = option;
     }
 

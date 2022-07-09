@@ -3,9 +3,19 @@ spring:
     url: ENC(NFjs2fL+kacpK4NiY8OJo1VO9pEA+LjJYbPtdTIcrbKAjfTAMjmorNByeOkPYZB9ygAksX5Uuava17WneHsYncMyVNmKyZ2J96m3y3f5NvbkwxxbCcHztq1QwXa4qLPv)
     username: ENC(x9JT7KRP87tq9DxLC1Yf7g==)
     password: ENC(97S/vqWIMLuAyJL4PutGI8GmTsInGsBl)
+    driver-class-name: com.mysql.jdbc.Driver
 
+  #    data: classpath*:/data.sql
+#    initialization-mode: always
   jpa:
+    generate-ddl: true
     open-in-view: false
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true # sql 예쁘게 출력
+        default_batch_fetch_size: 1000
+    show-sql: true  # sql 출력
+
 

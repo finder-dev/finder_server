@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
 public class Email {
 
     @javax.validation.constraints.Email
-    @Column(name = "email", length = 100)
+    @Column(name = "email", length = 100, unique = true)
     @NotEmpty
     private String value;
 

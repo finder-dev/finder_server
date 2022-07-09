@@ -255,7 +255,7 @@ public class ApiDebateService {
         Debate debate = debateService.getHotDebate();
         User user = userService.getUserByEmail(Email.of(email));
 
-//        Debater debater = debaterService.getDebater(user, debate);
+        Boolean join = debaterService.existsDebater(user, debate);
 
         // Option A count
         Long countA = debaterService.getDebaterCountByOption(debate, Option.A);
@@ -263,8 +263,6 @@ public class ApiDebateService {
         // Option B count
         Long countB = debaterService.getDebaterCountByOption(debate, Option.B);
 
-        return GetHotDebateRes.of(debate, countA, countB);
-
-
+        return GetHotDebateRes.of(debate, countA, countB, join);
     }
 }

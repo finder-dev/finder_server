@@ -33,7 +33,8 @@ public class GetHotDebateRes {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
-    public static GetHotDebateRes of(Debate debate, Long optionACount, Long optionBCount, Debater debater) {
+    //TODO 수정
+    public static GetHotDebateRes of(Debate debate, Long optionACount, Long optionBCount) {
 
         GetHotDebateRes res = GetHotDebateRes.builder()
                 .debateId(debate.getDebateId())
@@ -46,10 +47,10 @@ public class GetHotDebateRes {
                 .join(false)
                 .build();
 
-        if (debater != null) {
-            res.setJoin(true);
-            res.setJoinOption(debater.getOption().name());
-        }
+//        if (debater != null) {
+//            res.setJoin(true);
+//            res.setJoinOption(debater.getOption().name());
+//        }
 
         return res;
 

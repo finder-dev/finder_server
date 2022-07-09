@@ -2,6 +2,7 @@ package com.cmc.finder.api.debate.dto;
 
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
+import com.cmc.finder.global.util.DateTimeUtils;
 import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -13,19 +14,17 @@ import java.time.LocalDateTime;
 
 public class DebateSimpleDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class Request {
 
-//        @NotBlank(message = "MBTI는 필수값 입니다.")
         @Enum(enumClass = DebateState.class, message = "잘못된 Enum 값 입니다.", ignoreCase = true)
         private String state;
 
-//        @Enum(enumClass = OrderBy.class, message = "잘못된 Enum 값 입니다.", ignoreCase = true)
-//        private String orderBy;
-
     }
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class Response {
 
         private Long debateId;
@@ -36,16 +35,15 @@ public class DebateSimpleDto {
 
         private DebateState debateState;
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        private LocalDateTime createTime;
+        private String deadline;
 
         @Builder
-        public Response(Long debateId, String title, Integer joinCount,DebateState debateState, LocalDateTime createTime) {
+        public Response(Long debateId, String title, Integer joinCount, DebateState debateState, LocalDateTime deadline) {
             this.debateId = debateId;
             this.title = title;
             this.joinCount = joinCount;
             this.debateState = debateState;
-            this.createTime = createTime;
+            this.deadline = DateTimeUtils.convertToLocalDateTimeToDeadline(deadline);
         }
 
         public static Response of(Debate debate) {
@@ -55,7 +53,7 @@ public class DebateSimpleDto {
                     .title(debate.getTitle())
                     .joinCount(debate.getDebaters().size())
                     .debateState(debate.getState())
-                    .createTime(debate.getCreateTime())
+                    .deadline(debate.getCreateTime())
                     .build();
 
         }

@@ -35,14 +35,14 @@ public class User extends BaseTimeEntity {
     @Embedded
     private Password password;
 
-    @Column(length = 20)
+    @Column(length = 20, unique = true)
     private String nickname;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private MBTI mbti;
 
-    @Column(length = 200, nullable = false)
+    @Column(length = 200)
     private String profileImg;
 
 //    @Column(nullable = false)

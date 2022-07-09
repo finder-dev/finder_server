@@ -32,7 +32,7 @@ public class DebateService {
     public Debate getDebate(Long debateId) {
 
         return debateRepository.findById(debateId)
-                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATE_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.DEBATE_NOT_FOUND));
 
     }
 
@@ -45,7 +45,7 @@ public class DebateService {
 
         debateList.stream().forEach(debate -> {
             // 6, 5, 4, 3, 2, 1, 0, 마감
-            if (ChronoUnit.DAYS.between(debate.getCreateTime(), LocalDateTime.now()) > 6 ) {
+            if (ChronoUnit.DAYS.between(debate.getCreateTime(), LocalDateTime.now()) > 6) {
                 debate.updateDebateState(DebateState.COMPLETE);
             }
 

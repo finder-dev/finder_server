@@ -8,10 +8,7 @@ import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +47,7 @@ public class CommunityApi {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResult<Page<CommunitySimpleDto.Response>>> getCommunities(
+    public ResponseEntity<ApiResult<Page<CommunitySimpleDto.Response>>> getCommunityList(
             @UserEmail String email,
             @Valid CommunitySimpleDto.Request request,
             Optional<Integer> page

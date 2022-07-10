@@ -1,5 +1,6 @@
 package com.cmc.finder.domain.community.application;
 
+import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.community.repository.CommunityAnswerRepository;
 import com.cmc.finder.domain.user.entity.User;
@@ -18,8 +19,9 @@ public class CommunityAnswerService {
 
     private final CommunityAnswerRepository communityAnswerRepository;
 
-    public List<CommunityAnswer> getAnswersByCommunityId(Long communityId) {
-        return communityAnswerRepository.findAllByCommunityIdFetchUser(communityId);
+    public List<CommunityAnswer> getAnswersByCommunity(Community community) {
+
+        return communityAnswerRepository.findAllByCommunityFetchUser(community);
 
     }
 

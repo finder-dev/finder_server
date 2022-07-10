@@ -1,9 +1,8 @@
-package com.cmc.finder.api.debate.repository;
+package com.cmc.finder.domain.debate.repository;
 
 import com.cmc.finder.api.debate.dto.DebateSimpleDto;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
-import com.cmc.finder.domain.model.MBTI;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
 
 import static com.cmc.finder.domain.debate.entity.QDebate.debate;
 import static com.cmc.finder.domain.debate.entity.QDebater.debater;
-import static com.cmc.finder.domain.qna.question.entity.QQuestion.question;
 
 
 @Repository

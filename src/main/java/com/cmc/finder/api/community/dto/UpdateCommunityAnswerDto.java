@@ -1,7 +1,6 @@
 package com.cmc.finder.api.community.dto;
 
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
-import com.cmc.finder.domain.debate.entity.DebateAnswerReply;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;

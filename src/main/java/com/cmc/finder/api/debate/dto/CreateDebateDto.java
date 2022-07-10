@@ -6,7 +6,7 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 
 
-public class DebateCreateDto {
+public class CreateDebateDto {
 
     @Getter @Setter
     public static class Request {
@@ -41,7 +41,7 @@ public class DebateCreateDto {
         private Long debateId;
 
         public static Response of(Debate debate) {
-            return DebateCreateDto.Response.builder()
+            return CreateDebateDto.Response.builder()
                     .debateId(debate.getDebateId())
                     .build();
 

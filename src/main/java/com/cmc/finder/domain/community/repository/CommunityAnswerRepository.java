@@ -1,8 +1,7 @@
 package com.cmc.finder.domain.community.repository;
 
+import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
-import com.cmc.finder.domain.qna.answer.entity.Answer;
-import com.cmc.finder.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,9 +12,9 @@ public interface CommunityAnswerRepository extends JpaRepository<CommunityAnswer
 
     @Query("select ca from CommunityAnswer ca " +
             "join fetch ca.user u " +
-            "where ca.community.communityId=:communityId "+
+            "where ca.community=:community and ca.parent is null "+
             "order by ca.communityAnswerId desc ")
-    List<CommunityAnswer> findAllByCommunityIdFetchUser(Long communityId);
+    List<CommunityAnswer> findAllByCommunityFetchUser(Community community);
 
     @Query("select ca from CommunityAnswer ca " +
             "join fetch ca.user u " +

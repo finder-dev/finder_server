@@ -47,7 +47,7 @@ public class CommunityApi {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResult<Page<CommunitySimpleDto.Response>>> getCommunityList(
+    public ResponseEntity<ApiResult<Slice<CommunitySimpleDto.Response>>> getCommunityList(
             @UserEmail String email,
             @Valid CommunitySimpleDto.Request request,
             Optional<Integer> page
@@ -61,16 +61,16 @@ public class CommunityApi {
                         Sort.by(Sort.Direction.DESC, request.getOrderBy())
         );
 
-        Page<CommunitySimpleDto.Response> response = apiCommunityService.getCommunityList(pageable, request.getMbti(), email);
+        Slice<CommunitySimpleDto.Response> response = apiCommunityService.getCommunityList(pageable, request.getMbti(), email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
 
     @GetMapping("/hot")
-    public ResponseEntity<ApiResult<List<GetHotCommunityRes>>> getHotCommunities() {
+    public ResponseEntity<ApiResult<List<GetHotCommunityRes>>> getHotCommunityList() {
 
-        List<GetHotCommunityRes> response = apiCommunityService.getHotCommunity();
+        List<GetHotCommunityRes> response = apiCommunityService.getHotCommunityList();
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
@@ -117,7 +117,7 @@ public class CommunityApi {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResult<Page<CommunitySearchDto.Response>>> searchCommunity(
+    public ResponseEntity<ApiResult<Slice<CommunitySearchDto.Response>>> searchCommunity(
             @Valid CommunitySearchDto.Request request,
             Optional<Integer> page
     ) {
@@ -130,7 +130,7 @@ public class CommunityApi {
                         Sort.by(Sort.Direction.DESC, request.getOrderBy())
         );
 
-        Page<CommunitySearchDto.Response> response = apiCommunityService.searchCommunity(request.getSearchQuery(), pageable);
+        Slice<CommunitySearchDto.Response> response = apiCommunityService.searchCommunity(request.getSearchQuery(), pageable);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,7 @@ public class CommunityService {
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.COMMUNITY_NOT_FOUND));
     }
 
-    public Page<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti, User user) {
+    public Slice<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti, User user) {
 
         return communityRepository.findPageCommunityByMBTI(pageable, mbti, user);
 
@@ -69,7 +70,7 @@ public class CommunityService {
         communityRepository.delete(community);
     }
 
-    public Page<CommunitySearchDto.Response> getSearchCommunityList(Pageable pageable, String search) {
+    public Slice<CommunitySearchDto.Response> getSearchCommunityList(Pageable pageable, String search) {
 
         return communityRepository.findSearchCommunity(pageable, search);
 

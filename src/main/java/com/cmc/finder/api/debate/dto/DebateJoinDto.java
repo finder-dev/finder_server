@@ -27,11 +27,6 @@ public class DebateJoinDto {
     public static class Response {
 
         private String message;
-
-        private String debateTitle;
-
-        private String nickname;
-
         private String option;
 
         public static Response of(Debater debater, Boolean join) {
@@ -39,20 +34,14 @@ public class DebateJoinDto {
             if (join) {
                 return Response.builder()
                         .message("join success")
-                        .debateTitle(debater.getDebate().getTitle())
-                        .nickname(debater.getUser().getNickname())
                         .option(debater.getOption().name())
                         .build();
             }else {
                 return Response.builder()
                         .message("detach success")
-                        .debateTitle(debater.getDebate().getTitle())
-                        .nickname(debater.getUser().getNickname())
                         .option(debater.getOption().name())
                         .build();
             }
-
-
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.cmc.finder.domain.debate.application;
 
+import com.cmc.finder.api.debate.dto.DebateSimpleDto;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.exception.DebaterNotExistsException;
@@ -7,7 +8,9 @@ import com.cmc.finder.domain.debate.repository.DebateRepository;
 import com.cmc.finder.global.error.exception.EntityNotFoundException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,4 +73,11 @@ public class DebateService {
         return hotDebate.get(0);
 
     }
+
+    public Page<DebateSimpleDto.Response> getDebateList(DebateState debateState, Pageable pageable) {
+
+        return debateRepository.findDebateSimpleDto(debateState, pageable);
+
+    }
+
 }

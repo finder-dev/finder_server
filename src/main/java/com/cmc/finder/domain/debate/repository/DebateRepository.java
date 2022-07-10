@@ -8,10 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.domain.Pageable;
 import java.util.List;
-import java.util.Optional;
 
 
-public interface DebateRepository extends JpaRepository<Debate, Long> {
+public interface DebateRepository extends JpaRepository<Debate, Long>, DebateRepositoryCustom {
 
 
     List<Debate> findByState(DebateState state);

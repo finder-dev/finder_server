@@ -10,14 +10,13 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-        ddl-auto: create
+        ddl-auto: update
     properties:
         hibernate:
             format_sql: true # sql 예쁘게 출력
             default_batch_fetch_size: 1000
     show-sql: true  # sql 출력
     generate-ddl: true
-#  -Dspring.profiles.active=prod
 
 #logging:
 #  level:

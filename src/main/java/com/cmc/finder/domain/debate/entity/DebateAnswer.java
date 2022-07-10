@@ -1,6 +1,7 @@
 package com.cmc.finder.domain.debate.entity;
 
 import com.cmc.finder.domain.base.BaseTimeEntity;
+import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.qna.answer.entity.AnswerReply;
 import com.cmc.finder.domain.user.entity.User;
@@ -38,18 +39,29 @@ public class DebateAnswer extends BaseTimeEntity {
     @JoinColumn(name = "debate_id", nullable = false)
     private Debate debate;
 
-    @OneToMany(
-            mappedBy = "debateAnswer",
-            cascade = CascadeType.PERSIST
-    )
-    private List<DebateAnswerReply> replies = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private DebateAnswer parent;
 
+    @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<DebateAnswer> replies = new ArrayList<>();
 
-    public void addDebateReply(DebateAnswerReply saveDebateAnswerReply) {
-
-        replies.add(saveDebateAnswerReply);
-        saveDebateAnswerReply.setDebateAnswer(this);
+    public void addReply(DebateAnswer debateAnswer) {
+        this.parent.addReply(debateAnswer);
     }
+
+//    @OneToMany(
+//            mappedBy = "debateAnswer",
+//            cascade = CascadeType.PERSIST
+//    )
+//    private List<DebateAnswerReply> replies = new ArrayList<>();
+
+
+//    public void addDebateReply(DebateAnswerReply saveDebateAnswerReply) {
+//
+//        replies.add(saveDebateAnswerReply);
+//        saveDebateAnswerReply.setDebateAnswer(this);
+//    }
 
     @Builder
     public DebateAnswer(String content, User user, Debate debate) {
@@ -68,6 +80,10 @@ public class DebateAnswer extends BaseTimeEntity {
 
     public void setDebate(Debate debate) {
         this.debate = debate;
+    }
+
+    public void setParent(DebateAnswer debateAnswer) {
+        this.parent = debateAnswer;
     }
 
 

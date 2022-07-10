@@ -1,6 +1,7 @@
 package com.cmc.finder.api.debate.application;
 
 import com.cmc.finder.api.debate.dto.*;
+import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.debate.entity.Debate;
@@ -100,6 +101,8 @@ public class ApiDebateService {
     public DebateDetailDto getDebateDetail(Long debateId) {
 
         Debate debate = debateService.getDebate(debateId);
+
+        // 답변 조회 -> id 역순
         List<DebateAnswer> debateAnswers = debateAnswerService.getDebateAnswersByDebate(debate);
 
         // Option A count

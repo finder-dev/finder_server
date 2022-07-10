@@ -89,7 +89,7 @@ public class ApiCommunityService {
         Community community = communityService.getCommunityFetchUser(communityId);
 
         // 답변 조회 -> id 역순
-        List<CommunityAnswer> answers = communityAnswerService.getAnswersByCommunityId(community.getCommunityId());
+        List<CommunityAnswer> answers = communityAnswerService.getAnswersByCommunity(community);
 
         // 이미 저장?
         Boolean saveUser = saveCommunityService.existsUser(community, user);

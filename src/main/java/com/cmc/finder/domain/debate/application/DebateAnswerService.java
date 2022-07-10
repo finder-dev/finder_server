@@ -24,7 +24,7 @@ public class DebateAnswerService {
     }
 
     public List<DebateAnswer> getDebateAnswersByDebate(Debate debate) {
-        return debateAnswerRepository.findByDebate(debate);
+        return debateAnswerRepository.findAllByDebateFetchUser(debate);
 
     }
 

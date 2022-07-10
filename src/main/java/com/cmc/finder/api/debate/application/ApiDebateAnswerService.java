@@ -1,12 +1,10 @@
 package com.cmc.finder.api.debate.application;
 
 import com.cmc.finder.api.debate.dto.*;
-import com.cmc.finder.domain.debate.application.DebateAnswerReplyService;
 import com.cmc.finder.domain.debate.application.DebateAnswerService;
 import com.cmc.finder.domain.debate.application.DebateService;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
-import com.cmc.finder.domain.debate.entity.DebateAnswerReply;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.Type;
 import com.cmc.finder.domain.notification.application.NotificationService;
@@ -20,8 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.cmc.finder.global.util.Constants.DEBATE_ANSWER;
-import static com.cmc.finder.global.util.Constants.DEBATE_ANSWER_REPLY;
+import static com.cmc.finder.global.util.Constants.*;
 
 
 @RequiredArgsConstructor
@@ -33,7 +30,7 @@ public class ApiDebateAnswerService {
     private final DebateAnswerService debateAnswerService;
     private final UserService userService;
     private final NotificationService notificationService;
-    private final DebateAnswerReplyService debateAnswerReplyService;
+//    private final DebateAnswerReplyService debateAnswerReplyService;
     private final FcmService fcmService;
 
 
@@ -75,59 +72,60 @@ public class ApiDebateAnswerService {
 
     }
 
+
     @Transactional
     public DebateReplyCreateDto.Response createDebateReply(Long debateAnswerId, DebateReplyCreateDto.Request request, String email) {
 
-        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswer(debateAnswerId);
         User user = userService.getUserByEmail(Email.of(email));
+        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswer(debateAnswerId);
 
-        DebateAnswerReply debateAnswerReply = request.toEntity();
-        DebateAnswerReply saveDebateAnswerReply = DebateAnswerReply.createDebateReply(debateAnswerReply, user, debateAnswer);
+        DebateAnswer reply = request.toEntity();
+        DebateAnswer saveReply = DebateAnswer.createDebateAnswer(user, debateAnswer.getDebate(), reply);
 
-        saveDebateAnswerReply = debateAnswerReplyService.create(saveDebateAnswerReply);
-        debateAnswer.addDebateReply(saveDebateAnswerReply);
+        saveReply = debateAnswerService.saveDebateAnswer(saveReply);
+        saveReply.setParent(debateAnswer);
 
         //TODO fcm은 이후 작업으로..
 
         // fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
         createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY);
 
-        return DebateReplyCreateDto.Response.of(saveDebateAnswerReply);
+        return DebateReplyCreateDto.Response.of(saveReply);
 
     }
 
-    @Transactional
-    public DeleteDebateReplyRes deleteDebateReply(Long debateReplyId, String email) {
+//    @Transactional
+//    public DeleteDebateReplyRes deleteDebateReply(Long debateReplyId, String email) {
+//
+//        User user = userService.getUserByEmail(Email.of(email));
+//        DebateAnswerReply debateAnswerReply = debateAnswerReplyService.getDebateReplyFetchUser(debateReplyId);
+//
+//        if (user != debateAnswerReply.getUser()) {
+//            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_NOT_WRITER);
+//        }
+//
+//        debateAnswerReplyService.deleteDebateReply(debateAnswerReply);
+//
+//        return DeleteDebateReplyRes.of();
+//
+//    }
 
-        User user = userService.getUserByEmail(Email.of(email));
-        DebateAnswerReply debateAnswerReply = debateAnswerReplyService.getDebateReplyFetchUser(debateReplyId);
-
-        if (user != debateAnswerReply.getUser()) {
-            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_NOT_WRITER);
-        }
-
-        debateAnswerReplyService.deleteDebateReply(debateAnswerReply);
-
-        return DeleteDebateReplyRes.of();
-
-    }
-
-    @Transactional
-    public DebateReplyUpdateDto.Response updateDebateReply(DebateReplyUpdateDto.Request request, Long debateReplyId, String email) {
-
-        User user = userService.getUserByEmail(Email.of(email));
-        DebateAnswerReply debateAnswerReply = debateAnswerReplyService.getDebateReplyFetchUser(debateReplyId);
-
-        if (user != debateAnswerReply.getUser()) {
-            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_NOT_WRITER);
-        }
-
-        DebateAnswerReply updateDebateAnswerReply = request.toEntity();
-        DebateAnswerReply updatedDebateAnswerReply = debateAnswerReplyService.updateDebateReply(debateAnswerReply, updateDebateAnswerReply);
-
-        return DebateReplyUpdateDto.Response.of(updatedDebateAnswerReply);
-
-    }
+//    @Transactional
+//    public DebateReplyUpdateDto.Response updateDebateReply(DebateReplyUpdateDto.Request request, Long debateReplyId, String email) {
+//
+//        User user = userService.getUserByEmail(Email.of(email));
+//        DebateAnswerReply debateAnswerReply = debateAnswerReplyService.getDebateReplyFetchUser(debateReplyId);
+//
+//        if (user != debateAnswerReply.getUser()) {
+//            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_NOT_WRITER);
+//        }
+//
+//        DebateAnswerReply updateDebateAnswerReply = request.toEntity();
+//        DebateAnswerReply updatedDebateAnswerReply = debateAnswerReplyService.updateDebateReply(debateAnswerReply, updateDebateAnswerReply);
+//
+//        return DebateReplyUpdateDto.Response.of(updatedDebateAnswerReply);
+//
+//    }
 
     private void createNotification(Debate debate, String content) {
         Notification notification = Notification.createNotification(debate.getTitle(), content, Type.DEBATE, debate.getWriter(), debate.getDebateId());

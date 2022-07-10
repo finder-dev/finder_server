@@ -7,13 +7,9 @@ import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.entity.User;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -34,7 +30,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     }
 
     @Override
-    public Page<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti, User curUser) {
+    public Slice<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti, User curUser) {
 
         List<Community> results = queryFactory
                 .select(community)
@@ -46,25 +42,27 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .groupBy(community.communityId)
                 .orderBy(listSort(pageable))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(pageable.getPageSize() + 1)
                 .fetch();
 
-        int totalSize = queryFactory
-                .selectFrom(community)
-                .where(
-                        findByMBTI(mbti)
-                )
-                .fetch().size();
+        List<CommunitySimpleDto.Response> contents = results.stream().map(community ->
+                CommunitySimpleDto.Response.of(community, curUser)
+        ).collect(Collectors.toList());
 
-        List<CommunitySimpleDto.Response> communitySimpleDtos = results.stream().map(community ->
-                        CommunitySimpleDto.Response.of(community, curUser)
-                ).collect(Collectors.toList());
 
-        return new PageImpl<>(communitySimpleDtos, pageable, totalSize);
+        boolean hasNext = false;
+        if (contents.size() > pageable.getPageSize()) {
+            contents.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+
+        return new SliceImpl<>(contents, pageable, hasNext);
+
+
     }
 
     @Override
-    public Page<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search) {
+    public Slice<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search) {
         List<Community> results = queryFactory
                 .select(community)
                 .from(community)
@@ -75,21 +73,20 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .groupBy(community.communityId)
                 .orderBy(listSort(pageable))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(pageable.getPageSize() + 1)
                 .fetch();
 
-        int totalSize = queryFactory
-                .selectFrom(community)
-                .where(
-                        searchByLike(search)
-                )
-                .fetch().size();
-
-        List<CommunitySearchDto.Response> communitySimpleDtos = results.stream().map(community ->
+        List<CommunitySearchDto.Response> contents = results.stream().map(community ->
                 CommunitySearchDto.Response.of(community)
         ).collect(Collectors.toList());
 
-        return new PageImpl<>(communitySimpleDtos, pageable, totalSize);
+        boolean hasNext = false;
+        if (contents.size() > pageable.getPageSize()) {
+            contents.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+
+        return new SliceImpl<>(contents, pageable, hasNext);
 
     }
 

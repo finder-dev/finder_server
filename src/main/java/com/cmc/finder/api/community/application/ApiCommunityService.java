@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,14 +65,14 @@ public class ApiCommunityService {
 
     }
 
-    public Page<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti, String email) {
+    public Slice<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti, String email) {
         User user = userService.getUserByEmail(Email.of(email));
 
         return communityService.getCommunityList(pageable, mbti, user);
 
     }
 
-    public List<GetHotCommunityRes> getHotCommunity() {
+    public List<GetHotCommunityRes> getHotCommunityList() {
         List<Community> hotCommunity = communityService.getHotCommunity();
         return hotCommunity.stream().map(community ->
                         GetHotCommunityRes.of(community)).
@@ -197,7 +198,7 @@ public class ApiCommunityService {
 
     }
 
-    public Page<CommunitySearchDto.Response> searchCommunity(String search, Pageable pageable) {
+    public Slice<CommunitySearchDto.Response> searchCommunity(String search, Pageable pageable) {
 
         return communityService.getSearchCommunityList(pageable, search);
 

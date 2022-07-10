@@ -7,12 +7,13 @@ import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 
 public interface CommunityRepositoryCustom {
 
-    Page<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti, User user);
+    Slice<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti, User user);
 
-    Page<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search);
+    Slice<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search);
 
 }

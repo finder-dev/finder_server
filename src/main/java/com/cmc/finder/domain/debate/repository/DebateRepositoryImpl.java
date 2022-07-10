@@ -5,9 +5,7 @@ import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -28,32 +26,31 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
     }
 
     @Override
-    public Page<DebateSimpleDto.Response> findDebateSimpleDto(DebateState state, Pageable pageable) {
+    public Slice<DebateSimpleDto.Response> findDebateSimpleDto(DebateState state, Pageable pageable) {
 
         List<Debate> results = queryFactory
                 .select(debate)
                 .from(debate)
-//                .join(debate.debaters, debater).fetchJoin()
                 .where(
                         searchByState(state)
                 )
                 .orderBy(debate.createTime.desc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(pageable.getPageSize() + 1)
                 .fetch();
 
-        int totalSize = queryFactory
-                .selectFrom(debater)
-                .where(
-                        searchByState(state)
-                )
-                .fetch().size();
 
-        List<DebateSimpleDto.Response> debateSimpleDtos = results.stream().map(debate ->
+        List<DebateSimpleDto.Response> contents = results.stream().map(debate ->
                         DebateSimpleDto.Response.of(debate)
                 ).collect(Collectors.toList());
 
-        return new PageImpl<>(debateSimpleDtos, pageable, totalSize);
+        boolean hasNext = false;
+        if (contents.size() > pageable.getPageSize()) {
+            contents.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+
+        return new SliceImpl<>(contents, pageable, hasNext);
     }
 
     private BooleanExpression searchByState(DebateState state) {

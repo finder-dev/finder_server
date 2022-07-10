@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,7 +75,7 @@ public class DebateService {
 
     }
 
-    public Page<DebateSimpleDto.Response> getDebateList(DebateState debateState, Pageable pageable) {
+    public Slice<DebateSimpleDto.Response> getDebateList(DebateState debateState, Pageable pageable) {
 
         return debateRepository.findDebateSimpleDto(debateState, pageable);
 

@@ -76,12 +76,12 @@ public class CommunityService {
 
     }
 
-    public Page<Community> getCommunityByUser(User user, Pageable pageable) {
+    public Slice<Community> getCommunityByUser(User user, Pageable pageable) {
 
         return communityRepository.findAllByUserOrderByCommunityIdDesc(user, pageable);
     }
 
-    public Page<Community> getCommunityByCommentUser(User user, Pageable pageable) {
+    public Slice<Community> getCommunityByCommentUser(User user, Pageable pageable) {
 
         return communityRepository.findAllByCommentUserFetchUser(user, pageable);
 

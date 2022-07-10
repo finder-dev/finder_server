@@ -13,9 +13,7 @@ import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,45 +30,47 @@ public class UserActivityService {
     private final CommunityService communityService;
     private final NotificationService notificationService;
 
-    public Page<GetSaveCommunityRes> getSaveCommunity(String email, Pageable pageable) {
+    public Slice<GetSaveCommunityRes> getSaveCommunity(String email, Pageable pageable) {
 
         User user = userService.getUserByEmail(Email.of(email));
-        Page<SaveCommunity> saveCommunityFetchCommunity = saveCommunityService.getSaveCommunityFetchCommunity(user, pageable);
+        Slice<SaveCommunity> saveCommunityFetchCommunity = saveCommunityService.getSaveCommunityFetchCommunity(user, pageable);
 
         List<GetSaveCommunityRes> res = saveCommunityFetchCommunity.stream().map(saveCommunity ->
                 GetSaveCommunityRes.of(saveCommunity.getCommunity())).collect(Collectors.toList());
 
-        return new PageImpl<>(res);
+        return new SliceImpl<>(res, pageable, saveCommunityFetchCommunity.hasNext());
 
     }
 
-    public Page<GetUserActivityRes> getCommunityByUser(String email, Pageable pageable) {
+    public Slice<GetUserActivityRes> getCommunityByUser(String email, Pageable pageable) {
 
         User user = userService.getUserByEmail(Email.of(email));
-        Page<Community> communityList = communityService.getCommunityByUser(user, pageable);
+        Slice<Community> communityList = communityService.getCommunityByUser(user, pageable);
 
         List<GetUserActivityRes> res = communityList.stream().map(community -> GetUserActivityRes.of(community)).collect(Collectors.toList());
-        return new PageImpl<>(res);
+        return new SliceImpl<>(res, pageable, communityList.hasNext());
+
 
     }
 
-    public Page<GetUserActivityRes> getCommunityByCommentUser(String email, Pageable pageable) {
+    public Slice<GetUserActivityRes> getCommunityByCommentUser(String email, Pageable pageable) {
 
         User user = userService.getUserByEmail(Email.of(email));
-        Page<Community> communityList = communityService.getCommunityByCommentUser(user, pageable);
+        Slice<Community> communityList = communityService.getCommunityByCommentUser(user, pageable);
 
         List<GetUserActivityRes> res = communityList.stream().map(community -> GetUserActivityRes.of(community)).collect(Collectors.toList());
-        return new PageImpl<>(res);
+        return new SliceImpl<>(res, pageable, communityList.hasNext());
 
     }
 
-    public Page<GetNotificationRes> getNotification(String email, Pageable pageable) {
+    public Slice<GetNotificationRes> getNotification(String email, Pageable pageable) {
 
         User user = userService.getUserByEmail(Email.of(email));
-        Page<Notification> notificaitons = notificationService.getNotificaitons(user, pageable);
+        Slice<Notification> notificaitonList = notificationService.getNotificaitonList(user, pageable);
 
-        List<GetNotificationRes> res = notificaitons.stream().map(notification -> GetNotificationRes.of(notification)).collect(Collectors.toList());
-        return new PageImpl<>(res);
+        List<GetNotificationRes> res = notificaitonList.stream().map(notification -> GetNotificationRes.of(notification)).collect(Collectors.toList());
+
+        return new SliceImpl<>(res, pageable, notificaitonList.hasNext());
 
     }
 

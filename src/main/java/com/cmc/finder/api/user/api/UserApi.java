@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,7 +62,6 @@ public class UserApi {
 
     }
 
-
     @PatchMapping("/mbti")
     public ResponseEntity<ApiResult<MBTIUpdateDto.Response>> updateMBTI(
             @Valid MBTIUpdateDto.Request request,
@@ -74,7 +74,7 @@ public class UserApi {
     }
 
     @GetMapping("/activity/community")
-    public ResponseEntity<ApiResult<Page<GetUserActivityRes>>> getCommunityByUser(
+    public ResponseEntity<ApiResult<Slice<GetUserActivityRes>>> getCommunityByUser(
             @UserEmail String email,
             Optional<Integer> page
 
@@ -85,13 +85,13 @@ public class UserApi {
                 SET_PAGE_ITEM_MAX_COUNT
         );
 
-        Page<GetUserActivityRes> response = userActivityService.getCommunityByUser(email, pageable);
+        Slice<GetUserActivityRes> response = userActivityService.getCommunityByUser(email, pageable);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
     @GetMapping("/activity/answer")
-    public ResponseEntity<ApiResult<Page<GetUserActivityRes>>> getCommunityByCommentUser(
+    public ResponseEntity<ApiResult<Slice<GetUserActivityRes>>> getCommunityByCommentUser(
             @UserEmail String email,
             Optional<Integer> page
 
@@ -102,13 +102,13 @@ public class UserApi {
                 SET_PAGE_ITEM_MAX_COUNT
         );
 
-        Page<GetUserActivityRes> response = userActivityService.getCommunityByCommentUser(email, pageable);
+        Slice<GetUserActivityRes> response = userActivityService.getCommunityByCommentUser(email, pageable);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
     @GetMapping("/activity/notification")
-    public ResponseEntity<ApiResult<Page<GetNotificationRes>>> getNotification(
+    public ResponseEntity<ApiResult<Slice<GetNotificationRes>>> getNotification(
             @UserEmail String email,
             Optional<Integer> page
 
@@ -119,13 +119,13 @@ public class UserApi {
                 SET_PAGE_ITEM_MAX_COUNT
         );
 
-        Page<GetNotificationRes> response = userActivityService.getNotification(email, pageable);
+        Slice<GetNotificationRes> response = userActivityService.getNotification(email, pageable);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
     @GetMapping("/save")
-    public ResponseEntity<ApiResult<Page<GetSaveCommunityRes>>> getSaveCommunity(
+    public ResponseEntity<ApiResult<Slice<GetSaveCommunityRes>>> getSaveCommunity(
             @UserEmail String email,
             Optional<Integer> page
 
@@ -136,25 +136,9 @@ public class UserApi {
                 SET_PAGE_ITEM_MAX_COUNT
         );
 
-        Page<GetSaveCommunityRes> response = userActivityService.getSaveCommunity(email, pageable);
+        Slice<GetSaveCommunityRes> response = userActivityService.getSaveCommunity(email, pageable);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
-
-//    @GetMapping("/notification")
-//    public ResponseEntity<ApiResult<Page<GetSaveCommunityRes>>> getNotification(
-//            @UserEmail String email,
-//            Optional<Integer> page
-//
-//    ) {
-//
-//        Pageable pageable = PageRequest.of(
-//                page.isPresent() ? page.get() : 0,
-//                SET_PAGE_ITEM_MAX_COUNT
-//        );
-//
-//        Page<GetSaveCommunityRes> response = userActivityService.getSaveCommunity(email, pageable);
-//        return ResponseEntity.ok(ApiUtils.success(response));
-//    }
 
 
 }

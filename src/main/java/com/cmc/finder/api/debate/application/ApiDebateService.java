@@ -19,6 +19,7 @@ import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,7 +91,7 @@ public class ApiDebateService {
 
     }
 
-    public Page<DebateSimpleDto.Response> getDebateList(DebateSimpleDto.Request request, Pageable pageable) {
+    public Slice<DebateSimpleDto.Response> getDebateList(DebateSimpleDto.Request request, Pageable pageable) {
 
         DebateState debateState = request.getState() != null ? DebateState.from(request.getState()) : DebateState.PROCEEDING;
         return debateService.getDebateList(debateState, pageable);

@@ -4,9 +4,8 @@ import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.repository.NotificationRepository;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +22,9 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
-    public Page<Notification> getNotificaitons(User user, Pageable pageable) {
+    public Slice<Notification> getNotificaitonList(User user, Pageable pageable) {
 
-        Page<Notification> notifications = notificationRepository.findAllByUser(user, pageable);
-
+        Slice<Notification> notifications = notificationRepository.findAllByUser(user, pageable);
         return notifications;
     }
 

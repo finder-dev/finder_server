@@ -9,6 +9,7 @@ import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,7 @@ public class SaveCommunityService {
 
     }
 
-    public Page<SaveCommunity> getSaveCommunityFetchCommunity(User user, Pageable pageable) {
+    public Slice<SaveCommunity> getSaveCommunityFetchCommunity(User user, Pageable pageable) {
 
         return saveCommunityRepository.findAllByUserFetchCommunity(user, pageable);
 

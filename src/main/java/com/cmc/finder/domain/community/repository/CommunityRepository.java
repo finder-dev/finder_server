@@ -2,8 +2,8 @@ package com.cmc.finder.domain.community.repository;
 
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.user.entity.User;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -26,7 +26,7 @@ public interface CommunityRepository extends JpaRepository<Community, Long>, Com
             "where c.communityId=:communityId ")
     Optional<Community> findByCommunityIdFetchUser(Long communityId);
 
-    Page<Community> findAllByUserOrderByCommunityIdDesc(User user, Pageable pageable);
+    Slice<Community> findAllByUserOrderByCommunityIdDesc(User user, Pageable pageable);
 
     @Query("select c " +
             "from Community c " +
@@ -34,6 +34,6 @@ public interface CommunityRepository extends JpaRepository<Community, Long>, Com
             "where ca.user=:user " +
             "group by c.communityId " +
             "order by c.communityId desc ")
-    Page<Community> findAllByCommentUserFetchUser(User user, Pageable pageable);
+    Slice<Community> findAllByCommentUserFetchUser(User user, Pageable pageable);
 
 }

@@ -7,6 +7,7 @@ import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -24,6 +25,6 @@ public interface SaveCommunityRepository extends JpaRepository<SaveCommunity, Lo
 //            "join fetch sc.community c " +
             "where sc.user=:user " +
             "order by sc.saveCommunityId desc ")
-    Page<SaveCommunity> findAllByUserFetchCommunity(User user, Pageable pageable);
+    Slice<SaveCommunity> findAllByUserFetchCommunity(User user, Pageable pageable);
 
 }

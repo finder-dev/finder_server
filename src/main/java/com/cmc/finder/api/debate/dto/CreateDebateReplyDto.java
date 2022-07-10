@@ -1,13 +1,11 @@
 package com.cmc.finder.api.debate.dto;
 
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
-import com.cmc.finder.domain.debate.entity.DebateAnswerReply;
-import com.cmc.finder.domain.qna.answer.entity.AnswerReply;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
-public class DebateReplyCreateDto {
+public class CreateDebateReplyDto {
 
     @Getter
     @Setter

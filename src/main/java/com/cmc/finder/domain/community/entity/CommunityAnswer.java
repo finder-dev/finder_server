@@ -1,8 +1,6 @@
 package com.cmc.finder.domain.community.entity;
 
 import com.cmc.finder.domain.base.BaseTimeEntity;
-import com.cmc.finder.domain.debate.entity.Debate;
-import com.cmc.finder.domain.debate.entity.DebateAnswerReply;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;

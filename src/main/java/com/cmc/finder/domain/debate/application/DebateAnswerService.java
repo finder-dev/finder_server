@@ -28,6 +28,11 @@ public class DebateAnswerService {
 
     }
 
+    public DebateAnswer getDebateAnswerFetchUser(Long debateAnswerId) {
+        return debateAnswerRepository.findByIdFetchUser(debateAnswerId)
+                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATE_ANSWER_NOT_FOUND));
+    }
+
     public DebateAnswer getDebateAnswer(Long debateAnswerId) {
         return debateAnswerRepository.findById(debateAnswerId)
                 .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATE_ANSWER_NOT_FOUND));
@@ -37,5 +42,12 @@ public class DebateAnswerService {
     @Transactional
     public void deleteDebateAnswer(DebateAnswer debateAnswer) {
         debateAnswerRepository.delete(debateAnswer);
+    }
+
+    @Transactional
+    public DebateAnswer updateDebateAnswer(DebateAnswer debateAnswer, DebateAnswer updateDebateAnswer) {
+
+        debateAnswer.updateDebateAnswer(updateDebateAnswer);
+        return debateAnswer;
     }
 }

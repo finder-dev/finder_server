@@ -27,23 +27,23 @@ public class DebateApi {
     private final ApiDebateService apiDebateService;
 
     @PostMapping
-    public ResponseEntity<ApiResult<DebateCreateDto.Response>> createDebate(
-            @Valid DebateCreateDto.Request request,
+    public ResponseEntity<ApiResult<CreateDebateDto.Response>> createDebate(
+            @Valid CreateDebateDto.Request request,
             @UserEmail String email
     ) {
 
-        DebateCreateDto.Response response = apiDebateService.createDebate(request, email);
+        CreateDebateDto.Response response = apiDebateService.createDebate(request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
     @PostMapping("/{debateId}")
-    public ResponseEntity<ApiResult<DebateJoinDto.Response>> joinOrDetachDebate(
+    public ResponseEntity<ApiResult<JoinDebateDto.Response>> joinOrDetachDebate(
             @PathVariable Long debateId,
-            @Valid DebateJoinDto.Request request,
+            @Valid JoinDebateDto.Request request,
             @UserEmail String email
     ) {
 
-        DebateJoinDto.Response response = apiDebateService.joinOrDetachDebate(request,debateId, email);
+        JoinDebateDto.Response response = apiDebateService.joinOrDetachDebate(request,debateId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
@@ -61,6 +61,18 @@ public class DebateApi {
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
+
+    //    //TODO 토론 삭제는 없나?
+//    @DeleteMapping("/{debateId}")
+//    public ResponseEntity<ApiResult<DebateDeleteDto>> deleteDebate(
+//            @PathVariable Long debateId,
+//            @UserEmail String email
+//    ) {
+//
+//        DebateDeleteDto response = apiDebateService.deleteDebate(debateId, email);
+//        return ResponseEntity.ok(ApiUtils.success(response));
+//    }
+
 
     @GetMapping("/hot")
     public ResponseEntity<ApiResult<GetHotDebateRes>> getHotDebate(

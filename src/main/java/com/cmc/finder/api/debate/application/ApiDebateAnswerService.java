@@ -30,12 +30,11 @@ public class ApiDebateAnswerService {
     private final DebateAnswerService debateAnswerService;
     private final UserService userService;
     private final NotificationService notificationService;
-//    private final DebateAnswerReplyService debateAnswerReplyService;
     private final FcmService fcmService;
 
 
     @Transactional
-    public DebateAnswerCreateDto.Response createDebateAnswer(Long debateId, DebateAnswerCreateDto.Request request, String email) {
+    public CreateDebateAnswerDto.Response createDebateAnswer(Long debateId, CreateDebateAnswerDto.Request request, String email) {
 
         Debate debate = debateService.getDebate(debateId);
         User user = userService.getUserByEmail(Email.of(email));
@@ -50,16 +49,16 @@ public class ApiDebateAnswerService {
         // fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
         createNotification(debate, DEBATE_ANSWER);
 
-        return DebateAnswerCreateDto.Response.of(saveDebateAnswer);
+        return CreateDebateAnswerDto.Response.of(saveDebateAnswer);
 
     }
 
 
     @Transactional
-    public DebateAnswerDeleteDto deleteDebateAnswer(Long debateAnswerId, String email) {
+    public DeleteDebateAnswerRes deleteDebateAnswer(Long debateAnswerId, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
-        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswer(debateAnswerId);
+        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswerFetchUser(debateAnswerId);
 
         // 유저 검증
         if (debateAnswer.getUser() != user) {
@@ -68,13 +67,13 @@ public class ApiDebateAnswerService {
 
         debateAnswerService.deleteDebateAnswer(debateAnswer);
 
-        return DebateAnswerDeleteDto.of();
+        return DeleteDebateAnswerRes.of();
 
     }
 
 
     @Transactional
-    public DebateReplyCreateDto.Response createDebateReply(Long debateAnswerId, DebateReplyCreateDto.Request request, String email) {
+    public CreateDebateReplyDto.Response createDebateReply(Long debateAnswerId, CreateDebateReplyDto.Request request, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
         DebateAnswer debateAnswer = debateAnswerService.getDebateAnswer(debateAnswerId);
@@ -90,47 +89,32 @@ public class ApiDebateAnswerService {
         // fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
         createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY);
 
-        return DebateReplyCreateDto.Response.of(saveReply);
+        return CreateDebateReplyDto.Response.of(saveReply);
 
     }
 
-//    @Transactional
-//    public DeleteDebateReplyRes deleteDebateReply(Long debateReplyId, String email) {
-//
-//        User user = userService.getUserByEmail(Email.of(email));
-//        DebateAnswerReply debateAnswerReply = debateAnswerReplyService.getDebateReplyFetchUser(debateReplyId);
-//
-//        if (user != debateAnswerReply.getUser()) {
-//            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_NOT_WRITER);
-//        }
-//
-//        debateAnswerReplyService.deleteDebateReply(debateAnswerReply);
-//
-//        return DeleteDebateReplyRes.of();
-//
-//    }
-
-//    @Transactional
-//    public DebateReplyUpdateDto.Response updateDebateReply(DebateReplyUpdateDto.Request request, Long debateReplyId, String email) {
-//
-//        User user = userService.getUserByEmail(Email.of(email));
-//        DebateAnswerReply debateAnswerReply = debateAnswerReplyService.getDebateReplyFetchUser(debateReplyId);
-//
-//        if (user != debateAnswerReply.getUser()) {
-//            throw new AuthenticationException(ErrorCode.DEBATE_REPLY_USER_NOT_WRITER);
-//        }
-//
-//        DebateAnswerReply updateDebateAnswerReply = request.toEntity();
-//        DebateAnswerReply updatedDebateAnswerReply = debateAnswerReplyService.updateDebateReply(debateAnswerReply, updateDebateAnswerReply);
-//
-//        return DebateReplyUpdateDto.Response.of(updatedDebateAnswerReply);
-//
-//    }
 
     private void createNotification(Debate debate, String content) {
         Notification notification = Notification.createNotification(debate.getTitle(), content, Type.DEBATE, debate.getWriter(), debate.getDebateId());
         notificationService.create(notification);
     }
 
+
+    @Transactional
+    public UpdateDebateAnswerDto.Response updateDebateAnswer(UpdateDebateAnswerDto.Request request, Long debateAnswerId, String email) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswerFetchUser(debateAnswerId);
+
+        if (user != debateAnswer.getUser()) {
+            throw new AuthenticationException(ErrorCode.DEBATE_ANSWER_USER_NOT_WRITER);
+        }
+
+        DebateAnswer updateDebateAnswer = request.toEntity();
+        DebateAnswer updatedDebateAnswer = debateAnswerService.updateDebateAnswer(debateAnswer, updateDebateAnswer);
+
+        return UpdateDebateAnswerDto.Response.of(updatedDebateAnswer);
+
+    }
 
 }

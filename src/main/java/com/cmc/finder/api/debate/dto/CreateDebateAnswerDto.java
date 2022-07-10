@@ -6,7 +6,7 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 
 
-public class DebateAnswerCreateDto {
+public class CreateDebateAnswerDto {
 
     @Getter @Setter
     public static class Request {

@@ -2,6 +2,7 @@ package com.cmc.finder.api.debate.dto;
 
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.Debater;
+import com.cmc.finder.global.util.DateTimeUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,8 +31,7 @@ public class GetHotDebateRes {
 
     private String joinOption;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
+    private String deadline;
 
     //TODO 수정
     public static GetHotDebateRes of(Debate debate, Long optionACount, Long optionBCount, Boolean alreadyJoin) {
@@ -43,7 +43,7 @@ public class GetHotDebateRes {
                 .optionACount(optionACount)
                 .optionB(debate.getOptionB())
                 .optionBCount(optionBCount)
-                .createTime(debate.getCreateTime())
+                .deadline(DateTimeUtils.convertToLocalDateTimeToDeadline(debate.getCreateTime()))
                 .join(alreadyJoin)
                 .build();
 

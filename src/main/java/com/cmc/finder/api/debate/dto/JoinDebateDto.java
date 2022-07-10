@@ -8,7 +8,7 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 
 
-public class DebateJoinDto {
+public class JoinDebateDto {
 
     @Getter @Setter
     public static class Request {

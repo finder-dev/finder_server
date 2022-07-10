@@ -1,7 +1,6 @@
 package com.cmc.finder.api.debate.application;
 
 import com.cmc.finder.api.debate.dto.*;
-import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.debate.entity.Debate;
@@ -39,7 +38,7 @@ public class ApiDebateService {
     private final NotificationService notificationService;
 
 
-    public DebateCreateDto.Response createDebate(DebateCreateDto.Request request, String email) {
+    public CreateDebateDto.Response createDebate(CreateDebateDto.Request request, String email) {
         User user = userService.getUserByEmail(Email.of(email));
 
         // 토론생성
@@ -48,12 +47,12 @@ public class ApiDebateService {
 
         saveDebate = debateService.saveDebate(saveDebate);
 
-        return DebateCreateDto.Response.of(saveDebate);
+        return CreateDebateDto.Response.of(saveDebate);
 
     }
 
     @Transactional
-    public DebateJoinDto.Response joinOrDetachDebate(DebateJoinDto.Request request, Long debateId, String email) {
+    public JoinDebateDto.Response joinOrDetachDebate(JoinDebateDto.Request request, Long debateId, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
         Debate debate = debateService.getDebate(debateId);
@@ -69,7 +68,7 @@ public class ApiDebateService {
             if (Option.equal(debater.getOption(), option)) {
 
                 debaterService.deleteDebater(debater);
-                return DebateJoinDto.Response.of(debater, false);
+                return JoinDebateDto.Response.of(debater, false);
 
             }
             // 토론 선택지 취소
@@ -77,7 +76,7 @@ public class ApiDebateService {
                 debater.updateOption(option);
             }
 
-            return DebateJoinDto.Response.of(debater, true);
+            return JoinDebateDto.Response.of(debater, true);
 
             // 토론 참여
         } else {
@@ -85,7 +84,7 @@ public class ApiDebateService {
             Debater saveDebater = Debater.createDebater(debate, user, option);
             saveDebater = debaterService.saveDebater(saveDebater);
 
-            return DebateJoinDto.Response.of(saveDebater, true);
+            return JoinDebateDto.Response.of(saveDebater, true);
         }
 
 

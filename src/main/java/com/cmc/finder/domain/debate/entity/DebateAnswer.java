@@ -46,22 +46,13 @@ public class DebateAnswer extends BaseTimeEntity {
     @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<DebateAnswer> replies = new ArrayList<>();
 
+    public void updateDebateAnswer(DebateAnswer updateDebateAnswer) {
+        this.content = updateDebateAnswer.content;
+    }
+
     public void addReply(DebateAnswer debateAnswer) {
         this.parent.addReply(debateAnswer);
     }
-
-//    @OneToMany(
-//            mappedBy = "debateAnswer",
-//            cascade = CascadeType.PERSIST
-//    )
-//    private List<DebateAnswerReply> replies = new ArrayList<>();
-
-
-//    public void addDebateReply(DebateAnswerReply saveDebateAnswerReply) {
-//
-//        replies.add(saveDebateAnswerReply);
-//        saveDebateAnswerReply.setDebateAnswer(this);
-//    }
 
     @Builder
     public DebateAnswer(String content, User user, Debate debate) {

@@ -32,6 +32,8 @@ public class DebateDetailDto {
 
     private Integer answerCount;
 
+    private Long writerId;
+
     private String writerNickname;
 
     private MBTI writerMBTI;
@@ -42,7 +44,7 @@ public class DebateDetailDto {
 
     @Builder
     public DebateDetailDto(Long debateId, String debateTitle, String optionA, Long optionACount, String optionB, Long optionBCount,
-                           Integer answerCount, String writerNickname, MBTI writerMBTI, LocalDateTime createTime, List<AnswerHistDto> answerHistDtos) {
+                           Integer answerCount, Long writerId, String writerNickname, MBTI writerMBTI, LocalDateTime createTime, List<AnswerHistDto> answerHistDtos) {
         this.debateId = debateId;
         this.debateTitle = debateTitle;
         this.optionA = optionA;
@@ -50,6 +52,7 @@ public class DebateDetailDto {
         this.optionB = optionB;
         this.optionBCount = optionBCount;
         this.answerCount = answerCount;
+        this.writerId = writerId;
         this.writerNickname = writerNickname;
         this.writerMBTI = writerMBTI;
         this.deadline = DateTimeUtils.convertToLocalDateTimeToDeadline(createTime);
@@ -70,6 +73,7 @@ public class DebateDetailDto {
                 .optionB(debate.getOptionB())
                 .optionBCount(optionBCount)
                 .answerCount(answers.size())
+                .writerId(debate.getWriter().getUserId())
                 .writerNickname(debate.getWriter().getNickname())
                 .writerMBTI(debate.getWriter().getMbti())
                 .createTime(debate.getCreateTime())
@@ -85,20 +89,24 @@ public class DebateDetailDto {
 
         private String debateAnswerContent;
 
+        private Long userId;
+
         private MBTI userMBTI;
 
         private String userNickname;
 
-        private List<ReplyHistDto> replyHistDtos = new ArrayList<>();
-
         private String createTime;
 
+        private List<ReplyHistDto> replyHistDtos = new ArrayList<>();
+
+
         @Builder
-        public AnswerHistDto(Long debateAnswerId, String debateAnswerContent, MBTI userMBTI, String userNickname,
+        public AnswerHistDto(Long debateAnswerId, String debateAnswerContent, Long userId, MBTI userMBTI, String userNickname,
                              List<ReplyHistDto> replyHistDtos, LocalDateTime createTime) {
             this.debateAnswerId = debateAnswerId;
             this.debateAnswerContent = debateAnswerContent;
             this.userMBTI = userMBTI;
+            this.userId = userId;
             this.userNickname = userNickname;
             this.replyHistDtos = replyHistDtos;
             this.createTime = DateTimeUtils.convertToLocalDatetimeToTime(createTime);
@@ -114,6 +122,7 @@ public class DebateDetailDto {
             return AnswerHistDto.builder()
                     .debateAnswerId(answer.getDebateAnswerId())
                     .debateAnswerContent(answer.getContent())
+                    .userId(answer.getUser().getUserId())
                     .userMBTI(answer.getUser().getMbti())
                     .userNickname(answer.getUser().getNickname())
                     .replyHistDtos(replies)

@@ -43,7 +43,8 @@ public class Community extends BaseTimeEntity {
 
     @OneToMany(
             mappedBy = "community",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     private List<CommunityImage> communityImages = new ArrayList<>();
 
@@ -113,7 +114,6 @@ public class Community extends BaseTimeEntity {
     }
 
     public void deleteCommunityImage(CommunityImage communityImage) {
-
         this.communityImages.remove(communityImage);
     }
 }

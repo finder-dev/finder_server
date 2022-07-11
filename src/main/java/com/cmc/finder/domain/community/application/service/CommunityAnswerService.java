@@ -1,4 +1,4 @@
-package com.cmc.finder.domain.community.application;
+package com.cmc.finder.domain.community.application.service;
 
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
@@ -30,11 +30,16 @@ public class CommunityAnswerService {
         return communityAnswerRepository.save(saveCommunityAnswer);
     }
 
+    public CommunityAnswer getCommunityAnswer(Long answerId) {
+        return communityAnswerRepository.findById(answerId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.COMMUNITY_ANSWER_NOT_FOUND));
+    }
+
 
     public CommunityAnswer getCommunityAnswerFetchUser(Long answerId) {
 
         return communityAnswerRepository.findByIdFetchUser(answerId)
-                .orElseThrow(()-> new EntityNotFoundException(ErrorCode.COMMUNITY_ANSWER_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.COMMUNITY_ANSWER_NOT_FOUND));
     }
 
     @Transactional
@@ -44,8 +49,8 @@ public class CommunityAnswerService {
     }
 
     @Transactional
-    public CommunityAnswer updateCommunityAnswer(CommunityAnswer communityAnswer, CommunityAnswer updateCommunityAnswer) {
-
+    public CommunityAnswer updateCommunityAnswer(Long answerId, CommunityAnswer updateCommunityAnswer) {
+        CommunityAnswer communityAnswer = getCommunityAnswer(answerId);
         communityAnswer.updateCommunityAnswer(updateCommunityAnswer);
         return communityAnswer;
 

@@ -7,7 +7,6 @@ import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -54,11 +53,13 @@ public class DebateApi {
             Optional<Integer> page
     ) {
 
+
         Pageable pageable = PageRequest.of(
                 page.isPresent() ? page.get() : 0,
                 SET_PAGE_ITEM_MAX_COUNT);
 
         Slice<DebateSimpleDto.Response> response = apiDebateService.getDebateList(request, pageable);
+
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

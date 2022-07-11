@@ -28,21 +28,22 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
     @Override
     public Slice<DebateSimpleDto.Response> findDebateSimpleDto(DebateState state, Pageable pageable) {
 
+
         List<Debate> results = queryFactory
                 .select(debate)
                 .from(debate)
                 .where(
                         searchByState(state)
                 )
-                .orderBy(debate.createTime.desc())
+                .orderBy(debate.debateId.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
 
 
         List<DebateSimpleDto.Response> contents = results.stream().map(debate ->
-                        DebateSimpleDto.Response.of(debate)
-                ).collect(Collectors.toList());
+                DebateSimpleDto.Response.of(debate)
+        ).collect(Collectors.toList());
 
         boolean hasNext = false;
         if (contents.size() > pageable.getPageSize()) {
@@ -56,11 +57,8 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
     private BooleanExpression searchByState(DebateState state) {
 
         return debate.state.eq(state);
-//        return state != null ? debate.state.eq(state) : debate.state.eq(DebateState.PROCEEDING);
 
     }
-
-
 
 
 }

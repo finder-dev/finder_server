@@ -1,4 +1,4 @@
-package com.cmc.finder.domain.community.application.service;
+package com.cmc.finder.domain.community.application;
 
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;

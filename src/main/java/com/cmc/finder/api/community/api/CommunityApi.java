@@ -1,12 +1,13 @@
 package com.cmc.finder.api.community.api;
 
-import com.cmc.finder.api.community.application.ApiCommunityService;
+import com.cmc.finder.api.community.application.service.ApiCommunityService;
 import com.cmc.finder.api.community.dto.*;
 import com.cmc.finder.domain.model.OrderBy;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;

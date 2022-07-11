@@ -1,6 +1,6 @@
 package com.cmc.finder.api.community.api;
 
-import com.cmc.finder.api.community.application.ApiCommunityAnswerService;
+import com.cmc.finder.api.community.application.service.ApiCommunityAnswerService;
 import com.cmc.finder.api.community.dto.*;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;

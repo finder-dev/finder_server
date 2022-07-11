@@ -1,10 +1,9 @@
-package com.cmc.finder.api.community.application;
+package com.cmc.finder.api.community.application.service;
 
 import com.cmc.finder.api.community.dto.*;
-import com.cmc.finder.domain.community.application.service.*;
+import com.cmc.finder.domain.community.application.*;
 import com.cmc.finder.domain.community.entity.*;
 import com.cmc.finder.domain.community.exception.CommunityImageExceedNumberException;
-import com.cmc.finder.domain.community.repository.CommunityImageRepository;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;

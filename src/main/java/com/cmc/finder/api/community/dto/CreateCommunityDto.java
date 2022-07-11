@@ -16,6 +16,7 @@ import java.util.List;
 public class CreateCommunityDto {
 
     @Getter @Setter
+    @ToString
     public static class Request {
 
         @NotBlank(message = "글 제목은 필수값 입니다.")

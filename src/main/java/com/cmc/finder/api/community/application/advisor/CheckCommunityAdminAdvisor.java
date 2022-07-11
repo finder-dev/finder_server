@@ -1,7 +1,7 @@
 package com.cmc.finder.api.community.application.advisor;
 
-import com.cmc.finder.domain.community.application.service.CommunityAnswerService;
-import com.cmc.finder.domain.community.application.service.CommunityService;
+import com.cmc.finder.domain.community.application.CommunityAnswerService;
+import com.cmc.finder.domain.community.application.CommunityService;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.model.Email;

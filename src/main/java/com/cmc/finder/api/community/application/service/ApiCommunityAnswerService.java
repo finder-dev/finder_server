@@ -1,8 +1,8 @@
-package com.cmc.finder.api.community.application;
+package com.cmc.finder.api.community.application.service;
 
 import com.cmc.finder.api.community.dto.*;
-import com.cmc.finder.domain.community.application.service.CommunityAnswerService;
-import com.cmc.finder.domain.community.application.service.CommunityService;
+import com.cmc.finder.domain.community.application.CommunityAnswerService;
+import com.cmc.finder.domain.community.application.CommunityService;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.model.Email;
@@ -12,8 +12,6 @@ import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.aspect.CheckCommunityAdmin;
-import com.cmc.finder.global.error.exception.AuthenticationException;
-import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

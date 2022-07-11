@@ -61,7 +61,6 @@ public class TokenManager {
                 .setAudience(email)
                 .setIssuedAt(new Date())
                 .setExpiration(expirationTime)
-//                .claim("role", role)
                 .signWith(SignatureAlgorithm.HS512, tokenSecret)
                 .setHeaderParam("typ", "JWT")
                 .compact();

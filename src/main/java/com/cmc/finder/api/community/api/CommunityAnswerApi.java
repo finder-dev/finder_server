@@ -47,7 +47,7 @@ public class CommunityAnswerApi {
             @UserEmail String email
     ) {
 
-        UpdateCommunityAnswerDto.Response response = apiCommunityAnswerService.updateAnswer(request, answerId, email);
+        UpdateCommunityAnswerDto.Response response = apiCommunityAnswerService.updateAnswer(answerId, email, request);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

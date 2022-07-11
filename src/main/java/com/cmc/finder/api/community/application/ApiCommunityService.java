@@ -1,18 +1,18 @@
 package com.cmc.finder.api.community.application;
 
 import com.cmc.finder.api.community.dto.*;
-import com.cmc.finder.domain.community.application.*;
+import com.cmc.finder.domain.community.application.service.*;
 import com.cmc.finder.domain.community.entity.*;
 import com.cmc.finder.domain.community.exception.CommunityImageExceedNumberException;
+import com.cmc.finder.domain.community.repository.CommunityImageRepository;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
-import com.cmc.finder.global.error.exception.AuthenticationException;
+import com.cmc.finder.global.aspect.CheckCommunityAdmin;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -50,6 +50,7 @@ public class ApiCommunityService {
 
         // 이미지 생성 및 저장
         request.getCommunityImages().stream().forEach(multipartFile -> {
+
             String imageName = s3Uploader.uploadFile(multipartFile, PATH);
             String url = s3Uploader.getUrl(PATH, imageName);
 
@@ -101,24 +102,16 @@ public class ApiCommunityService {
         return CommunityDetailDto.of(community, answers, likeUser, saveUser);
     }
 
-
+    @CheckCommunityAdmin
     @Transactional
-    public UpdateCommunityDto.Response updateCommunity(Long communityId, UpdateCommunityDto.Request request, String email) {
-
-
-        User user = userService.getUserByEmail(Email.of(email));
-        Community community = communityService.getCommunityFetchUser(communityId);
-
-        // 유저 검증
-        if (community.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.COMMUNITY_USER_NOT_WRITER);
-        }
+    public UpdateCommunityDto.Response updateCommunity(Long communityId, String email, UpdateCommunityDto.Request request) {
 
         // 질문 정보 변경
         Community updatedCommunity = updateCommunityInfo(communityId, request);
         updateCommunityImages(updatedCommunity, request);
 
         // 이미지 10개 초과 검증
+
         if (updatedCommunity.getCommunityImages().size() > 10) {
             throw new CommunityImageExceedNumberException(ErrorCode.COMMUNITY_IMAGE_EXCEED_NUMBER);
         }
@@ -137,6 +130,7 @@ public class ApiCommunityService {
 
     private void updateCommunityImages(Community community, UpdateCommunityDto.Request request) {
 
+
         // 질문 이미지 삭제
         request.getDeleteImageIds().stream().forEach(deleteImgId -> {
 
@@ -146,6 +140,7 @@ public class ApiCommunityService {
 
         });
 
+
         // 질문 이미지 추가
         request.getAddImages().stream().forEach(multipartFile -> {
 
@@ -154,25 +149,23 @@ public class ApiCommunityService {
 
             CommunityImage communityImage = CommunityImage.createCommunityImage(community, imageName, url);
             CommunityImage savedCommunityImage = communityImageService.save(communityImage);
-            community.addCommunityImage(savedCommunityImage);
+            savedCommunityImage.setCommunity(community);
 
         });
 
     }
 
-
+    @CheckCommunityAdmin
     @Transactional
     public DeleteCommunityRes deleteCommunity(Long communityId, String email) {
 
-        User user = userService.getUserByEmail(Email.of(email));
-        Community community = communityService.getCommunityFetchUser(communityId);
-
-        // 유저 검증
-        if (community.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.COMMUNITY_USER_NOT_WRITER);
-        }
-
+        Community community = communityService.getCommunity(communityId);
         communityService.deleteCommunity(community);
+
+        // 질문 이미지 S3 삭제
+        community.getCommunityImages().stream().forEach(communityImage -> {
+            s3Uploader.deleteFile(communityImage.getImageName(), PATH);
+        });
 
         return DeleteCommunityRes.of();
     }
@@ -187,7 +180,6 @@ public class ApiCommunityService {
             likeService.deleteLike(community, user);
             return AddOrDeleteLikeRes.of(false);
         }
-
 
         Like like = Like.createLike(community, user);
         community.addLike(like);
@@ -222,14 +214,5 @@ public class ApiCommunityService {
 
     }
 
-    public GetCheckWriterRes checkWriter(Long communityId, String email) {
 
-        User user = userService.getUserByEmail(Email.of(email));
-        Boolean check = communityService.isCommunityWriter(communityId, user);
-
-        return GetCheckWriterRes.of(check);
-
-
-
-    }
 }

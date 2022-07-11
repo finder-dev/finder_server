@@ -26,15 +26,6 @@ public class CommunityApi {
 
     private final ApiCommunityService apiCommunityService;
 
-    @GetMapping("/{communityId}/check")
-    public ResponseEntity<ApiResult<GetCheckWriterRes>> checkWriter(
-            @PathVariable Long communityId,
-            @UserEmail String email
-    ){
-        GetCheckWriterRes response = apiCommunityService.checkWriter(communityId, email);
-        return ResponseEntity.ok(ApiUtils.success(response));
-    }
-
     @PostMapping
     public ResponseEntity<ApiResult<CreateCommunityDto.Response>> createCommunity(
             @Valid CreateCommunityDto.Request request,
@@ -92,12 +83,12 @@ public class CommunityApi {
             @UserEmail String email
     ) {
 
-        UpdateCommunityDto.Response response = apiCommunityService.updateCommunity(communityId, request, email);
+        UpdateCommunityDto.Response response = apiCommunityService.updateCommunity(communityId, email, request);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
     @DeleteMapping("/{communityId}")
-    public ResponseEntity<ApiResult<DeleteCommunityRes>> deleteQuestion(
+    public ResponseEntity<ApiResult<DeleteCommunityRes>> deleteCommunity(
             @PathVariable Long communityId,
             @UserEmail String email
     ) {
@@ -138,7 +129,7 @@ public class CommunityApi {
     public ResponseEntity<ApiResult<SaveOrRemoveCommunityRes>> saveOrRemoveCommunity(
             @PathVariable Long communityId,
             @UserEmail String email
-    ){
+    ) {
 
         SaveOrRemoveCommunityRes response = apiCommunityService.saveOrRemoveCommunity(communityId, email);
         return ResponseEntity.ok(ApiUtils.success(response));

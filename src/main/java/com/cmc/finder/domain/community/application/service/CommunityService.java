@@ -1,14 +1,14 @@
-package com.cmc.finder.domain.community.application;
+package com.cmc.finder.domain.community.application.service;
 
 import com.cmc.finder.api.community.dto.CommunitySearchDto;
 import com.cmc.finder.api.community.dto.CommunitySimpleDto;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.repository.CommunityRepository;
 import com.cmc.finder.domain.user.entity.User;
+import com.cmc.finder.global.aspect.CheckCommunityAdmin;
 import com.cmc.finder.global.error.exception.EntityNotFoundException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -61,23 +61,18 @@ public class CommunityService {
         savedCommunity.updateCommunity(updateCommunity);
         return savedCommunity;
 
-
     }
 
     @Transactional
     public void deleteCommunity(Community community) {
-
         communityRepository.delete(community);
     }
 
     public Slice<CommunitySearchDto.Response> getSearchCommunityList(Pageable pageable, String search) {
-
         return communityRepository.findSearchCommunity(pageable, search);
-
     }
 
     public Slice<Community> getCommunityByUser(User user, Pageable pageable) {
-
         return communityRepository.findAllByUserOrderByCommunityIdDesc(user, pageable);
     }
 

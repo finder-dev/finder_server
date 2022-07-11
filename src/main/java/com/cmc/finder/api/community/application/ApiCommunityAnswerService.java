@@ -1,8 +1,8 @@
 package com.cmc.finder.api.community.application;
 
 import com.cmc.finder.api.community.dto.*;
-import com.cmc.finder.domain.community.application.CommunityAnswerService;
-import com.cmc.finder.domain.community.application.CommunityService;
+import com.cmc.finder.domain.community.application.service.CommunityAnswerService;
+import com.cmc.finder.domain.community.application.service.CommunityService;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.model.Email;
@@ -11,6 +11,7 @@ import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.global.aspect.CheckCommunityAdmin;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.notification.FcmService;
@@ -58,33 +59,23 @@ public class ApiCommunityAnswerService {
         notificationService.create(notification);
     }
 
+    @CheckCommunityAdmin
     @Transactional
     public DeleteCommunityAnswerRes deleteAnswer(Long answerId, String email) {
 
-        User user = userService.getUserByEmail(Email.of(email));
         CommunityAnswer communityAnswer = communityAnswerService.getCommunityAnswerFetchUser(answerId);
-
-        if (communityAnswer.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.ANSWER_USER_NOT_WRITER);
-        }
-
         communityAnswerService.deleteCommunityAnswer(communityAnswer);
         return DeleteCommunityAnswerRes.of();
 
     }
 
+    @CheckCommunityAdmin
     @Transactional
-    public UpdateCommunityAnswerDto.Response updateAnswer(UpdateCommunityAnswerDto.Request request, Long answerId, String email) {
+    public UpdateCommunityAnswerDto.Response updateAnswer(Long answerId, String email, UpdateCommunityAnswerDto.Request request) {
 
-        User user = userService.getUserByEmail(Email.of(email));
-        CommunityAnswer communityAnswer = communityAnswerService.getCommunityAnswerFetchUser(answerId);
-
-        if (user != communityAnswer.getUser()) {
-            throw new AuthenticationException(ErrorCode.ANSWER_USER_NOT_WRITER);
-        }
 
         CommunityAnswer updateCommunityAnswer = request.toEntity();
-        CommunityAnswer updatedCommunityAnswer = communityAnswerService.updateCommunityAnswer(communityAnswer, updateCommunityAnswer);
+        CommunityAnswer updatedCommunityAnswer = communityAnswerService.updateCommunityAnswer(answerId, updateCommunityAnswer);
 
         return UpdateCommunityAnswerDto.Response.of(updatedCommunityAnswer);
     }

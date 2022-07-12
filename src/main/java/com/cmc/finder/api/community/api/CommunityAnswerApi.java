@@ -78,5 +78,16 @@ public class CommunityAnswerApi {
     }
 
 
+    @PostMapping("/answers/{answerId}/report")
+    public ResponseEntity<ApiResult<ReportCommunityRes>> reportAnswer(
+            @PathVariable Long answerId,
+            @UserEmail String email
+    ){
+        ReportCommunityRes response = apiCommunityAnswerService.reportAnswer(answerId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+
 
 }

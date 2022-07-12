@@ -2,7 +2,7 @@
 
 CURRENT_PORT=$(cat /home/ec2-user/service_url.inc | grep -Po '[0-9]+' | tail -1)
 # JASYPT_PWD=${cat /home/ec2-user/pwd.inc | grep -Po '[a-z]+[0-9]+' | tail -1}
-JASYPT_PWD=$JASYPT_PWD
+# JASYPT_PWD=$JASYPT_PWD
 TARGET_PORT=0
 
 echo "> Current port of running WAS is ${CURRENT_PORT}."
@@ -22,6 +22,6 @@ if [ ! -z ${TARGET_PID} ]; then
   sudo kill ${TARGET_PID}
 fi
 
-nohup java -jar -Dspring.profiles.active=prod -Djasypt.encryptor.password=${JASYPT_PWD} -Dserver.port=${TARGET_PORT} /home/ec2-user/playground-logging/build/libs/finder-0.0.1-SNAPSHOT.jar > /home/ec2-user/nohup.out 2>&1 &
+nohup java -jar -Dspring.profiles.active=prod -Djasypt.encryptor.password=$JASYPT_PWD -Dserver.port=${TARGET_PORT} /home/ec2-user/playground-logging/build/libs/finder-0.0.1-SNAPSHOT.jar > /home/ec2-user/nohup.out 2>&1 &
 echo "> Now new WAS runs at ${TARGET_PORT}."
 exit 0

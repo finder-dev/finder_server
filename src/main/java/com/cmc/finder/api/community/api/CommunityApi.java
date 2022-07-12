@@ -135,6 +135,15 @@ public class CommunityApi {
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
+    @PostMapping("/{communityId}/report")
+    public ResponseEntity<ApiResult<ReportCommunityRes>> reportCommunity(
+            @PathVariable Long communityId,
+            @UserEmail String email
+    ){
+        ReportCommunityRes response = apiCommunityService.reportCommunity(communityId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
 
 
 }

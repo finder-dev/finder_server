@@ -77,7 +77,10 @@ public enum ErrorCode {
     COMMUNITY_IMAGE_NOT_FOUND(401, "해당 글에 대한 이미지를 찾을 수 없습니다."),
     COMMUNITY_ANSWER_NOT_FOUND(401, "해당 답변을 찾을 수 없습니다." ),
     LIKE_NOT_FOUND(401, "해당 좋아요를 찾을 수 없습니다."),
-    SAVE_COMMUNITY_NOT_FOUND(401, "저장된 커뮤니티 글을 찾을 수 없습니다.");
+    SAVE_COMMUNITY_NOT_FOUND(401, "저장된 커뮤니티 글을 찾을 수 없습니다."),
+
+    // 신고
+    ALREADY_RECEIVED_REPORT(400, "이미 접수된 신고입니다.");
 
 
     ErrorCode(int status, String message) {

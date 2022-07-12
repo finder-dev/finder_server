@@ -10,14 +10,13 @@ import com.cmc.finder.domain.debate.application.DebateAnswerService;
 import com.cmc.finder.domain.debate.application.DebateService;
 import com.cmc.finder.domain.debate.application.DebaterService;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.model.Type;
+import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -133,7 +132,7 @@ public class ApiDebateService {
 
 
     private void createNotification(Debate debate, String content) {
-        Notification notification = Notification.createNotification(debate.getTitle(), content, Type.DEBATE, debate.getWriter(), debate.getDebateId());
+        Notification notification = Notification.createNotification(debate.getTitle(), content, ServiceType.DEBATE, debate.getWriter(), debate.getDebateId());
         notificationService.create(notification);
     }
 

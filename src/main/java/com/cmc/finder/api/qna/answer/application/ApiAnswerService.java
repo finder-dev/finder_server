@@ -1,7 +1,7 @@
 package com.cmc.finder.api.qna.answer.application;
 
 import com.cmc.finder.api.qna.answer.dto.*;
-import com.cmc.finder.domain.model.Type;
+import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.qna.answer.entity.Answer;
@@ -76,7 +76,7 @@ public class ApiAnswerService {
         Answer savedAnswer = answerService.create(saveAnswer);
 
         // 알림 생성
-        fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(), QUESTION_ANSWER, Type.QUESTION.getValue());
+        fcmService.sendMessageTo(question.getUser().getFcmToken(), question.getTitle(), QUESTION_ANSWER, ServiceType.QUESTION.getValue());
         createNotification(question, QUESTION_ANSWER);
 
         return AnswerCreateDto.Response.of(savedAnswer);
@@ -133,7 +133,7 @@ public class ApiAnswerService {
         answer.addReply(saveAnswerReply);
 
         createNotification(answer.getQuestion(), QUESTION_ANSWER_REPLY);
-        fcmService.sendMessageTo(answer.getUser().getFcmToken(), answer.getQuestion().getTitle(), QUESTION_ANSWER_REPLY, Type.QUESTION.getValue());
+        fcmService.sendMessageTo(answer.getUser().getFcmToken(), answer.getQuestion().getTitle(), QUESTION_ANSWER_REPLY, ServiceType.QUESTION.getValue());
 
         return ReplyCreateDto.Response.of(saveAnswerReply);
 
@@ -187,7 +187,7 @@ public class ApiAnswerService {
 
 
     private void createNotification(Question question, String content) {
-        Notification notification = Notification.createNotification(question.getTitle(), content, Type.QUESTION, question.getUser(), question.getQuestionId());
+        Notification notification = Notification.createNotification(question.getTitle(), content, ServiceType.QUESTION, question.getUser(), question.getQuestionId());
         notificationService.create(notification);
     }
 }

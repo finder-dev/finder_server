@@ -6,7 +6,7 @@ import com.cmc.finder.domain.debate.application.DebateService;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.model.Type;
+import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.user.entity.User;
@@ -95,7 +95,7 @@ public class ApiDebateAnswerService {
 
 
     private void createNotification(Debate debate, String content) {
-        Notification notification = Notification.createNotification(debate.getTitle(), content, Type.DEBATE, debate.getWriter(), debate.getDebateId());
+        Notification notification = Notification.createNotification(debate.getTitle(), content, ServiceType.DEBATE, debate.getWriter(), debate.getDebateId());
         notificationService.create(notification);
     }
 

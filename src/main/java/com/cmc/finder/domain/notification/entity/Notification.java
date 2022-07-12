@@ -1,7 +1,7 @@
 package com.cmc.finder.domain.notification.entity;
 
 import com.cmc.finder.domain.base.BaseTimeEntity;
-import com.cmc.finder.domain.model.Type;
+import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class Notification extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
-    private Type type;
+    private ServiceType serviceType;
 
     @Column(nullable = false)
     private String title;
@@ -39,21 +39,20 @@ public class Notification extends BaseTimeEntity {
     private Long serviceId;
 
     @Builder
-    public Notification(Long notificationId, Type type, String title, String content, User user, Long serviceId) {
-        this.notificationId = notificationId;
-        this.type = type;
+    public Notification(ServiceType serviceType, String title, String content, User user, Long serviceId) {
+        this.serviceType = serviceType;
         this.title = title;
         this.content = content;
         this.user = user;
         this.serviceId = serviceId;
     }
 
-    public static Notification createNotification(String title, String content, Type type, User user, Long serviceId) {
+    public static Notification createNotification(String title, String content, ServiceType serviceType, User user, Long serviceId) {
 
         return Notification.builder()
                 .title(title)
                 .content(content)
-                .type(type)
+                .serviceType(serviceType)
                 .user(user)
                 .serviceId(serviceId)
                 .build();

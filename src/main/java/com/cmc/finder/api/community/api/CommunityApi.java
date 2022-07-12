@@ -7,7 +7,6 @@ import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
@@ -135,6 +134,7 @@ public class CommunityApi {
         SaveOrRemoveCommunityRes response = apiCommunityService.saveOrRemoveCommunity(communityId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
+
 
 
 }

@@ -6,7 +6,7 @@ import com.cmc.finder.domain.community.application.CommunityService;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.model.Type;
+import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.user.entity.User;
@@ -53,7 +53,7 @@ public class ApiCommunityAnswerService {
 
 
     private void createNotification(Community community, String content) {
-        Notification notification = Notification.createNotification(community.getTitle(), content, Type.COMMUNITY, community.getUser(), community.getCommunityId());
+        Notification notification = Notification.createNotification(community.getTitle(), content, ServiceType.COMMUNITY, community.getUser(), community.getCommunityId());
         notificationService.create(notification);
     }
 

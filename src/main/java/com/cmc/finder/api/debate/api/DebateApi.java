@@ -1,8 +1,7 @@
 package com.cmc.finder.api.debate.api;
 
-import com.cmc.finder.api.community.dto.ReportCommunityRes;
 import com.cmc.finder.api.debate.dto.*;
-import com.cmc.finder.api.debate.application.ApiDebateService;
+import com.cmc.finder.api.debate.application.service.ApiDebateService;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;

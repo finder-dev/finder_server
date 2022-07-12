@@ -1,4 +1,4 @@
-package com.cmc.finder.api.debate.application;
+package com.cmc.finder.api.debate.application.service;
 
 import com.cmc.finder.api.debate.dto.*;
 import com.cmc.finder.domain.debate.application.DebateAnswerService;
@@ -14,6 +14,7 @@ import com.cmc.finder.domain.report.entity.Report;
 import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.global.advice.CheckDebateAdmin;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.notification.FcmService;
@@ -33,8 +34,8 @@ public class ApiDebateAnswerService {
     private final DebateAnswerService debateAnswerService;
     private final UserService userService;
     private final NotificationService notificationService;
-    private final FcmService fcmService;
     private final ReportService reportService;
+    private final FcmService fcmService;
 
 
     @Transactional
@@ -58,19 +59,11 @@ public class ApiDebateAnswerService {
     }
 
 
+    @CheckDebateAdmin
     @Transactional
     public DeleteDebateAnswerRes deleteDebateAnswer(Long debateAnswerId, String email) {
 
-        User user = userService.getUserByEmail(Email.of(email));
-        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswerFetchUser(debateAnswerId);
-
-        // 유저 검증
-        if (debateAnswer.getUser() != user) {
-            throw new AuthenticationException(ErrorCode.DEBATE_ANSWER_USER_NOT_WRITER);
-        }
-
-        debateAnswerService.deleteDebateAnswer(debateAnswer);
-
+        debateAnswerService.deleteDebateAnswer(debateAnswerId);
         return DeleteDebateAnswerRes.of();
 
     }
@@ -104,18 +97,12 @@ public class ApiDebateAnswerService {
     }
 
 
+    @CheckDebateAdmin
     @Transactional
-    public UpdateDebateAnswerDto.Response updateDebateAnswer(UpdateDebateAnswerDto.Request request, Long debateAnswerId, String email) {
-
-        User user = userService.getUserByEmail(Email.of(email));
-        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswerFetchUser(debateAnswerId);
-
-        if (user != debateAnswer.getUser()) {
-            throw new AuthenticationException(ErrorCode.DEBATE_ANSWER_USER_NOT_WRITER);
-        }
+    public UpdateDebateAnswerDto.Response updateDebateAnswer(Long debateAnswerId, String email, UpdateDebateAnswerDto.Request request) {
 
         DebateAnswer updateDebateAnswer = request.toEntity();
-        DebateAnswer updatedDebateAnswer = debateAnswerService.updateDebateAnswer(debateAnswer, updateDebateAnswer);
+        DebateAnswer updatedDebateAnswer = debateAnswerService.updateDebateAnswer(debateAnswerId, updateDebateAnswer);
 
         return UpdateDebateAnswerDto.Response.of(updatedDebateAnswer);
 
@@ -134,7 +121,6 @@ public class ApiDebateAnswerService {
         }
 
         reportService.create(report);
-
         return ReportDebateRes.of();
 
     }

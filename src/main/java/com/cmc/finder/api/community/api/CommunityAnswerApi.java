@@ -18,15 +18,6 @@ public class CommunityAnswerApi {
 
     private final ApiCommunityAnswerService apiCommunityAnswerService;
 
-    @GetMapping("/answers/{answerId}/check")
-    public ResponseEntity<ApiResult<GetCheckWriterRes>> checkWriter(
-            @PathVariable Long answerId,
-            @UserEmail String email
-    ){
-        GetCheckWriterRes response = apiCommunityAnswerService.checkWriter(answerId, email);
-        return ResponseEntity.ok(ApiUtils.success(response));
-    }
-
 
     @PostMapping("/{communityId}/answers")
     public ResponseEntity<ApiResult<CreateCommunityAnswerDto.Response>> createCommunityAnswer(

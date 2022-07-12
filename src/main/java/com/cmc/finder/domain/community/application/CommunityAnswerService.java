@@ -25,6 +25,7 @@ public class CommunityAnswerService {
 
     }
 
+    @Transactional
     public CommunityAnswer saveCommunityAnswer(CommunityAnswer saveCommunityAnswer) {
 
         return communityAnswerRepository.save(saveCommunityAnswer);
@@ -43,7 +44,9 @@ public class CommunityAnswerService {
     }
 
     @Transactional
-    public void deleteCommunityAnswer(CommunityAnswer communityAnswer) {
+    public void deleteCommunityAnswer(Long answerId) {
+
+        CommunityAnswer communityAnswer = getCommunityAnswer(answerId);
         communityAnswerRepository.delete(communityAnswer);
 
     }
@@ -57,13 +60,4 @@ public class CommunityAnswerService {
     }
 
 
-    public Boolean isCommunityAnswerWriter(Long answerId, User user) {
-        CommunityAnswer answer = getCommunityAnswerFetchUser(answerId);
-
-        if (answer.getUser() == user) {
-            return true;
-        }
-        return false;
-
-    }
 }

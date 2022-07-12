@@ -6,12 +6,16 @@ import com.cmc.finder.domain.community.application.CommunityService;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.model.Type;
+import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.application.NotificationService;
+import com.cmc.finder.domain.report.application.ReportService;
+import com.cmc.finder.domain.report.entity.Report;
+import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.aspect.CheckCommunityAdmin;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +34,7 @@ public class ApiCommunityAnswerService {
     private final CommunityAnswerService communityAnswerService;
     private final FcmService fcmService;
     private final NotificationService notificationService;
+    private final ReportService reportService;
 
     @Transactional
     public CreateCommunityAnswerDto.Response createCommunityAnswer(Long communityId, CreateCommunityAnswerDto.Request request, String email) {
@@ -53,7 +58,7 @@ public class ApiCommunityAnswerService {
 
 
     private void createNotification(Community community, String content) {
-        Notification notification = Notification.createNotification(community.getTitle(), content, Type.COMMUNITY, community.getUser(), community.getCommunityId());
+        Notification notification = Notification.createNotification(community.getTitle(), content, ServiceType.COMMUNITY, community.getUser(), community.getCommunityId());
         notificationService.create(notification);
     }
 
@@ -108,4 +113,18 @@ public class ApiCommunityAnswerService {
 
     }
 
+    public ReportCommunityRes reportAnswer(Long answerId, String email) {
+        CommunityAnswer communityAnswer = communityAnswerService.getCommunityAnswerFetchUser(answerId);
+        User from = userService.getUserByEmail(Email.of(email));
+
+        Report report = Report.createReport(ServiceType.COMMUNITY_ANSWER, from, communityAnswer.getUser(), answerId);
+
+        if (reportService.alreadyReceivedReport(report)) {
+            throw new AlreadyReceivedReportException(ErrorCode.ALREADY_RECEIVED_REPORT);
+        }
+
+        reportService.create(report);
+        return ReportCommunityRes.of();
+
+    }
 }

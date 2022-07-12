@@ -5,6 +5,10 @@ import com.cmc.finder.domain.community.application.*;
 import com.cmc.finder.domain.community.entity.*;
 import com.cmc.finder.domain.community.exception.CommunityImageExceedNumberException;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.domain.model.ServiceType;
+import com.cmc.finder.domain.report.application.ReportService;
+import com.cmc.finder.domain.report.entity.Report;
+import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.aspect.CheckCommunityAdmin;
@@ -34,6 +38,7 @@ public class ApiCommunityService {
     private final CommunityImageService communityImageService;
     private final SaveCommunityService saveCommunityService;
     private final LikeService likeService;
+    private final ReportService reportService;
 
     private final S3Uploader s3Uploader;
 
@@ -214,4 +219,21 @@ public class ApiCommunityService {
     }
 
 
+    @Transactional
+    public ReportCommunityRes reportCommunity(Long communityId, String email) {
+
+        Community community = communityService.getCommunityFetchUser(communityId);
+        User from = userService.getUserByEmail(Email.of(email));
+
+        Report report = Report.createReport(ServiceType.COMMUNITY, from, community.getUser(), communityId);
+
+        if (reportService.alreadyReceivedReport(report)) {
+            throw new AlreadyReceivedReportException(ErrorCode.ALREADY_RECEIVED_REPORT);
+        }
+
+        reportService.create(report);
+
+        return ReportCommunityRes.of();
+
+    }
 }

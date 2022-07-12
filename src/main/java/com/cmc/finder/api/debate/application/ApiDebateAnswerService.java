@@ -6,9 +6,12 @@ import com.cmc.finder.domain.debate.application.DebateService;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
 import com.cmc.finder.domain.model.Email;
-import com.cmc.finder.domain.model.Type;
+import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.notification.entity.Notification;
+import com.cmc.finder.domain.report.application.ReportService;
+import com.cmc.finder.domain.report.entity.Report;
+import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
@@ -31,6 +34,7 @@ public class ApiDebateAnswerService {
     private final UserService userService;
     private final NotificationService notificationService;
     private final FcmService fcmService;
+    private final ReportService reportService;
 
 
     @Transactional
@@ -95,7 +99,7 @@ public class ApiDebateAnswerService {
 
 
     private void createNotification(Debate debate, String content) {
-        Notification notification = Notification.createNotification(debate.getTitle(), content, Type.DEBATE, debate.getWriter(), debate.getDebateId());
+        Notification notification = Notification.createNotification(debate.getTitle(), content, ServiceType.DEBATE, debate.getWriter(), debate.getDebateId());
         notificationService.create(notification);
     }
 
@@ -114,6 +118,24 @@ public class ApiDebateAnswerService {
         DebateAnswer updatedDebateAnswer = debateAnswerService.updateDebateAnswer(debateAnswer, updateDebateAnswer);
 
         return UpdateDebateAnswerDto.Response.of(updatedDebateAnswer);
+
+    }
+
+    @Transactional
+    public ReportDebateRes reportAnswer(Long debateAnswerId, String email) {
+
+        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswerFetchUser(debateAnswerId);
+        User from = userService.getUserByEmail(Email.of(email));
+
+        Report report = Report.createReport(ServiceType.DEBATE_ANSWER, from, debateAnswer.getUser(), debateAnswerId);
+
+        if (reportService.alreadyReceivedReport(report)) {
+            throw new AlreadyReceivedReportException(ErrorCode.ALREADY_RECEIVED_REPORT);
+        }
+
+        reportService.create(report);
+
+        return ReportDebateRes.of();
 
     }
 

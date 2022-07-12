@@ -1,6 +1,6 @@
 package com.cmc.finder.api.user.dto;
 
-import com.cmc.finder.domain.model.Type;
+import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.global.util.DateTimeUtils;
 import lombok.Builder;
@@ -17,12 +17,12 @@ public class GetNotificationRes {
 
     private Long serviceId;
 
-    private Type serviceType;
+    private ServiceType serviceType;
 
     private String createTime;
 
     @Builder
-    public GetNotificationRes(String title, String content, Long serviceId, Type serviceType, String createTime) {
+    public GetNotificationRes(String title, String content, Long serviceId, ServiceType serviceType, String createTime) {
         this.title = title;
         this.content = content;
         this.serviceId = serviceId;
@@ -36,7 +36,7 @@ public class GetNotificationRes {
                 .title(notification.getTitle())
                 .content(notification.getContent())
                 .serviceId(notification.getServiceId())
-                .serviceType(notification.getType())
+                .serviceType(notification.getServiceType())
                 .createTime(DateTimeUtils.convertToLocalDatetimeToTime(notification.getCreateTime()))
                 .build();
 

@@ -1,5 +1,6 @@
 package com.cmc.finder.api.debate.api;
 
+import com.cmc.finder.api.community.dto.ReportCommunityRes;
 import com.cmc.finder.api.debate.dto.*;
 import com.cmc.finder.api.debate.application.ApiDebateService;
 import com.cmc.finder.global.resolver.UserEmail;
@@ -92,6 +93,16 @@ public class DebateApi {
 
         DebateDetailDto debateDetailDto = apiDebateService.getDebateDetail(debateId);
         return ResponseEntity.ok(ApiUtils.success(debateDetailDto));
+
+    }
+
+    @PostMapping("/{debateId}/report")
+    public ResponseEntity<ApiResult<ReportDebateRes>> reportDebate(
+            @PathVariable Long debateId,
+            @UserEmail String email
+    ){
+        ReportDebateRes response = apiDebateService.reportDebate(debateId, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 

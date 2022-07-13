@@ -8,6 +8,8 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,9 @@ public class UpdateCommunityDto {
         @Enum(enumClass = MBTI.class, message = "잘못된 Enum 값 입니다.")
         private String mbti;
 
+        @NotNull(message = "질문여부는 필수값 입니다.")
+        private Boolean isQuestion;
+
         private List<Long> deleteImageIds = new ArrayList<>();
 
         @Size(max = 10, message = "최대 10개까지 사진을 추가하실 수 있습니다.")
@@ -40,6 +45,7 @@ public class UpdateCommunityDto {
                     .title(title)
                     .content(content)
                     .mbti(MBTI.from(mbti))
+                    .isQuestion(isQuestion)
                     .build();
         }
 

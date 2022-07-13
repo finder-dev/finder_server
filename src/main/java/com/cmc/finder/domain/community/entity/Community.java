@@ -110,6 +110,7 @@ public class Community extends BaseTimeEntity {
         this.title = updateCommunity.getTitle();
         this.content = updateCommunity.getContent();
         this.mbti = updateCommunity.getMbti();
+        this.isQuestion = updateCommunity.getIsQuestion();
 
     }
 

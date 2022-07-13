@@ -19,27 +19,22 @@ public class UserValidator {
     private final UserRepository userRepository;
 
     public void validateDuplicateUser(Email email, String nickname) {
+        validateDuplicateEmail(email);
+        validateDuplicateNickname(nickname);
 
-        if (validateDuplicateEmail(email)) {
+    }
+
+    public void validateDuplicateEmail(Email email) {
+        if (userRepository.existsByEmail(email)) {
             throw new EmailDuplicateException();
         }
 
-        if (validateDuplicateNickname(nickname)) {
+    }
+
+    public void validateDuplicateNickname(String nickname) {
+        if (userRepository.existsByNickname(nickname)) {
             throw new NicknameDuplicateException();
         }
-
-    }
-
-    public Boolean validateDuplicateEmail(Email email) {
-
-        return userRepository.existsByEmail(email);
-
-    }
-
-    public Boolean validateDuplicateNickname(String nickname) {
-
-        return userRepository.existsByNickname(nickname);
-
     }
 
     public Boolean validateDuplicateKeywords(List<String> keywords) {

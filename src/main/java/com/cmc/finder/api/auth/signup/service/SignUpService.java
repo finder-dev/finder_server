@@ -76,20 +76,14 @@ public class SignUpService {
 
 
     public NicknameCheckDto.Response checkNickname(NicknameCheckDto.Request request) {
-
-        if (userValidator.validateDuplicateNickname(request.getNickname())) {
-            throw new NicknameDuplicateException();
-        }
+        userValidator.validateDuplicateNickname(request.getNickname());
 
         return NicknameCheckDto.Response.of();
 
     }
 
     public EmailSendDto.Response sendEmail(String email) {
-
-        if (userValidator.validateDuplicateEmail(Email.of(email))) {
-            throw new EmailDuplicateException();
-        }
+        userValidator.validateDuplicateEmail(Email.of(email));
 
         String code = emailService.sendSimpleMessage(email);
         authCodeService.saveAuthCode(AuthCode.of(email, code));

@@ -37,7 +37,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .from(community)
                 .join(community.user, user).fetchJoin()
                 .where(
-                       user.isDeleted.isFalse(), findByMBTI(mbti)
+                       findByMBTI(mbti)
                 )
                 .groupBy(community.communityId)
                 .orderBy(listSort(pageable))

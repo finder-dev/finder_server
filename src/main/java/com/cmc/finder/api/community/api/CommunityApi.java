@@ -76,7 +76,7 @@ public class CommunityApi {
 
     }
 
-    @PutMapping("/{communityId}")
+    @PatchMapping("/{communityId}")
     public ResponseEntity<ApiResult<UpdateCommunityDto.Response>> updateCommunity(
             @PathVariable Long communityId,
             @Valid UpdateCommunityDto.Request request,

@@ -12,6 +12,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "user")
@@ -102,5 +103,10 @@ public class User extends BaseTimeEntity {
         this.mbti = updateUser.getMbti();
         this.nickname = updateUser.getNickname();
 
+    }
+
+    public void quit() {
+        this.email = Email.getRandomValue();
+        this.isDeleted = true;
     }
 }

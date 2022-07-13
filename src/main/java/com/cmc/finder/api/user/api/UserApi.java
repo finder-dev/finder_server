@@ -49,6 +49,16 @@ public class UserApi {
 
     }
 
+    @DeleteMapping
+    public ResponseEntity<ApiResult<DeleteUserRes>> deleteUser(
+            @UserEmail String email
+
+    ) {
+        DeleteUserRes response = userInfoService.deleteUser(email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
 
     @PatchMapping("/profileImg")
     public ResponseEntity<ApiResult<UpdateProfileImgDto.Response>> updateProfile(

@@ -98,4 +98,9 @@ public class User extends BaseTimeEntity {
         this.fcmToken = fcmToken;
     }
 
+    public void update(User updateUser) {
+        this.mbti = updateUser.getMbti();
+        this.nickname = updateUser.getNickname();
+
+    }
 }

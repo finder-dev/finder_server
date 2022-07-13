@@ -1,7 +1,6 @@
 package com.cmc.finder.api.debate.api;
 
-import com.cmc.finder.api.community.dto.ReportCommunityRes;
-import com.cmc.finder.api.debate.application.ApiDebateAnswerService;
+import com.cmc.finder.api.debate.application.service.ApiDebateAnswerService;
 import com.cmc.finder.api.debate.dto.*;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
@@ -64,7 +63,7 @@ public class DebateAnswerApi {
             @UserEmail String email
     ) {
 
-        UpdateDebateAnswerDto.Response response = apiDebateAnswerService.updateDebateAnswer(request, debateAnswerId, email);
+        UpdateDebateAnswerDto.Response response = apiDebateAnswerService.updateDebateAnswer(debateAnswerId, email, request);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

@@ -14,7 +14,7 @@ import com.cmc.finder.domain.report.entity.Report;
 import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
-import com.cmc.finder.global.aspect.CheckCommunityAdmin;
+import com.cmc.finder.global.advice.CheckCommunityAdmin;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
@@ -66,8 +66,7 @@ public class ApiCommunityAnswerService {
     @Transactional
     public DeleteCommunityAnswerRes deleteAnswer(Long answerId, String email) {
 
-        CommunityAnswer communityAnswer = communityAnswerService.getCommunityAnswerFetchUser(answerId);
-        communityAnswerService.deleteCommunityAnswer(communityAnswer);
+        communityAnswerService.deleteCommunityAnswer(answerId);
         return DeleteCommunityAnswerRes.of();
 
     }
@@ -75,7 +74,6 @@ public class ApiCommunityAnswerService {
     @CheckCommunityAdmin
     @Transactional
     public UpdateCommunityAnswerDto.Response updateAnswer(Long answerId, String email, UpdateCommunityAnswerDto.Request request) {
-
 
         CommunityAnswer updateCommunityAnswer = request.toEntity();
         CommunityAnswer updatedCommunityAnswer = communityAnswerService.updateCommunityAnswer(answerId, updateCommunityAnswer);
@@ -103,16 +101,7 @@ public class ApiCommunityAnswerService {
         return CreateCommunityReplyDto.Response.of(saveReply);
     }
 
-
-    public GetCheckWriterRes checkWriter(Long answerId, String email) {
-
-        User user = userService.getUserByEmail(Email.of(email));
-        Boolean check = communityAnswerService.isCommunityAnswerWriter(answerId, user);
-
-        return GetCheckWriterRes.of(check);
-
-    }
-
+    @Transactional
     public ReportCommunityRes reportAnswer(Long answerId, String email) {
         CommunityAnswer communityAnswer = communityAnswerService.getCommunityAnswerFetchUser(answerId);
         User from = userService.getUserByEmail(Email.of(email));

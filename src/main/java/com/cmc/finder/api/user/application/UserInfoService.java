@@ -1,9 +1,6 @@
 package com.cmc.finder.api.user.application;
 
-import com.cmc.finder.api.user.dto.GetUserInfoRes;
-import com.cmc.finder.api.user.dto.MBTIUpdateDto;
-import com.cmc.finder.api.user.dto.NicknameUpdateDto;
-import com.cmc.finder.api.user.dto.ProfileImgUpdateDto;
+import com.cmc.finder.api.user.dto.*;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.entity.User;
@@ -32,7 +29,7 @@ public class UserInfoService {
     private final S3Uploader s3Uploader;
 
     @Transactional
-    public ProfileImgUpdateDto.Response updateProfileImg(ProfileImgUpdateDto.Request request, String email) {
+    public UpdateProfileImgDto.Response updateProfileImg(UpdateProfileImgDto.Request request, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
 
@@ -48,35 +45,33 @@ public class UserInfoService {
         user.updateProfileImage(imageName);
 
         String path = s3Uploader.getUrl(PATH, imageName);
-        return ProfileImgUpdateDto.Response.of(path);
+        return UpdateProfileImgDto.Response.of(path);
 
     }
 
     @Transactional
-    public NicknameUpdateDto.Response updateNickname(NicknameUpdateDto.Request request, String email) {
+    public UpdateNicknameDto.Response updateNickname(UpdateNicknameDto.Request request, String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
         String nickname = request.getNickname();
 
         // nickname 중복 확인
-        if (userValidator.validateDuplicateNickname(nickname)) {
-            throw new NicknameDuplicateException();
-        }
+        userValidator.validateDuplicateNickname(nickname);
 
         user.updateNickname(nickname);
 
-        return NicknameUpdateDto.Response.of(nickname);
+        return UpdateNicknameDto.Response.of(nickname);
 
     }
 
     @Transactional
-    public MBTIUpdateDto.Response updateMBTI(MBTIUpdateDto.Request request, String email) {
+    public UpdateMBTIDto.Response updateMBTI(UpdateMBTIDto.Request request, String email) {
         User user = userService.getUserByEmail(Email.of(email));
 
         MBTI mbti = MBTI.from(request.getMbti());
         user.updateMBTI(mbti);
 
-        return MBTIUpdateDto.Response.of(mbti);
+        return UpdateMBTIDto.Response.of(mbti);
 
     }
 
@@ -84,6 +79,15 @@ public class UserInfoService {
 
         User user = userService.getUserByEmail(Email.of(email));
         return GetUserInfoRes.of(user);
+
+    }
+
+    @Transactional
+    public UpdateUserDto.Response updateUser(UpdateUserDto.Request request, String email) {
+        User updateUser = request.toEntity();
+        User updatedUser = userService.updateUser(email, updateUser);
+
+        return UpdateUserDto.Response.of(updatedUser);
 
     }
 }

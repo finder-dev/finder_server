@@ -20,7 +20,6 @@ public class UserService {
     private final UserValidator userValidator;
 
     public void register(User user) {
-
         validateRegisterMember(user);
         userRepository.save(user);
 
@@ -40,4 +39,14 @@ public class UserService {
     }
 
 
+    @Transactional
+    public User updateUser(String email, User updateUser) {
+        userValidator.validateDuplicateNickname(updateUser.getNickname());
+
+        User savedUser = getUserByEmail(Email.of(email));
+        savedUser.update(updateUser);
+
+        return savedUser;
+
+    }
 }

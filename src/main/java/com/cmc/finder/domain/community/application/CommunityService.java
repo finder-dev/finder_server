@@ -5,7 +5,6 @@ import com.cmc.finder.api.community.dto.CommunitySimpleDto;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.repository.CommunityRepository;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.global.aspect.CheckCommunityAdmin;
 import com.cmc.finder.global.error.exception.EntityNotFoundException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;

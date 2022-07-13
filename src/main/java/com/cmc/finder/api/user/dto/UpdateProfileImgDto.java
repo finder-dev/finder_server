@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotNull;
 
 
-public class ProfileImgUpdateDto {
+public class UpdateProfileImgDto {
 
     @Getter @Setter
     public static class Request {

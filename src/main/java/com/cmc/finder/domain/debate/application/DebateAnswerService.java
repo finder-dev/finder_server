@@ -40,13 +40,15 @@ public class DebateAnswerService {
 
 
     @Transactional
-    public void deleteDebateAnswer(DebateAnswer debateAnswer) {
+    public void deleteDebateAnswer(Long debateAnswerId) {
+        DebateAnswer debateAnswer = getDebateAnswer(debateAnswerId);
         debateAnswerRepository.delete(debateAnswer);
     }
 
     @Transactional
-    public DebateAnswer updateDebateAnswer(DebateAnswer debateAnswer, DebateAnswer updateDebateAnswer) {
+    public DebateAnswer updateDebateAnswer(Long debateAnswerId, DebateAnswer updateDebateAnswer) {
 
+        DebateAnswer debateAnswer = getDebateAnswer(debateAnswerId);
         debateAnswer.updateDebateAnswer(updateDebateAnswer);
         return debateAnswer;
     }

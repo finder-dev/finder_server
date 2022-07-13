@@ -19,7 +19,7 @@ public class ReportService {
         reportRepository.save(report);
     }
 
-    public boolean alreadyReceivedReport(Report report) {
+    public Boolean alreadyReceivedReport(Report report) {
         return reportRepository.existsByFromAndServiceTypeAndServiceId(report.getFrom(), report.getServiceType(), report.getServiceId());
 
     }

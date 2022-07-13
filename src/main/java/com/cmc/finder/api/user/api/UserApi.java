@@ -8,7 +8,6 @@ import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,35 +38,47 @@ public class UserApi {
 
     }
 
-    @PatchMapping("/profileImg")
-    public ResponseEntity<ApiResult<ProfileImgUpdateDto.Response>> updateProfile(
-            @Valid ProfileImgUpdateDto.Request request,
+    @PatchMapping
+    public ResponseEntity<ApiResult<UpdateUserDto.Response>> updateUser(
+            UpdateUserDto.Request request,
             @UserEmail String email
     ) {
 
-        ProfileImgUpdateDto.Response response = userInfoService.updateProfileImg(request, email);
+        UpdateUserDto.Response response = userInfoService.updateUser(request, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+
+    @PatchMapping("/profileImg")
+    public ResponseEntity<ApiResult<UpdateProfileImgDto.Response>> updateProfile(
+            @Valid UpdateProfileImgDto.Request request,
+            @UserEmail String email
+    ) {
+
+        UpdateProfileImgDto.Response response = userInfoService.updateProfileImg(request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
     @PatchMapping("/nickname")
-    public ResponseEntity<ApiResult<NicknameUpdateDto.Response>> updateNickname(
-            @Valid NicknameUpdateDto.Request request,
+    public ResponseEntity<ApiResult<UpdateNicknameDto.Response>> updateNickname(
+            @Valid UpdateNicknameDto.Request request,
             @UserEmail String email
     ) {
 
-        NicknameUpdateDto.Response response = userInfoService.updateNickname(request, email);
+        UpdateNicknameDto.Response response = userInfoService.updateNickname(request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
     @PatchMapping("/mbti")
-    public ResponseEntity<ApiResult<MBTIUpdateDto.Response>> updateMBTI(
-            @Valid MBTIUpdateDto.Request request,
+    public ResponseEntity<ApiResult<UpdateMBTIDto.Response>> updateMBTI(
+            @Valid UpdateMBTIDto.Request request,
             @UserEmail String email
     ) {
 
-        MBTIUpdateDto.Response response = userInfoService.updateMBTI(request, email);
+        UpdateMBTIDto.Response response = userInfoService.updateMBTI(request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

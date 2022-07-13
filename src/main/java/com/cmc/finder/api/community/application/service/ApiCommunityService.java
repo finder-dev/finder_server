@@ -11,7 +11,7 @@ import com.cmc.finder.domain.report.entity.Report;
 import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
-import com.cmc.finder.global.aspect.CheckCommunityAdmin;
+import com.cmc.finder.global.advice.CheckCommunityAdmin;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
 import lombok.RequiredArgsConstructor;

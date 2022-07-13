@@ -23,7 +23,7 @@ public class Debate extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long debateId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String title;
 
     @Enumerated(EnumType.STRING)
@@ -36,11 +36,10 @@ public class Debate extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User writer;
 
-    //TODO 글자수 제한
-    @Column(name = "OPTION_A", nullable = false)
+    @Column(name = "OPTION_A", nullable = false, length = 8)
     private String optionA;
 
-    @Column(name = "OPTION_B", nullable = false)
+    @Column(name = "OPTION_B", nullable = false, length = 8)
     private String optionB;
 
     @OneToMany(

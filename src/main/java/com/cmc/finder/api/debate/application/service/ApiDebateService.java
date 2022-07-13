@@ -1,8 +1,6 @@
-package com.cmc.finder.api.debate.application;
+package com.cmc.finder.api.debate.application.service;
 
-import com.cmc.finder.api.community.dto.ReportCommunityRes;
 import com.cmc.finder.api.debate.dto.*;
-import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.debate.entity.Debate;
@@ -41,10 +39,10 @@ public class ApiDebateService {
     private final DebateAnswerService debateAnswerService;
     private final UserService userService;
     private final FcmService fcmService;
-    private final NotificationService notificationService;
     private final ReportService reportService;
 
 
+    @Transactional
     public CreateDebateDto.Response createDebate(CreateDebateDto.Request request, String email) {
         User user = userService.getUserByEmail(Email.of(email));
 
@@ -137,11 +135,6 @@ public class ApiDebateService {
         return GetHotDebateRes.of(debate, countA, countB, join);
     }
 
-
-    private void createNotification(Debate debate, String content) {
-        Notification notification = Notification.createNotification(debate.getTitle(), content, ServiceType.DEBATE, debate.getWriter(), debate.getDebateId());
-        notificationService.create(notification);
-    }
 
     @Transactional
     public ReportDebateRes reportDebate(Long debateId, String email) {

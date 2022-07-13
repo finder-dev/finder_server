@@ -1,9 +1,11 @@
-package com.cmc.finder.api.community.application.advisor;
+package com.cmc.finder.api.debate.application.advisor;
 
 import com.cmc.finder.domain.community.application.CommunityAnswerService;
 import com.cmc.finder.domain.community.application.CommunityService;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
+import com.cmc.finder.domain.debate.application.DebateAnswerService;
+import com.cmc.finder.domain.debate.entity.DebateAnswer;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
@@ -18,40 +20,26 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class CheckCommunityAdminAdvisor {
+public class CheckDebateAdminAdvisor {
 
     private final UserService userService;
-    private final CommunityService communityService;
-    private final CommunityAnswerService communityAnswerService;
+    private final DebateAnswerService debateAnswerService;
 
-    @Before("@annotation(com.cmc.finder.global.advice.CheckCommunityAdmin)")
+    @Before("@annotation(com.cmc.finder.global.advice.CheckDebateAdmin)")
     public void checkAdminCommunityUser(JoinPoint joinPoint) {
 
         Object[] args = joinPoint.getArgs();
+        Long answerId = (Long) args[0];
         String email = (String) args[1];
         User checkUser = userService.getUserByEmail(Email.of(email));
 
-        if (joinPoint.getSignature().getName().contains("Community")) {
+        DebateAnswer debateAnswer = debateAnswerService.getDebateAnswerFetchUser(answerId);
 
-            Long communityId = (Long) args[0];
-            Community community = communityService.getCommunityFetchUser(communityId);
-
-            // 유저 검증
-            if (checkUser != community.getUser()) {
-                throw new AuthenticationException(ErrorCode.COMMUNITY_USER_NOT_WRITER);
-            }
-
-        } else {
-
-            Long answerId = (Long) args[0];
-            CommunityAnswer communityAnswer = communityAnswerService.getCommunityAnswerFetchUser(answerId);
-            // 유저 검증
-            if (checkUser != communityAnswer.getUser()) {
-
-                throw new AuthenticationException(ErrorCode.ANSWER_USER_NOT_WRITER);
-            }
-
+        // 유저 검증
+        if (checkUser != debateAnswer.getUser()) {
+            throw new AuthenticationException(ErrorCode.DEBATE_ANSWER_USER_NOT_WRITER);
         }
+
 
     }
 }

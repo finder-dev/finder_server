@@ -2,6 +2,7 @@ package com.cmc.finder.api.auth.logout.service;
 
 import com.cmc.finder.api.auth.logout.dto.LogoutResponse;
 import com.cmc.finder.domain.jwt.application.RefreshTokenRedisService;
+import com.cmc.finder.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class LogoutService {
 
+    private final UserService userService;
     private final RefreshTokenRedisService refreshTokenRedisService;
 
     @Transactional

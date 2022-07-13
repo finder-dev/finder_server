@@ -72,7 +72,6 @@ public class ApiCommunityService {
 
     public Slice<CommunitySimpleDto.Response> getCommunityList(Pageable pageable, String mbti, String email) {
         User user = userService.getUserByEmail(Email.of(email));
-
         return communityService.getCommunityList(pageable, mbti, user);
 
     }

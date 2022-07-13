@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Embeddable
 @Getter
@@ -36,6 +37,10 @@ public class Email {
     public String getId() {
         final int index = value.indexOf("@");
         return index == -1 ? null : value.substring(0, index);
+    }
+
+    public static Email getRandomValue() {
+        return of(UUID.randomUUID().toString());
     }
 
 }

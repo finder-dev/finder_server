@@ -33,7 +33,7 @@ public class CommunityAnswerApi {
 
     @PatchMapping("/answers/{answerId}")
     public ResponseEntity<ApiResult<UpdateCommunityAnswerDto.Response>> updateAnswer(
-            @Valid UpdateCommunityAnswerDto.Request request,
+            @RequestBody @Valid UpdateCommunityAnswerDto.Request request,
             @PathVariable Long answerId,
             @UserEmail String email
     ) {

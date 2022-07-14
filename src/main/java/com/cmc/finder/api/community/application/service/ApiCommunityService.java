@@ -53,7 +53,7 @@ public class ApiCommunityService {
         Community saveCommunity = Community.createCommunity(community, user);
 
         // 이미지 생성 및 저장
-        request.getCommunityImages().stream().forEach(multipartFile -> {
+        request.getCommunityImages().forEach(multipartFile -> {
 
             String imageName = s3Uploader.uploadFile(multipartFile, PATH);
             String url = s3Uploader.getUrl(PATH, imageName);
@@ -78,8 +78,7 @@ public class ApiCommunityService {
 
     public List<GetHotCommunityRes> getHotCommunityList() {
         List<Community> hotCommunity = communityService.getHotCommunity();
-        return hotCommunity.stream().map(community ->
-                        GetHotCommunityRes.of(community)).
+        return hotCommunity.stream().map(GetHotCommunityRes::of).
                 collect(Collectors.toList());
 
     }
@@ -114,7 +113,6 @@ public class ApiCommunityService {
         updateCommunityImages(updatedCommunity, request);
 
         // 이미지 10개 초과 검증
-
         if (updatedCommunity.getCommunityImages().size() > 10) {
             throw new CommunityImageExceedNumberException(ErrorCode.COMMUNITY_IMAGE_EXCEED_NUMBER);
         }
@@ -133,9 +131,8 @@ public class ApiCommunityService {
 
     private void updateCommunityImages(Community community, UpdateCommunityDto.Request request) {
 
-
         // 질문 이미지 삭제
-        request.getDeleteImageIds().stream().forEach(deleteImgId -> {
+        request.getDeleteImageIds().forEach(deleteImgId -> {
 
             CommunityImage communityImage = communityImageService.getCommunityImage(deleteImgId);
             s3Uploader.deleteFile(communityImage.getImageName(), PATH);
@@ -145,14 +142,13 @@ public class ApiCommunityService {
 
 
         // 질문 이미지 추가
-        request.getAddImages().stream().forEach(multipartFile -> {
+        request.getAddImages().forEach(multipartFile -> {
 
             String imageName = s3Uploader.uploadFile(multipartFile, PATH);
             String url = s3Uploader.getUrl(PATH, imageName);
 
             CommunityImage communityImage = CommunityImage.createCommunityImage(community, imageName, url);
-            CommunityImage savedCommunityImage = communityImageService.save(communityImage);
-            savedCommunityImage.setCommunity(community);
+            community.addCommunityImage(communityImage);
 
         });
 
@@ -166,7 +162,7 @@ public class ApiCommunityService {
         communityService.deleteCommunity(community);
 
         // 질문 이미지 S3 삭제
-        community.getCommunityImages().stream().forEach(communityImage -> {
+        community.getCommunityImages().forEach(communityImage -> {
             s3Uploader.deleteFile(communityImage.getImageName(), PATH);
         });
 

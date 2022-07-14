@@ -66,20 +66,16 @@ public class UpdateCommunityDto {
 
         private MBTI mbti;
 
-        private List<UpdateImageDto> updateImgDtos = new ArrayList<>();
+        private Boolean isQuestion;
 
         public static Response of(Community community) {
-
-            List<UpdateImageDto> updateImageDtos = community.getCommunityImages().stream().map(communityImage  ->
-                    UpdateImageDto.of(communityImage)
-            ).collect(Collectors.toList());
 
             return Response.builder()
                     .communityId(community.getCommunityId())
                     .title(community.getTitle())
                     .content(community.getContent())
                     .mbti(community.getMbti())
-                    .updateImgDtos(updateImageDtos)
+                    .isQuestion(community.getIsQuestion())
                     .build();
 
         }

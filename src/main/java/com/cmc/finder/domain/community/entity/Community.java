@@ -46,25 +46,25 @@ public class Community extends BaseTimeEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<CommunityImage> communityImages = new ArrayList<>();
+    private final List<CommunityImage> communityImages = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "community",
             cascade = CascadeType.ALL
     )
-    private List<CommunityAnswer> communityAnswers = new ArrayList<>();
+    private final List<CommunityAnswer> communityAnswers = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "community",
             cascade = CascadeType.ALL
     )
-    private List<Like> likeList = new ArrayList<>();
+    private final List<Like> likeList = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "community",
             cascade = CascadeType.ALL
     )
-    private List<SaveCommunity> saveCommunityList = new ArrayList<>();
+    private final List<SaveCommunity> saveCommunityList = new ArrayList<>();
 
     public void addSaveCommunity(SaveCommunity saveCommunity) {
         saveCommunityList.add(saveCommunity);

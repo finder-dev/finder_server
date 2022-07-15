@@ -96,9 +96,9 @@ public class DebateDetailDto {
     @Setter
     public static class AnswerHistDto {
 
-        private Long debateAnswerId;
+        private Long answerId;
 
-        private String debateAnswerContent;
+        private String answerContent;
 
         private Long userId;
 
@@ -112,10 +112,10 @@ public class DebateDetailDto {
 
 
         @Builder
-        public AnswerHistDto(Long debateAnswerId, String debateAnswerContent, Long userId, MBTI userMBTI, String userNickname,
+        public AnswerHistDto(Long answerId, String answerContent, Long userId, MBTI userMBTI, String userNickname,
                              List<ReplyHistDto> replyHistDtos, LocalDateTime createTime) {
-            this.debateAnswerId = debateAnswerId;
-            this.debateAnswerContent = debateAnswerContent;
+            this.answerId = answerId;
+            this.answerContent = answerContent;
             this.userMBTI = userMBTI;
             this.userId = userId;
             this.userNickname = userNickname;
@@ -131,8 +131,8 @@ public class DebateDetailDto {
             ).collect(Collectors.toList());
 
             return AnswerHistDto.builder()
-                    .debateAnswerId(answer.getDebateAnswerId())
-                    .debateAnswerContent(answer.getContent())
+                    .answerId(answer.getDebateAnswerId())
+                    .answerContent(answer.getContent())
                     .userId(answer.getUser().getUserId())
                     .userMBTI(answer.getUser().getMbti())
                     .userNickname(answer.getUser().getNickname())

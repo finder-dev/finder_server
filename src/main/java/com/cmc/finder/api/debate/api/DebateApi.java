@@ -51,8 +51,6 @@ public class DebateApi {
             @Valid DebateSimpleDto.Request request,
             Optional<Integer> page
     ) {
-
-
         Pageable pageable = PageRequest.of(
                 page.isPresent() ? page.get() : 0,
                 SET_PAGE_ITEM_MAX_COUNT);

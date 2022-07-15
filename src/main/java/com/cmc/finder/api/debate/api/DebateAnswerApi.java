@@ -21,7 +21,7 @@ public class DebateAnswerApi {
     @PostMapping("/{debateId}/answers")
     public ResponseEntity<ApiResult<CreateDebateAnswerDto.Response>> createDebateAnswer(
             @PathVariable Long debateId,
-            @Valid CreateDebateAnswerDto.Request request,
+            @RequestBody @Valid CreateDebateAnswerDto.Request request,
             @UserEmail String email
     ){
 
@@ -46,7 +46,7 @@ public class DebateAnswerApi {
 
     @PostMapping("/answers/{debateAnswerId}/reply")
     public ResponseEntity<ApiResult<CreateDebateReplyDto.Response>> createDebateReply(
-            @Valid CreateDebateReplyDto.Request request,
+            @RequestBody @Valid CreateDebateReplyDto.Request request,
             @PathVariable Long debateAnswerId,
             @UserEmail String email
     ) {
@@ -58,7 +58,7 @@ public class DebateAnswerApi {
 
     @PatchMapping("/answers/{debateAnswerId}")
     public ResponseEntity<ApiResult<UpdateDebateAnswerDto.Response>> updateDebateAnswer(
-            @Valid UpdateDebateAnswerDto.Request request,
+            @RequestBody @Valid UpdateDebateAnswerDto.Request request,
             @PathVariable Long debateAnswerId,
             @UserEmail String email
     ) {

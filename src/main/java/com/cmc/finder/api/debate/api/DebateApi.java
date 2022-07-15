@@ -61,18 +61,6 @@ public class DebateApi {
 
     }
 
-    //    //TODO 토론 삭제는 없나?
-//    @DeleteMapping("/{debateId}")
-//    public ResponseEntity<ApiResult<DebateDeleteDto>> deleteDebate(
-//            @PathVariable Long debateId,
-//            @UserEmail String email
-//    ) {
-//
-//        DebateDeleteDto response = apiDebateService.deleteDebate(debateId, email);
-//        return ResponseEntity.ok(ApiUtils.success(response));
-//    }
-
-
     @GetMapping("/hot")
     public ResponseEntity<ApiResult<GetHotDebateRes>> getHotDebate(
             @UserEmail String email
@@ -84,10 +72,12 @@ public class DebateApi {
 
     @GetMapping("/{debateId}")
     public ResponseEntity<ApiResult<DebateDetailDto>> getDebateDetail(
-            @PathVariable Long debateId
+            @PathVariable Long debateId,
+            @UserEmail String email
+
     ) {
 
-        DebateDetailDto debateDetailDto = apiDebateService.getDebateDetail(debateId);
+        DebateDetailDto debateDetailDto = apiDebateService.getDebateDetail(debateId, email);
         return ResponseEntity.ok(ApiUtils.success(debateDetailDto));
 
     }

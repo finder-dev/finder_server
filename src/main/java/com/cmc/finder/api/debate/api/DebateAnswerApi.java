@@ -31,39 +31,37 @@ public class DebateAnswerApi {
     }
 
 
-    @DeleteMapping("/answers/{debateAnswerId}")
+    @DeleteMapping("/answers/{answerId}")
     public ResponseEntity<ApiResult<DeleteDebateAnswerRes>> deleteDebateAnswer(
-            @PathVariable Long debateAnswerId,
+            @PathVariable Long answerId,
             @UserEmail String email
     ) {
 
-        DeleteDebateAnswerRes response = apiDebateAnswerService.deleteDebateAnswer(debateAnswerId, email);
+        DeleteDebateAnswerRes response = apiDebateAnswerService.deleteDebateAnswer(answerId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
 
 
 
-    @PostMapping("/answers/{debateAnswerId}/reply")
+    @PostMapping("/answers/{answerId}/reply")
     public ResponseEntity<ApiResult<CreateDebateReplyDto.Response>> createDebateReply(
             @RequestBody @Valid CreateDebateReplyDto.Request request,
-            @PathVariable Long debateAnswerId,
+            @PathVariable Long answerId,
             @UserEmail String email
     ) {
-
-        CreateDebateReplyDto.Response response = apiDebateAnswerService.createDebateReply(debateAnswerId, request, email);
+        CreateDebateReplyDto.Response response = apiDebateAnswerService.createDebateReply(answerId, request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
 
-    @PatchMapping("/answers/{debateAnswerId}")
+    @PatchMapping("/answers/{answerId}")
     public ResponseEntity<ApiResult<UpdateDebateAnswerDto.Response>> updateDebateAnswer(
             @RequestBody @Valid UpdateDebateAnswerDto.Request request,
-            @PathVariable Long debateAnswerId,
+            @PathVariable Long answerId,
             @UserEmail String email
     ) {
-
-        UpdateDebateAnswerDto.Response response = apiDebateAnswerService.updateDebateAnswer(debateAnswerId, email, request);
+        UpdateDebateAnswerDto.Response response = apiDebateAnswerService.updateDebateAnswer(answerId, email, request);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

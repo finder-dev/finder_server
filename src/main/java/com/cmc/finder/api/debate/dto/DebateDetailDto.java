@@ -2,6 +2,7 @@ package com.cmc.finder.api.debate.dto;
 
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
 import com.cmc.finder.domain.debate.entity.Debate;
+import com.cmc.finder.domain.debate.entity.Debater;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.global.util.DateTimeUtils;
 import lombok.Builder;
@@ -38,13 +39,18 @@ public class DebateDetailDto {
 
     private MBTI writerMBTI;
 
+    private Boolean join;
+
+    private String joinOption;
+
     private String deadline;
 
     private List<AnswerHistDto> answerHistDtos = new ArrayList<>();
 
     @Builder
     public DebateDetailDto(Long debateId, String debateTitle, String optionA, Long optionACount, String optionB, Long optionBCount,
-                           Integer answerCount, Long writerId, String writerNickname, MBTI writerMBTI, LocalDateTime createTime, List<AnswerHistDto> answerHistDtos) {
+                           Integer answerCount, Long writerId, String writerNickname, MBTI writerMBTI,
+                           Boolean join, String joinOption, LocalDateTime createTime, List<AnswerHistDto> answerHistDtos) {
         this.debateId = debateId;
         this.debateTitle = debateTitle;
         this.optionA = optionA;
@@ -55,11 +61,14 @@ public class DebateDetailDto {
         this.writerId = writerId;
         this.writerNickname = writerNickname;
         this.writerMBTI = writerMBTI;
+        this.join = join;
+        this.joinOption = joinOption;
         this.deadline = DateTimeUtils.convertToLocalDateTimeToDeadline(createTime);
         this.answerHistDtos = answerHistDtos;
     }
 
-    public static DebateDetailDto of(Debate debate, List<DebateAnswer> answers, Long optionACount, Long optionBCount) {
+    public static DebateDetailDto of(Debate debate, List<DebateAnswer> answers,
+                                     Boolean join, Long optionACount, Long optionBCount, Debater debater) {
 
         List<DebateDetailDto.AnswerHistDto> answerHistDtos = answers.stream().map(answer ->
                 AnswerHistDto.of(answer)
@@ -76,6 +85,8 @@ public class DebateDetailDto {
                 .writerId(debate.getWriter().getUserId())
                 .writerNickname(debate.getWriter().getNickname())
                 .writerMBTI(debate.getWriter().getMbti())
+                .join(join)
+                .joinOption(debater != null ? debater.getOption().toString() : null)
                 .createTime(debate.getCreateTime())
                 .answerHistDtos(answerHistDtos)
                 .build();
@@ -85,9 +96,9 @@ public class DebateDetailDto {
     @Setter
     public static class AnswerHistDto {
 
-        private Long debateAnswerId;
+        private Long answerId;
 
-        private String debateAnswerContent;
+        private String answerContent;
 
         private Long userId;
 
@@ -101,10 +112,10 @@ public class DebateDetailDto {
 
 
         @Builder
-        public AnswerHistDto(Long debateAnswerId, String debateAnswerContent, Long userId, MBTI userMBTI, String userNickname,
+        public AnswerHistDto(Long answerId, String answerContent, Long userId, MBTI userMBTI, String userNickname,
                              List<ReplyHistDto> replyHistDtos, LocalDateTime createTime) {
-            this.debateAnswerId = debateAnswerId;
-            this.debateAnswerContent = debateAnswerContent;
+            this.answerId = answerId;
+            this.answerContent = answerContent;
             this.userMBTI = userMBTI;
             this.userId = userId;
             this.userNickname = userNickname;
@@ -120,8 +131,8 @@ public class DebateDetailDto {
             ).collect(Collectors.toList());
 
             return AnswerHistDto.builder()
-                    .debateAnswerId(answer.getDebateAnswerId())
-                    .debateAnswerContent(answer.getContent())
+                    .answerId(answer.getDebateAnswerId())
+                    .answerContent(answer.getContent())
                     .userId(answer.getUser().getUserId())
                     .userMBTI(answer.getUser().getMbti())
                     .userNickname(answer.getUser().getNickname())

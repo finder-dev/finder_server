@@ -35,9 +35,7 @@ public class DebaterService {
                 .orElseThrow(()-> new EntityNotFoundException(ErrorCode.DEBATER_NOT_FOUND));
     }
 
-
     public void deleteDebater(Debater debater) {
-
         debaterRepository.delete(debater);
     }
 

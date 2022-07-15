@@ -34,7 +34,8 @@ public class GetHotDebateRes {
     private String deadline;
 
     //TODO 수정
-    public static GetHotDebateRes of(Debate debate, Long optionACount, Long optionBCount, Boolean alreadyJoin) {
+    public static GetHotDebateRes of(Debate debate, Long optionACount, Long optionBCount,
+                                     Boolean alreadyJoin, Debater debater) {
 
         GetHotDebateRes res = GetHotDebateRes.builder()
                 .debateId(debate.getDebateId())
@@ -45,8 +46,8 @@ public class GetHotDebateRes {
                 .optionBCount(optionBCount)
                 .deadline(DateTimeUtils.convertToLocalDateTimeToDeadline(debate.getCreateTime()))
                 .join(alreadyJoin)
+                .joinOption(debater != null ? debater.getOption().toString() : null)
                 .build();
-
 
         return res;
 

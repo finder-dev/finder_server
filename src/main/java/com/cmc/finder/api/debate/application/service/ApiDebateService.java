@@ -102,9 +102,17 @@ public class ApiDebateService {
 
     }
 
-    public DebateDetailDto getDebateDetail(Long debateId) {
+    public DebateDetailDto getDebateDetail(Long debateId, String email) {
 
         Debate debate = debateService.getDebate(debateId);
+        User user = userService.getUserByEmail(Email.of(email));
+        Debater debater = null;
+        Boolean join = debaterService.existsDebater(user, debate);
+
+        if (join) {
+            debater = debaterService.getDebater(user, debate);
+        }
+
 
         // 답변 조회 -> id 역순
         List<DebateAnswer> debateAnswers = debateAnswerService.getDebateAnswersByDebate(debate);
@@ -115,7 +123,7 @@ public class ApiDebateService {
         // Option B count
         Long countB = debaterService.getDebaterCountByOption(debate, Option.B);
 
-        return DebateDetailDto.of(debate, debateAnswers, countA, countB);
+        return DebateDetailDto.of(debate, debateAnswers, join, countA, countB, debater);
     }
 
 
@@ -125,6 +133,11 @@ public class ApiDebateService {
         User user = userService.getUserByEmail(Email.of(email));
 
         Boolean join = debaterService.existsDebater(user, debate);
+        Debater debater = null;
+
+        if (join) {
+            debater = debaterService.getDebater(user, debate);
+        }
 
         // Option A count
         Long countA = debaterService.getDebaterCountByOption(debate, Option.A);
@@ -132,7 +145,7 @@ public class ApiDebateService {
         // Option B count
         Long countB = debaterService.getDebaterCountByOption(debate, Option.B);
 
-        return GetHotDebateRes.of(debate, countA, countB, join);
+        return GetHotDebateRes.of(debate, countA, countB, join, debater);
     }
 
 

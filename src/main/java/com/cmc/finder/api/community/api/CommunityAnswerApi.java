@@ -16,6 +16,8 @@ import javax.validation.Valid;
 @RequestMapping("/api/community")
 public class CommunityAnswerApi {
 
+    // TODO 이후에 데이터 json으로 받도록 변경
+
     private final ApiCommunityAnswerService apiCommunityAnswerService;
 
     @PostMapping("/{communityId}/answers")

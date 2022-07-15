@@ -28,10 +28,9 @@ public class DebateApi {
 
     @PostMapping
     public ResponseEntity<ApiResult<CreateDebateDto.Response>> createDebate(
-            @Valid CreateDebateDto.Request request,
+            @RequestBody @Valid CreateDebateDto.Request request,
             @UserEmail String email
     ) {
-
         CreateDebateDto.Response response = apiDebateService.createDebate(request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
@@ -39,7 +38,7 @@ public class DebateApi {
     @PostMapping("/{debateId}")
     public ResponseEntity<ApiResult<JoinDebateDto.Response>> joinOrDetachDebate(
             @PathVariable Long debateId,
-            @Valid JoinDebateDto.Request request,
+            @RequestBody @Valid JoinDebateDto.Request request,
             @UserEmail String email
     ) {
 

@@ -18,13 +18,12 @@ public class CommunityAnswerApi {
 
     private final ApiCommunityAnswerService apiCommunityAnswerService;
 
-
     @PostMapping("/{communityId}/answers")
     public ResponseEntity<ApiResult<CreateCommunityAnswerDto.Response>> createCommunityAnswer(
             @PathVariable Long communityId,
             @Valid CreateCommunityAnswerDto.Request request,
             @UserEmail String email
-    ){
+    ) {
 
         CreateCommunityAnswerDto.Response response = apiCommunityAnswerService.createCommunityAnswer(communityId, request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
@@ -48,7 +47,6 @@ public class CommunityAnswerApi {
     public ResponseEntity<ApiResult<DeleteCommunityAnswerRes>> deleteAnswer(
             @PathVariable Long answerId,
             @UserEmail String email
-
     ) {
 
         DeleteCommunityAnswerRes response = apiCommunityAnswerService.deleteAnswer(answerId, email);
@@ -61,7 +59,7 @@ public class CommunityAnswerApi {
             @PathVariable Long answerId,
             @Valid CreateCommunityReplyDto.Request request,
             @UserEmail String email
-    ){
+    ) {
 
         CreateCommunityReplyDto.Response response = apiCommunityAnswerService.createCommunityReply(answerId, request, email);
         return ResponseEntity.ok(ApiUtils.success(response));
@@ -73,12 +71,11 @@ public class CommunityAnswerApi {
     public ResponseEntity<ApiResult<ReportCommunityRes>> reportAnswer(
             @PathVariable Long answerId,
             @UserEmail String email
-    ){
+    ) {
         ReportCommunityRes response = apiCommunityAnswerService.reportAnswer(answerId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
-
 
 
 }

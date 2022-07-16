@@ -1,5 +1,6 @@
 package com.cmc.finder.api.user.api;
 
+import com.cmc.finder.api.message.dto.GetConversationDto;
 import com.cmc.finder.api.user.dto.*;
 import com.cmc.finder.api.user.application.UserActivityService;
 import com.cmc.finder.api.user.application.UserInfoService;
@@ -159,6 +160,24 @@ public class UserApi {
         Slice<GetSaveCommunityRes> response = userActivityService.getSaveCommunity(email, pageable);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
+
+
+    @GetMapping("/activity/message")
+    public ResponseEntity<ApiResult<Slice<GetMessageRes>>> getMessagesByFromUser(
+            @UserEmail String email,
+            Optional<Integer> page
+    ){
+
+        Pageable pageable = PageRequest.of(
+                page.isPresent() ? page.get() : 0,
+                SET_PAGE_ITEM_MAX_COUNT
+        );
+
+        Slice<GetMessageRes> response = userActivityService.getMessageByFromUser(email, pageable);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
 
 
 }

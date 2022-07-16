@@ -80,7 +80,10 @@ public enum ErrorCode {
     SAVE_COMMUNITY_NOT_FOUND(401, "저장된 커뮤니티 글을 찾을 수 없습니다."),
 
     // 신고
-    ALREADY_RECEIVED_REPORT(400, "이미 접수된 신고입니다.");
+    ALREADY_RECEIVED_REPORT(400, "이미 접수된 신고입니다."),
+
+    // 메시지
+    CANT_SEND_ME_MESSAGE(400, "자신에게는 메일을 보낼 수 없습니다.");
 
 
     ErrorCode(int status, String message) {

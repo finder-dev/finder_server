@@ -1,12 +1,13 @@
 package com.cmc.finder.api.user.application;
 
-import com.cmc.finder.api.user.dto.GetNotificationRes;
-import com.cmc.finder.api.user.dto.GetSaveCommunityRes;
-import com.cmc.finder.api.user.dto.GetUserActivityRes;
+import com.cmc.finder.api.message.dto.GetConversationDto;
+import com.cmc.finder.api.user.dto.*;
 import com.cmc.finder.domain.community.application.CommunityService;
 import com.cmc.finder.domain.community.application.SaveCommunityService;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.SaveCommunity;
+import com.cmc.finder.domain.message.application.MessageService;
+import com.cmc.finder.domain.message.entity.Message;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.notification.entity.Notification;
@@ -29,6 +30,7 @@ public class UserActivityService {
     private final SaveCommunityService saveCommunityService;
     private final CommunityService communityService;
     private final NotificationService notificationService;
+    private final MessageService messageService;
 
     public Slice<GetSaveCommunityRes> getSaveCommunity(String email, Pageable pageable) {
 
@@ -58,7 +60,7 @@ public class UserActivityService {
         User user = userService.getUserByEmail(Email.of(email));
         Slice<Community> communityList = communityService.getCommunityByCommentUser(user, pageable);
 
-        List<GetUserActivityRes> res = communityList.stream().map(community -> GetUserActivityRes.of(community)).collect(Collectors.toList());
+        List<GetUserActivityRes> res = communityList.stream().map(GetUserActivityRes::of).collect(Collectors.toList());
         return new SliceImpl<>(res, pageable, communityList.hasNext());
 
     }
@@ -68,11 +70,22 @@ public class UserActivityService {
         User user = userService.getUserByEmail(Email.of(email));
         Slice<Notification> notificaitonList = notificationService.getNotificaitonList(user, pageable);
 
-        List<GetNotificationRes> res = notificaitonList.stream().map(notification -> GetNotificationRes.of(notification)).collect(Collectors.toList());
+        List<GetNotificationRes> res = notificaitonList.stream().map(GetNotificationRes::of).collect(Collectors.toList());
 
         return new SliceImpl<>(res, pageable, notificaitonList.hasNext());
 
     }
+    public Slice<GetMessageRes> getMessageByFromUser(String email, Pageable pageable) {
+
+        User user = userService.getUserByEmail(Email.of(email));
+        Slice<Message> messages = messageService.getMessageByFrom(user, pageable);
+
+        List<GetMessageRes> res = messages.stream().map(GetMessageRes::of).collect(Collectors.toList());
+
+        return new SliceImpl<>(res, pageable, messages.hasNext());
+
+    }
+
 
 
 }

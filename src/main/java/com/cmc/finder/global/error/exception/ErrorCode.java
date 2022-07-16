@@ -61,6 +61,7 @@ public enum ErrorCode {
     DEBATE_ANSWER_REPLY_NOT_FOUND(401, "해당 토론 댓글을 찾을 수 없습니다."),
     DEBATE_REPLY_USER_NOT_WRITER(403, "해당 답변의 댓글에 대한 작성자가 아닙니다."),
     DEBATE_PARTICIPATE_DEBATER_NOT_EXISTS(400, "현재 유저들이 참여한 토론을 찾을 수 없습니다."),
+    SAME_OPTIONS(400, "선택지가 동일한 토론을 생성할 수 없습니다."),
 
     // 알림
     NOTIFICATION_NOT_FOUND(401, "해당 알림을 찾을 수 없습니다."),
@@ -80,7 +81,10 @@ public enum ErrorCode {
     SAVE_COMMUNITY_NOT_FOUND(401, "저장된 커뮤니티 글을 찾을 수 없습니다."),
 
     // 신고
-    ALREADY_RECEIVED_REPORT(400, "이미 접수된 신고입니다.");
+    ALREADY_RECEIVED_REPORT(400, "이미 접수된 신고입니다."),
+
+    // 메시지
+    CANT_SEND_ME_MESSAGE(400, "자신에게는 메일을 보낼 수 없습니다.");
 
 
     ErrorCode(int status, String message) {

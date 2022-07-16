@@ -9,10 +9,9 @@ import com.cmc.finder.domain.debate.entity.Debater;
 import com.cmc.finder.domain.debate.application.DebateAnswerService;
 import com.cmc.finder.domain.debate.application.DebateService;
 import com.cmc.finder.domain.debate.application.DebaterService;
+import com.cmc.finder.domain.debate.exception.SameOptionsException;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.ServiceType;
-import com.cmc.finder.domain.notification.entity.Notification;
-import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.report.application.ReportService;
 import com.cmc.finder.domain.report.entity.Report;
 import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
@@ -45,6 +44,10 @@ public class ApiDebateService {
     @Transactional
     public CreateDebateDto.Response createDebate(CreateDebateDto.Request request, String email) {
         User user = userService.getUserByEmail(Email.of(email));
+
+        if(request.getOptionA().equals(request.getOptionB())) {
+            throw new SameOptionsException(ErrorCode.SAME_OPTIONS);
+        }
 
         // 토론생성
         Debate debate = request.toEntity();

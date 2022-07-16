@@ -40,7 +40,7 @@ public class MessageApi {
 
     @GetMapping
     public ResponseEntity<ApiResult<Slice<GetConversationDto.Response>>> getMessagesByToUser(
-            GetConversationDto.Request request,
+            @Valid GetConversationDto.Request request,
             @UserEmail String email,
             Optional<Integer> page
     ){

@@ -49,10 +49,10 @@ public class ApiMessageService {
 
 
     public Slice<GetConversationDto.Response> getMessageByToUser(String email, GetConversationDto.Request request, Pageable pageable) {
-        User from = userService.getUserByEmail(Email.of(email));
-        User to = userService.getUserById(request.getToUserId());
+        User me = userService.getUserByEmail(Email.of(email));
+        User other = userService.getUserById(request.getUserId());
 
-        Slice<Message> messages = messageService.getMessageByFromOrTo(from, to, pageable);
+        Slice<Message> messages = messageService.getMessageByFromOrTo(me, other, pageable);
 
         List<GetConversationDto.Response> res = messages.stream().map(GetConversationDto.Response::of).collect(Collectors.toList());
 

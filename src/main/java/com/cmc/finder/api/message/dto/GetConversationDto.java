@@ -15,7 +15,7 @@ public class GetConversationDto {
     public static class Request {
 
         @NotNull(message = "보낸 유저의 아이디는 필수값 입니다.")
-        private Long toUserId;
+        private Long userId;
 
     }
 

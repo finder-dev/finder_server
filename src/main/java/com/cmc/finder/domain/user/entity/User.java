@@ -100,9 +100,13 @@ public class User extends BaseTimeEntity {
     }
 
     public void update(User updateUser) {
+
         this.mbti = updateUser.getMbti();
         this.nickname = updateUser.getNickname();
-        this.password = updateUser.getPassword();
+
+        if (updateUser.getPassword() != null) {
+            this.password = updateUser.getPassword();
+        }
 
     }
 

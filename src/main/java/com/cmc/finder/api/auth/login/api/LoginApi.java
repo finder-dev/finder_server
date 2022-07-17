@@ -22,6 +22,8 @@ public class LoginApi {
     private final LoginService loginService;
     private final TokenValidator tokenValidator;
 
+    //TODO json으로 받도록 변경
+
     @PostMapping("/login")
     public ResponseEntity<ApiResult<LoginDto.Response>> login(
             @Valid LoginDto.Request request

@@ -31,6 +31,8 @@ public class SignUpApi {
 
     }
 
+    //TODO json으로 받도록 변경
+
     @PostMapping("/mail/send")
     public ResponseEntity<ApiResult<EmailSendDto.Response>> sendEmail(
             @Valid EmailSendDto.Request request

@@ -31,7 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(authenticationInterceptor)
                 .order(1)
                 .excludePathPatterns("/api/login", "/api/oauth/login", "/api/signup", "/api/mail/auth",
-                        "/api/mail/send", "/api/health", "/api/token/reissue") // 해당 경로는 인터셉터가 가로채지 않는다.
+                        "/api/duplicated/nickname", "/api/mail/send", "/api/health", "/api/token/reissue") // 해당 경로는 인터셉터가 가로채지 않는다.
                 .addPathPatterns("/api/**");
 
     }

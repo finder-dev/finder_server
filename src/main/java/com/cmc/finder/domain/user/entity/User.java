@@ -36,7 +36,7 @@ public class User extends BaseTimeEntity {
     @Embedded
     private Password password;
 
-    @Column(length = 20, unique = true)
+    @Column(length = 6, unique = true)
     private String nickname;
 
     @Enumerated(EnumType.STRING)
@@ -102,6 +102,7 @@ public class User extends BaseTimeEntity {
     public void update(User updateUser) {
         this.mbti = updateUser.getMbti();
         this.nickname = updateUser.getNickname();
+        this.password = updateUser.getPassword();
 
     }
 

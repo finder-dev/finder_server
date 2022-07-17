@@ -1,6 +1,5 @@
 package com.cmc.finder.api.user.api;
 
-import com.cmc.finder.api.message.dto.GetConversationDto;
 import com.cmc.finder.api.user.dto.*;
 import com.cmc.finder.api.user.application.UserActivityService;
 import com.cmc.finder.api.user.application.UserInfoService;
@@ -41,7 +40,7 @@ public class UserApi {
 
     @PatchMapping
     public ResponseEntity<ApiResult<UpdateUserDto.Response>> updateUser(
-            UpdateUserDto.Request request,
+            @RequestBody @Valid UpdateUserDto.Request request,
             @UserEmail String email
     ) {
 

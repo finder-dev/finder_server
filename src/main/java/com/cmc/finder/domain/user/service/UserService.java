@@ -46,6 +46,7 @@ public class UserService {
 
     @Transactional
     public User updateUser(Email email, User updateUser) {
+
         userValidator.validateDuplicateNickname(updateUser.getNickname());
 
         User savedUser = getUserByEmail(email);

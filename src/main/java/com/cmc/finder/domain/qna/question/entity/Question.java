@@ -85,7 +85,7 @@ public class Question extends BaseTimeEntity {
     }
 
     @Builder
-    public Question(String title, String content, Boolean isQuestion, MBTI mbti, User user) {
+    public Question(String title, String content, MBTI mbti, User user) {
         this.title = title;
         this.content = content;
         this.mbti = mbti;

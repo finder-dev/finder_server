@@ -84,6 +84,8 @@ public class UserInfoService {
 
     @Transactional
     public UpdateUserDto.Response updateUser(UpdateUserDto.Request request, String email) {
+
+
         User updateUser = request.toEntity();
         User updatedUser = userService.updateUser(Email.of(email), updateUser);
 

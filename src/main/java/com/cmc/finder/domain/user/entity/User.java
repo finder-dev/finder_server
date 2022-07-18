@@ -18,8 +18,8 @@ import java.util.UUID;
 @Table(name = "user")
 @Getter
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE member SET is_delete = true WHERE id=?")
-@Where(clause = "is_deleted=false")
+//@SQLDelete(sql = "UPDATE member SET is_delete = true WHERE id=?")
+//@Where(clause = "is_deleted=false")
 public class User extends BaseTimeEntity {
 
     @Id

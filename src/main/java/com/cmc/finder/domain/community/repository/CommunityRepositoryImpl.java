@@ -62,7 +62,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     }
 
     @Override
-    public Slice<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search) {
+    public Slice<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search, User curUser) {
         List<Community> results = queryFactory
                 .select(community)
                 .from(community)
@@ -77,7 +77,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .fetch();
 
         List<CommunitySearchDto.Response> contents = results.stream().map(community ->
-                CommunitySearchDto.Response.of(community)
+                CommunitySearchDto.Response.of(community, curUser)
         ).collect(Collectors.toList());
 
         boolean hasNext = false;

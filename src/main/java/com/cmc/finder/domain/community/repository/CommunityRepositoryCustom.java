@@ -14,6 +14,6 @@ public interface CommunityRepositoryCustom {
 
     Slice<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti, User user);
 
-    Slice<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search);
+    Slice<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search, User user);
 
 }

@@ -93,7 +93,7 @@ public class CommunityDetailDto {
                 .userId(community.getUser().getUserId())
                 .userMBTI(community.getUser().getMbti())
                 .userNickname(community.getUser().getNickname())
-                .answerCount(answers.size())
+                .answerCount(community.getCommunityAnswers().size())
                 .isQuestion(community.getIsQuestion())
                 .createTime(DateTimeUtils.convertToLocalDatetimeToTime(community.getCreateTime()))
                 .answerHistDtos(answerHistDtos)

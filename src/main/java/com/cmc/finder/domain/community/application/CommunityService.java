@@ -67,8 +67,8 @@ public class CommunityService {
         communityRepository.delete(community);
     }
 
-    public Slice<CommunitySearchDto.Response> getSearchCommunityList(Pageable pageable, String search) {
-        return communityRepository.findSearchCommunity(pageable, search);
+    public Slice<CommunitySearchDto.Response> getSearchCommunityList(Pageable pageable, String search, User user) {
+        return communityRepository.findSearchCommunity(pageable, search, user);
     }
 
     public Slice<Community> getCommunityByUser(User user, Pageable pageable) {

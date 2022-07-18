@@ -110,7 +110,9 @@ public class CommunityApi {
     @GetMapping("/search")
     public ResponseEntity<ApiResult<Slice<CommunitySearchDto.Response>>> searchCommunity(
             @Valid CommunitySearchDto.Request request,
-            Optional<Integer> page
+            Optional<Integer> page,
+            @UserEmail String email
+
     ) {
 
         Pageable pageable = PageRequest.of(
@@ -121,7 +123,7 @@ public class CommunityApi {
                         Sort.by(Sort.Direction.DESC, request.getOrderBy())
         );
 
-        Slice<CommunitySearchDto.Response> response = apiCommunityService.searchCommunity(request.getSearchQuery(), pageable);
+        Slice<CommunitySearchDto.Response> response = apiCommunityService.searchCommunity(request.getSearchQuery(), pageable, email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

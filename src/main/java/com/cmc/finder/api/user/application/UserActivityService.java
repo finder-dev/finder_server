@@ -32,13 +32,13 @@ public class UserActivityService {
     private final NotificationService notificationService;
     private final MessageService messageService;
 
-    public Slice<GetSaveCommunityRes> getSaveCommunity(String email, Pageable pageable) {
+    public Slice<GetUserActivityRes> getSaveCommunity(String email, Pageable pageable) {
 
         User user = userService.getUserByEmail(Email.of(email));
         Slice<SaveCommunity> saveCommunityFetchCommunity = saveCommunityService.getSaveCommunityFetchCommunity(user, pageable);
 
-        List<GetSaveCommunityRes> res = saveCommunityFetchCommunity.stream().map(saveCommunity ->
-                GetSaveCommunityRes.of(saveCommunity.getCommunity())).collect(Collectors.toList());
+        List<GetUserActivityRes> res = saveCommunityFetchCommunity.stream().map(saveCommunity ->
+                GetUserActivityRes.of(saveCommunity.getCommunity(), user)).collect(Collectors.toList());
 
         return new SliceImpl<>(res, pageable, saveCommunityFetchCommunity.hasNext());
 
@@ -49,7 +49,7 @@ public class UserActivityService {
         User user = userService.getUserByEmail(Email.of(email));
         Slice<Community> communityList = communityService.getCommunityByUser(user, pageable);
 
-        List<GetUserActivityRes> res = communityList.stream().map(community -> GetUserActivityRes.of(community)).collect(Collectors.toList());
+        List<GetUserActivityRes> res = communityList.stream().map(community -> GetUserActivityRes.of(community, user)).collect(Collectors.toList());
         return new SliceImpl<>(res, pageable, communityList.hasNext());
 
 
@@ -60,7 +60,7 @@ public class UserActivityService {
         User user = userService.getUserByEmail(Email.of(email));
         Slice<Community> communityList = communityService.getCommunityByCommentUser(user, pageable);
 
-        List<GetUserActivityRes> res = communityList.stream().map(GetUserActivityRes::of).collect(Collectors.toList());
+        List<GetUserActivityRes> res = communityList.stream().map(community -> GetUserActivityRes.of(community, user)).collect(Collectors.toList());
         return new SliceImpl<>(res, pageable, communityList.hasNext());
 
     }

@@ -145,18 +145,17 @@ public class UserApi {
     }
 
     @GetMapping("/save")
-    public ResponseEntity<ApiResult<Slice<GetSaveCommunityRes>>> getSaveCommunity(
+    public ResponseEntity<ApiResult<Slice<GetUserActivityRes>>> getSaveCommunity(
             @UserEmail String email,
             Optional<Integer> page
 
     ) {
-
         Pageable pageable = PageRequest.of(
                 page.isPresent() ? page.get() : 0,
                 SET_PAGE_ITEM_MAX_COUNT
         );
 
-        Slice<GetSaveCommunityRes> response = userActivityService.getSaveCommunity(email, pageable);
+        Slice<GetUserActivityRes> response = userActivityService.getSaveCommunity(email, pageable);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 

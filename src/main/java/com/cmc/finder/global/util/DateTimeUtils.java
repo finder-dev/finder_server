@@ -56,7 +56,12 @@ public class DateTimeUtils {
     public static String convertToLocalDateTimeToDeadline(LocalDateTime localDateTime) {
 
         long i = 6 - ChronoUnit.DAYS.between(localDateTime, LocalDateTime.now());
-        return "D-" + i;
+
+        if (i >= 0) {
+            return "D-" + i;
+        }
+        return "마감";
+
 
     }
 

@@ -189,9 +189,10 @@ public class ApiCommunityService {
 
     }
 
-    public Slice<CommunitySearchDto.Response> searchCommunity(String search, Pageable pageable) {
+    public Slice<CommunitySearchDto.Response> searchCommunity(String search, Pageable pageable, String email) {
 
-        return communityService.getSearchCommunityList(pageable, search);
+        User user = userService.getUserByEmail(Email.of(email));
+        return communityService.getSearchCommunityList(pageable, search, user);
 
     }
 

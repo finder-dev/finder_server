@@ -57,11 +57,10 @@ public class DateTimeUtils {
 
         long i = 6 - ChronoUnit.DAYS.between(localDateTime, LocalDateTime.now());
 
-        if (i >= 0) {
-            return "D-" + i;
+        if (i < 0) {
+            return "마감";
         }
-        return "마감";
-
+        return "D-" + i;
 
     }
 

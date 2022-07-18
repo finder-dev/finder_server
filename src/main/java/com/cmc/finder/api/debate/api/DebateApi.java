@@ -76,7 +76,6 @@ public class DebateApi {
             @UserEmail String email
 
     ) {
-
         DebateDetailDto debateDetailDto = apiDebateService.getDebateDetail(debateId, email);
         return ResponseEntity.ok(ApiUtils.success(debateDetailDto));
 

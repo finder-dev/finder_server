@@ -114,4 +114,8 @@ public class User extends BaseTimeEntity {
         this.email = Email.getRandomValue();
         this.isDeleted = true;
     }
+
+    public void updateNotification() {
+        this.isActive = !this.isActive;
+    }
 }

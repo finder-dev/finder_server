@@ -102,4 +102,19 @@ public class UserInfoService {
         userService.deleteUser(Email.of(email));
         return DeleteUserRes.of();
     }
+
+    @Transactional
+    public NotificationOnOffRes onOffNotificaiton(String email) {
+        User user = userService.getUserByEmail(Email.of(email));
+        user.updateNotification();
+
+        return NotificationOnOffRes.of(user.getIsActive());
+    }
+
+    public GetNotificationActiveRes getNotificaitonActive(String email) {
+        User user = userService.getUserByEmail(Email.of(email));
+
+        return GetNotificationActiveRes.of(user);
+    }
+
 }

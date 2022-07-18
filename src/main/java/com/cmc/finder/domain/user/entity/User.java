@@ -110,6 +110,7 @@ public class User extends BaseTimeEntity {
     }
 
     public void quit() {
+        this.nickname = UUID.randomUUID().toString();
         this.email = Email.getRandomValue();
         this.isDeleted = true;
     }

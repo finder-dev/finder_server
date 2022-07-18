@@ -29,22 +29,29 @@ public class UpdateUserDto {
         @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$", message = "비밀번호는 영문, 숫자를 포함하여 8 ~ 16자입니다.")
         private String password;
 
-        public User toEntity() {
+        public User toEntity(Password password) {
 
-            if (password != null) {
-                return User.builder()
-                        .mbti(MBTI.from(mbti))
-                        .nickname(nickname)
-                        .password(Password.builder()
-                                .value(this.password)
-                                .build())
-                        .build();
-            } else {
-                return User.builder()
-                        .mbti(MBTI.from(mbti))
-                        .nickname(nickname)
-                        .build();
-            }
+            return User.builder()
+                    .mbti(MBTI.from(mbti))
+                    .nickname(nickname)
+                    .password(password)
+                    .build();
+
+//            if (password != null) {
+//
+//                return User.builder()
+//                        .mbti(MBTI.from(mbti))
+//                        .nickname(nickname)
+//                        .password(Password.builder()
+//                                .value(this.password)
+//                                .build())
+//                        .build();
+//            } else {
+//                return User.builder()
+//                        .mbti(MBTI.from(mbti))
+//                        .nickname(nickname)
+//                        .build();
+//            }
 
         }
 

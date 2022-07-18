@@ -36,7 +36,7 @@ public class User extends BaseTimeEntity {
     @Embedded
     private Password password;
 
-    @Column(length = 6, unique = true)
+    @Column(length = 40)
     private String nickname;
 
     @Enumerated(EnumType.STRING)
@@ -101,9 +101,8 @@ public class User extends BaseTimeEntity {
 
     public void update(User updateUser) {
 
-        this.mbti = updateUser.getMbti();
-        this.nickname = updateUser.getNickname();
-
+        updateMBTI(updateUser.getMbti());
+        updateNickname(updateUser.getNickname());
         if (updateUser.getPassword() != null) {
             this.password = updateUser.getPassword();
         }
@@ -111,6 +110,7 @@ public class User extends BaseTimeEntity {
     }
 
     public void quit() {
+        this.nickname = String.format("탈퇴한 회원%s", UUID.randomUUID().toString().substring(0, 2));
         this.email = Email.getRandomValue();
         this.isDeleted = true;
     }

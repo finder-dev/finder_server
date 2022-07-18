@@ -3,6 +3,7 @@ package com.cmc.finder.api.user.application;
 import com.cmc.finder.api.user.dto.*;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
+import com.cmc.finder.domain.model.Password;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.exception.NicknameDuplicateException;
 import com.cmc.finder.domain.user.service.UserService;
@@ -85,8 +86,11 @@ public class UserInfoService {
     @Transactional
     public UpdateUserDto.Response updateUser(UpdateUserDto.Request request, String email) {
 
-
-        User updateUser = request.toEntity();
+        Password password = null;
+        if (request.getPassword() != null) {
+            password = Password.builder().value(request.getPassword()).build();
+        }
+        User updateUser = request.toEntity(password);
         User updatedUser = userService.updateUser(Email.of(email), updateUser);
 
         return UpdateUserDto.Response.of(updatedUser);

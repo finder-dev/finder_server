@@ -6,6 +6,7 @@ import com.cmc.finder.domain.user.exception.NicknameDuplicateException;
 import com.cmc.finder.domain.user.repository.UserRepository;
 import com.cmc.finder.domain.model.Email;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

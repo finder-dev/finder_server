@@ -16,7 +16,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-        ddl-auto: update
+        ddl-auto: create
     properties:
         hibernate:
             format_sql: true # sql 예쁘게 출력

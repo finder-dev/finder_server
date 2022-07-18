@@ -165,7 +165,7 @@ public class UserApi {
     public ResponseEntity<ApiResult<Slice<GetMessageRes>>> getMessagesByFromUser(
             @UserEmail String email,
             Optional<Integer> page
-    ){
+    ) {
 
         Pageable pageable = PageRequest.of(
                 page.isPresent() ? page.get() : 0,
@@ -177,6 +177,25 @@ public class UserApi {
 
     }
 
+    @PatchMapping("/notification")
+    public ResponseEntity<ApiResult<NotificationOnOffRes>> onOffNotification(
+            @UserEmail String email
+
+    ){
+        NotificationOnOffRes response = userInfoService.onOffNotificaiton(email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+    @GetMapping("/notification")
+    public ResponseEntity<ApiResult<GetNotificationActiveRes>> getNotificaitonActive(
+            @UserEmail String email
+    ){
+
+        GetNotificationActiveRes response = userInfoService.getNotificaitonActive(email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
 
 
 }

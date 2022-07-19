@@ -2,7 +2,6 @@ package com.cmc.finder.api.message.application;
 
 import com.cmc.finder.api.message.dto.CreateMessageDto;
 import com.cmc.finder.api.message.dto.GetConversationDto;
-import com.cmc.finder.api.user.dto.GetMessageRes;
 import com.cmc.finder.domain.message.application.MessageService;
 import com.cmc.finder.domain.message.entity.Message;
 import com.cmc.finder.domain.message.exception.CantSendMeException;
@@ -54,7 +53,7 @@ public class ApiMessageService {
 
         Slice<Message> messages = messageService.getMessageByFromOrTo(me, other, pageable);
 
-        List<GetConversationDto.Response> res = messages.stream().map(GetConversationDto.Response::of).collect(Collectors.toList());
+        List<GetConversationDto.Response> res = messages.stream().map(GetConversationDto.Response::from).collect(Collectors.toList());
 
         return new SliceImpl<>(res, pageable, messages.hasNext());
     }

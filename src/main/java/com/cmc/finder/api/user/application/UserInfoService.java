@@ -5,7 +5,6 @@ import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.model.Password;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.user.exception.NicknameDuplicateException;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.domain.user.validator.UserValidator;
 import com.cmc.finder.infra.file.S3Uploader;
@@ -46,7 +45,7 @@ public class UserInfoService {
         user.updateProfileImage(imageName);
 
         String path = s3Uploader.getUrl(PATH, imageName);
-        return UpdateProfileImgDto.Response.of(path);
+        return UpdateProfileImgDto.Response.from(path);
 
     }
 
@@ -61,7 +60,7 @@ public class UserInfoService {
 
         user.updateNickname(nickname);
 
-        return UpdateNicknameDto.Response.of(nickname);
+        return UpdateNicknameDto.Response.from(nickname);
 
     }
 
@@ -72,14 +71,14 @@ public class UserInfoService {
         MBTI mbti = MBTI.from(request.getMbti());
         user.updateMBTI(mbti);
 
-        return UpdateMBTIDto.Response.of(mbti);
+        return UpdateMBTIDto.Response.from(mbti);
 
     }
 
     public GetUserInfoRes getUserInfo(String email) {
 
         User user = userService.getUserByEmail(Email.of(email));
-        return GetUserInfoRes.of(user);
+        return GetUserInfoRes.from(user);
 
     }
 
@@ -93,7 +92,7 @@ public class UserInfoService {
         User updateUser = request.toEntity(password);
         User updatedUser = userService.updateUser(Email.of(email), updateUser);
 
-        return UpdateUserDto.Response.of(updatedUser);
+        return UpdateUserDto.Response.from(updatedUser);
 
     }
 
@@ -108,13 +107,13 @@ public class UserInfoService {
         User user = userService.getUserByEmail(Email.of(email));
         user.updateNotification();
 
-        return NotificationOnOffRes.of(user.getIsActive());
+        return NotificationOnOffRes.from(user.getIsActive());
     }
 
     public GetNotificationActiveRes getNotificaitonActive(String email) {
         User user = userService.getUserByEmail(Email.of(email));
 
-        return GetNotificationActiveRes.of(user);
+        return GetNotificationActiveRes.from(user);
     }
 
 }

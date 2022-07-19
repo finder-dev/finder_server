@@ -8,12 +8,10 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class UpdateCommunityDto {
@@ -68,7 +66,7 @@ public class UpdateCommunityDto {
 
         private Boolean isQuestion;
 
-        public static Response of(Community community) {
+        public static Response from(Community community) {
 
             return Response.builder()
                     .communityId(community.getCommunityId())
@@ -78,29 +76,6 @@ public class UpdateCommunityDto {
                     .isQuestion(community.getIsQuestion())
                     .build();
 
-        }
-
-        @Getter
-        @Setter
-        public static class UpdateImageDto {
-
-            private Long communityImageId;
-
-            private String communityImageUrl;
-
-            @Builder
-            public UpdateImageDto(Long communityImageId, String communityImageUrl) {
-                this.communityImageId = communityImageId;
-                this.communityImageUrl = communityImageUrl;
-            }
-
-            public static UpdateImageDto of(CommunityImage communityImage) {
-
-                return UpdateImageDto.builder()
-                        .communityImageId(communityImage.getCommunityImageId())
-                        .communityImageUrl(communityImage.getImageUrl())
-                        .build();
-            }
         }
     }
 }

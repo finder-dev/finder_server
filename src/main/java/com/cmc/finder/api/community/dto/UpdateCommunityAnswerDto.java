@@ -33,7 +33,7 @@ public class UpdateCommunityAnswerDto {
 
         private String content;
 
-        public static Response of(CommunityAnswer communityAnswer) {
+        public static Response from(CommunityAnswer communityAnswer) {
 
             return Response.builder()
                     .communityAnswerId(communityAnswer.getCommunityAnswerId())

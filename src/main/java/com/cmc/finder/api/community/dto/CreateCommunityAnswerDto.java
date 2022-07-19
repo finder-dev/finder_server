@@ -26,13 +26,11 @@ public class CreateCommunityAnswerDto {
 
     @Getter @Setter
     @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class Response {
 
         private Long communityAnswerId;
 
-        public static Response of(CommunityAnswer communityAnswer) {
+        public static Response from(CommunityAnswer communityAnswer) {
             return Response.builder()
                     .communityAnswerId(communityAnswer.getCommunityAnswerId())
                     .build();

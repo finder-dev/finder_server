@@ -52,7 +52,7 @@ public class ApiCommunityAnswerService {
         // fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER, Type.COMMUNITY.getValue());
         createNotification(community, COMMUNITY_ANSWER);
 
-        return CreateCommunityAnswerDto.Response.of(saveCommunityAnswer);
+        return CreateCommunityAnswerDto.Response.from(saveCommunityAnswer);
 
     }
 
@@ -78,7 +78,7 @@ public class ApiCommunityAnswerService {
         CommunityAnswer updateCommunityAnswer = request.toEntity();
         CommunityAnswer updatedCommunityAnswer = communityAnswerService.updateCommunityAnswer(answerId, updateCommunityAnswer);
 
-        return UpdateCommunityAnswerDto.Response.of(updatedCommunityAnswer);
+        return UpdateCommunityAnswerDto.Response.from(updatedCommunityAnswer);
     }
 
     @Transactional
@@ -98,7 +98,7 @@ public class ApiCommunityAnswerService {
         // fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY, Type.COMMUNITY.getValue());
         createNotification(communityAnswer.getCommunity(), COMMUNITY_ANSWER_REPLY);
 
-        return CreateCommunityReplyDto.Response.of(saveReply);
+        return CreateCommunityReplyDto.Response.from(saveReply);
     }
 
     @Transactional

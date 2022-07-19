@@ -15,7 +15,6 @@ import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.advice.CheckDebateAdmin;
-import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +53,7 @@ public class ApiDebateAnswerService {
         // fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
         createNotification(debate, DEBATE_ANSWER);
 
-        return CreateDebateAnswerDto.Response.of(saveDebateAnswer);
+        return CreateDebateAnswerDto.Response.from(saveDebateAnswer);
 
     }
 
@@ -86,7 +85,7 @@ public class ApiDebateAnswerService {
         // fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
         createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY);
 
-        return CreateDebateReplyDto.Response.of(saveReply);
+        return CreateDebateReplyDto.Response.from(saveReply);
 
     }
 
@@ -104,7 +103,7 @@ public class ApiDebateAnswerService {
         DebateAnswer updateDebateAnswer = request.toEntity();
         DebateAnswer updatedDebateAnswer = debateAnswerService.updateDebateAnswer(debateAnswerId, updateDebateAnswer);
 
-        return UpdateDebateAnswerDto.Response.of(updatedDebateAnswer);
+        return UpdateDebateAnswerDto.Response.from(updatedDebateAnswer);
 
     }
 

@@ -33,7 +33,7 @@ public class UpdateDebateAnswerDto {
 
         private String content;
 
-        public static Response of(DebateAnswer debateAnswer) {
+        public static Response from(DebateAnswer debateAnswer) {
 
             return Response.builder()
                     .debateAnswerId(debateAnswer.getDebateAnswerId())

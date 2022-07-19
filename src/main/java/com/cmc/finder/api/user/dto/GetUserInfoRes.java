@@ -19,7 +19,7 @@ public class GetUserInfoRes {
 
     private String nickname;
 
-    public static GetUserInfoRes of(User user) {
+    public static GetUserInfoRes from(User user) {
 
         return GetUserInfoRes.builder()
                 .userId(user.getUserId())

@@ -66,7 +66,7 @@ public class ApiCommunityService {
         // 커뮤니티 저장
         Community savedCommunity = communityService.createCommunity(saveCommunity);
 
-        return CreateCommunityDto.Response.of(savedCommunity);
+        return CreateCommunityDto.Response.from(savedCommunity);
 
     }
 
@@ -78,7 +78,7 @@ public class ApiCommunityService {
 
     public List<GetHotCommunityRes> getHotCommunityList() {
         List<Community> hotCommunity = communityService.getHotCommunity();
-        return hotCommunity.stream().map(GetHotCommunityRes::of).
+        return hotCommunity.stream().map(GetHotCommunityRes::from).
                 collect(Collectors.toList());
 
     }
@@ -117,7 +117,7 @@ public class ApiCommunityService {
             throw new CommunityImageExceedNumberException(ErrorCode.COMMUNITY_IMAGE_EXCEED_NUMBER);
         }
 
-        return UpdateCommunityDto.Response.of(updatedCommunity);
+        return UpdateCommunityDto.Response.from(updatedCommunity);
     }
 
     private Community updateCommunityInfo(Long communityId, UpdateCommunityDto.Request request) {
@@ -177,7 +177,7 @@ public class ApiCommunityService {
 
         if (likeService.existsUser(community, user)) {
             likeService.deleteLike(community, user);
-            return AddOrDeleteLikeRes.of(false);
+            return AddOrDeleteLikeRes.from(false);
         }
 
         Like like = Like.createLike(community, user);
@@ -185,7 +185,7 @@ public class ApiCommunityService {
 
         likeService.addLike(like);
 
-        return AddOrDeleteLikeRes.of(true);
+        return AddOrDeleteLikeRes.from(true);
 
     }
 
@@ -204,13 +204,13 @@ public class ApiCommunityService {
 
         if (saveCommunityService.existsUser(community, user)) {
             saveCommunityService.removeCommunity(community, user);
-            return SaveOrRemoveCommunityRes.of(false);
+            return SaveOrRemoveCommunityRes.from(false);
         }
 
         SaveCommunity saveCommunity = SaveCommunity.createSaveCommunity(community, user);
         community.addSaveCommunity(saveCommunity);
 
-        return SaveOrRemoveCommunityRes.of(true);
+        return SaveOrRemoveCommunityRes.from(true);
 
     }
 

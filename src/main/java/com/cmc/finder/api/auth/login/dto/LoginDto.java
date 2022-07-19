@@ -48,7 +48,7 @@ public class LoginDto {
         @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
         private Date refreshTokenExpireTime;
 
-        public static Response of(TokenDto tokenDto) {
+        public static Response from(TokenDto tokenDto) {
             return Response.builder()
                     .grantType(tokenDto.getGrantType())
                     .accessToken(tokenDto.getAccessToken())

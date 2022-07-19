@@ -11,7 +11,7 @@ public class NotificationOnOffRes {
 
     private String message;
 
-    public static NotificationOnOffRes of(Boolean onOff) {
+    public static NotificationOnOffRes from(Boolean onOff) {
 
         if (onOff) {
             return NotificationOnOffRes.builder()

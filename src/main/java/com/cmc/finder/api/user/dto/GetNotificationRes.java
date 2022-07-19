@@ -30,7 +30,7 @@ public class GetNotificationRes {
         this.createTime = createTime;
     }
 
-    public static GetNotificationRes of(Notification notification) {
+    public static GetNotificationRes from(Notification notification) {
 
         GetNotificationRes response = GetNotificationRes.builder()
                 .title(notification.getTitle())

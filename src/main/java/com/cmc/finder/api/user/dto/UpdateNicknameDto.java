@@ -23,7 +23,7 @@ public class UpdateNicknameDto {
         @NotBlank
         private String nickname;
 
-        public static Response of(String nickname) {
+        public static Response from(String nickname) {
 
             return Response.builder()
                     .nickname(nickname)

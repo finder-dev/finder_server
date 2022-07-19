@@ -31,7 +31,6 @@ public class CommunitySearchDto {
     @Setter
     public static class Response {
 
-
         private Long communityId;
 
         private String communityTitle;
@@ -57,7 +56,7 @@ public class CommunitySearchDto {
         private String createTime;
 
         @Builder
-        public Response(Long communityId, String title, String content, MBTI mbti, String imageUrl,
+        private Response(Long communityId, String title, String content, MBTI mbti, String imageUrl,
                         String userNickname, MBTI userMBTI, Boolean likeUser, Integer likeCount,
                         Integer answerCount, Boolean isQuestion, String createTime) {
 

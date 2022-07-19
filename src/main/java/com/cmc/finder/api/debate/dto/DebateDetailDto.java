@@ -48,7 +48,7 @@ public class DebateDetailDto {
     private List<AnswerHistDto> answerHistDtos = new ArrayList<>();
 
     @Builder
-    public DebateDetailDto(Long debateId, String debateTitle, String optionA, Long optionACount, String optionB, Long optionBCount,
+    private DebateDetailDto(Long debateId, String debateTitle, String optionA, Long optionACount, String optionB, Long optionBCount,
                            Integer answerCount, Long writerId, String writerNickname, MBTI writerMBTI,
                            Boolean join, String joinOption, LocalDateTime createTime, List<AnswerHistDto> answerHistDtos) {
         this.debateId = debateId;
@@ -70,8 +70,8 @@ public class DebateDetailDto {
     public static DebateDetailDto of(Debate debate, List<DebateAnswer> answers,
                                      Boolean join, Long optionACount, Long optionBCount, Debater debater) {
 
-        List<DebateDetailDto.AnswerHistDto> answerHistDtos = answers.stream().map(answer ->
-                AnswerHistDto.of(answer)
+        List<DebateDetailDto.AnswerHistDto> answerHistDtos = answers.stream().map(
+                AnswerHistDto::from
         ).collect(Collectors.toList());
 
         return DebateDetailDto.builder()
@@ -123,11 +123,11 @@ public class DebateDetailDto {
             this.createTime = DateTimeUtils.convertToLocalDatetimeToTime(createTime);
         }
 
-        public static DebateDetailDto.AnswerHistDto of(DebateAnswer answer) {
+        public static DebateDetailDto.AnswerHistDto from(DebateAnswer answer) {
 
             Collections.reverse(answer.getReplies());
-            List<ReplyHistDto> replies = answer.getReplies().stream().map(reply ->
-                    ReplyHistDto.of(reply)
+            List<ReplyHistDto> replies = answer.getReplies().stream().map(
+                    ReplyHistDto::from
             ).collect(Collectors.toList());
 
             return AnswerHistDto.builder()
@@ -168,7 +168,7 @@ public class DebateDetailDto {
                 this.createTime = createTime;
             }
 
-            public static ReplyHistDto of(DebateAnswer answer) {
+            public static ReplyHistDto from(DebateAnswer answer) {
 
                 return ReplyHistDto.builder()
                         .replyId(answer.getDebateAnswerId())

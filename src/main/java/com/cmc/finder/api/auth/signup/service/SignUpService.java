@@ -11,8 +11,6 @@ import com.cmc.finder.domain.jwt.application.TokenManager;
 import com.cmc.finder.domain.user.entity.Keyword;
 import com.cmc.finder.domain.user.service.KeywordService;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.user.exception.EmailDuplicateException;
-import com.cmc.finder.domain.user.exception.NicknameDuplicateException;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.domain.user.validator.UserValidator;
 import com.cmc.finder.domain.model.Email;
@@ -70,7 +68,7 @@ public class SignUpService {
 
         //JWT 생성
         TokenDto tokenDto = tokenManager.createTokenDto(user.getEmail().getValue());
-        return SignUpDto.Response.of(tokenDto);
+        return SignUpDto.Response.from(tokenDto);
 
     }
 

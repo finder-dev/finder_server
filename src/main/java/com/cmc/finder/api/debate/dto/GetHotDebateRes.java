@@ -33,7 +33,6 @@ public class GetHotDebateRes {
 
     private String deadline;
 
-    //TODO 수정
     public static GetHotDebateRes of(Debate debate, Long optionACount, Long optionBCount,
                                      Boolean alreadyJoin, Debater debater) {
 

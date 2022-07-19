@@ -10,7 +10,7 @@ public class AddOrDeleteLikeRes {
 
     private String message;
 
-    public static AddOrDeleteLikeRes of(Boolean addOrDelete) {
+    public static AddOrDeleteLikeRes from(Boolean addOrDelete) {
 
         // add
         if (addOrDelete) {

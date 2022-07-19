@@ -15,7 +15,7 @@ public class GetHotCommunityRes {
 
     private String title;
 
-    public static GetHotCommunityRes of(Community community) {
+    public static GetHotCommunityRes from(Community community) {
         return GetHotCommunityRes.builder()
                 .communityId(community.getCommunityId())
                 .title(community.getTitle())

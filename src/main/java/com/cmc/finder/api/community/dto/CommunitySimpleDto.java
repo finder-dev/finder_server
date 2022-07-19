@@ -54,7 +54,7 @@ public class CommunitySimpleDto {
         private String createTime;
 
         @Builder
-        public Response(Long communityId, String title, String content, MBTI mbti, String imageUrl,
+        private Response(Long communityId, String title, String content, MBTI mbti, String imageUrl,
                         String userNickname, MBTI userMBTI,Boolean likeUser, Integer likeCount,
                         Integer answerCount, Boolean isQuestion, String createTime) {
 

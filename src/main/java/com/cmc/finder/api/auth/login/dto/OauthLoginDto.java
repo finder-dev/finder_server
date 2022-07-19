@@ -1,19 +1,12 @@
 package com.cmc.finder.api.auth.login.dto;
 
 import com.cmc.finder.domain.jwt.dto.TokenDto;
-import com.cmc.finder.domain.model.MBTI;
-import com.cmc.finder.domain.user.constant.UserType;
-import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
 
 public class OauthLoginDto {
 
@@ -54,7 +47,7 @@ public class OauthLoginDto {
         @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
         private Date refreshTokenExpireTime;
 
-        public static Response of(TokenDto tokenDto) {
+        public static Response from(TokenDto tokenDto) {
             return Response.builder()
                     .grantType(tokenDto.getGrantType())
                     .accessToken(tokenDto.getAccessToken())

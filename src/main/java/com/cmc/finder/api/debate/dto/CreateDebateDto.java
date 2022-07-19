@@ -44,7 +44,7 @@ public class CreateDebateDto {
 
         private Long debateId;
 
-        public static Response of(Debate debate) {
+        public static Response from(Debate debate) {
             return CreateDebateDto.Response.builder()
                     .debateId(debate.getDebateId())
                     .build();

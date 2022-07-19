@@ -18,4 +18,7 @@ public class Constants {
 
     public static final String DEBATE_ANSWER_REPLY = "대댓글이 달렸습니다.";
 
+    //TODO 내용 확인
+    public static final String MESSAGE = "쪽지가 도착했습니다.";
+
 }

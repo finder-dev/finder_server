@@ -6,9 +6,11 @@ import com.cmc.finder.domain.message.application.MessageService;
 import com.cmc.finder.domain.message.entity.Message;
 import com.cmc.finder.domain.message.exception.CantSendMeException;
 import com.cmc.finder.domain.model.Email;
+import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.ErrorCode;
+import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -19,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.cmc.finder.global.util.Constants.MESSAGE;
+
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -26,6 +30,7 @@ public class ApiMessageService {
 
     private final MessageService messageService;
     private final UserService userService;
+    private final FcmService fcmService;
 
     @Transactional
     public CreateMessageDto.Response sendMessage(CreateMessageDto.Request request, String email) {
@@ -39,6 +44,10 @@ public class ApiMessageService {
 
         Message message = Message.createMessage(from, to, request.getContent());
         messageService.create(message);
+
+//        if (to.getIsActive()) {
+//            fcmService.sendMessageTo(to.getFcmToken(), message.getContent(), MESSAGE, ServiceType.MESSAGE.getValue());
+//        }
 
         return CreateMessageDto.Response.of();
 

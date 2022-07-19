@@ -48,17 +48,18 @@ public class ApiCommunityAnswerService {
         saveCommunityAnswer = communityAnswerService.saveCommunityAnswer(saveCommunityAnswer);
 
         //TODO fcm은 이후 작업으로..
-
-        // fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER, Type.COMMUNITY.getValue());
-        createNotification(community, COMMUNITY_ANSWER);
+//        if (community.getUser().getIsActive()) {
+//             fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER, Type.COMMUNITY.getValue());
+//        }
+        createNotification(community, COMMUNITY_ANSWER, community.getUser());
 
         return CreateCommunityAnswerDto.Response.from(saveCommunityAnswer);
 
     }
 
 
-    private void createNotification(Community community, String content) {
-        Notification notification = Notification.createNotification(community.getTitle(), content, ServiceType.COMMUNITY, community.getUser(), community.getCommunityId());
+    private void createNotification(Community community, String content, User user) {
+        Notification notification = Notification.createNotification(community.getTitle(), content, ServiceType.COMMUNITY, user, community.getCommunityId());
         notificationService.create(notification);
     }
 
@@ -94,9 +95,10 @@ public class ApiCommunityAnswerService {
         saveReply.setParent(communityAnswer);
 
         //TODO fcm은 이후 작업으로..
-
-        // fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY, Type.COMMUNITY.getValue());
-        createNotification(communityAnswer.getCommunity(), COMMUNITY_ANSWER_REPLY);
+//        if (communityAnswer.getUser().getIsActive()) {
+//            fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY, Type.COMMUNITY.getValue());
+//        }
+        createNotification(communityAnswer.getCommunity(), COMMUNITY_ANSWER_REPLY, communityAnswer.getUser());
 
         return CreateCommunityReplyDto.Response.from(saveReply);
     }

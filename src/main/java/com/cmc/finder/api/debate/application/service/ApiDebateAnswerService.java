@@ -1,6 +1,7 @@
 package com.cmc.finder.api.debate.application.service;
 
 import com.cmc.finder.api.debate.dto.*;
+import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.debate.application.DebateAnswerService;
 import com.cmc.finder.domain.debate.application.DebateService;
 import com.cmc.finder.domain.debate.entity.Debate;
@@ -15,7 +16,6 @@ import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.advice.CheckDebateAdmin;
-import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.notification.FcmService;
 import lombok.RequiredArgsConstructor;
@@ -50,11 +50,12 @@ public class ApiDebateAnswerService {
         saveDebateAnswer = debateAnswerService.saveDebateAnswer(saveDebateAnswer);
 
         //TODO fcm은 이후 작업으로..
+//        if (debate.getWriter().getIsActive()) {
+//            fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
+//        }
+        createNotification(debate, DEBATE_ANSWER, debate.getWriter());
 
-        // fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
-        createNotification(debate, DEBATE_ANSWER);
-
-        return CreateDebateAnswerDto.Response.of(saveDebateAnswer);
+        return CreateDebateAnswerDto.Response.from(saveDebateAnswer);
 
     }
 
@@ -82,17 +83,18 @@ public class ApiDebateAnswerService {
         saveReply.setParent(debateAnswer);
 
         //TODO fcm은 이후 작업으로..
+//        if (debateAnswer.getUser().getIsActive()) {
+//            fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
+//        }
+        createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY, debateAnswer.getUser());
 
-        // fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
-        createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY);
-
-        return CreateDebateReplyDto.Response.of(saveReply);
+        return CreateDebateReplyDto.Response.from(saveReply);
 
     }
 
 
-    private void createNotification(Debate debate, String content) {
-        Notification notification = Notification.createNotification(debate.getTitle(), content, ServiceType.DEBATE, debate.getWriter(), debate.getDebateId());
+    private void createNotification(Debate debate, String content, User user) {
+        Notification notification = Notification.createNotification(debate.getTitle(), content, ServiceType.DEBATE, user, debate.getDebateId());
         notificationService.create(notification);
     }
 
@@ -104,7 +106,7 @@ public class ApiDebateAnswerService {
         DebateAnswer updateDebateAnswer = request.toEntity();
         DebateAnswer updatedDebateAnswer = debateAnswerService.updateDebateAnswer(debateAnswerId, updateDebateAnswer);
 
-        return UpdateDebateAnswerDto.Response.of(updatedDebateAnswer);
+        return UpdateDebateAnswerDto.Response.from(updatedDebateAnswer);
 
     }
 

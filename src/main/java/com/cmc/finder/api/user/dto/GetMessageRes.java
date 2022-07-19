@@ -27,7 +27,7 @@ public class GetMessageRes {
 
     }
 
-    public static GetMessageRes of(Message message) {
+    public static GetMessageRes from(Message message) {
 
         GetMessageRes response = GetMessageRes.builder()
                 .toUserId(message.getTo().getUserId())

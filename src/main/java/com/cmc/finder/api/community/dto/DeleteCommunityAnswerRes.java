@@ -15,6 +15,7 @@ public class DeleteCommunityAnswerRes {
         return DeleteCommunityAnswerRes.builder()
                 .message("delete success")
                 .build();
+
     }
 
 }

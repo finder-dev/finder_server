@@ -45,7 +45,7 @@ public class DebateSimpleDto {
             this.deadline = DateTimeUtils.convertToLocalDateTimeToDeadline(deadline);
         }
 
-        public static Response of(Debate debate) {
+        public static Response from(Debate debate) {
 
             return Response.builder()
                     .debateId(debate.getDebateId())

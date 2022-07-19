@@ -55,7 +55,7 @@ public class ApiDebateService {
 
         saveDebate = debateService.saveDebate(saveDebate);
 
-        return CreateDebateDto.Response.of(saveDebate);
+        return CreateDebateDto.Response.from(saveDebate);
 
     }
 
@@ -76,7 +76,7 @@ public class ApiDebateService {
             if (Option.equal(debater.getOption(), option)) {
 
                 debaterService.deleteDebater(debater);
-                return JoinDebateDto.Response.of(debater, false);
+                return JoinDebateDto.Response.from(debater, false);
 
             }
             // 토론 선택지 취소
@@ -84,7 +84,7 @@ public class ApiDebateService {
                 debater.updateOption(option);
             }
 
-            return JoinDebateDto.Response.of(debater, true);
+            return JoinDebateDto.Response.from(debater, true);
 
             // 토론 참여
         } else {
@@ -92,7 +92,7 @@ public class ApiDebateService {
             Debater saveDebater = Debater.createDebater(debate, user, option);
             saveDebater = debaterService.saveDebater(saveDebater);
 
-            return JoinDebateDto.Response.of(saveDebater, true);
+            return JoinDebateDto.Response.from(saveDebater, true);
         }
 
 

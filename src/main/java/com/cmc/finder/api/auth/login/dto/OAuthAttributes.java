@@ -17,7 +17,7 @@ public class OAuthAttributes {
     private String email;
     private UserType userType;
 
-    public User toUserEntity(OauthLoginDto.Request request, String fileName) {
+    public User toEntity(OauthLoginDto.Request request, String fileName) {
 
         User user = User.builder()
                 .email(Email.of(email))

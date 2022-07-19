@@ -48,13 +48,11 @@ public class CreateCommunityDto {
 
     @Getter @Setter
     @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class Response {
 
         private Long communityId;
 
-        public static Response of(Community community) {
+        public static Response from(Community community) {
 
             return Response.builder()
                     .communityId(community.getCommunityId())

@@ -74,11 +74,11 @@ public class CommunityDetailDto {
     public static CommunityDetailDto of(Community community, List<CommunityAnswer> answers, Boolean likeUser, Boolean saveUser) {
 
         List<CommunityImageDto> communityImageDtos = community.getCommunityImages().stream().map(communityImage ->
-                CommunityImageDto.of(communityImage)
+                CommunityImageDto.from(communityImage)
         ).collect(Collectors.toList());
 
         List<CommunityDetailDto.AnswerHistDto> answerHistDtos = answers.stream().map(answer ->
-                AnswerHistDto.of(answer)
+                AnswerHistDto.from(answer)
         ).collect(Collectors.toList());
 
         return CommunityDetailDto.builder()
@@ -109,12 +109,12 @@ public class CommunityDetailDto {
         private String communityImageUrl;
 
         @Builder
-        public CommunityImageDto(Long communityImageId, String communityImageUrl) {
+        private CommunityImageDto(Long communityImageId, String communityImageUrl) {
             this.communityImageId = communityImageId;
             this.communityImageUrl = communityImageUrl;
         }
 
-        public static CommunityImageDto of(CommunityImage communityImage) {
+        private static CommunityImageDto from(CommunityImage communityImage) {
 
             return CommunityImageDto.builder()
                     .communityImageId(communityImage.getCommunityImageId())
@@ -142,7 +142,7 @@ public class CommunityDetailDto {
         private List<ReplyHistDto> replyHistDtos = new ArrayList<>();
 
         @Builder
-        public AnswerHistDto(Long answerId, String answerContent, MBTI userMBTI, String userNickname,
+        private AnswerHistDto(Long answerId, String answerContent, MBTI userMBTI, String userNickname,
                              Long userId, List<ReplyHistDto> replyHistDtos, String createTime) {
             this.answerId = answerId;
             this.answerContent = answerContent;
@@ -153,11 +153,11 @@ public class CommunityDetailDto {
             this.createTime = createTime;
         }
 
-        public static AnswerHistDto of(CommunityAnswer answer) {
+        private static AnswerHistDto from(CommunityAnswer answer) {
 
             Collections.reverse(answer.getReplies());
             List<ReplyHistDto> replies = answer.getReplies().stream().map(reply ->
-                    ReplyHistDto.of(reply)
+                    ReplyHistDto.from(reply)
             ).collect(Collectors.toList());
 
             return AnswerHistDto.builder()
@@ -188,7 +188,7 @@ public class CommunityDetailDto {
             private String createTime;
 
             @Builder
-            public ReplyHistDto(Long replyId, String replyContent, MBTI userMBTI,
+            private ReplyHistDto(Long replyId, String replyContent, MBTI userMBTI,
                                 Long userId, String userNickname, String createTime) {
                 this.replyId = replyId;
                 this.replyContent = replyContent;
@@ -198,7 +198,7 @@ public class CommunityDetailDto {
                 this.createTime = createTime;
             }
 
-            public static ReplyHistDto of(CommunityAnswer answer) {
+            private static ReplyHistDto from(CommunityAnswer answer) {
 
                 return ReplyHistDto.builder()
                         .replyId(answer.getCommunityAnswerId())

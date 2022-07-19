@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.cmc.finder.domain.debate.entity.QDebate.debate;
-import static com.cmc.finder.domain.debate.entity.QDebater.debater;
 
 
 @Repository
@@ -42,7 +41,7 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
 
 
         List<DebateSimpleDto.Response> contents = results.stream().map(debate ->
-                DebateSimpleDto.Response.of(debate)
+                DebateSimpleDto.Response.from(debate)
         ).collect(Collectors.toList());
 
         boolean hasNext = false;

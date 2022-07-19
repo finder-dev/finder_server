@@ -36,23 +36,6 @@ public class UpdateUserDto {
                     .nickname(nickname)
                     .password(password)
                     .build();
-
-//            if (password != null) {
-//
-//                return User.builder()
-//                        .mbti(MBTI.from(mbti))
-//                        .nickname(nickname)
-//                        .password(Password.builder()
-//                                .value(this.password)
-//                                .build())
-//                        .build();
-//            } else {
-//                return User.builder()
-//                        .mbti(MBTI.from(mbti))
-//                        .nickname(nickname)
-//                        .build();
-//            }
-
         }
 
     }
@@ -66,7 +49,7 @@ public class UpdateUserDto {
 
         private String nickname;
 
-        public static Response of(User user) {
+        public static Response from(User user) {
 
             return Response.builder()
                     .mbti(user.getMbti())

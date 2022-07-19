@@ -10,7 +10,6 @@ import com.cmc.finder.global.validator.Enum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
@@ -90,7 +89,7 @@ public class SignUpDto {
         @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
         private Date refreshTokenExpireTime;
 
-        public static SignUpDto.Response of(TokenDto tokenDto) {
+        public static SignUpDto.Response from(TokenDto tokenDto) {
             return SignUpDto.Response.builder()
                     .grantType(tokenDto.getGrantType())
                     .accessToken(tokenDto.getAccessToken())

@@ -10,7 +10,7 @@ public class SaveOrRemoveCommunityRes {
 
     private String message;
 
-    public static SaveOrRemoveCommunityRes of(Boolean saveOrRemove) {
+    public static SaveOrRemoveCommunityRes from(Boolean saveOrRemove) {
 
         // save
         if (saveOrRemove) {

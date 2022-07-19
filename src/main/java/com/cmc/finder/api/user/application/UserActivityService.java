@@ -1,6 +1,5 @@
 package com.cmc.finder.api.user.application;
 
-import com.cmc.finder.api.message.dto.GetConversationDto;
 import com.cmc.finder.api.user.dto.*;
 import com.cmc.finder.domain.community.application.CommunityService;
 import com.cmc.finder.domain.community.application.SaveCommunityService;
@@ -70,7 +69,7 @@ public class UserActivityService {
         User user = userService.getUserByEmail(Email.of(email));
         Slice<Notification> notificaitonList = notificationService.getNotificaitonList(user, pageable);
 
-        List<GetNotificationRes> res = notificaitonList.stream().map(GetNotificationRes::of).collect(Collectors.toList());
+        List<GetNotificationRes> res = notificaitonList.stream().map(GetNotificationRes::from).collect(Collectors.toList());
 
         return new SliceImpl<>(res, pageable, notificaitonList.hasNext());
 
@@ -80,7 +79,7 @@ public class UserActivityService {
         User user = userService.getUserByEmail(Email.of(email));
         Slice<Message> messages = messageService.getMessageByFrom(user, pageable);
 
-        List<GetMessageRes> res = messages.stream().map(GetMessageRes::of).collect(Collectors.toList());
+        List<GetMessageRes> res = messages.stream().map(GetMessageRes::from).collect(Collectors.toList());
 
         return new SliceImpl<>(res, pageable, messages.hasNext());
 

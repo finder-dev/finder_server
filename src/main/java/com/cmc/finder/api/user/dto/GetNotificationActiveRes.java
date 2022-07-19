@@ -1,8 +1,6 @@
 package com.cmc.finder.api.user.dto;
 
-import com.cmc.finder.domain.message.entity.Message;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.global.util.DateTimeUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,12 +13,11 @@ public class GetNotificationActiveRes {
 
     @Builder
     public GetNotificationActiveRes(Boolean isActive) {
-
         this.isActive = isActive;
 
     }
 
-    public static GetNotificationActiveRes of(User user) {
+    public static GetNotificationActiveRes from(User user) {
 
         GetNotificationActiveRes response = GetNotificationActiveRes.builder()
                 .isActive(user.getIsActive())

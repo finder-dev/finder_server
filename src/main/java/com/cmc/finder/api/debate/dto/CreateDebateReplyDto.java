@@ -31,7 +31,7 @@ public class CreateDebateReplyDto {
 
         private Long debateReplyId;
 
-        public static Response of(DebateAnswer debateAnswer) {
+        public static Response from(DebateAnswer debateAnswer) {
 
             return Response.builder()
                     .debateReplyId(debateAnswer.getDebateAnswerId())

@@ -48,17 +48,18 @@ public class ApiCommunityAnswerService {
         saveCommunityAnswer = communityAnswerService.saveCommunityAnswer(saveCommunityAnswer);
 
         //TODO fcm은 이후 작업으로..
+//        if (community.getUser().getIsActive()) {
+//             fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER, Type.COMMUNITY.getValue());
+//        }
+        createNotification(community, COMMUNITY_ANSWER, community.getUser());
 
-        // fcmService.sendMessageTo(community.getUser().getFcmToken(), community.getTitle(), COMMUNITY_ANSWER, Type.COMMUNITY.getValue());
-        createNotification(community, COMMUNITY_ANSWER);
-
-        return CreateCommunityAnswerDto.Response.of(saveCommunityAnswer);
+        return CreateCommunityAnswerDto.Response.from(saveCommunityAnswer);
 
     }
 
 
-    private void createNotification(Community community, String content) {
-        Notification notification = Notification.createNotification(community.getTitle(), content, ServiceType.COMMUNITY, community.getUser(), community.getCommunityId());
+    private void createNotification(Community community, String content, User user) {
+        Notification notification = Notification.createNotification(community.getTitle(), content, ServiceType.COMMUNITY, user, community.getCommunityId());
         notificationService.create(notification);
     }
 
@@ -78,7 +79,7 @@ public class ApiCommunityAnswerService {
         CommunityAnswer updateCommunityAnswer = request.toEntity();
         CommunityAnswer updatedCommunityAnswer = communityAnswerService.updateCommunityAnswer(answerId, updateCommunityAnswer);
 
-        return UpdateCommunityAnswerDto.Response.of(updatedCommunityAnswer);
+        return UpdateCommunityAnswerDto.Response.from(updatedCommunityAnswer);
     }
 
     @Transactional
@@ -94,11 +95,12 @@ public class ApiCommunityAnswerService {
         saveReply.setParent(communityAnswer);
 
         //TODO fcm은 이후 작업으로..
+//        if (communityAnswer.getUser().getIsActive()) {
+//            fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY, Type.COMMUNITY.getValue());
+//        }
+        createNotification(communityAnswer.getCommunity(), COMMUNITY_ANSWER_REPLY, communityAnswer.getUser());
 
-        // fcmService.sendMessageTo(communityAnswer.getUser().getFcmToken(), communityAnswer.getCommunity().getTitle(), COMMUNITY_ANSWER_REPLY, Type.COMMUNITY.getValue());
-        createNotification(communityAnswer.getCommunity(), COMMUNITY_ANSWER_REPLY);
-
-        return CreateCommunityReplyDto.Response.of(saveReply);
+        return CreateCommunityReplyDto.Response.from(saveReply);
     }
 
     @Transactional

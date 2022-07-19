@@ -24,7 +24,7 @@ public class UpdateProfileImgDto {
 
         private String profileUrl;
 
-        public static Response of(String url) {
+        public static Response from(String url) {
 
             return Response.builder()
                     .profileUrl(url)

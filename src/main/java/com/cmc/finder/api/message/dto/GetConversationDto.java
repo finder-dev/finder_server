@@ -35,7 +35,7 @@ public class GetConversationDto {
         private String createTime;
 
 
-        public static Response of(Message message) {
+        public static Response from(Message message) {
 
             Response response = Response.builder()
                     .toUserId(message.getTo().getUserId())

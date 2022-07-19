@@ -57,7 +57,7 @@ public class LoginService {
                 }
 
                 loginValidator.validateOauthSignUpRequest(request);
-                oauthUser = oAuthAttributes.toUserEntity(request, fileName);
+                oauthUser = oAuthAttributes.toEntity(request, fileName);
                 userService.register(oauthUser);
 
             }
@@ -74,7 +74,7 @@ public class LoginService {
         TokenDto tokenDto = tokenManager.createTokenDto(oAuthAttributes.getEmail());
         saveRefreshToken(oauthUser, tokenDto);
 
-        return OauthLoginDto.Response.of(tokenDto);
+        return OauthLoginDto.Response.from(tokenDto);
     }
 
     private OAuthAttributes getSocialUserInfo(String accessToken, UserType userType) {
@@ -100,7 +100,7 @@ public class LoginService {
         TokenDto tokenDto = tokenManager.createTokenDto(request.getEmail());
         saveRefreshToken(user, tokenDto);
 
-        return LoginDto.Response.of(tokenDto);
+        return LoginDto.Response.from(tokenDto);
     }
 
 

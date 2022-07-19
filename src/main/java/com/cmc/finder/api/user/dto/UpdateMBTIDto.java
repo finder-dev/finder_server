@@ -26,7 +26,7 @@ public class UpdateMBTIDto {
 
         private MBTI mbti;
 
-        public static Response of(MBTI mbti) {
+        public static Response from(MBTI mbti) {
 
             return Response.builder()
                     .mbti(mbti)

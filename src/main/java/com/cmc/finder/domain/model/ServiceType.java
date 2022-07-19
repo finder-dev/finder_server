@@ -6,8 +6,8 @@ import lombok.Getter;
 public enum ServiceType {
 
     QUESTION("question"), DEBATE("debate"), COMMUNITY("community"),
-    QUESTION_ANSWER("question answer"), DEBATE_ANSWER("debate answer"), COMMUNITY_ANSWER("community answer")
-    ;
+    QUESTION_ANSWER("question answer"), DEBATE_ANSWER("debate answer"), COMMUNITY_ANSWER("community answer"),
+    MESSAGE("message");
 
     private String value;
 

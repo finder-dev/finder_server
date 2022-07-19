@@ -29,7 +29,7 @@ public class JoinDebateDto {
         private String message;
         private String option;
 
-        public static Response of(Debater debater, Boolean join) {
+        public static Response from(Debater debater, Boolean join) {
 
             if (join) {
                 return Response.builder()

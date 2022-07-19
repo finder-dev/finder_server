@@ -4,6 +4,7 @@ import com.cmc.finder.domain.debate.entity.DebateAnswer;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 
 public class CreateDebateAnswerDto {
@@ -11,7 +12,7 @@ public class CreateDebateAnswerDto {
     @Getter @Setter
     public static class Request {
 
-        //TODO 글자 수
+        @Size(max = 300, message = "300자 이하로 작성해주세요.")
         @NotBlank(message = "글 내용은 필수값 입니다.")
         private String content;
 
@@ -31,7 +32,7 @@ public class CreateDebateAnswerDto {
 
         private Long debateAnswerId;
 
-        public static Response of(DebateAnswer debateAnswer) {
+        public static Response from(DebateAnswer debateAnswer) {
             return Response.builder()
                     .debateAnswerId(debateAnswer.getDebateAnswerId())
                     .build();

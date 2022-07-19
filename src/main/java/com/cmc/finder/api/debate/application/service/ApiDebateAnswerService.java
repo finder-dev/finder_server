@@ -1,6 +1,7 @@
 package com.cmc.finder.api.debate.application.service;
 
 import com.cmc.finder.api.debate.dto.*;
+import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.debate.application.DebateAnswerService;
 import com.cmc.finder.domain.debate.application.DebateService;
 import com.cmc.finder.domain.debate.entity.Debate;
@@ -49,9 +50,10 @@ public class ApiDebateAnswerService {
         saveDebateAnswer = debateAnswerService.saveDebateAnswer(saveDebateAnswer);
 
         //TODO fcm은 이후 작업으로..
-
-        // fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
-        createNotification(debate, DEBATE_ANSWER);
+//        if (debate.getWriter().getIsActive()) {
+//            fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
+//        }
+        createNotification(debate, DEBATE_ANSWER, debate.getWriter());
 
         return CreateDebateAnswerDto.Response.from(saveDebateAnswer);
 
@@ -81,17 +83,18 @@ public class ApiDebateAnswerService {
         saveReply.setParent(debateAnswer);
 
         //TODO fcm은 이후 작업으로..
-
-        // fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
-        createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY);
+//        if (debateAnswer.getUser().getIsActive()) {
+//            fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
+//        }
+        createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY, debateAnswer.getUser());
 
         return CreateDebateReplyDto.Response.from(saveReply);
 
     }
 
 
-    private void createNotification(Debate debate, String content) {
-        Notification notification = Notification.createNotification(debate.getTitle(), content, ServiceType.DEBATE, debate.getWriter(), debate.getDebateId());
+    private void createNotification(Debate debate, String content, User user) {
+        Notification notification = Notification.createNotification(debate.getTitle(), content, ServiceType.DEBATE, user, debate.getDebateId());
         notificationService.create(notification);
     }
 

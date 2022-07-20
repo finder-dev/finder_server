@@ -29,8 +29,6 @@ public class SignUpService {
     @Value("${s3.users.path}")
     private String PATH;
 
-    //TODO Validator 위치 고민
-
     private final TokenManager tokenManager;
     private final UserService userService;
     private final UserValidator userValidator;
@@ -38,8 +36,6 @@ public class SignUpService {
     private final S3Uploader s3Uploader;
     private final EmailServiceImpl emailService;
     private final AuthCodeService authCodeService;
-
-
 
     @Transactional
     public SignUpDto.Response signUpUser(SignUpDto.Request signUpDto) {

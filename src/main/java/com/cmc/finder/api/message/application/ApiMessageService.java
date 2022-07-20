@@ -54,8 +54,6 @@ public class ApiMessageService {
     }
 
 
-
-
     public Slice<GetConversationDto.Response> getMessageByToUser(String email, GetConversationDto.Request request, Pageable pageable) {
         User me = userService.getUserByEmail(Email.of(email));
         User other = userService.getUserById(request.getUserId());

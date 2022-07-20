@@ -9,6 +9,7 @@ import com.cmc.finder.domain.debate.entity.Debater;
 import com.cmc.finder.domain.debate.application.DebateAnswerService;
 import com.cmc.finder.domain.debate.application.DebateService;
 import com.cmc.finder.domain.debate.application.DebaterService;
+import com.cmc.finder.domain.debate.exception.ClosedDebateException;
 import com.cmc.finder.domain.debate.exception.SameOptionsException;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.ServiceType;
@@ -66,6 +67,11 @@ public class ApiDebateService {
         Debate debate = debateService.getDebate(debateId);
 
         Option option = Option.from(request.getOption());
+
+        // 마감된 토론 처리
+        if (debate.getState() == DebateState.COMPLETE) {
+            throw new ClosedDebateException(ErrorCode.CLOSED_DEBATE);
+        }
 
         // 기존에 토론 참여한 인원 확인
         if (debaterService.existsDebater(user, debate)) {

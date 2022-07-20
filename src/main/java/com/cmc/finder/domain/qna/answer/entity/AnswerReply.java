@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Deprecated
 @Entity
 @Table(name = "answer_reply")
 @Getter

@@ -9,6 +9,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -29,5 +31,13 @@ public class MessageService {
     public Slice<Message> getMessageByFromOrTo(User from, User to, Pageable pageable) {
 
         return messageRepository.findAllByFromOrTo(from, to, pageable);
+    }
+
+    @Transactional
+    public void deleteMessage(User deletedMessageUser, User from) {
+
+        List<Message> deleteMessage = messageRepository.findAllByFromOrTo(deletedMessageUser, from);
+        messageRepository.deleteAllInBatch(deleteMessage);
+
     }
 }

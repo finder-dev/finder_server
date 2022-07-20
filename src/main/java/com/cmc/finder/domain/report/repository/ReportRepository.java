@@ -9,4 +9,6 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
 
     Boolean existsByFromAndServiceTypeAndServiceId(User from, ServiceType serviceType, Long serviceId);
 
+    Boolean existsByFromAndTo(User from, User to);
+
 }

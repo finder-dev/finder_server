@@ -7,6 +7,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
@@ -21,5 +23,12 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     "where (m.from=:from and m.to=:to) or (m.from=:to and m.to=:from) " +
     "order by m.createTime desc ")
     Slice<Message> findAllByFromOrTo(User from, User to, Pageable pageable);
+
+    @Query(value = "select m "+
+            "from Message m " +
+            "where (m.from=:from and m.to=:to) or (m.from=:to and m.to=:from) " +
+            "order by m.createTime desc ")
+    List<Message> findAllByFromOrTo(User from, User to);
+
 
 }

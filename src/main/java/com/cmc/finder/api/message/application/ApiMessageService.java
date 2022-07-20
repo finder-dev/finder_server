@@ -1,12 +1,17 @@
 package com.cmc.finder.api.message.application;
 
 import com.cmc.finder.api.message.dto.CreateMessageDto;
+import com.cmc.finder.api.message.dto.DeleteMessageDto;
 import com.cmc.finder.api.message.dto.GetConversationDto;
+import com.cmc.finder.api.message.dto.ReportUserDto;
 import com.cmc.finder.domain.message.application.MessageService;
 import com.cmc.finder.domain.message.entity.Message;
 import com.cmc.finder.domain.message.exception.CantSendMeException;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.ServiceType;
+import com.cmc.finder.domain.report.application.ReportService;
+import com.cmc.finder.domain.report.entity.Report;
+import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.service.UserService;
 import com.cmc.finder.global.error.exception.ErrorCode;
@@ -21,8 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.cmc.finder.global.util.Constants.MESSAGE;
-
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
@@ -31,6 +34,7 @@ public class ApiMessageService {
     private final MessageService messageService;
     private final UserService userService;
     private final FcmService fcmService;
+    private final ReportService reportService;
 
     @Transactional
     public CreateMessageDto.Response sendMessage(CreateMessageDto.Request request, String email) {
@@ -60,10 +64,37 @@ public class ApiMessageService {
 
         Slice<Message> messages = messageService.getMessageByFromOrTo(me, other, pageable);
 
-        List<GetConversationDto.Response> res = messages.stream().map(GetConversationDto.Response::from).collect(Collectors.toList());
+        List<GetConversationDto.Response> res = messages.stream()
+                .map(message -> GetConversationDto.Response.of(message)).collect(Collectors.toList());
 
         return new SliceImpl<>(res, pageable, messages.hasNext());
     }
 
 
+    @Transactional
+    public ReportUserDto.Response reportUser(ReportUserDto.Request request, String email) {
+
+        User reportUser = userService.getUserById(request.getReportUserId());
+        User from = userService.getUserByEmail(Email.of(email));
+
+        Report report = Report.createReport(ServiceType.MESSAGE, from, reportUser, null);
+
+        if (reportService.alreadyReportedUser(report)) {
+            throw new AlreadyReceivedReportException(ErrorCode.ALREADY_RECEIVED_REPORT);
+        }
+
+        reportService.create(report);
+        return ReportUserDto.Response.of();
+
+    }
+
+    @Transactional
+    public DeleteMessageDto.Response deleteMessage(DeleteMessageDto.Request request, String email) {
+        User deletedMessageUser = userService.getUserById(request.getDeleteMsgUserId());
+        User from = userService.getUserByEmail(Email.of(email));
+
+        messageService.deleteMessage(deletedMessageUser, from);
+        return DeleteMessageDto.Response.of();
+
+    }
 }

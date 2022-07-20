@@ -35,7 +35,6 @@ public class Report extends BaseTimeEntity {
     @JoinColumn(name = "to_user_id", nullable = false)
     private User to;
 
-    @Column(nullable = false)
     private Long serviceId;
 
     @Builder

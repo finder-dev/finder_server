@@ -26,20 +26,20 @@ public class GetConversationDto {
     @AllArgsConstructor
     public static class Response {
 
-        private Long toUserId;
+        private Long toId;
 
-        private Long fromUserId;
+        private Long fromId;
 
         private String content;
 
         private String createTime;
 
 
-        public static Response from(Message message) {
+        public static Response of(Message message) {
 
             Response response = Response.builder()
-                    .toUserId(message.getTo().getUserId())
-                    .fromUserId(message.getFrom().getUserId())
+                    .toId(message.getTo().getUserId())
+                    .fromId(message.getFrom().getUserId())
                     .content(message.getContent())
                     .createTime(DateTimeUtils.convertToLocalDatetimeToTime(message.getCreateTime()))
                     .build();

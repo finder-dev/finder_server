@@ -19,6 +19,10 @@ public class ReportService {
         reportRepository.save(report);
     }
 
+    public Boolean alreadyReportedUser(Report report) {
+        return reportRepository.existsByFromAndTo(report.getFrom(), report.getTo());
+    }
+
     public Boolean alreadyReceivedReport(Report report) {
         return reportRepository.existsByFromAndServiceTypeAndServiceId(report.getFrom(), report.getServiceType(), report.getServiceId());
 

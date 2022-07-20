@@ -2,7 +2,9 @@ package com.cmc.finder.api.message.api;
 
 import com.cmc.finder.api.message.application.ApiMessageService;
 import com.cmc.finder.api.message.dto.CreateMessageDto;
+import com.cmc.finder.api.message.dto.DeleteMessageDto;
 import com.cmc.finder.api.message.dto.GetConversationDto;
+import com.cmc.finder.api.message.dto.ReportUserDto;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
@@ -54,5 +56,26 @@ public class MessageApi {
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }
+
+    @PostMapping("/report")
+    public ResponseEntity<ApiResult<ReportUserDto.Response>> reportUser(
+            @RequestBody @Valid ReportUserDto.Request request,
+            @UserEmail String email
+    ){
+        ReportUserDto.Response response = apiMessageService.reportUser(request, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ApiResult<DeleteMessageDto.Response>> deleteMessage(
+            @RequestBody @Valid DeleteMessageDto.Request request,
+            @UserEmail String email
+    ){
+        DeleteMessageDto.Response response = apiMessageService.deleteMessage(request, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
+    }
+
+
 
 }

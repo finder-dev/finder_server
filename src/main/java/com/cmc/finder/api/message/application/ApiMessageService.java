@@ -1,9 +1,10 @@
 package com.cmc.finder.api.message.application;
 
-import com.cmc.finder.api.message.dto.CreateMessageDto;
-import com.cmc.finder.api.message.dto.DeleteMessageDto;
-import com.cmc.finder.api.message.dto.GetConversationDto;
-import com.cmc.finder.api.message.dto.ReportUserDto;
+import com.cmc.finder.api.message.dto.*;
+import com.cmc.finder.api.message.exception.BlockUserException;
+import com.cmc.finder.domain.block.application.BlockService;
+import com.cmc.finder.domain.block.entity.Block;
+import com.cmc.finder.domain.community.exception.AlreadyBlockedUserException;
 import com.cmc.finder.domain.message.application.MessageService;
 import com.cmc.finder.domain.message.entity.Message;
 import com.cmc.finder.domain.message.exception.CantSendMeException;
@@ -35,6 +36,7 @@ public class ApiMessageService {
     private final UserService userService;
     private final FcmService fcmService;
     private final ReportService reportService;
+    private final BlockService blockService;
 
     @Transactional
     public CreateMessageDto.Response sendMessage(CreateMessageDto.Request request, String email) {
@@ -45,10 +47,12 @@ public class ApiMessageService {
         if (from.getUserId() == to.getUserId()) {
             throw new CantSendMeException(ErrorCode.CANT_SEND_ME_MESSAGE);
         }
-        // 차단 기능
+        // 차단 확인
+        if (blockService.isBlockUser(from, to)) {
+            throw new BlockUserException(ErrorCode.BLOCK_USER);
+        }
 
-
-        Message fromMessage = Message.createMessage(from, to ,request.getContent());
+        Message fromMessage = Message.createMessage(from, to, request.getContent());
         Message toMessage = Message.createMessage(to, from, request.getContent());
 
         messageService.create(fromMessage);
@@ -63,14 +67,14 @@ public class ApiMessageService {
     }
 
 
-    public Slice<GetConversationDto.Response> getMessageByToUser(String email, GetConversationDto.Request request, Pageable pageable) {
+    public Slice<GetConversationDto.Response> getMessageByOther(String email, GetConversationDto.Request request, Pageable pageable) {
         User me = userService.getUserByEmail(Email.of(email));
         User other = userService.getUserById(request.getUserId());
 
         Slice<Message> messages = messageService.getMessageByOwnerAndOther(me, other, pageable);
 
         List<GetConversationDto.Response> res = messages.stream()
-                .map(message -> GetConversationDto.Response.of(message)).collect(Collectors.toList());
+                .map(GetConversationDto.Response::of).collect(Collectors.toList());
 
         return new SliceImpl<>(res, pageable, messages.hasNext());
     }
@@ -101,5 +105,20 @@ public class ApiMessageService {
         messageService.deleteMessage(other, owner);
         return DeleteMessageDto.Response.of();
 
+    }
+
+    @Transactional
+    public BlockUserDto.Response blockUser(BlockUserDto.Request request, String email) {
+        User from = userService.getUserByEmail(Email.of(email));
+        User to = userService.getUserById(request.getBlockUserId());
+
+        if (blockService.alreadyBlockedUser(from, to)) {
+            throw new AlreadyBlockedUserException(ErrorCode.ALREADY_BLOCKED_USER);
+        }
+
+        Block block = Block.createBlock(from, to);
+        blockService.create(block);
+
+        return BlockUserDto.Response.of();
     }
 }

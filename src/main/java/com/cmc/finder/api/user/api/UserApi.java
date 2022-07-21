@@ -172,6 +172,7 @@ public class UserApi {
         );
 
         Slice<GetMessageRes> response = userActivityService.getMessageByOwner(email, pageable);
+
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

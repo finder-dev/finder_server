@@ -45,9 +45,14 @@ public class ApiMessageService {
         if (from.getUserId() == to.getUserId()) {
             throw new CantSendMeException(ErrorCode.CANT_SEND_ME_MESSAGE);
         }
+        // 차단 기능
 
-        Message message = Message.createMessage(from, to, request.getContent());
-        messageService.create(message);
+
+        Message fromMessage = Message.createMessage(from, to ,request.getContent());
+        Message toMessage = Message.createMessage(to, from, request.getContent());
+
+        messageService.create(fromMessage);
+        messageService.create(toMessage);
 
 //        if (to.getIsActive()) {
 //            fcmService.sendMessageTo(to.getFcmToken(), message.getContent(), MESSAGE, ServiceType.MESSAGE.getValue());
@@ -62,7 +67,7 @@ public class ApiMessageService {
         User me = userService.getUserByEmail(Email.of(email));
         User other = userService.getUserById(request.getUserId());
 
-        Slice<Message> messages = messageService.getMessageByFromOrTo(me, other, pageable);
+        Slice<Message> messages = messageService.getMessageByOwnerAndOther(me, other, pageable);
 
         List<GetConversationDto.Response> res = messages.stream()
                 .map(message -> GetConversationDto.Response.of(message)).collect(Collectors.toList());
@@ -90,10 +95,10 @@ public class ApiMessageService {
 
     @Transactional
     public DeleteMessageDto.Response deleteMessage(DeleteMessageDto.Request request, String email) {
-        User deletedMessageUser = userService.getUserById(request.getDeleteMsgUserId());
-        User from = userService.getUserByEmail(Email.of(email));
+        User other = userService.getUserById(request.getDeleteMsgUserId());
+        User owner = userService.getUserByEmail(Email.of(email));
 
-        messageService.deleteMessage(deletedMessageUser, from);
+        messageService.deleteMessage(other, owner);
         return DeleteMessageDto.Response.of();
 
     }

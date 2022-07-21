@@ -171,7 +171,7 @@ public class UserApi {
                 SET_PAGE_ITEM_MAX_COUNT
         );
 
-        Slice<GetMessageRes> response = userActivityService.getMessageByFromUser(email, pageable);
+        Slice<GetMessageRes> response = userActivityService.getMessageByOwner(email, pageable);
         return ResponseEntity.ok(ApiUtils.success(response));
 
     }

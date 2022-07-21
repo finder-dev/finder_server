@@ -74,17 +74,17 @@ public class UserActivityService {
         return new SliceImpl<>(res, pageable, notificaitonList.hasNext());
 
     }
-    public Slice<GetMessageRes> getMessageByFromUser(String email, Pageable pageable) {
+
+    public Slice<GetMessageRes> getMessageByOwner(String email, Pageable pageable) {
 
         User user = userService.getUserByEmail(Email.of(email));
-        Slice<Message> messages = messageService.getMessageByFrom(user, pageable);
+        Slice<Message> messages = messageService.getMessageByOwner(user, pageable);
 
-        List<GetMessageRes> res = messages.stream().map(GetMessageRes::from).collect(Collectors.toList());
+        List<GetMessageRes> res = messages.stream().map(message -> GetMessageRes.of(message)).collect(Collectors.toList());
 
         return new SliceImpl<>(res, pageable, messages.hasNext());
 
     }
-
 
 
 }

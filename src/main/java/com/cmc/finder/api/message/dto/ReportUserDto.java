@@ -1,9 +1,6 @@
 package com.cmc.finder.api.message.dto;
 
-import com.cmc.finder.domain.user.entity.User;
 import lombok.*;
-
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter @Setter

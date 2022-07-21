@@ -23,20 +23,19 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public Slice<Message> getMessageByFrom(User from, Pageable pageable) {
-        return messageRepository.findAllByFrom(from, pageable);
+    public Slice<Message> getMessageByOwner(User from, Pageable pageable) {
+        return messageRepository.findAllByOwner(from, pageable);
     }
 
 
-    public Slice<Message> getMessageByFromOrTo(User from, User to, Pageable pageable) {
-
-        return messageRepository.findAllByFromOrTo(from, to, pageable);
+    public Slice<Message> getMessageByOwnerAndOther(User from, User to, Pageable pageable) {
+        return messageRepository.findAllByOwnerAndOther(from, to, pageable);
     }
 
     @Transactional
-    public void deleteMessage(User deletedMessageUser, User from) {
+    public void deleteMessage(User other, User owner) {
 
-        List<Message> deleteMessage = messageRepository.findAllByFromOrTo(deletedMessageUser, from);
+        List<Message> deleteMessage = messageRepository.findAllByOwnerAndOther(other, owner);
         messageRepository.deleteAllInBatch(deleteMessage);
 
     }

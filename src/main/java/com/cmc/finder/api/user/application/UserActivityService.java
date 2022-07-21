@@ -80,7 +80,7 @@ public class UserActivityService {
         User user = userService.getUserByEmail(Email.of(email));
         Slice<Message> messages = messageService.getMessageByOwner(user, pageable);
 
-        List<GetMessageRes> res = messages.stream().map(message -> GetMessageRes.of(message)).collect(Collectors.toList());
+        List<GetMessageRes> res = messages.stream().map(GetMessageRes::of).collect(Collectors.toList());
 
         return new SliceImpl<>(res, pageable, messages.hasNext());
 

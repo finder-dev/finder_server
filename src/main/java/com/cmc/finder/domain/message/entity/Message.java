@@ -18,7 +18,6 @@ public class Message extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long messageId;
 
-
     @ManyToOne(
             fetch = FetchType.LAZY
     )
@@ -31,21 +30,29 @@ public class Message extends BaseTimeEntity {
     @JoinColumn(name = "other_id", nullable = false)
     private User other;
 
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(name = "froms_id", nullable = false)
+    private User from;
+
     @Column(nullable = false)
     private String content;
 
     @Builder
-    public Message(User owner, User other, String content) {
+    public Message(User owner, User other, User from, String content) {
         this.owner = owner;
         this.other = other;
+        this.from = from;
         this.content = content;
     }
 
-    public static Message createMessage(User owner, User other, String content) {
+    public static Message createMessage(User owner, User other, User from, String content) {
 
         return Message.builder()
                 .owner(owner)
                 .other(other)
+                .from(from)
                 .content(content)
                 .build();
     }

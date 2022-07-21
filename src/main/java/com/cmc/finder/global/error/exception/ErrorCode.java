@@ -85,7 +85,11 @@ public enum ErrorCode {
     ALREADY_RECEIVED_REPORT(400, "이미 접수된 신고입니다."),
 
     // 메시지
-    CANT_SEND_ME_MESSAGE(400, "자신에게는 메일을 보낼 수 없습니다.");
+    CANT_SEND_ME_MESSAGE(400, "자신에게는 메일을 보낼 수 없습니다."),
+
+    // 차단
+    BLOCK_USER(400, "차단한 유저입니다."),
+    ALREADY_BLOCKED_USER(400, "이미 차단한 유저입니다.");
 
 
     ErrorCode(int status, String message) {

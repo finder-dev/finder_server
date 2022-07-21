@@ -26,9 +26,9 @@ public class GetConversationDto {
     @AllArgsConstructor
     public static class Response {
 
-        private Long ownerId;
+        private Long fromId;
 
-        private Long otherId;
+        private Long toId;
 
         private String content;
 
@@ -38,8 +38,8 @@ public class GetConversationDto {
         public static Response of(Message message) {
 
             Response response = Response.builder()
-                    .ownerId(message.getOwner().getUserId())
-                    .otherId(message.getOther().getUserId())
+                    .fromId(message.getFrom().getUserId())
+                    .toId(message.getFrom() == message.getOwner() ? message.getOther().getUserId() : message.getOwner().getUserId())
                     .content(message.getContent())
                     .createTime(DateTimeUtils.convertToLocalDatetimeToTime(message.getCreateTime()))
                     .build();

@@ -52,8 +52,8 @@ public class ApiMessageService {
             throw new BlockUserException(ErrorCode.BLOCK_USER);
         }
 
-        Message fromMessage = Message.createMessage(from, to, request.getContent());
-        Message toMessage = Message.createMessage(to, from, request.getContent());
+        Message fromMessage = Message.createMessage(from, to, from, request.getContent());
+        Message toMessage = Message.createMessage(to, from, from, request.getContent());
 
         messageService.create(fromMessage);
         messageService.create(toMessage);

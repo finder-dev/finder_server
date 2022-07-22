@@ -43,6 +43,7 @@ public class ApiMessageService {
 
         User from = userService.getUserByEmail(Email.of(email));
         User to = userService.getUserById(request.getToUserId());
+        to.isQuit();
 
         if (from.getUserId() == to.getUserId()) {
             throw new CantSendMeException(ErrorCode.CANT_SEND_ME_MESSAGE);

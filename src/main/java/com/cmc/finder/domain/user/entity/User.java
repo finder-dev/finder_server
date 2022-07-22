@@ -5,6 +5,8 @@ import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.model.Password;
+import com.cmc.finder.domain.user.exception.isQuitUserException;
+import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +20,7 @@ import java.util.UUID;
 @Table(name = "user")
 @Getter
 @NoArgsConstructor
-//@SQLDelete(sql = "UPDATE member SET is_delete = true WHERE id=?")
+//@SQLDelete(sql = "UPDATE user SET is_delete = true WHERE id=?")
 //@Where(clause = "is_deleted=false")
 public class User extends BaseTimeEntity {
 
@@ -100,19 +102,23 @@ public class User extends BaseTimeEntity {
     }
 
     public void update(User updateUser) {
-
         updateMBTI(updateUser.getMbti());
         updateNickname(updateUser.getNickname());
         if (updateUser.getPassword() != null) {
             this.password = updateUser.getPassword();
         }
-
     }
 
     public void quit() {
         this.nickname = String.format("탈퇴한 회원%s", UUID.randomUUID().toString().substring(0, 2));
         this.email = Email.getRandomValue();
         this.isDeleted = true;
+    }
+
+    public void isQuit() {
+        if (isDeleted) {
+            throw new isQuitUserException(ErrorCode.IS_QUIT_USER);
+        }
     }
 
     public void updateNotification() {

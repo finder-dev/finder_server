@@ -28,7 +28,7 @@ public enum ErrorCode {
     // 회원
     USER_NOT_FOUND(400, "해당 회원은 존재하지 않습니다."),
     NOT_MATCH_USER_TYPE(400, "소셜 타입이 일치하지 않습니다."),
-
+    IS_QUIT_USER(400, "탈퇴한 유저입니다."),
     // 메일
     FAILED_TO_SEND_MAIL(401, "메일 전송에 실패했습니다."),
 

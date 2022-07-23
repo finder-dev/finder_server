@@ -15,9 +15,6 @@ public class FinderApplication {
         SpringApplication.run(FinderApplication.class, args);
     }
 
-    @PostConstruct
-    public void started(){
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-    }
+
 
 }

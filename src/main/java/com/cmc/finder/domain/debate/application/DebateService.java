@@ -57,11 +57,6 @@ public class DebateService {
 
     }
 
-    @Transactional
-    public void deleteDebate(Debate debate) {
-
-        debateRepository.delete(debate);
-    }
 
     public Debate getHotDebate() {
 

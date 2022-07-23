@@ -49,7 +49,7 @@ public class DebateService {
 
         debateList.stream().forEach(debate -> {
             // 6, 5, 4, 3, 2, 1, 0, 마감
-            if (ChronoUnit.DAYS.between(debate.getCreateTime(), LocalDateTime.now()) > 6) {
+            if (ChronoUnit.DAYS.between(debate.getCreateTime().toLocalDate(), LocalDateTime.now().toLocalDate()) > 6) {
                 debate.updateDebateState(DebateState.COMPLETE);
             }
 
@@ -57,11 +57,6 @@ public class DebateService {
 
     }
 
-    @Transactional
-    public void deleteDebate(Debate debate) {
-
-        debateRepository.delete(debate);
-    }
 
     public Debate getHotDebate() {
 

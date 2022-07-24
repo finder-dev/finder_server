@@ -15,12 +15,5 @@ public interface DebateRepository extends JpaRepository<Debate, Long>, DebateRep
 
     List<Debate> findByState(DebateState state);
 
-    List<Debate> findAllByWriter(User user);
-
-    @Query(value = "select d " +
-            "from Debate d " +
-            "join d.debaters da " +
-            "where d.state=:debateState "+
-            "order by da.size desc ")
-    List<Debate> findHotDebate(Pageable pageable, DebateState debateState);
+   
 }

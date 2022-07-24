@@ -140,8 +140,10 @@ public class ApiDebateService {
 
     public GetHotDebateRes getHotDebate(String email) {
 
-        Debate debate = debateService.getHotDebate();
+
         User user = userService.getUserByEmail(Email.of(email));
+
+        Debate debate = debateService.getHotDebate(user);
 
         Boolean join = debaterService.existsDebater(user, debate);
         Debater debater = null;

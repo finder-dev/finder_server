@@ -46,7 +46,7 @@ public class ApiDebateService {
     public CreateDebateDto.Response createDebate(CreateDebateDto.Request request, String email) {
         User user = userService.getUserByEmail(Email.of(email));
 
-        if(request.getOptionA().equals(request.getOptionB())) {
+        if (request.getOptionA().equals(request.getOptionB())) {
             throw new SameOptionsException(ErrorCode.SAME_OPTIONS);
         }
 
@@ -104,10 +104,12 @@ public class ApiDebateService {
 
     }
 
-    public Slice<DebateSimpleDto.Response> getDebateList(DebateSimpleDto.Request request, Pageable pageable) {
+    public Slice<DebateSimpleDto.Response> getDebateList(DebateSimpleDto.Request request, String email, Pageable pageable) {
+
+        User user = userService.getUserByEmail(Email.of(email));
 
         DebateState debateState = request.getState() != null ? DebateState.from(request.getState()) : DebateState.PROCEEDING;
-        return debateService.getDebateList(debateState, pageable);
+        return debateService.getDebateList(debateState, user,  pageable);
 
     }
 
@@ -155,6 +157,7 @@ public class ApiDebateService {
         Long countB = debaterService.getDebaterCountByOption(debate, Option.B);
 
         return GetHotDebateRes.of(debate, countA, countB, join, debater);
+
     }
 
 

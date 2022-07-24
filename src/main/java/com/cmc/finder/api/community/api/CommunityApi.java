@@ -59,9 +59,12 @@ public class CommunityApi {
 
 
     @GetMapping("/hot")
-    public ResponseEntity<ApiResult<List<GetHotCommunityRes>>> getHotCommunityList() {
+    public ResponseEntity<ApiResult<List<GetHotCommunityRes>>> getHotCommunityList(
+            @UserEmail String email
 
-        List<GetHotCommunityRes> response = apiCommunityService.getHotCommunityList();
+    ) {
+
+        List<GetHotCommunityRes> response = apiCommunityService.getHotCommunityList(email);
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
@@ -141,7 +144,7 @@ public class CommunityApi {
     public ResponseEntity<ApiResult<ReportCommunityRes>> reportCommunity(
             @PathVariable Long communityId,
             @UserEmail String email
-    ){
+    ) {
         ReportCommunityRes response = apiCommunityService.reportCommunity(communityId, email);
         return ResponseEntity.ok(ApiUtils.success(response));
 

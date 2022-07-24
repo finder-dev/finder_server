@@ -14,12 +14,6 @@ public interface DebaterRepository extends JpaRepository<Debater, Long> {
 
     Optional<Debater> findByDebateAndUser(Debate debate, User user);
 
-//    @Query(
-//            value = "select count(d) " +
-//                    "from Debater d " +
-//                    "where d.option=:option "
-//    )
-
     Long countDebaterByDebateAndOption(Debate debate, Option option);
 
 

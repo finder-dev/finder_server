@@ -3,6 +3,9 @@ package com.cmc.finder.domain.debate.repository;
 import com.cmc.finder.api.debate.dto.DebateSimpleDto;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
+import com.cmc.finder.domain.model.ServiceType;
+import com.cmc.finder.domain.report.entity.Report;
+import com.cmc.finder.domain.user.entity.User;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.*;
@@ -12,7 +15,9 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.cmc.finder.domain.community.entity.QCommunity.community;
 import static com.cmc.finder.domain.debate.entity.QDebate.debate;
+import static com.cmc.finder.domain.report.entity.QReport.report;
 
 
 @Repository
@@ -25,14 +30,14 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
     }
 
     @Override
-    public Slice<DebateSimpleDto.Response> findDebateSimpleDto(DebateState state, Pageable pageable) {
+    public Slice<DebateSimpleDto.Response> findDebateSimpleDto(DebateState state, User curUser, Pageable pageable) {
 
 
         List<Debate> results = queryFactory
                 .select(debate)
                 .from(debate)
                 .where(
-                        searchByState(state)
+                        searchByState(state), community.communityId.notIn(getReportsByUser(curUser))
                 )
                 .orderBy(debate.debateId.desc())
                 .offset(pageable.getOffset())
@@ -56,6 +61,15 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
     private BooleanExpression searchByState(DebateState state) {
 
         return debate.state.eq(state);
+
+    }
+
+    private List<Long> getReportsByUser(User user) {
+
+        return queryFactory
+                .selectFrom(report)
+                .where(report.serviceType.eq(ServiceType.DEBATE), report.from.userId.eq(user.getUserId()))
+                .fetch().stream().map(Report::getServiceId).collect(Collectors.toList());
 
     }
 

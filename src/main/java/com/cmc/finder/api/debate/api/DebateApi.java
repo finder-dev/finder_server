@@ -49,13 +49,14 @@ public class DebateApi {
     @GetMapping
     public ResponseEntity<ApiResult<Slice<DebateSimpleDto.Response>>> getDebateList(
             @Valid DebateSimpleDto.Request request,
+            @UserEmail String email,
             Optional<Integer> page
     ) {
         Pageable pageable = PageRequest.of(
                 page.isPresent() ? page.get() : 0,
                 SET_PAGE_ITEM_MAX_COUNT);
 
-        Slice<DebateSimpleDto.Response> response = apiDebateService.getDebateList(request, pageable);
+        Slice<DebateSimpleDto.Response> response = apiDebateService.getDebateList(request,email, pageable);
 
         return ResponseEntity.ok(ApiUtils.success(response));
 

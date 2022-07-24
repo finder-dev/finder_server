@@ -13,13 +13,13 @@ import java.util.Optional;
 
 public interface CommunityRepository extends JpaRepository<Community, Long>, CommunityRepositoryCustom {
 
-    @Query(value = "select c " +
-            "from Community c " +
-            "join c.communityAnswers ca " +
-            "where c.communityId not in :reports " +
-            "group by c.communityId " +
-            "order by ca.size desc ")
-    List<Community> findHotCommunity(Pageable pageable, List<Long> reports);
+//    @Query(value = "select c " +
+//            "from Community c " +
+//            "join c.communityAnswers ca " +
+//            "where c.communityId not in (:reports is not null ) " +
+//            "group by c.communityId " +
+//            "order by ca.size desc ")
+//    List<Community> findHotCommunity(Pageable pageable, List<Long> reports);
 
 
     @Query("select c from Community c " +

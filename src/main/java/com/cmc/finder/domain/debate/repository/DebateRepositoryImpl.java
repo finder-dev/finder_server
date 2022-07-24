@@ -15,8 +15,8 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.cmc.finder.domain.community.entity.QCommunity.community;
 import static com.cmc.finder.domain.debate.entity.QDebate.debate;
+import static com.cmc.finder.domain.debate.entity.QDebater.*;
 import static com.cmc.finder.domain.report.entity.QReport.report;
 
 
@@ -32,12 +32,11 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
     @Override
     public Slice<DebateSimpleDto.Response> findDebateSimpleDto(DebateState state, User curUser, Pageable pageable) {
 
-
         List<Debate> results = queryFactory
                 .select(debate)
                 .from(debate)
                 .where(
-                        searchByState(state), community.communityId.notIn(getReportsByUser(curUser))
+                        searchByState(state), debate.debateId.notIn(getReportsByUser(curUser))
                 )
                 .orderBy(debate.debateId.desc())
                 .offset(pageable.getOffset())
@@ -56,6 +55,20 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
         }
 
         return new SliceImpl<>(contents, pageable, hasNext);
+    }
+
+    @Override
+    public List<Debate> findHotDebate(Pageable pageable, User user) {
+
+        return queryFactory
+                .selectFrom(debate)
+                .join(debate.debaters, debater)
+                .where(
+                        searchByState(DebateState.PROCEEDING), debate.debateId.notIn(getReportsByUser(user))
+                )
+                .orderBy(debate.debaters.size().desc())
+                .fetch();
+
     }
 
     private BooleanExpression searchByState(DebateState state) {

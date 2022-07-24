@@ -40,9 +40,9 @@ public class CommunityService {
 
     }
 
-    public List<Community> getHotCommunity(List reports) {
+    public List<Community> getHotCommunity(User user) {
 
-        return communityRepository.findHotCommunity(PageRequest.of(0, 5), reports);
+        return communityRepository.findHotCommunity(PageRequest.of(0, 5), user);
 
     }
 

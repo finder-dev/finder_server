@@ -21,6 +21,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,11 +80,9 @@ public class ApiCommunityService {
     public List<GetHotCommunityRes> getHotCommunityList(String email) {
         User user = userService.getUserByEmail(Email.of(email));
 
-        List<Long> reportsByUser = reportService.getReportsByUser(user, ServiceType.COMMUNITY);
-
-        List<Community> hotCommunity = communityService.getHotCommunity(reportsByUser);
-        return hotCommunity.stream().map(GetHotCommunityRes::from).
-                collect(Collectors.toList());
+        List<Community> hotCommunity = communityService.getHotCommunity(user);
+        return hotCommunity.stream().map(GetHotCommunityRes::from)
+                .collect(Collectors.toList());
 
     }
 

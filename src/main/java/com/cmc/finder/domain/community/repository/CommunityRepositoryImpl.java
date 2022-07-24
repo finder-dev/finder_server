@@ -3,6 +3,7 @@ package com.cmc.finder.domain.community.repository;
 import com.cmc.finder.api.community.dto.CommunitySearchDto;
 import com.cmc.finder.api.community.dto.CommunitySimpleDto;
 import com.cmc.finder.domain.community.entity.Community;
+import com.cmc.finder.domain.community.entity.QCommunityAnswer;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.report.entity.QReport;
@@ -14,6 +15,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 
 import static com.cmc.finder.domain.community.entity.QCommunity.community;
 
+import static com.cmc.finder.domain.community.entity.QCommunityAnswer.communityAnswer;
 import static com.cmc.finder.domain.report.entity.QReport.report;
 import static com.cmc.finder.domain.user.entity.QUser.user;
 
@@ -32,6 +35,21 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
 
     public CommunityRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
+    }
+
+    @Override
+    public List<Community> findHotCommunity(Pageable pageable, User curUser) {
+
+        return queryFactory
+                .selectFrom(community)
+                .join(community.communityAnswers, communityAnswer)
+                .where(
+                        community.communityId.notIn(getReportsByUser(curUser))
+                )
+                .groupBy(community.communityId)
+                .orderBy(community.communityAnswers.size().desc())
+                .fetch();
+
     }
 
     @Override
@@ -67,7 +85,6 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
 
     @Override
     public Slice<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search, User curUser) {
-
 
 
         List<Community> results = queryFactory

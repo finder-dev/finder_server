@@ -76,8 +76,12 @@ public class ApiCommunityService {
 
     }
 
-    public List<GetHotCommunityRes> getHotCommunityList() {
-        List<Community> hotCommunity = communityService.getHotCommunity();
+    public List<GetHotCommunityRes> getHotCommunityList(String email) {
+        User user = userService.getUserByEmail(Email.of(email));
+
+        List<Long> reportsByUser = reportService.getReportsByUser(user, ServiceType.COMMUNITY);
+
+        List<Community> hotCommunity = communityService.getHotCommunity(reportsByUser);
         return hotCommunity.stream().map(GetHotCommunityRes::from).
                 collect(Collectors.toList());
 

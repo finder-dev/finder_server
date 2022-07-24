@@ -5,6 +5,7 @@ import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.exception.DebaterNotExistsException;
 import com.cmc.finder.domain.debate.repository.DebateRepository;
+import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.global.error.exception.EntityNotFoundException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -70,9 +71,9 @@ public class DebateService {
 
     }
 
-    public Slice<DebateSimpleDto.Response> getDebateList(DebateState debateState, Pageable pageable) {
+    public Slice<DebateSimpleDto.Response> getDebateList(DebateState debateState, User user, Pageable pageable) {
 
-        return debateRepository.findDebateSimpleDto(debateState, pageable);
+        return debateRepository.findDebateSimpleDto(debateState, user, pageable);
 
     }
 

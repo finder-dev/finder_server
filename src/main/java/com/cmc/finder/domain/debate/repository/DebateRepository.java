@@ -15,5 +15,5 @@ public interface DebateRepository extends JpaRepository<Debate, Long>, DebateRep
 
     List<Debate> findByState(DebateState state);
 
-   
+
 }

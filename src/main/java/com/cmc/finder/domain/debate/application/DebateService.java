@@ -59,9 +59,9 @@ public class DebateService {
     }
 
 
-    public Debate getHotDebate() {
+    public Debate getHotDebate(User user) {
 
-        List<Debate> hotDebate = debateRepository.findHotDebate(PageRequest.of(0, 1), DebateState.PROCEEDING);
+        List<Debate> hotDebate = debateRepository.findHotDebate(PageRequest.of(0, 1), user);
 
         if (hotDebate.size() == 0) {
             throw new DebaterNotExistsException(ErrorCode.DEBATE_PARTICIPATE_DEBATER_NOT_EXISTS);

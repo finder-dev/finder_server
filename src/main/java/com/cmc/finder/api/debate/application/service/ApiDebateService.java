@@ -140,7 +140,6 @@ public class ApiDebateService {
 
     public GetHotDebateRes getHotDebate(String email) {
 
-
         User user = userService.getUserByEmail(Email.of(email));
 
         Debate debate = debateService.getHotDebate(user);

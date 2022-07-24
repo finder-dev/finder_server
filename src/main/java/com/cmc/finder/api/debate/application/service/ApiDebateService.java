@@ -155,6 +155,7 @@ public class ApiDebateService {
         Long countB = debaterService.getDebaterCountByOption(debate, Option.B);
 
         return GetHotDebateRes.of(debate, countA, countB, join, debater);
+
     }
 
 

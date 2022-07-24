@@ -4,10 +4,14 @@ import com.cmc.finder.api.community.dto.CommunitySearchDto;
 import com.cmc.finder.api.community.dto.CommunitySimpleDto;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.model.MBTI;
+import com.cmc.finder.domain.model.ServiceType;
+import com.cmc.finder.domain.report.entity.QReport;
+import com.cmc.finder.domain.report.entity.Report;
 import com.cmc.finder.domain.user.entity.User;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Repository;
@@ -18,6 +22,7 @@ import java.util.stream.Collectors;
 
 import static com.cmc.finder.domain.community.entity.QCommunity.community;
 
+import static com.cmc.finder.domain.report.entity.QReport.report;
 import static com.cmc.finder.domain.user.entity.QUser.user;
 
 @Repository
@@ -33,11 +38,10 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     public Slice<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti, User curUser) {
 
         List<Community> results = queryFactory
-                .select(community)
-                .from(community)
+                .selectFrom(community)
                 .join(community.user, user).fetchJoin()
                 .where(
-                       findByMBTI(mbti)
+                       findByMBTI(mbti), community.communityId.notIn(getReportsByUser(curUser))
                 )
                 .groupBy(community.communityId)
                 .orderBy(listSort(pageable))
@@ -63,12 +67,15 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
 
     @Override
     public Slice<CommunitySearchDto.Response> findSearchCommunity(Pageable pageable, String search, User curUser) {
+
+
+
         List<Community> results = queryFactory
                 .select(community)
                 .from(community)
                 .join(community.user, user).fetchJoin()
                 .where(
-                        searchByLike(search)
+                        searchByLike(search), community.communityId.notIn(getReportsByUser(curUser))
                 )
                 .groupBy(community.communityId)
                 .orderBy(listSort(pageable))
@@ -116,6 +123,15 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
             }
         }
         return null;
+    }
+
+    private List<Long> getReportsByUser(User user) {
+
+        return queryFactory
+                .selectFrom(report)
+                .where(report.serviceType.eq(ServiceType.COMMUNITY), report.from.userId.eq(user.getUserId()))
+                .fetch().stream().map(Report::getServiceId).collect(Collectors.toList());
+
     }
 
 }

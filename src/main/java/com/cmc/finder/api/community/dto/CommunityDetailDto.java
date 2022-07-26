@@ -4,6 +4,7 @@ import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.community.entity.CommunityImage;
 import com.cmc.finder.domain.model.MBTI;
+import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.global.util.DateTimeUtils;
 import lombok.Builder;
 import lombok.Getter;
@@ -72,14 +73,14 @@ public class CommunityDetailDto {
     }
 
     public static CommunityDetailDto of(Community community, List<CommunityAnswer> answers,
-                                        Boolean likeUser, Boolean saveUser) {
+                                        Boolean likeUser, Boolean saveUser,
+                                        List<Long> reportedServiceId, List<User> blockedUser) {
 
-        List<CommunityImageDto> communityImageDtos = community.getCommunityImages().stream().map(communityImage ->
-                CommunityImageDto.from(communityImage)
+        List<CommunityImageDto> communityImageDtos = community.getCommunityImages().stream().map(CommunityImageDto::from
         ).collect(Collectors.toList());
 
-        List<CommunityDetailDto.AnswerHistDto> answerHistDtos = answers.stream().map(answer ->
-                AnswerHistDto.from(answer)
+        List<CommunityDetailDto.AnswerHistDto> answerHistDtos = answers.stream().map(
+                communityAnswer -> AnswerHistDto.of(communityAnswer, reportedServiceId, blockedUser)
         ).collect(Collectors.toList());
 
         return CommunityDetailDto.builder()
@@ -144,7 +145,7 @@ public class CommunityDetailDto {
 
         @Builder
         private AnswerHistDto(Long answerId, String answerContent, MBTI userMBTI, String userNickname,
-                             Long userId, List<ReplyHistDto> replyHistDtos, String createTime) {
+                              Long userId, List<ReplyHistDto> replyHistDtos, String createTime) {
             this.answerId = answerId;
             this.answerContent = answerContent;
             this.userId = userId;
@@ -154,12 +155,19 @@ public class CommunityDetailDto {
             this.createTime = createTime;
         }
 
-        private static AnswerHistDto from(CommunityAnswer answer) {
+        private static AnswerHistDto of(CommunityAnswer answer, List<Long> reportedServiceId, List<User> blockedUser) {
 
             Collections.reverse(answer.getReplies());
-            List<ReplyHistDto> replies = answer.getReplies().stream().map(reply ->
-                    ReplyHistDto.from(reply)
-            ).collect(Collectors.toList());
+            List<ReplyHistDto> replies = answer.getReplies().
+                    stream()
+                    .filter(reply ->
+                            !reportedServiceId.contains(reply.getCommunityAnswerId())
+                    )
+                    .filter(
+                            reply -> !blockedUser.contains(reply.getUser())
+                    )
+                    .map(ReplyHistDto::from)
+                    .collect(Collectors.toList());
 
             return AnswerHistDto.builder()
                     .answerId(answer.getCommunityAnswerId())
@@ -190,7 +198,7 @@ public class CommunityDetailDto {
 
             @Builder
             private ReplyHistDto(Long replyId, String replyContent, MBTI userMBTI,
-                                Long userId, String userNickname, String createTime) {
+                                 Long userId, String userNickname, String createTime) {
                 this.replyId = replyId;
                 this.replyContent = replyContent;
                 this.userId = userId;

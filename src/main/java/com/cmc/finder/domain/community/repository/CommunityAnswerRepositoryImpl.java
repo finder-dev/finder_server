@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.cmc.finder.domain.block.entity.QBlock.block;
-import static com.cmc.finder.domain.community.entity.QCommunity.community;
 import static com.cmc.finder.domain.community.entity.QCommunityAnswer.communityAnswer;
 import static com.cmc.finder.domain.report.entity.QReport.report;
 import static com.cmc.finder.domain.user.entity.QUser.user;
@@ -39,9 +38,11 @@ public class CommunityAnswerRepositoryImpl implements CommunityAnswerRepositoryC
     @Override
     public List<CommunityAnswer> findAllByCommunityFetchUser(Community community, User curUser) {
 
+
         return queryFactory
                 .selectFrom(communityAnswer)
                 .join(communityAnswer.user, user).fetchJoin()
+                .join(communityAnswer.replies).fetchJoin()
                 .where(
                         communityAnswer.community.eq(community),
                         communityAnswer.parent.isNull(),
@@ -56,7 +57,7 @@ public class CommunityAnswerRepositoryImpl implements CommunityAnswerRepositoryC
 
         return queryFactory
                 .selectFrom(report)
-                .where(report.serviceType.eq(ServiceType.COMMUNITY_ANSWER), report.from.userId.eq(user.getUserId()))
+                .where(report.serviceType.eq(ServiceType.COMMUNITY_ANSWER), report.from.eq(user))
                 .fetch().stream().map(Report::getServiceId).collect(Collectors.toList());
 
     }

@@ -1,6 +1,7 @@
 package com.cmc.finder.api.debate.application.service;
 
 import com.cmc.finder.api.debate.dto.*;
+import com.cmc.finder.domain.block.application.BlockService;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.constant.Option;
 import com.cmc.finder.domain.debate.entity.Debate;
@@ -40,6 +41,7 @@ public class ApiDebateService {
     private final UserService userService;
     private final FcmService fcmService;
     private final ReportService reportService;
+    private final BlockService blockService;
 
 
     @Transactional
@@ -124,6 +126,12 @@ public class ApiDebateService {
             debater = debaterService.getDebater(user, debate);
         }
 
+        // 신고 조회
+        List<Long> reportedServiceId = reportService.getReportsByUser(user, ServiceType.COMMUNITY_ANSWER);
+
+        // 차단 조회
+        List<User> blockedUser = blockService.getBlockUser(user);
+
 
         // 답변 조회 -> id 역순
         List<DebateAnswer> debateAnswers = debateAnswerService.getDebateAnswersByDebate(debate);
@@ -134,7 +142,7 @@ public class ApiDebateService {
         // Option B count
         Long countB = debaterService.getDebaterCountByOption(debate, Option.B);
 
-        return DebateDetailDto.of(debate, debateAnswers, join, countA, countB, debater);
+        return DebateDetailDto.of(debate, debateAnswers, join, countA, countB, debater, reportedServiceId, blockedUser);
     }
 
 

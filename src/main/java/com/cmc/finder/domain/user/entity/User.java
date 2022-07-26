@@ -8,6 +8,7 @@ import com.cmc.finder.domain.model.Password;
 import com.cmc.finder.domain.user.exception.isQuitUserException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;

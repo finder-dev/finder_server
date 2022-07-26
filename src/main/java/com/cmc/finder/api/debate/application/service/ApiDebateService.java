@@ -132,9 +132,8 @@ public class ApiDebateService {
         // 차단 조회
         List<User> blockedUser = blockService.getBlockUser(user);
 
-
         // 답변 조회 -> id 역순
-        List<DebateAnswer> debateAnswers = debateAnswerService.getDebateAnswersByDebate(debate);
+        List<DebateAnswer> debateAnswers = debateAnswerService.getDebateAnswersByDebate(debate, user);
 
         // Option A count
         Long countA = debaterService.getDebaterCountByOption(debate, Option.A);

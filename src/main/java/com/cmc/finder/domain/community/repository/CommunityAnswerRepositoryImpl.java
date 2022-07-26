@@ -42,7 +42,6 @@ public class CommunityAnswerRepositoryImpl implements CommunityAnswerRepositoryC
         return queryFactory
                 .selectFrom(communityAnswer)
                 .join(communityAnswer.user, user).fetchJoin()
-                .join(communityAnswer.replies).fetchJoin()
                 .where(
                         communityAnswer.community.eq(community),
                         communityAnswer.parent.isNull(),

@@ -129,11 +129,8 @@ public class DebateDetailDto {
 
             Collections.reverse(answer.getReplies());
             List<ReplyHistDto> replies = answer.getReplies().stream()
-                    .filter(reply -> {
-                        System.out.println(reply.getDebateAnswerId());
-                        System.out.println(reportedServiceId.get(0));
-                        return !reportedServiceId.contains(reply.getDebateAnswerId());
-                            }
+                    .filter(reply ->
+                            !reportedServiceId.contains(reply.getDebateAnswerId())
                     )
                     .filter(
                             reply -> !blockedUser.contains(reply.getUser())

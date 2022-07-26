@@ -3,6 +3,7 @@ package com.cmc.finder.domain.debate.application;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.DebateAnswer;
 import com.cmc.finder.domain.debate.repository.DebateAnswerRepository;
+import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.global.error.exception.EntityNotFoundException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,8 @@ public class DebateAnswerService {
         return debateAnswerRepository.save(saveDebateAnswer);
     }
 
-    public List<DebateAnswer> getDebateAnswersByDebate(Debate debate) {
-        return debateAnswerRepository.findAllByDebateFetchUser(debate);
+    public List<DebateAnswer> getDebateAnswersByDebate(Debate debate, User user) {
+        return debateAnswerRepository.findAllByDebateFetchUser(debate, user);
 
     }
 

@@ -33,7 +33,6 @@ public class DebateAnswerRepositoryImpl implements DebateAnswerRepositoryCustom 
         return queryFactory
                 .selectFrom(debateAnswer)
                 .join(debateAnswer.user, user).fetchJoin()
-                .join(debateAnswer.replies).fetchJoin()
                 .where(
                         debateAnswer.debate.eq(debate),
                         debateAnswer.parent.isNull(),

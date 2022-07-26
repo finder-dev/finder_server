@@ -1,6 +1,7 @@
 package com.cmc.finder.domain.debate.repository;
 
 import com.cmc.finder.api.debate.dto.DebateSimpleDto;
+import com.cmc.finder.domain.block.entity.Block;
 import com.cmc.finder.domain.debate.constant.DebateState;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.model.ServiceType;
@@ -15,6 +16,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.cmc.finder.domain.block.entity.QBlock.block;
 import static com.cmc.finder.domain.debate.entity.QDebate.debate;
 import static com.cmc.finder.domain.debate.entity.QDebater.*;
 import static com.cmc.finder.domain.report.entity.QReport.report;
@@ -33,10 +35,11 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
     public Slice<DebateSimpleDto.Response> findDebateSimpleDto(DebateState state, User curUser, Pageable pageable) {
 
         List<Debate> results = queryFactory
-                .select(debate)
-                .from(debate)
+                .selectFrom(debate)
                 .where(
-                        searchByState(state), debate.debateId.notIn(getReportsByUser(curUser))
+                        searchByState(state),
+                        debate.debateId.notIn(getReportsByUser(curUser)),
+                        debate.writer.notIn(getBlockUser(curUser))
                 )
                 .orderBy(debate.debateId.desc())
                 .offset(pageable.getOffset())
@@ -44,8 +47,7 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
                 .fetch();
 
 
-        List<DebateSimpleDto.Response> contents = results.stream().map(debate ->
-                DebateSimpleDto.Response.from(debate)
+        List<DebateSimpleDto.Response> contents = results.stream().map(DebateSimpleDto.Response::from
         ).collect(Collectors.toList());
 
         boolean hasNext = false;
@@ -64,7 +66,9 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
                 .selectFrom(debate)
                 .join(debate.debaters, debater)
                 .where(
-                        searchByState(DebateState.PROCEEDING), debate.debateId.notIn(getReportsByUser(user))
+                        searchByState(DebateState.PROCEEDING),
+                        debate.debateId.notIn(getReportsByUser(user)),
+                        debate.writer.notIn(getBlockUser(user))
                 )
                 .orderBy(debate.debaters.size().desc())
                 .fetch();
@@ -83,6 +87,15 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
                 .selectFrom(report)
                 .where(report.serviceType.eq(ServiceType.DEBATE), report.from.userId.eq(user.getUserId()))
                 .fetch().stream().map(Report::getServiceId).collect(Collectors.toList());
+
+    }
+
+    private List<User> getBlockUser(User user) {
+
+        return queryFactory
+                .selectFrom(block)
+                .where(block.from.eq(user))
+                .fetch().stream().map(Block::getTo).collect(Collectors.toList());
 
     }
 

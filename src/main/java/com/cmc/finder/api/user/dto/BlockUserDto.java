@@ -1,4 +1,4 @@
-package com.cmc.finder.api.message.dto;
+package com.cmc.finder.api.user.dto;
 
 import lombok.*;
 

@@ -2,20 +2,18 @@ package com.cmc.finder.domain.community.repository;
 
 import com.cmc.finder.api.community.dto.CommunitySearchDto;
 import com.cmc.finder.api.community.dto.CommunitySimpleDto;
+import com.cmc.finder.domain.block.entity.Block;
+import com.cmc.finder.domain.block.entity.QBlock;
 import com.cmc.finder.domain.community.entity.Community;
-import com.cmc.finder.domain.community.entity.QCommunityAnswer;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.model.ServiceType;
-import com.cmc.finder.domain.report.entity.QReport;
 import com.cmc.finder.domain.report.entity.Report;
 import com.cmc.finder.domain.user.entity.User;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.*;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -27,6 +25,7 @@ import static com.cmc.finder.domain.community.entity.QCommunity.community;
 import static com.cmc.finder.domain.community.entity.QCommunityAnswer.communityAnswer;
 import static com.cmc.finder.domain.report.entity.QReport.report;
 import static com.cmc.finder.domain.user.entity.QUser.user;
+import static com.cmc.finder.domain.block.entity.QBlock.block;
 
 @Repository
 public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
@@ -44,7 +43,8 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .selectFrom(community)
                 .join(community.communityAnswers, communityAnswer)
                 .where(
-                        community.communityId.notIn(getReportsByUser(curUser))
+                        community.communityId.notIn(getReportsByUser(curUser)),
+                        community.user.notIn(getBlockUser(curUser))
                 )
                 .groupBy(community.communityId)
                 .orderBy(community.communityAnswers.size().desc())
@@ -59,7 +59,9 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .selectFrom(community)
                 .join(community.user, user).fetchJoin()
                 .where(
-                       findByMBTI(mbti), community.communityId.notIn(getReportsByUser(curUser))
+                       findByMBTI(mbti),
+                        community.communityId.notIn(getReportsByUser(curUser)),
+                        community.user.notIn(getBlockUser(curUser))
                 )
                 .groupBy(community.communityId)
                 .orderBy(listSort(pageable))
@@ -88,11 +90,12 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
 
 
         List<Community> results = queryFactory
-                .select(community)
-                .from(community)
+                .selectFrom(community)
                 .join(community.user, user).fetchJoin()
                 .where(
-                        searchByLike(search), community.communityId.notIn(getReportsByUser(curUser))
+                        searchByLike(search),
+                        community.communityId.notIn(getReportsByUser(curUser)),
+                        community.user.notIn(getBlockUser(curUser))
                 )
                 .groupBy(community.communityId)
                 .orderBy(listSort(pageable))
@@ -148,6 +151,15 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 .selectFrom(report)
                 .where(report.serviceType.eq(ServiceType.COMMUNITY), report.from.userId.eq(user.getUserId()))
                 .fetch().stream().map(Report::getServiceId).collect(Collectors.toList());
+
+    }
+
+    private List<User> getBlockUser(User user) {
+
+        return queryFactory
+                .selectFrom(block)
+                .where(block.from.eq(user))
+                .fetch().stream().map(Block::getTo).collect(Collectors.toList());
 
     }
 

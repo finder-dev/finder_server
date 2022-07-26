@@ -74,14 +74,7 @@ public class MessageApi {
         return ResponseEntity.ok(ApiUtils.success(response));
     }
 
-    @PostMapping("/block")
-    public ResponseEntity<ApiResult<BlockUserDto.Response>> blockUser(
-            @RequestBody @Valid BlockUserDto.Request request,
-            @UserEmail String email
-    ) {
-        BlockUserDto.Response response = apiMessageService.blockUser(request, email);
-        return ResponseEntity.ok(ApiUtils.success(response));
-    }
+
 
 
 }

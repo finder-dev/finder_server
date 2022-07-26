@@ -34,6 +34,10 @@ public class ReportService {
         return reportRepository.existsByFromAndServiceTypeAndServiceId(report.getFrom(), report.getServiceType(), report.getServiceId());
     }
 
+    public List<Long> getReportsByUser(User user, ServiceType serviceType) {
+        return reportRepository.findAllByFromAndServiceType(user, serviceType).stream().map(Report::getServiceId).collect(Collectors.toList());
+    }
+
 
 
 }

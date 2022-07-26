@@ -4,6 +4,7 @@ import com.cmc.finder.domain.debate.entity.DebateAnswer;
 import com.cmc.finder.domain.debate.entity.Debate;
 import com.cmc.finder.domain.debate.entity.Debater;
 import com.cmc.finder.domain.model.MBTI;
+import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.global.util.DateTimeUtils;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,8 +50,8 @@ public class DebateDetailDto {
 
     @Builder
     private DebateDetailDto(Long debateId, String debateTitle, String optionA, Long optionACount, String optionB, Long optionBCount,
-                           Integer answerCount, Long writerId, String writerNickname, MBTI writerMBTI,
-                           Boolean join, String joinOption, LocalDateTime createTime, List<AnswerHistDto> answerHistDtos) {
+                            Integer answerCount, Long writerId, String writerNickname, MBTI writerMBTI,
+                            Boolean join, String joinOption, LocalDateTime createTime, List<AnswerHistDto> answerHistDtos) {
         this.debateId = debateId;
         this.debateTitle = debateTitle;
         this.optionA = optionA;
@@ -68,10 +69,11 @@ public class DebateDetailDto {
     }
 
     public static DebateDetailDto of(Debate debate, List<DebateAnswer> answers,
-                                     Boolean join, Long optionACount, Long optionBCount, Debater debater) {
+                                     Boolean join, Long optionACount, Long optionBCount, Debater debater,
+                                     List<Long> reportedServiceId, List<User> blockedUser) {
 
         List<DebateDetailDto.AnswerHistDto> answerHistDtos = answers.stream().map(
-                AnswerHistDto::from
+                debateAnswer -> AnswerHistDto.of(debateAnswer, reportedServiceId, blockedUser)
         ).collect(Collectors.toList());
 
         return DebateDetailDto.builder()
@@ -123,12 +125,17 @@ public class DebateDetailDto {
             this.createTime = DateTimeUtils.convertToLocalDatetimeToTime(createTime);
         }
 
-        public static DebateDetailDto.AnswerHistDto from(DebateAnswer answer) {
+        public static DebateDetailDto.AnswerHistDto of(DebateAnswer answer, List<Long> reportedServiceId, List<User> blockedUser) {
 
             Collections.reverse(answer.getReplies());
-            List<ReplyHistDto> replies = answer.getReplies().stream().map(
-                    ReplyHistDto::from
-            ).collect(Collectors.toList());
+            List<ReplyHistDto> replies = answer.getReplies().stream()
+                    .filter(reply ->
+                            !reportedServiceId.contains(reply.getDebateAnswerId())
+                    )
+                    .filter(
+                            reply -> !blockedUser.contains(reply.getUser())
+                    )
+                    .map(ReplyHistDto::from).collect(Collectors.toList());
 
             return AnswerHistDto.builder()
                     .answerId(answer.getDebateAnswerId())

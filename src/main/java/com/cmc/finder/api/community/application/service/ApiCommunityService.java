@@ -1,6 +1,7 @@
 package com.cmc.finder.api.community.application.service;
 
 import com.cmc.finder.api.community.dto.*;
+import com.cmc.finder.domain.block.application.BlockService;
 import com.cmc.finder.domain.community.application.*;
 import com.cmc.finder.domain.community.entity.*;
 import com.cmc.finder.domain.community.exception.CommunityImageExceedNumberException;
@@ -40,6 +41,7 @@ public class ApiCommunityService {
     private final SaveCommunityService saveCommunityService;
     private final LikeService likeService;
     private final ReportService reportService;
+    private final BlockService blockService;
 
     private final S3Uploader s3Uploader;
 
@@ -95,8 +97,14 @@ public class ApiCommunityService {
         // 커뮤니티 조회
         Community community = communityService.getCommunityFetchUser(communityId);
 
+        // 신고 조회
+        List<Long> reportedServiceId = reportService.getReportsByUser(user, ServiceType.COMMUNITY_ANSWER);
+
+        // 차단 조회
+        List<User> blockedUser = blockService.getBlockUser(user);
+
         // 답변 조회 -> id 역순
-        List<CommunityAnswer> answers = communityAnswerService.getAnswersByCommunity(community);
+        List<CommunityAnswer> answers = communityAnswerService.getAnswersByCommunity(community, user);
 
         // 이미 저장?
         Boolean saveUser = saveCommunityService.existsUser(community, user);
@@ -104,7 +112,7 @@ public class ApiCommunityService {
         // 이미 좋아요?
         Boolean likeUser = likeService.existsUser(community, user);
 
-        return CommunityDetailDto.of(community, answers, likeUser, saveUser);
+        return CommunityDetailDto.of(community, answers, likeUser, saveUser, reportedServiceId, blockedUser);
     }
 
     @CheckCommunityAdmin

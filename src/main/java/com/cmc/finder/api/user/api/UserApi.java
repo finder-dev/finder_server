@@ -1,5 +1,7 @@
 package com.cmc.finder.api.user.api;
 
+import com.cmc.finder.api.user.dto.BlockUserDto;
+import com.cmc.finder.api.user.application.UserBlockService;
 import com.cmc.finder.api.user.dto.*;
 import com.cmc.finder.api.user.application.UserActivityService;
 import com.cmc.finder.api.user.application.UserInfoService;
@@ -27,6 +29,7 @@ public class UserApi {
 
     private final UserInfoService userInfoService;
     private final UserActivityService userActivityService;
+    private final UserBlockService userBlockService;
 
     @GetMapping
     public ResponseEntity<ApiResult<GetUserInfoRes>> getUserInfo(
@@ -195,6 +198,15 @@ public class UserApi {
         GetNotificationActiveRes response = userInfoService.getNotificaitonActive(email);
         return ResponseEntity.ok(ApiUtils.success(response));
 
+    }
+
+    @PostMapping("/block")
+    public ResponseEntity<ApiResult<BlockUserDto.Response>> blockUser(
+            @RequestBody @Valid BlockUserDto.Request request,
+            @UserEmail String email
+    ) {
+        BlockUserDto.Response response = userBlockService.blockUser(request, email);
+        return ResponseEntity.ok(ApiUtils.success(response));
     }
 
 

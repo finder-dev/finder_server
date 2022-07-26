@@ -5,6 +5,8 @@ import com.cmc.finder.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface BlockRepository extends JpaRepository<Block, Long> {
 
     @Query("select count (b) > 0 " +
@@ -13,5 +15,7 @@ public interface BlockRepository extends JpaRepository<Block, Long> {
     Boolean existsByFromOrTo(User from, User to);
 
     Boolean existsByFromAndTo(User from, User to);
+
+    List<Block> findAllByFrom(User from);
 
 }

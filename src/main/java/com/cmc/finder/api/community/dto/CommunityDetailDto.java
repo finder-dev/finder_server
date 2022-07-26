@@ -71,7 +71,8 @@ public class CommunityDetailDto {
         this.answerHistDtos = answerHistDtos;
     }
 
-    public static CommunityDetailDto of(Community community, List<CommunityAnswer> answers, Boolean likeUser, Boolean saveUser) {
+    public static CommunityDetailDto of(Community community, List<CommunityAnswer> answers,
+                                        Boolean likeUser, Boolean saveUser) {
 
         List<CommunityImageDto> communityImageDtos = community.getCommunityImages().stream().map(communityImage ->
                 CommunityImageDto.from(communityImage)

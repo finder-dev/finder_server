@@ -19,9 +19,9 @@ public class CommunityAnswerService {
 
     private final CommunityAnswerRepository communityAnswerRepository;
 
-    public List<CommunityAnswer> getAnswersByCommunity(Community community) {
+    public List<CommunityAnswer> getAnswersByCommunity(Community community, User user) {
 
-        return communityAnswerRepository.findAllByCommunityFetchUser(community);
+        return communityAnswerRepository.findAllByCommunityFetchUser(community, user);
 
     }
 

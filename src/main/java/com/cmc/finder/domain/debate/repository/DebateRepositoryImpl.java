@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 import static com.cmc.finder.domain.block.entity.QBlock.block;
 import static com.cmc.finder.domain.debate.entity.QDebate.debate;
-import static com.cmc.finder.domain.debate.entity.QDebater.*;
+import static com.cmc.finder.domain.debate.entity.QDebater.debater;
 import static com.cmc.finder.domain.report.entity.QReport.report;
 
 

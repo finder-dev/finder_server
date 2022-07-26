@@ -127,7 +127,7 @@ public class ApiDebateService {
         }
 
         // 신고 조회
-        List<Long> reportedServiceId = reportService.getReportsByUser(user, ServiceType.COMMUNITY_ANSWER);
+        List<Long> reportedServiceId = reportService.getReportsByUser(user, ServiceType.DEBATE_ANSWER);
 
         // 차단 조회
         List<User> blockedUser = blockService.getBlockUser(user);

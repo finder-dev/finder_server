@@ -11,7 +11,7 @@ import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.notification.application.NotificationService;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.domain.user.application.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;

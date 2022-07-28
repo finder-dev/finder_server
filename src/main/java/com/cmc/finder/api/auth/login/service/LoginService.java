@@ -10,7 +10,7 @@ import com.cmc.finder.domain.jwt.application.RefreshTokenRedisService;
 import com.cmc.finder.domain.jwt.application.TokenManager;
 import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.domain.user.application.UserService;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.global.error.exception.BusinessException;
 import com.cmc.finder.global.error.exception.ErrorCode;

@@ -1,7 +1,6 @@
 package com.cmc.finder.api.debate.application.service;
 
 import com.cmc.finder.api.debate.dto.*;
-import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.debate.application.DebateAnswerService;
 import com.cmc.finder.domain.debate.application.DebateService;
 import com.cmc.finder.domain.debate.entity.Debate;
@@ -14,7 +13,7 @@ import com.cmc.finder.domain.report.application.ReportService;
 import com.cmc.finder.domain.report.entity.Report;
 import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.domain.user.application.UserService;
 import com.cmc.finder.global.advice.CheckDebateAdmin;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.notification.FcmService;

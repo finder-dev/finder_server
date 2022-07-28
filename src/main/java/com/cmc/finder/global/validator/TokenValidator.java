@@ -2,13 +2,11 @@ package com.cmc.finder.global.validator;
 
 import com.cmc.finder.domain.jwt.constant.GrantType;
 import com.cmc.finder.domain.user.constant.UserType;
-import com.cmc.finder.global.config.InvalidValueException;
+import com.cmc.finder.global.error.exception.InvalidValueException;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.time.LocalDateTime;
 
 @Service
 public class TokenValidator {

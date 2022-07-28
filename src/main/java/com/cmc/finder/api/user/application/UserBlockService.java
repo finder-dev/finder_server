@@ -6,7 +6,7 @@ import com.cmc.finder.domain.block.entity.Block;
 import com.cmc.finder.domain.community.exception.AlreadyBlockedUserException;
 import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.domain.user.application.UserService;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

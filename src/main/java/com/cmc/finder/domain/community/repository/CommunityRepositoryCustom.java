@@ -15,7 +15,7 @@ import java.util.List;
 
 public interface CommunityRepositoryCustom {
 
-    List<Community> findHotCommunity(Pageable pageable, User user);
+    List<Community> findHotCommunity(User user);
 
     Slice<CommunitySimpleDto.Response> findPageCommunityByMBTI(Pageable pageable, String mbti, User user);
 

@@ -1,4 +1,4 @@
-package com.cmc.finder.global.config;
+package com.cmc.finder.global.error.exception;
 
 
 import com.cmc.finder.global.error.exception.BusinessException;

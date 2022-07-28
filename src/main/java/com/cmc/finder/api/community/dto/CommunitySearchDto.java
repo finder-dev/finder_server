@@ -27,6 +27,7 @@ public class CommunitySearchDto {
 
     }
 
+    //TODO Response DTO 하나로 리팩토링
     @Getter
     @Setter
     public static class Response {

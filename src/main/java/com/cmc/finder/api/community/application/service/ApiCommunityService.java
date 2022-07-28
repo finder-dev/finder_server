@@ -11,7 +11,7 @@ import com.cmc.finder.domain.report.application.ReportService;
 import com.cmc.finder.domain.report.entity.Report;
 import com.cmc.finder.domain.report.exception.AlreadyReceivedReportException;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.domain.user.application.UserService;
 import com.cmc.finder.global.advice.CheckCommunityAdmin;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import com.cmc.finder.infra.file.S3Uploader;
@@ -22,7 +22,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

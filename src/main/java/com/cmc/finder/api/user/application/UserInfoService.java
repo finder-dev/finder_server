@@ -5,7 +5,7 @@ import com.cmc.finder.domain.model.Email;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.model.Password;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.domain.user.application.UserService;
 import com.cmc.finder.domain.user.validator.UserValidator;
 import com.cmc.finder.infra.file.S3Uploader;
 import lombok.RequiredArgsConstructor;

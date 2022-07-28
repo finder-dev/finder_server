@@ -37,7 +37,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
     }
 
     @Override
-    public List<Community> findHotCommunity(Pageable pageable, User curUser) {
+    public List<Community> findHotCommunity(User curUser) {
 
         return queryFactory
                 .selectFrom(community)
@@ -48,6 +48,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
                 )
                 .groupBy(community.communityId)
                 .orderBy(community.communityAnswers.size().desc())
+                .limit(5)
                 .fetch();
 
     }

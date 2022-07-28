@@ -42,7 +42,8 @@ public class CommunityService {
 
     public List<Community> getHotCommunity(User user) {
 
-        return communityRepository.findHotCommunity(PageRequest.of(0, 5), user);
+        List<Community> hotCommunity = communityRepository.findHotCommunity(user);
+        return hotCommunity;
 
     }
 

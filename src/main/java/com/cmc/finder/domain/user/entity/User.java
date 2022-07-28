@@ -74,7 +74,6 @@ public class User extends BaseTimeEntity {
 
     public static User createUser(User user) {
 
-
         return User.builder()
                 .userType(user.getUserType())
                 .email(user.getEmail())

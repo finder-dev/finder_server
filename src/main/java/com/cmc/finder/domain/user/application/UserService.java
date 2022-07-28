@@ -1,4 +1,4 @@
-package com.cmc.finder.domain.user.service;
+package com.cmc.finder.domain.user.application;
 
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.repository.UserRepository;

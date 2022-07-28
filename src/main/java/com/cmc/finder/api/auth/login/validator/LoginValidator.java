@@ -5,7 +5,7 @@ import com.cmc.finder.api.auth.login.exception.LoginFailedException;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.user.constant.UserType;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.global.config.InvalidValueException;
+import com.cmc.finder.global.error.exception.InvalidValueException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 

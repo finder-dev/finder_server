@@ -12,7 +12,7 @@ import com.cmc.finder.domain.qna.question.application.FavoriteQuestionService;
 import com.cmc.finder.domain.qna.question.application.QuestionImageService;
 import com.cmc.finder.domain.qna.question.application.QuestionService;
 import com.cmc.finder.domain.user.entity.User;
-import com.cmc.finder.domain.user.service.UserService;
+import com.cmc.finder.domain.user.application.UserService;
 import com.cmc.finder.domain.qna.question.application.ViewCountService;
 import com.cmc.finder.global.error.exception.AuthenticationException;
 import com.cmc.finder.global.error.exception.ErrorCode;

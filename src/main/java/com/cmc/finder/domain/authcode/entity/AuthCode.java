@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.Id;
+import java.util.Date;
 
 @RedisHash("authCode")
 @Getter
@@ -18,7 +19,7 @@ public class AuthCode {
 
     private String code;
 
-//    private Date expiration;
+    private Date expiration;
 
     public static AuthCode of(String email, String code) {
         return AuthCode.builder()

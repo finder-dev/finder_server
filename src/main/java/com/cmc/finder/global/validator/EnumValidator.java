@@ -16,7 +16,6 @@ public class EnumValidator implements ConstraintValidator<Enum, String> {
     public boolean isValid(String value, ConstraintValidatorContext context) {
         boolean result = false;
 
-
         if (value == null && this.annotation.ignoreCase()) {
             result = true;
         } else if (value == null) {
@@ -31,6 +30,7 @@ public class EnumValidator implements ConstraintValidator<Enum, String> {
                         break;
                     }
                 }
+
             }
         }
 

@@ -8,9 +8,9 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/83503188/184628475-8cda1cd2-cebb-4e9b-9e46-a28e2f0bd7c9.png" width="270" height="400"><img src="https://user-images.githubusercontent.com/83503188/184628478-3866d030-b5cf-4ea1-8134-17794aedeb07.png" width="270" height="400"><img src="https://user-images.githubusercontent.com/83503188/184628484-16bf19fc-54a3-4173-b567-18f680e53db2.png" width="270" height="400">
 </p>
   
----
+----
 
-## 📝 Table of Contents
+### 📝 Table of Contents
 
 - [Outline](#outline)
 - [Skill](#skill)
@@ -27,21 +27,21 @@ MBTI는 요즘 사람들의 참신한 자기소개 도구입니다.
 MBTI를 기준으로 커뮤니티, 토론을 만듦으로써 자신의 상황을 즉각적으로 공유하며 질의응답을 주고받고자 합니다.
 
 
-## :books: Skill <a name = "skill"></a>
+## 📚 Skill <a name = "skill"></a>
 
 - Java, Spring Boot, Spring Data JPA, Querydsl
 - FCM, AWS S3, AWS RDS, AWS CodeDeploy, AWS EC2, Github Action
 - MySQL, Redis
 
-## :books: Api Docs <a name = "api_document"></a>
+## 📚 Api Docs <a name = "api_document"></a>
 
 https://www.notion.so/F-nder-Api-Docs-2b719c76118c47d2b2b54743b7b9df4a
 
-## :house: Structure <a name = "structure"></a>
+## 🏠 Structure <a name = "structure"></a>
 
 ![image](https://user-images.githubusercontent.com/83503188/184642632-588df412-ada6-4d5a-ab21-1a2770add61f.png)
 
-## :chart_with_upwards_trend:	 ERD <a name = "erd"></a>
+## 📈	 ERD <a name = "erd"></a>
 
 https://www.erdcloud.com/d/hf55nMkC3ovs6gNyp
 

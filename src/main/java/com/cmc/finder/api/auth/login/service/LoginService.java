@@ -49,8 +49,6 @@ public class LoginService {
 
             // 회원가입
             else {
-
-                //TODO 프로필 이미지 삭제
                 String fileName = "";
                 if (request.getProfileImg() != null) {
                     fileName = s3Uploader.uploadFile(request.getProfileImg(), PATH);

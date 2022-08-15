@@ -8,25 +8,26 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "question_favorite")
+@Table(name = "favorite_question")
 @Getter
 @NoArgsConstructor
 public class FavoriteQuestion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionFavoriteId;
+    @Column(name = "FAVORITE_QUESTION_ID")
+    private Long Id;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "QUESTION_ID", nullable = false)
     private Question question;
 
     @Builder

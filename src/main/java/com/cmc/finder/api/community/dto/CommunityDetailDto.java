@@ -84,7 +84,7 @@ public class CommunityDetailDto {
         ).collect(Collectors.toList());
 
         return CommunityDetailDto.builder()
-                .communityId(community.getCommunityId())
+                .communityId(community.getId())
                 .communityTitle(community.getTitle())
                 .communityContent(community.getContent())
                 .communityMBTI(community.getMbti())
@@ -92,7 +92,7 @@ public class CommunityDetailDto {
                 .likeCount(community.getLikeList().size())
                 .likeUser(likeUser)
                 .saveUser(saveUser)
-                .userId(community.getUser().getUserId())
+                .userId(community.getUser().getId())
                 .userMBTI(community.getUser().getMbti())
                 .userNickname(community.getUser().getNickname())
                 .answerCount(community.getCommunityAnswers().size())
@@ -119,7 +119,7 @@ public class CommunityDetailDto {
         private static CommunityImageDto from(CommunityImage communityImage) {
 
             return CommunityImageDto.builder()
-                    .communityImageId(communityImage.getCommunityImageId())
+                    .communityImageId(communityImage.getId())
                     .communityImageUrl(communityImage.getImageUrl())
                     .build();
         }
@@ -161,7 +161,7 @@ public class CommunityDetailDto {
             List<ReplyHistDto> replies = answer.getReplies().
                     stream()
                     .filter(reply ->
-                            !reportedServiceId.contains(reply.getCommunityAnswerId())
+                            !reportedServiceId.contains(reply.getID())
                     )
                     .filter(
                             reply -> !blockedUser.contains(reply.getUser())
@@ -170,9 +170,9 @@ public class CommunityDetailDto {
                     .collect(Collectors.toList());
 
             return AnswerHistDto.builder()
-                    .answerId(answer.getCommunityAnswerId())
+                    .answerId(answer.getID())
                     .answerContent(answer.getContent())
-                    .userId(answer.getUser().getUserId())
+                    .userId(answer.getUser().getId())
                     .userMBTI(answer.getUser().getMbti())
                     .userNickname(answer.getUser().getNickname())
                     .replyHistDtos(replies)
@@ -210,9 +210,9 @@ public class CommunityDetailDto {
             private static ReplyHistDto from(CommunityAnswer answer) {
 
                 return ReplyHistDto.builder()
-                        .replyId(answer.getCommunityAnswerId())
+                        .replyId(answer.getID())
                         .replyContent(answer.getContent())
-                        .userId(answer.getUser().getUserId())
+                        .userId(answer.getUser().getId())
                         .userMBTI(answer.getUser().getMbti())
                         .userNickname(answer.getUser().getNickname())
                         .createTime(DateTimeUtils.convertToLocalDatetimeToTime(answer.getCreateTime()))

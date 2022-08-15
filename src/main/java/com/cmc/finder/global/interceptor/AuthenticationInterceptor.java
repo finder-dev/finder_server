@@ -46,10 +46,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         }
 
         // 액세스 토큰 만료 시간 검증
-        // TODO 개발 불편하므로 일단 제거
-//        if (tokenManager.isTokenExpired(tokenClaims.getExpiration())) {
-//            throw new AuthenticationException(ErrorCode.ACCESS_TOKEN_EXPIRED);
-//        }
+        if (tokenManager.isTokenExpired(tokenClaims.getExpiration())) {
+            throw new AuthenticationException(ErrorCode.ACCESS_TOKEN_EXPIRED);
+        }
 
         return true;
 

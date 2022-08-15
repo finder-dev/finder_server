@@ -37,7 +37,7 @@ public class AnswerUpdateDto {
         public static Response of(AnswerReply answerReply) {
 
             return Response.builder()
-                    .replyId(answerReply.getReplyId())
+                    .replyId(answerReply.getId())
                     .content(answerReply.getContent())
                     .build();
 

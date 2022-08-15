@@ -1,7 +1,6 @@
 package com.cmc.finder.api.user.dto;
 
 import com.cmc.finder.domain.message.entity.Message;
-import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.global.util.DateTimeUtils;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +31,7 @@ public class GetMessageRes {
     public static GetMessageRes of(Message message) {
 
         GetMessageRes response = GetMessageRes.builder()
-                .userId(message.getOther().getUserId())
+                .userId(message.getOther().getId())
                 .userNickname(message.getOther().getNickname())
                 .content(message.getContent())
                 .createTime(DateTimeUtils.convertToLocalDatetimeToTime(message.getCreateTime()))

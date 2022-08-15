@@ -43,7 +43,7 @@ public class ApiMessageService {
         User to = userService.getUserById(request.getToUserId());
         to.isQuit();
 
-        if (from.getUserId() == to.getUserId()) {
+        if (from.getId() == to.getId()) {
             throw new CantSendMeException(ErrorCode.CANT_SEND_ME_MESSAGE);
         }
         // 차단 확인

@@ -15,18 +15,19 @@ public class ViewCount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long viewCountId;
+    @Column(name = "VIEW_COUNT_ID")
+    private Long Id;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "QUESTION_ID", nullable = false)
     private Question question;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @Builder

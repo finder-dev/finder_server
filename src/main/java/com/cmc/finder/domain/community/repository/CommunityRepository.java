@@ -16,7 +16,7 @@ public interface CommunityRepository extends JpaRepository<Community, Long>, Com
 
     @Query("select c from Community c " +
             "join fetch c.user cu " +
-            "where c.communityId=:communityId ")
+            "where c.Id=:communityId ")
     Optional<Community> findByCommunityIdFetchUser(Long communityId);
 
     Slice<Community> findAllByUserOrderByCommunityIdDesc(User user, Pageable pageable);
@@ -25,8 +25,8 @@ public interface CommunityRepository extends JpaRepository<Community, Long>, Com
             "from Community c " +
             "join c.communityAnswers ca " +
             "where ca.user=:user " +
-            "group by c.communityId " +
-            "order by c.communityId desc ")
+            "group by c.Id " +
+            "order by c.Id desc ")
     Slice<Community> findAllByCommentUserFetchUser(User user, Pageable pageable);
 
 }

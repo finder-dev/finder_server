@@ -17,11 +17,15 @@ public class Notification extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long notificationId;
+    @Column(name = "NOTIFICATION_ID")
+    private Long Id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private ServiceType serviceType;
+
+    @Column(nullable = false)
+    private Long serviceId;
 
     @Column(nullable = false)
     private String title;
@@ -32,11 +36,9 @@ public class Notification extends BaseTimeEntity {
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private Long serviceId;
 
     @Builder
     public Notification(ServiceType serviceType, String title, String content, User user, Long serviceId) {

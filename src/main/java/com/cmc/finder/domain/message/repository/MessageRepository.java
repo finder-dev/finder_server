@@ -14,7 +14,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     @Query(value = "select m " +
             "from Message m " +
-            "where m.createTime in (select max(m.createTime) from Message m where m.owner=:owner group by m.other.userId)" +
+            "where m.createTime in (select max(m.createTime) from Message m where m.owner=:owner group by m.other.Id)" +
             "order by m.createTime desc ")
     Slice<Message> findAllByOwner(User owner, Pageable pageable);
 

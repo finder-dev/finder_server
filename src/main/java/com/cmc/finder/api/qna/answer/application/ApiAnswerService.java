@@ -1,6 +1,8 @@
 package com.cmc.finder.api.qna.answer.application;
 
+import com.cmc.finder.api.community.dto.CreateCommunityReplyDto;
 import com.cmc.finder.api.qna.answer.dto.*;
+import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.domain.notification.entity.Notification;
 import com.cmc.finder.domain.notification.application.NotificationService;
@@ -28,8 +30,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.cmc.finder.global.util.Constants.QUESTION_ANSWER;
-import static com.cmc.finder.global.util.Constants.QUESTION_ANSWER_REPLY;
+import static com.cmc.finder.global.util.Constants.*;
+import static com.cmc.finder.global.util.Constants.COMMUNITY_ANSWER_REPLY;
 
 
 @RequiredArgsConstructor
@@ -120,6 +122,8 @@ public class ApiAnswerService {
         return DeleteAnswerRes.of();
     }
 
+
+
     @Transactional
     public ReplyCreateDto.Response createReply(Long answerId, ReplyCreateDto.Request request, String email) {
 
@@ -187,7 +191,7 @@ public class ApiAnswerService {
 
 
     private void createNotification(Question question, String content) {
-        Notification notification = Notification.createNotification(question.getTitle(), content, ServiceType.QUESTION, question.getUser(), question.getQuestionId());
+        Notification notification = Notification.createNotification(question.getTitle(), content, ServiceType.QUESTION, question.getUser(), question.getId());
         notificationService.create(notification);
     }
 }

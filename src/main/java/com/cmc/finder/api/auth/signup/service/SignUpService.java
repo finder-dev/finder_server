@@ -8,8 +8,6 @@ import com.cmc.finder.domain.authcode.entity.AuthCode;
 import com.cmc.finder.domain.authcode.application.AuthCodeService;
 import com.cmc.finder.domain.jwt.dto.TokenDto;
 import com.cmc.finder.domain.jwt.application.TokenManager;
-import com.cmc.finder.domain.user.entity.Keyword;
-import com.cmc.finder.domain.user.application.KeywordService;
 import com.cmc.finder.domain.user.entity.User;
 import com.cmc.finder.domain.user.application.UserService;
 import com.cmc.finder.domain.user.validator.UserValidator;
@@ -32,18 +30,12 @@ public class SignUpService {
     private final TokenManager tokenManager;
     private final UserService userService;
     private final UserValidator userValidator;
-    private final KeywordService keywordService;
     private final S3Uploader s3Uploader;
     private final EmailServiceImpl emailService;
     private final AuthCodeService authCodeService;
 
     @Transactional
     public SignUpDto.Response signUpUser(SignUpDto.Request signUpDto) {
-
-        // 키워드 중복값 검사
-        if (signUpDto.getKeywords() != null) {
-            userValidator.validateDuplicateKeywords(signUpDto.getKeywords());
-        }
 
         String fileName = "";
         if (signUpDto.getProfileImg() != null) {
@@ -53,14 +45,6 @@ public class SignUpService {
         // User 생성
         User user = signUpDto.toEntity(fileName);
         userService.register(user);
-
-        // setKeyword
-        if (signUpDto.getKeywords() != null) {
-            for (String key : signUpDto.getKeywords()) {
-                Keyword keyword = Keyword.createKeyword(key, user);
-                keywordService.save(keyword);
-            }
-        }
 
         //JWT 생성
         TokenDto tokenDto = tokenManager.createTokenDto(user.getEmail().getValue());
@@ -87,7 +71,6 @@ public class SignUpService {
     }
 
     public EmailAuthDto.Response checkCode(String email, String code) {
-        //TODO 코드 만료시간 설정
         authCodeService.authenticateCode(email, code);
 
         return EmailAuthDto.Response.of();

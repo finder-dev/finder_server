@@ -1,7 +1,6 @@
 package com.cmc.finder.api.community.dto;
 
 import com.cmc.finder.domain.community.entity.Community;
-import com.cmc.finder.domain.community.entity.CommunityImage;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.global.validator.Enum;
 import lombok.*;
@@ -69,7 +68,7 @@ public class UpdateCommunityDto {
         public static Response from(Community community) {
 
             return Response.builder()
-                    .communityId(community.getCommunityId())
+                    .communityId(community.getId())
                     .title(community.getTitle())
                     .content(community.getContent())
                     .mbti(community.getMbti())

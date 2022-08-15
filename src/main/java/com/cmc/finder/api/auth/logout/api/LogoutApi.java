@@ -1,6 +1,6 @@
 package com.cmc.finder.api.auth.logout.api;
 
-import com.cmc.finder.api.auth.logout.dto.LogoutResponse;
+import com.cmc.finder.api.auth.logout.dto.LogoutRes;
 import com.cmc.finder.api.auth.logout.service.LogoutService;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
@@ -19,10 +19,11 @@ public class LogoutApi {
     private final LogoutService logoutService;
 
     @PostMapping("/logout")
-    public ResponseEntity<ApiResult<LogoutResponse>> logout(
-            @UserEmail String email) {
+    public ResponseEntity<ApiResult<LogoutRes>> logout(
+            @UserEmail String email
+    ) {
 
-        LogoutResponse logout = logoutService.logout(email);
+        LogoutRes logout = logoutService.logout(email);
         return ResponseEntity.ok(ApiUtils.success(logout));
 
     }

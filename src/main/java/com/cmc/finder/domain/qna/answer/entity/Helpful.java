@@ -15,18 +15,19 @@ public class Helpful {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long helpfulId;
+    @Column(name = "HELPFUL_ID")
+    private Long Id;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "answer_id", nullable = false)
+    @JoinColumn(name = "ANSWER_ID", nullable = false)
     private Answer answer;
 
     @Builder

@@ -3,7 +3,6 @@ package com.cmc.finder.domain.community.repository;
 import com.cmc.finder.api.community.dto.CommunitySearchDto;
 import com.cmc.finder.api.community.dto.CommunitySimpleDto;
 import com.cmc.finder.domain.block.entity.Block;
-import com.cmc.finder.domain.block.entity.QBlock;
 import com.cmc.finder.domain.community.entity.Community;
 import com.cmc.finder.domain.model.MBTI;
 import com.cmc.finder.domain.model.ServiceType;
@@ -150,7 +149,7 @@ public class CommunityRepositoryImpl implements CommunityRepositoryCustom {
 
         return queryFactory
                 .selectFrom(report)
-                .where(report.serviceType.eq(ServiceType.COMMUNITY), report.from.userId.eq(user.getUserId()))
+                .where(report.serviceType.eq(ServiceType.COMMUNITY), report.from.userId.eq(user.getId()))
                 .fetch().stream().map(Report::getServiceId).collect(Collectors.toList());
 
     }

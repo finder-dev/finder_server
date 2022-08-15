@@ -20,7 +20,8 @@ public class CommunityAnswer extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long communityAnswerId;
+    @Column(name = "COMMUNITY_ANSWER_ID")
+    private Long ID;
 
     @Lob
     @Column(length = 300, nullable = false)
@@ -29,17 +30,17 @@ public class CommunityAnswer extends BaseTimeEntity {
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "community_id", nullable = false)
+    @JoinColumn(name = "COMMUNITY_ID", nullable = false)
     private Community community;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
+    @JoinColumn(name = "PARENT_ID")
     private CommunityAnswer parent;
 
     @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)

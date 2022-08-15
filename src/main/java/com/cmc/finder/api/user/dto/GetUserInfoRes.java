@@ -22,7 +22,7 @@ public class GetUserInfoRes {
     public static GetUserInfoRes from(User user) {
 
         return GetUserInfoRes.builder()
-                .userId(user.getUserId())
+                .userId(user.getId())
                 .email(user.getEmail().getValue())
                 .mbti(user.getMbti())
                 .nickname(user.getNickname())

@@ -1,12 +1,10 @@
 package com.cmc.finder.domain.user.validator;
 
-import com.cmc.finder.domain.user.exception.DuplicateKeywordException;
 import com.cmc.finder.domain.user.exception.EmailDuplicateException;
 import com.cmc.finder.domain.user.exception.NicknameDuplicateException;
 import com.cmc.finder.domain.user.repository.UserRepository;
 import com.cmc.finder.domain.model.Email;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,13 +36,5 @@ public class UserValidator {
         }
     }
 
-    public Boolean validateDuplicateKeywords(List<String> keywords) {
-
-        if (keywords.size() != keywords.stream().distinct().count()) {
-            throw new DuplicateKeywordException();
-        }
-
-        return true;
-    }
 
 }

@@ -7,8 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-@Deprecated
 @Entity
 @Table(name = "answer_reply")
 @Getter
@@ -17,9 +18,9 @@ public class AnswerReply extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long replyId;
+    @Column(name = "REPLY_ID")
+    private Long Id;
 
-    //TODO 글자수 제한
     @Lob
     @Column(nullable = false)
     private String content;
@@ -27,14 +28,25 @@ public class AnswerReply extends BaseTimeEntity {
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "answer_id", nullable = false)
+    @JoinColumn(name = "ANSWER_ID", nullable = false)
     private Answer answer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PARENT_ID")
+    private AnswerReply parent;
+
+    @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<AnswerReply> replies = new ArrayList<>();
+
+    public void addReply(AnswerReply answerReply) {
+        this.parent.addReply(answerReply);
+    }
 
     @Builder
     public AnswerReply(String content, User user, Answer answer) {

@@ -21,10 +21,9 @@ public class OauthLoginDto {
 
         private String nickname;
 
-        //TODO 삭제
         private MultipartFile profileImg;
 
-//        @NotBlank(message = "FCM Token은 필수값 입니다.")
+        @NotBlank(message = "FCM Token은 필수값 입니다.")
         private String fcmToken;
 
     }

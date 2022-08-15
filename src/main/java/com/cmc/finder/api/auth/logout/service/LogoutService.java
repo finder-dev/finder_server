@@ -1,6 +1,6 @@
 package com.cmc.finder.api.auth.logout.service;
 
-import com.cmc.finder.api.auth.logout.dto.LogoutResponse;
+import com.cmc.finder.api.auth.logout.dto.LogoutRes;
 import com.cmc.finder.domain.jwt.application.RefreshTokenRedisService;
 import com.cmc.finder.domain.user.application.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +16,10 @@ public class LogoutService {
     private final RefreshTokenRedisService refreshTokenRedisService;
 
     @Transactional
-    public LogoutResponse logout(String email) {
+    public LogoutRes logout(String email) {
 
         refreshTokenRedisService.deleteRefreshToken(email);
-        return LogoutResponse.of();
+        return LogoutRes.of();
 
     }
 }

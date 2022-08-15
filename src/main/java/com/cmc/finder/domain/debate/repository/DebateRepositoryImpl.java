@@ -85,7 +85,7 @@ public class DebateRepositoryImpl implements DebateRepositoryCustom {
 
         return queryFactory
                 .selectFrom(report)
-                .where(report.serviceType.eq(ServiceType.DEBATE), report.from.userId.eq(user.getUserId()))
+                .where(report.serviceType.eq(ServiceType.DEBATE), report.from.userId.eq(user.getId()))
                 .fetch().stream().map(Report::getServiceId).collect(Collectors.toList());
 
     }

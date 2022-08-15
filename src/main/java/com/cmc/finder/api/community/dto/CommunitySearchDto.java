@@ -27,7 +27,6 @@ public class CommunitySearchDto {
 
     }
 
-    //TODO Response DTO 하나로 리팩토링
     @Getter
     @Setter
     public static class Response {
@@ -79,7 +78,7 @@ public class CommunitySearchDto {
         public static CommunitySearchDto.Response of(Community community, User user) {
 
             CommunitySearchDto.Response response = CommunitySearchDto.Response.builder()
-                    .communityId(community.getCommunityId())
+                    .communityId(community.getId())
                     .title(community.getTitle())
                     .content(community.getContent())
                     .mbti(community.getMbti())

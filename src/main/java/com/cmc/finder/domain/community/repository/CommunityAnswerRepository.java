@@ -8,15 +8,9 @@ import java.util.Optional;
 
 public interface CommunityAnswerRepository extends JpaRepository<CommunityAnswer, Long>, CommunityAnswerRepositoryCustom {
 
-//    @Query("select ca from CommunityAnswer ca " +
-//            "join fetch ca.user u " +
-//            "where ca.community=:community and ca.parent is null " +
-//            "order by ca.communityAnswerId desc ")
-//    List<CommunityAnswer> findAllByCommunityFetchUser(Community community);
-
     @Query("select ca from CommunityAnswer ca " +
             "join fetch ca.user u " +
-            "where ca.communityAnswerId=:communityAnswerId ")
+            "where ca.iD=:communityAnswerId ")
     Optional<CommunityAnswer> findByIdFetchUser(Long communityAnswerId);
 
 

@@ -19,7 +19,8 @@ public class Community extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long communityId;
+    @Column(name = "COMMUNITY_ID")
+    private Long Id;
 
     @Column(nullable = false)
     private String title;
@@ -38,7 +39,7 @@ public class Community extends BaseTimeEntity {
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @OneToMany(

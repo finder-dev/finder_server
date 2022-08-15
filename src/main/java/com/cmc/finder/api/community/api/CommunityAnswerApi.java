@@ -2,6 +2,7 @@ package com.cmc.finder.api.community.api;
 
 import com.cmc.finder.api.community.application.service.ApiCommunityAnswerService;
 import com.cmc.finder.api.community.dto.*;
+import com.cmc.finder.domain.model.ServiceType;
 import com.cmc.finder.global.resolver.UserEmail;
 import com.cmc.finder.global.response.ApiResult;
 import com.cmc.finder.global.util.ApiUtils;
@@ -16,14 +17,12 @@ import javax.validation.Valid;
 @RequestMapping("/api/community")
 public class CommunityAnswerApi {
 
-    // TODO 이후에 데이터 json으로 받도록 변경
-
     private final ApiCommunityAnswerService apiCommunityAnswerService;
 
     @PostMapping("/{communityId}/answers")
     public ResponseEntity<ApiResult<CreateCommunityAnswerDto.Response>> createCommunityAnswer(
             @PathVariable Long communityId,
-            @Valid CreateCommunityAnswerDto.Request request,
+            @RequestBody @Valid CreateCommunityAnswerDto.Request request,
             @UserEmail String email
     ) {
 
@@ -59,7 +58,7 @@ public class CommunityAnswerApi {
     @PostMapping("/answers/{answerId}/reply")
     public ResponseEntity<ApiResult<CreateCommunityReplyDto.Response>> createCommunityReply(
             @PathVariable Long answerId,
-            @Valid CreateCommunityReplyDto.Request request,
+            @RequestBody @Valid CreateCommunityReplyDto.Request request,
             @UserEmail String email
     ) {
 

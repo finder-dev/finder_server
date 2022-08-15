@@ -16,18 +16,19 @@ public class Block extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long blockId;
+    @Column(name = "BLOCK_ID")
+    private Long Id;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "from_id", nullable = false)
+    @JoinColumn(name = "FROM_ID", nullable = false)
     private User from;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "to_id", nullable = false)
+    @JoinColumn(name = "TO_ID", nullable = false)
     private User to;
 
 

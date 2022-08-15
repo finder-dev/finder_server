@@ -14,18 +14,19 @@ public class QuestionImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionImgId;
+    @Column(name = "QUESTION_IMAGE_ID")
+    private Long Id;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "QUESTION_ID", nullable = false)
     private Question question;
 
-    @Column(name = "question_image_filename", nullable = false)
+    @Column(name = "QUESTION_IMAGE_NAME", nullable = false)
     private String imageName;
 
-    @Column(name = "question_image_url", nullable = false)
+    @Column(name = "QUESTION_IMAGE_URL", nullable = false)
     private String imageUrl;
 
     @Builder

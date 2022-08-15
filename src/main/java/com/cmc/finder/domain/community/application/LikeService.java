@@ -18,7 +18,6 @@ public class LikeService {
     private final LikeRepository likeRepository;
 
     public Boolean existsUser(Community community, User user) {
-
         return likeRepository.existsByCommunityAndUser(community, user);
 
     }

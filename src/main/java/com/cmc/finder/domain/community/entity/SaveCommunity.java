@@ -15,18 +15,19 @@ public class SaveCommunity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long saveCommunityId;
+    @Column(name = "SAVE_COMMUNITY_ID")
+    private Long Id;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "community_id", nullable = false)
+    @JoinColumn(name = "COMMUNITY_ID", nullable = false)
     private Community community;
 
     @Builder

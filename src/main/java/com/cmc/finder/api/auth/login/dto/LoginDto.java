@@ -22,15 +22,14 @@ public class LoginDto {
         @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
         private String password;
 
-        //TODO fcm 토큰
-//    @NotBlank(message = "fcm 토큰은 필수 입력 값입니다.")
+        @NotBlank(message = "fcm 토큰은 필수 입력 값입니다.")
         private String fcmToken;
 
     }
 
 
-
-    @Getter @Setter
+    @Getter
+    @Setter
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
@@ -40,12 +39,12 @@ public class LoginDto {
 
         private String accessToken;
 
-        @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private Date accessTokenExpireTime;
 
         private String refreshToken;
 
-        @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private Date refreshTokenExpireTime;
 
         public static Response from(TokenDto tokenDto) {

@@ -15,18 +15,19 @@ public class Curious {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long curiousId;
+    @Column(name = "CURIOUS_ID")
+    private Long Id;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "QUESTION_ID", nullable = false)
     private Question question;
 
     @Builder

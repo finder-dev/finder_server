@@ -38,8 +38,8 @@ public class GetConversationDto {
         public static Response of(Message message) {
 
             Response response = Response.builder()
-                    .fromUserId(message.getFrom().getUserId())
-                    .toUserId(message.getFrom() == message.getOwner() ? message.getOther().getUserId() : message.getOwner().getUserId())
+                    .fromUserId(message.getFrom().getId())
+                    .toUserId(message.getFrom() == message.getOwner() ? message.getOther().getId() : message.getOwner().getId())
                     .content(message.getContent())
                     .createTime(DateTimeUtils.convertToLocalDatetimeToTime(message.getCreateTime()))
                     .build();

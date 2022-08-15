@@ -60,7 +60,7 @@ public class GetUserActivityRes {
 
 
         GetUserActivityRes response = GetUserActivityRes.builder()
-                .communityId(community.getCommunityId())
+                .communityId(community.getId())
                 .title(community.getTitle())
                 .content(community.getContent())
                 .mbti(community.getMbti())

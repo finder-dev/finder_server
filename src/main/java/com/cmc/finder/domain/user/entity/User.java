@@ -8,11 +8,8 @@ import com.cmc.finder.domain.model.Password;
 import com.cmc.finder.domain.user.exception.isQuitUserException;
 import com.cmc.finder.global.error.exception.ErrorCode;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -27,7 +24,8 @@ public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @Column(name = "USER_ID")
+    private Long Id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
@@ -49,7 +47,7 @@ public class User extends BaseTimeEntity {
     @Column(length = 200)
     private String profileImg;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String fcmToken;
 
     private Boolean isActive;

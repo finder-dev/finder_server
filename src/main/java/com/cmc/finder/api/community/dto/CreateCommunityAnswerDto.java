@@ -32,7 +32,7 @@ public class CreateCommunityAnswerDto {
 
         public static Response from(CommunityAnswer communityAnswer) {
             return Response.builder()
-                    .communityAnswerId(communityAnswer.getCommunityAnswerId())
+                    .communityAnswerId(communityAnswer.getID())
                     .build();
 
         }

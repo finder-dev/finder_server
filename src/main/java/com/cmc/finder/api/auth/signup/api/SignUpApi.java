@@ -31,11 +31,9 @@ public class SignUpApi {
 
     }
 
-    //TODO json으로 받도록 변경
-
     @PostMapping("/mail/send")
     public ResponseEntity<ApiResult<EmailSendDto.Response>> sendEmail(
-            @Valid EmailSendDto.Request request
+            @RequestBody @Valid EmailSendDto.Request request
     ) {
 
         EmailSendDto.Response response = signUpService.sendEmail(request.getEmail());
@@ -44,7 +42,7 @@ public class SignUpApi {
 
     @PostMapping("/mail/auth")
     public ResponseEntity<ApiResult<EmailAuthDto.Response>> checkCode(
-            @Valid EmailAuthDto.Request request
+            @RequestBody @Valid EmailAuthDto.Request request
     ) {
 
         EmailAuthDto.Response response = signUpService.checkCode(request.getEmail(), request.getCode());

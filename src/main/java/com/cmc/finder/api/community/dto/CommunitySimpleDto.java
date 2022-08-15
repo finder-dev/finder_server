@@ -76,7 +76,7 @@ public class CommunitySimpleDto {
         public static Response of(Community community, User user) {
 
             Response response = Response.builder()
-                    .communityId(community.getCommunityId())
+                    .communityId(community.getId())
                     .title(community.getTitle())
                     .content(community.getContent())
                     .mbti(community.getMbti())

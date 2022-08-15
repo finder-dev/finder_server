@@ -55,7 +55,7 @@ public class CreateCommunityDto {
         public static Response from(Community community) {
 
             return Response.builder()
-                    .communityId(community.getCommunityId())
+                    .communityId(community.getId())
                     .build();
 
         }

@@ -36,7 +36,7 @@ public class UpdateCommunityAnswerDto {
         public static Response from(CommunityAnswer communityAnswer) {
 
             return Response.builder()
-                    .communityAnswerId(communityAnswer.getCommunityAnswerId())
+                    .communityAnswerId(communityAnswer.getID())
                     .content(communityAnswer.getContent())
                     .build();
 

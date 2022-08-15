@@ -1,6 +1,7 @@
 package com.cmc.finder.domain.qna.answer.entity;
 
 import com.cmc.finder.domain.base.BaseTimeEntity;
+import com.cmc.finder.domain.community.entity.CommunityAnswer;
 import com.cmc.finder.domain.qna.question.entity.Question;
 import com.cmc.finder.domain.user.entity.User;
 import lombok.Builder;
@@ -19,7 +20,8 @@ public class Answer extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long answerId;
+    @Column(name = "ANSWER_ID")
+    private Long Id;
 
     @Column(nullable = false)
     private String title;
@@ -31,13 +33,13 @@ public class Answer extends BaseTimeEntity {
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "QUESTION_ID", nullable = false)
     private Question question;
 
 
@@ -53,6 +55,7 @@ public class Answer extends BaseTimeEntity {
     )
     private List<Helpful> helpfuls = new ArrayList<>();
 
+
     @OneToMany(
             mappedBy = "answer",
             cascade = CascadeType.ALL
@@ -63,7 +66,6 @@ public class Answer extends BaseTimeEntity {
         replies.add(answerReply);
         answerReply.setAnswer(this);
     }
-
 
     public void addHelpful(Helpful helpful) {
         helpfuls.add(helpful);

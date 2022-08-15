@@ -48,10 +48,9 @@ public class ApiDebateAnswerService {
 
         saveDebateAnswer = debateAnswerService.saveDebateAnswer(saveDebateAnswer);
 
-        //TODO fcm은 이후 작업으로..
-//        if (debate.getWriter().getIsActive()) {
-//            fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, Type.DEBATE.getValue());
-//        }
+        if (debate.getWriter().getIsActive()) {
+            fcmService.sendMessageTo(debate.getWriter().getFcmToken(), debate.getTitle(), DEBATE_ANSWER, ServiceType.DEBATE.getValue());
+        }
         createNotification(debate, DEBATE_ANSWER, debate.getWriter());
 
         return CreateDebateAnswerDto.Response.from(saveDebateAnswer);
@@ -81,10 +80,9 @@ public class ApiDebateAnswerService {
         saveReply = debateAnswerService.saveDebateAnswer(saveReply);
         saveReply.setParent(debateAnswer);
 
-        //TODO fcm은 이후 작업으로..
-//        if (debateAnswer.getUser().getIsActive()) {
-//            fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
-//        }
+        if (debateAnswer.getUser().getIsActive()) {
+            fcmService.sendMessageTo(debateAnswer.getUser().getFcmToken(), debateAnswer.getDebate().getTitle(), DEBATE_ANSWER_REPLY, Type.DEBATE.getValue());
+        }
         createNotification(debateAnswer.getDebate(), DEBATE_ANSWER_REPLY, debateAnswer.getUser());
 
         return CreateDebateReplyDto.Response.from(saveReply);

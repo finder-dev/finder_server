@@ -21,7 +21,8 @@ public class DebateAnswer extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long debateAnswerId;
+    @Column(name = "DEBATE_ANSWER_ID")
+    private Long Id;
 
     @Lob
     @Column(nullable = false)
@@ -30,17 +31,17 @@ public class DebateAnswer extends BaseTimeEntity {
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "debate_id", nullable = false)
+    @JoinColumn(name = "DEBATE_ID", nullable = false)
     private Debate debate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
+    @JoinColumn(name = "PARENT_ID")
     private DebateAnswer parent;
 
     @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)

@@ -24,7 +24,7 @@ public interface SaveCommunityRepository extends JpaRepository<SaveCommunity, Lo
             "from SaveCommunity sc "+
 //            "join fetch sc.community c " +
             "where sc.user=:user " +
-            "order by sc.saveCommunityId desc ")
+            "order by sc.Id desc ")
     Slice<SaveCommunity> findAllByUserFetchCommunity(User user, Pageable pageable);
 
 }

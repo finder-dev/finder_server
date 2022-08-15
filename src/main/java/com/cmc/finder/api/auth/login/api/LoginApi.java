@@ -22,11 +22,9 @@ public class LoginApi {
     private final LoginService loginService;
     private final TokenValidator tokenValidator;
 
-    //TODO json으로 받도록 변경
-
     @PostMapping("/login")
     public ResponseEntity<ApiResult<LoginDto.Response>> login(
-            @Valid LoginDto.Request request
+            @RequestBody @Valid LoginDto.Request request
     ) {
 
         LoginDto.Response response = loginService.login(request);
@@ -36,7 +34,7 @@ public class LoginApi {
 
     @PostMapping("/oauth/login")
     public ResponseEntity<ApiResult<OauthLoginDto.Response>> socialLogin(
-            @Valid OauthLoginDto.Request requestDto,
+            @RequestBody @Valid OauthLoginDto.Request requestDto,
             HttpServletRequest request) {
 
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);

@@ -14,18 +14,19 @@ public class CommunityImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long communityImageId;
+    @Column(name = "COMMUNITY_IMAGE_ID")
+    private Long Id;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "community_id", nullable = false)
+    @JoinColumn(name = "COMMUNITY_ID", nullable = false)
     private Community community;
 
-    @Column(name = "community_image_filename", nullable = false)
+    @Column(name = "COMMUNITY_IMAGE_NAME", nullable = false)
     private String imageName;
 
-    @Column(name = "community_image_url", nullable = false)
+    @Column(name = "COMMUNITY_IMAGE_URL", nullable = false)
     private String imageUrl;
 
     @Builder

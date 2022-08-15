@@ -16,12 +16,12 @@ import java.util.List;
 @Table(name = "debate")
 @Getter
 @NoArgsConstructor
-@ToString
 public class Debate extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long debateId;
+    @Column(name = "DEBATE_ID")
+    private Long Id;
 
     @Column(nullable = false, length = 50)
     private String title;
@@ -33,7 +33,7 @@ public class Debate extends BaseTimeEntity {
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User writer;
 
     @Column(name = "OPTION_A", nullable = false, length = 8)

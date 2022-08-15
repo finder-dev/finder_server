@@ -17,25 +17,27 @@ public class Report extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reportId;
+    @Column(name = "REPORT_ID")
+    private Long Id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private ServiceType serviceType;
 
+    private Long serviceId;
+
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "from_user_id", nullable = false)
+    @JoinColumn(name = "FROM_ID", nullable = false)
     private User from;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "to_user_id", nullable = false)
+    @JoinColumn(name = "TO_ID", nullable = false)
     private User to;
 
-    private Long serviceId;
 
     @Builder
     public Report(ServiceType serviceType, User from, User to, Long serviceId) {

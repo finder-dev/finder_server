@@ -45,7 +45,7 @@ public class CommunityApi {
     ) {
 
         Pageable pageable = PageRequest.of(
-                page.isPresent() ? page.get() : 0,
+                page.orElse(0),
                 SET_PAGE_ITEM_MAX_COUNT,
                 request.getOrderBy() == null ?
                         Sort.by(Sort.Direction.DESC, OrderBy.CREATE_TIME.name()) :

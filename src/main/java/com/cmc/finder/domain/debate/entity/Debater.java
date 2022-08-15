@@ -16,22 +16,23 @@ public class Debater {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long debaterId;
+    @Column(name = "DEBATER_ID")
+    private Long Id;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "debate_id", nullable = false)
+    @JoinColumn(name = "DEBATE_ID", nullable = false)
     private Debate debate;
 
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "options")
+    @Column(nullable = false, name = "OPTIONS")
     private Option option;
 
     @Builder

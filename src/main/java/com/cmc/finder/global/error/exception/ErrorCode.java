@@ -11,7 +11,6 @@ public enum ErrorCode {
     LOGIN_ERROR(401, "비밀번호를 잘못 입력하셨습니다."),
     DUPLICATE_EMAIL(400, "이미 사용 중인 이메일입니다."),
     DUPLICATE_NICKNAME(400, "이미 사용 중인 닉네임입니다."),
-    DUPLICATE_KEYWORD(400, "중복된 키워드가 포함되어 있습니다."),
 
     INVALID_FILTER_TYPE(401, "잘못된 필터 타입 입니다.(ex. orderBy : VIEW_COUNT)"),
     INVALID_USER_TYPE(401, "잘못된 회원 타입 입니다.(ex. userType : KAKAO)"),
@@ -68,7 +67,6 @@ public enum ErrorCode {
     NOTIFICATION_NOT_FOUND(401, "해당 알림을 찾을 수 없습니다."),
     NOTIFICATION_FAILED(400, "알림 전송에 실패하였습니다."),
 
-    //TODO 위치 고민
     // 소셜 로그인 -> 회원가입 진행
     PROCEED_WITH_SIGNUP(300, "회원가입을 진행해주세요."),
 

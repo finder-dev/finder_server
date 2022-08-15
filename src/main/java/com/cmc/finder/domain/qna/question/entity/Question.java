@@ -20,7 +20,8 @@ public class Question extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionId;
+    @Column(name = "QUESTION_ID")
+    private Long Id;
 
     @Column(nullable = false)
     private String title;
@@ -42,7 +43,7 @@ public class Question extends BaseTimeEntity {
     @ManyToOne(
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @OneToMany(

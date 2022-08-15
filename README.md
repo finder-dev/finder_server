@@ -15,6 +15,8 @@
 - [Outline](#outline)
 - [Skill](#skill)
 - [Api Docs](#api_document)
+- [Structure](#structure)
+- [ERD](#erd)
 
 
 
@@ -32,6 +34,10 @@ MBTI는 요즘 사람들의 참신한 자기소개 도구입니다. MBTI를 기�
 ## :books: Api Docs <a name = "api_document"></a>
 
 https://www.notion.so/F-nder-Api-Docs-2b719c76118c47d2b2b54743b7b9df4a
+
+## :house: Structure <a name = "structure"></a>
+
+## :chart_with_upwards_trend:	 ERD <a name = "erd"></a>
 
 
 

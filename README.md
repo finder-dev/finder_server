@@ -42,13 +42,17 @@ https://www.notion.so/F-nder-Api-Docs-2b719c76118c47d2b2b54743b7b9df4a
 https://www.erdcloud.com/d/hf55nMkC3ovs6gNyp
 
 ### User, Community
-https://user-images.githubusercontent.com/83503188/184638114-1e1111f9-41ec-4280-869d-2836a69fd0d8.png
+![image](https://user-images.githubusercontent.com/83503188/184638114-1e1111f9-41ec-4280-869d-2836a69fd0d8.png)
+
+
 
 ### Debate
-https://user-images.githubusercontent.com/83503188/184638475-462f8adb-bd7f-4405-a193-6df45b93b866.png
+![image](https://user-images.githubusercontent.com/83503188/184638475-462f8adb-bd7f-4405-a193-6df45b93b866.png)
+
 
 ### QnA
-https://user-images.githubusercontent.com/83503188/184638359-a1987961-705c-4b13-be27-7a380c9ce448.png
+![image](https://user-images.githubusercontent.com/83503188/184638359-a1987961-705c-4b13-be27-7a380c9ce448.png)
+
 
 
 

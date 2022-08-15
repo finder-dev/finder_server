@@ -13,11 +13,20 @@
 ## 📝 Table of Contents
 
 - [Outline](#outline)
+- [Skill](#skill)
 
 
 
-# 📝Outline <a name = "outline"></a>
+## 📝Outline <a name = "outline"></a>
 
 MBTI는 요즘 사람들의 참신한 자기소개 도구입니다. MBTI를 기준으로 커뮤니티, 토론을 만듦으로써 자신의 상황을 즉각적으로 공유하며 질의응답을 주고받고자 합니다.
+
+
+## :books: Skill <a name = "skill"></a>
+
+- Java, Spring Boot, Spring Data JPA, Querydsl
+- FCM, AWS S3, AWS RDS, AWS CodeDeploy, AWS EC2, Github Action
+- MySQL, Redis
+
 
 

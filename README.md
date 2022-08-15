@@ -39,6 +39,8 @@ https://www.notion.so/F-nder-Api-Docs-2b719c76118c47d2b2b54743b7b9df4a
 
 ## :house: Structure <a name = "structure"></a>
 
+![image](https://user-images.githubusercontent.com/83503188/184642632-588df412-ada6-4d5a-ab21-1a2770add61f.png)
+
 ## :chart_with_upwards_trend:	 ERD <a name = "erd"></a>
 
 https://www.erdcloud.com/d/hf55nMkC3ovs6gNyp

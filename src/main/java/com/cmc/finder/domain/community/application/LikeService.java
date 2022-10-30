@@ -23,7 +23,7 @@ public class LikeService {
     }
 
 
-    public void deleteLike(Community community, User user) {
+    public syncronized void deleteLike(Community community, User user) {
         Like like = likeRepository.findByCommunityAndUser(community, user)
                 .orElseThrow(()-> new EntityNotFoundException(ErrorCode.LIKE_NOT_FOUND));
 
@@ -31,7 +31,7 @@ public class LikeService {
 
     }
 
-    public void addLike(Like like) {
+    public syncronized void addLike(Like like) {
         likeRepository.save(like);
     }
 }

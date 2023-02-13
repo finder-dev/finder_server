@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.RedisHash;
 import javax.persistence.Id;
 import java.util.Date;
 
-@RedisHash("refreshToken")
+@RedisHash(value = "refreshToken", timeToLive = 900000)
 @Getter
 @AllArgsConstructor
 @Builder

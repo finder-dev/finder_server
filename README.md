@@ -38,7 +38,8 @@ MBTI를 기준으로 커뮤니티, 토론을 만듦으로써 자신의 상황을
 https://www.notion.so/F-nder-Api-Docs-2b719c76118c47d2b2b54743b7b9df4a
 
 ## 🏠 Structure <a name = "structure"></a>
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ab4efba6-4050-4fc0-a628-2751ba3a48ea/Untitled.png)
+
+![Untitled](https://user-images.githubusercontent.com/83503188/218639295-5fe37679-3956-4247-bae6-406f74b07e28.png)
 
 
 ## 📈	 ERD <a name = "erd"></a>
@@ -46,6 +47,7 @@ https://www.notion.so/F-nder-Api-Docs-2b719c76118c47d2b2b54743b7b9df4a
 https://www.erdcloud.com/d/hf55nMkC3ovs6gNyp
 
 ### User, Community
+
 ![image](https://user-images.githubusercontent.com/83503188/184638114-1e1111f9-41ec-4280-869d-2836a69fd0d8.png)
 
 

@@ -58,6 +58,7 @@ https://www.erdcloud.com/d/hf55nMkC3ovs6gNyp
 ![image](https://user-images.githubusercontent.com/83503188/184638359-a1987961-705c-4b13-be27-7a380c9ce448.png)
 
 
-
+### Notification, Message, Block, Report
+![image](https://github.com/finder-dev/finder_server/assets/83503188/d38de13b-5ef6-4248-b7ae-8060ca2b3b0c)
 
 

@@ -49,10 +49,8 @@ https://www.erdcloud.com/d/hf55nMkC3ovs6gNyp
 ### User, Community
 ![image](https://github.com/finder-dev/finder_server/assets/83503188/b9922125-0b8d-446f-addd-0cc8459b3a21)
 
-
 ### Debate
-![image](https://user-images.githubusercontent.com/83503188/184638475-462f8adb-bd7f-4405-a193-6df45b93b866.png)
-
+![image](https://github.com/finder-dev/finder_server/assets/83503188/b0d3b7c4-77ac-48c5-8c66-03a550e38701)
 
 ### QnA
 ![image](https://user-images.githubusercontent.com/83503188/184638359-a1987961-705c-4b13-be27-7a380c9ce448.png)

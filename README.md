@@ -47,9 +47,7 @@ https://www.notion.so/F-nder-Api-Docs-2b719c76118c47d2b2b54743b7b9df4a
 https://www.erdcloud.com/d/hf55nMkC3ovs6gNyp
 
 ### User, Community
-
-![image](https://user-images.githubusercontent.com/83503188/184638114-1e1111f9-41ec-4280-869d-2836a69fd0d8.png)
-
+![image](https://github.com/finder-dev/finder_server/assets/83503188/b9922125-0b8d-446f-addd-0cc8459b3a21)
 
 
 ### Debate
